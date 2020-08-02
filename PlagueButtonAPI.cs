@@ -105,13 +105,13 @@ namespace PlagueButtonAPI
             float num = QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x - QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/BanButton").localPosition.x;
 
             //Define Position To Place This Button In The Parent, Appended To Later
-            if (BottomHalf)
+            if (BottomHalf || FullSizeButton)
             {
                 transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X, transform.localPosition.y + num * ((float)Y - 1.95f), transform.localPosition.z);
             }
             else
             {
-                transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X, transform.localPosition.y + num * ((float)Y - 1.35f), transform.localPosition.z);
+                transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X, transform.localPosition.y + num * ((float)Y - 1.45f), transform.localPosition.z);
             }
 
             //Define Where To Put This Button
@@ -188,7 +188,7 @@ namespace PlagueButtonAPI
         /// Creates A Empty Page For Adding Buttons To. | Created By Plague
         /// </summary>
         /// <param name="name">
-        /// The Name you Want To Give The Page Internally.
+        /// The Name You Want To Give The Page Internally.
         /// </param>
         public static GameObject MakeEmptyPage(string name)
         {
@@ -219,6 +219,30 @@ namespace PlagueButtonAPI
 
             //Return The GameObject For Handling It Elsewhere
             return transform.gameObject;
+        }
+
+        /// <summary>
+        /// Enters The Submenu | Created By Plague
+        /// </summary>
+        /// <param name="name">
+        /// The GameObject Of The SubMenu You Want To Enter
+        /// </param>
+        public static void EnterSubMenu(GameObject menu)
+        {
+            if (QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.active)
+            {
+                QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.SetActive(false);
+            }
+
+            if (QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.active)
+            {
+                QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.SetActive(false);
+            }
+
+            if (menu != null)
+            {
+                menu.SetActive(true);
+            }
         }
     }
 }
