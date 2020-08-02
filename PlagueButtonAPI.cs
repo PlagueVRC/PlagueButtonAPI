@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace PlagueButtonAPI
 {
-    public static class ButtonAPI
+    public class ButtonAPI
     {
         /// <summary>
         /// The Horizontal Position Of The Button You Are Creating.
@@ -217,9 +219,42 @@ namespace PlagueButtonAPI
             //Make This Page We Cloned Inactive By Default
             transform.gameObject.SetActive(value: false);
 
+            //Add It To The Handler
+            SubMenus.Add(transform.gameObject);
+
+            //Start SubMenu Handler
+            MelonLoader.MelonCoroutines.Start(SubMenuHandler());
+
             //Return The GameObject For Handling It Elsewhere
             return transform.gameObject;
         }
+
+        public static IEnumerator SubMenuHandler()
+        {
+            //If User Has Loaded A World
+            if (RoomManagerBase.prop_Boolean_3)
+            {
+                //Vital Null Check
+                if (VRCPlayer.field_Internal_Static_VRCPlayer_0 != null)
+                {
+                    if (!QuickMenu.prop_QuickMenu_0.prop_Boolean_0 && !QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.active)
+                    {
+                        foreach (GameObject Menu in SubMenus)
+                        {
+                            Menu.SetActive(false);
+                        }
+                    }
+                }
+            }
+
+            //Wait
+            yield return new WaitForSeconds(0.1f);
+
+            //Re-Run Self
+            MelonLoader.MelonCoroutines.Start(SubMenuHandler());
+        }
+
+        public static List<GameObject> SubMenus = new List<GameObject>();
 
         /// <summary>
         /// Enters The Submenu | Created By Plague
