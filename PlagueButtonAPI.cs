@@ -54,10 +54,20 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Creates A Button With A Lot Of Customization. | Created By Plague
-        /// <para>
-        /// As You Type Arguments Within This Method You Will See What Each Argument Does Here.
-        /// </para>
+        /// Creates A Button With A Lot Of Customization. | Created By Plague | Discord Server: http://discord.me/Poppy
+        ///     <para>
+        ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
+        ///     </para>
+        /// 
+        ///     <example>
+        ///     Here Is An Example Of How To Use This:
+        ///         <code>
+        ///         ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
+        ///            {
+        ///                //Do Something Here
+        ///            }, Color.magenta, null, false, false, true);
+        ///         </code>
+        ///     </example>
         /// </summary>
 
         /// <param name="ButtonType">
@@ -191,7 +201,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Creates A Empty Page For Adding Buttons To. | Created By Plague
+        /// Creates A Empty Page For Adding Buttons To. | Created By Plague | Discord Server: http://discord.me/Poppy
         /// </summary>
 
         /// <param name="name">
@@ -272,7 +282,7 @@ namespace PlagueButtonAPI
         private static List<GameObject> SubMenus = new List<GameObject>();
 
         /// <summary>
-        /// Enters The Submenu | Created By Plague
+        /// Enters The Submenu | Created By Plague | Discord Server: http://discord.me/Poppy
         /// </summary>
 
         /// <param name="name">
