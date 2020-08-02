@@ -56,6 +56,7 @@ namespace PlagueButtonAPI
         /// <summary>
         /// Creates A Button With A Lot Of Customization. | Created By Plague
         /// </summary>
+
         /// <param name="ButtonType">
         /// The Type Of Button You Wish To Create.
         /// </param>
@@ -189,6 +190,7 @@ namespace PlagueButtonAPI
         /// <summary>
         /// Creates A Empty Page For Adding Buttons To. | Created By Plague
         /// </summary>
+
         /// <param name="name">
         /// The Name You Want To Give The Page Internally.
         /// </param>
@@ -223,14 +225,24 @@ namespace PlagueButtonAPI
             SubMenus.Add(transform.gameObject);
 
             //Start SubMenu Handler
-            MelonLoader.MelonCoroutines.Start(SubMenuHandler());
+            if (!HandlerIsRunning)
+            {
+                MelonLoader.MelonCoroutines.Start(SubMenuHandler());
+            }
 
             //Return The GameObject For Handling It Elsewhere
             return transform.gameObject;
         }
 
+        public static bool HandlerIsRunning = false;
+
         public static IEnumerator SubMenuHandler()
         {
+            if (!HandlerIsRunning)
+            {
+                HandlerIsRunning = true;
+            }
+
             //If User Has Loaded A World
             if (RoomManagerBase.prop_Boolean_3)
             {
@@ -259,6 +271,7 @@ namespace PlagueButtonAPI
         /// <summary>
         /// Enters The Submenu | Created By Plague
         /// </summary>
+
         /// <param name="name">
         /// The GameObject Of The SubMenu You Want To Enter
         /// </param>
