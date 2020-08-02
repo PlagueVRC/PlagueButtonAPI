@@ -236,7 +236,7 @@ namespace PlagueButtonAPI
 
         public static bool HandlerIsRunning = false;
 
-        public static IEnumerator SubMenuHandler()
+        private static IEnumerator SubMenuHandler()
         {
             if (!HandlerIsRunning)
             {
