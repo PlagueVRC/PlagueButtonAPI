@@ -6,6 +6,9 @@ namespace PlagueButtonAPI
 {
     public static class ButtonAPI
     {
+        /// <summary>
+        /// The Horizontal Position Of The Button You Are Creating.
+        /// </summary>
         public enum HorizontalPosition
         {
             LeftOfMenu = -4,
@@ -21,6 +24,9 @@ namespace PlagueButtonAPI
             RightOfMenu = 1
         }
 
+        /// <summary>
+        /// The Vertical Position Of The Button You Are Creating.
+        /// </summary>
         public enum VerticalPosition
         {
             AboveMenu = 5,
@@ -36,12 +42,54 @@ namespace PlagueButtonAPI
             BelowBottomButton = 0
         }
 
+        /// <summary>
+        /// The Type Of Button You Are Creating.
+        /// </summary>
         public enum ButtonType
         {
             Default,
             Toggle
         }
 
+        /// <summary>
+        /// Creates A Button With A Lot Of Customization. | Created By Plague
+        /// </summary>
+        /// <param name="ButtonType">
+        /// The Type Of Button You Wish To Create.
+        /// </param>
+        /// <param name="Text">
+        /// The Main Text In The Button
+        /// </param>
+        /// <param name="ToolTip">
+        /// The Text That Appears At The Top Of The Menu When You Hover Over The Button.
+        /// </param>
+        /// <param name="X">
+        /// The Horizontal Position Of The Button.
+        /// </param>
+        /// <param name="Y">
+        /// The Vertical Position Of The Button.
+        /// </param>
+        /// <param name="Parent">
+        /// The Transform Of The GameObject You Wish To Put Your Button In (You Can Set This As Just "null" For The Main ShortcutMenu).
+        /// </param>
+        /// <param name="ButtonListener">
+        /// What You Want The Button To Do When You Click It - Must Be delegate(bool nameofboolhere) {  }.
+        /// </param>
+        /// <param name="ToggledOnTextColour">
+        /// The Colour You Want The Main Text Of The Button You Defined Earlier To Change Into If This Button Is Toggled On.
+        /// </param>
+        /// <param name="BorderColour">
+        /// The Colour You Want The Border Of The Button To Be (You Can Set This As Just "null" For The Default Colour That The ShortcutMenu Currently Is!).
+        /// </param>
+        /// <param name="FullSizeButton">
+        /// If You Want This Button To Be A Full Size Normal Button, Or Half Sized (False) - Default Is Half Sized.
+        /// </param>
+        /// <param name="BottomHalf">
+        /// If You Want This Button To Be On The Bottom Half Of The VericalPosition You Chose Or The Top - Default Is Bottom Half.
+        /// </param>
+        /// <param name="CurrentToggleState">
+        /// The Toggle State You Want The Button To Be On Creation.
+        /// </param>
         public static GameObject CreateButton(ButtonType ButtonType, string Text, string ToolTip, HorizontalPosition X, VerticalPosition Y, Transform Parent, Action<bool> ButtonListener, Color ToggledOnTextColour, Color? BorderColour, bool FullSizeButton = false, bool BottomHalf = true, bool CurrentToggleState = false)
         {
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
@@ -131,6 +179,43 @@ namespace PlagueButtonAPI
                     }
                 }));
             }
+
+            //Return The GameObject For Handling It Elsewhere
+            return transform.gameObject;
+        }
+
+        /// <summary>
+        /// Creates A Empty Page For Adding Buttons To. | Created By Plague
+        /// </summary>
+        /// <param name="name">
+        /// The Name you Want To Give The Page Internally.
+        /// </param>
+        public static GameObject MakeEmptyPage(string name)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+            {
+                MelonLoader.MelonModLogger.Log("Your Empty Page Name Cannot Be Empty!");
+                return null;
+            }
+
+            //Clone The ShortcutMenu
+            Transform transform = UnityEngine.Object.Instantiate(QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject).transform;
+
+            //Change Internal Names
+            transform.transform.name = name;
+            transform.name = name;
+
+            //Remove All Buttons
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                UnityEngine.Object.Destroy(transform.GetChild(i).gameObject);
+            }
+
+            //Make This Page We Cloned A Child Of The ShortcutMenu
+            transform.SetParent(QuickMenu.prop_QuickMenu_0.transform, worldPositionStays: false);
+
+            //Make This Page We Cloned Inactive By Default
+            transform.gameObject.SetActive(value: false);
 
             //Return The GameObject For Handling It Elsewhere
             return transform.gameObject;
