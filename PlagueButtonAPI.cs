@@ -266,7 +266,7 @@ namespace PlagueButtonAPI
             MelonLoader.MelonCoroutines.Start(SubMenuHandler());
         }
 
-        public static List<GameObject> SubMenus = new List<GameObject>();
+        private static List<GameObject> SubMenus = new List<GameObject>();
 
         /// <summary>
         /// Enters The Submenu | Created By Plague
