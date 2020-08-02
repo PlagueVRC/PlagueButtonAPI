@@ -55,6 +55,9 @@ namespace PlagueButtonAPI
 
         /// <summary>
         /// Creates A Button With A Lot Of Customization. | Created By Plague
+        /// <para>
+        /// As You Type Arguments Within This Method You Will See What Each Argument Does Here.
+        /// </para>
         /// </summary>
 
         /// <param name="ButtonType">
