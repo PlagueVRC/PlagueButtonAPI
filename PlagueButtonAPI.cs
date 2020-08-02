@@ -234,7 +234,7 @@ namespace PlagueButtonAPI
             return transform.gameObject;
         }
 
-        public static bool HandlerIsRunning = false;
+        private static bool HandlerIsRunning = false;
 
         private static IEnumerator SubMenuHandler()
         {
