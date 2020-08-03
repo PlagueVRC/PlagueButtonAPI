@@ -9,14 +9,31 @@ namespace PlagueButtonAPI
     public class ButtonAPI
     {
         #region Creditation And Disclaimer
-            // Plague Button API
-            // Created By @Plague#2850
-            // http://discord.me/Poppy
-            // Copyright Reserved
-            // MIT Licensed
-            // https://github.com/OFWModz/PlagueButtonAPI
+        // Plague Button API
+        // Created By @Plague#2850
+        // http://discord.me/Poppy
+        // Copyright Reserved
+        // MIT Licensed
+        // https://github.com/OFWModz/PlagueButtonAPI
         #endregion
 
+        #region Public Variables
+            public static Transform ShortcutMenuTransform
+            {
+                get
+                {
+                    return QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.transform;
+                }
+            }
+            public static Transform UserInteractMenuTransform
+            {
+                get
+                {
+                    return QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.transform;
+                }
+            }
+        #endregion
+        
         #region Main Functions
             #region Button Creation
                 /// <summary>
@@ -82,10 +99,10 @@ namespace PlagueButtonAPI
 
                     //Get The Transform Of The Settings Button - Which We Are Going To Use As Our Template
                     Transform transform = UnityEngine.Object.Instantiate(QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu/SettingsButton").gameObject).transform;
-
+                    
                     //Button Position Calculation
                     float num = QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x - QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/BanButton").localPosition.x;
-
+                    
                     //Define Position To Place This Button In The Parent, Appended To Later
                     if (BottomHalf || FullSizeButton)
                     {
@@ -98,11 +115,11 @@ namespace PlagueButtonAPI
 
                     //Define Where To Put This Button
                     transform.SetParent(Parent, worldPositionStays: false);
-
+                    
                     //Set Text, Tooltip & Colours
                     transform.GetComponentInChildren<Text>().text = Text;
                     transform.GetComponentInChildren<UiTooltip>().text = ToolTip;
-
+                    
                     if (CurrentToggleState && ButtonType != ButtonAPI.ButtonType.Default)
                     {
                         transform.GetComponentInChildren<Text>().color = ToggledOnTextColour;
@@ -129,10 +146,10 @@ namespace PlagueButtonAPI
                     {
                         transform.localPosition -= new Vector3(0f, 20f, 0f);
                     }
-
+                    
                     //Remove Any Previous Events
                     transform.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
-
+                    
                     //Listener Redirection - To Get Around AddListener Not Passing A State Bool Due To Being A onClick Event
                     transform.GetComponent<Button>().onClick.AddListener(new Action(() =>
                     {
@@ -145,7 +162,7 @@ namespace PlagueButtonAPI
                             ButtonListener?.Invoke(true);
                         }
                     }));
-
+                    
                     if (ButtonType == ButtonType.Toggle)
                     {
                         //Set The Text Colour To The Toggle State, Magenta Being Toggled On
@@ -189,7 +206,7 @@ namespace PlagueButtonAPI
                     //Change Internal Names
                     transform.transform.name = name;
                     transform.name = name;
-
+                    
                     //Remove All Buttons
                     for (int i = 0; i < transform.childCount; i++)
                     {
@@ -198,13 +215,13 @@ namespace PlagueButtonAPI
 
                     //Make This Page We Cloned A Child Of The ShortcutMenu
                     transform.SetParent(QuickMenu.prop_QuickMenu_0.transform, worldPositionStays: false);
-
+                    
                     //Make This Page We Cloned Inactive By Default
                     transform.gameObject.SetActive(value: false);
-
+                    
                     //Add It To The Handler
                     SubMenus.Add(transform.gameObject);
-
+                    
                     //Start SubMenu Handler
                     if (!HandlerIsRunning)
                     {
@@ -214,7 +231,7 @@ namespace PlagueButtonAPI
                     //Return The GameObject For Handling It Elsewhere
                     return transform.gameObject;
                 }
-
+                
                 /// <summary>
                 /// Enters The Submenu | Created By Plague | Discord Server: http://discord.me/Poppy
                 /// </summary>
@@ -224,14 +241,14 @@ namespace PlagueButtonAPI
                 /// </param>
                 public static void EnterSubMenu(GameObject menu)
                 {
-                    if (QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.active)
+                    if (ShortcutMenuTransform.gameObject.active)
                     {
-                        QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.SetActive(false);
+                ShortcutMenuTransform.gameObject.SetActive(false);
                     }
 
-                    if (QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.active)
+                    if (UserInteractMenuTransform.gameObject.active)
                     {
-                        QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.SetActive(false);
+                        UserInteractMenuTransform.gameObject.SetActive(false);
                     }
 
                     if (menu != null)
@@ -260,7 +277,7 @@ namespace PlagueButtonAPI
 
                 RightOfMenu = 1
             }
-
+            
             /// <summary>
             /// The Vertical Position Of The Button You Are Creating.
             /// </summary>
@@ -292,10 +309,10 @@ namespace PlagueButtonAPI
         #region Internal Functions - Not For The End User
             //Any Created Sub Menus By The User Are Stored Here
             private static List<GameObject> SubMenus = new List<GameObject>();
-
+            
             //If The Handler Was Ran And Therefore, Is Looping
             private static bool HandlerIsRunning = false;
-
+            
             private static IEnumerator SubMenuHandler()
             {
                 if (!HandlerIsRunning)
@@ -309,7 +326,7 @@ namespace PlagueButtonAPI
                     //Vital Null Check
                     if (VRCPlayer.field_Internal_Static_VRCPlayer_0 != null)
                     {
-                        if (!QuickMenu.prop_QuickMenu_0.prop_Boolean_0 && !QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.active)
+                        if (!QuickMenu.prop_QuickMenu_0.prop_Boolean_0 && !ShortcutMenuTransform.gameObject.active)
                         {
                             foreach (GameObject Menu in SubMenus)
                             {
@@ -321,11 +338,10 @@ namespace PlagueButtonAPI
 
                 //Wait
                 yield return new WaitForSeconds(0.1f);
-
+                
                 //Re-Run Self
                 MelonLoader.MelonCoroutines.Start(SubMenuHandler());
             }
         #endregion
-
     }
 }
