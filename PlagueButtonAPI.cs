@@ -8,6 +8,14 @@ namespace PlagueButtonAPI
 {
     public class ButtonAPI
     {
+        // Plague Button API
+        // Created By @Plague#2850
+        // http://discord.me/Poppy
+        // Copyright Reserved
+        // MIT Licensed
+        // https://github.com/OFWModz/PlagueButtonAPI
+
+        #region Main Functions
         /// <summary>
         /// The Horizontal Position Of The Button You Are Creating.
         /// </summary>
@@ -247,6 +255,37 @@ namespace PlagueButtonAPI
             return transform.gameObject;
         }
 
+        /// <summary>
+        /// Enters The Submenu | Created By Plague | Discord Server: http://discord.me/Poppy
+        /// </summary>
+
+        /// <param name="name">
+        /// The GameObject Of The SubMenu You Want To Enter
+        /// </param>
+        public static void EnterSubMenu(GameObject menu)
+        {
+            if (QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.active)
+            {
+                QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.SetActive(false);
+            }
+
+            if (QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.active)
+            {
+                QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.SetActive(false);
+            }
+
+            if (menu != null)
+            {
+                menu.SetActive(true);
+            }
+        }
+        #endregion
+
+        #region Internal Functions - Not For The End User
+        //Any Created Sub Menus By The User Are Stored Here
+        private static List<GameObject> SubMenus = new List<GameObject>();
+
+        //If The Handler Was Ran And Therefore, Is Looping
         private static bool HandlerIsRunning = false;
 
         private static IEnumerator SubMenuHandler()
@@ -278,32 +317,7 @@ namespace PlagueButtonAPI
             //Re-Run Self
             MelonLoader.MelonCoroutines.Start(SubMenuHandler());
         }
+        #endregion
 
-        private static List<GameObject> SubMenus = new List<GameObject>();
-
-        /// <summary>
-        /// Enters The Submenu | Created By Plague | Discord Server: http://discord.me/Poppy
-        /// </summary>
-
-        /// <param name="name">
-        /// The GameObject Of The SubMenu You Want To Enter
-        /// </param>
-        public static void EnterSubMenu(GameObject menu)
-        {
-            if (QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.active)
-            {
-                QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.SetActive(false);
-            }
-
-            if (QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.active)
-            {
-                QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.SetActive(false);
-            }
-
-            if (menu != null)
-            {
-                menu.SetActive(true);
-            }
-        }
     }
 }
