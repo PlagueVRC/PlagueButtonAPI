@@ -8,61 +8,19 @@ namespace PlagueButtonAPI
 {
     public class ButtonAPI
     {
+        #region Creditation And Disclaimer
         // Plague Button API
         // Created By @Plague#2850
         // http://discord.me/Poppy
         // Copyright Reserved
         // MIT Licensed
         // https://github.com/OFWModz/PlagueButtonAPI
+        #endregion
 
         #region Main Functions
+        #region Button Creation
         /// <summary>
-        /// The Horizontal Position Of The Button You Are Creating.
-        /// </summary>
-        public enum HorizontalPosition
-        {
-            LeftOfMenu = -4,
-
-            FirstButtonPos = -3,
-
-            SecondButtonPos = -2,
-
-            ThirdButtonPos = -1,
-
-            FourthButtonPos = 0,
-
-            RightOfMenu = 1
-        }
-
-        /// <summary>
-        /// The Vertical Position Of The Button You Are Creating.
-        /// </summary>
-        public enum VerticalPosition
-        {
-            AboveMenu = 5,
-
-            AboveTopButton = 4,
-
-            TopButton = 3,
-
-            SecondButton = 2,
-
-            BottomButton = 1,
-
-            BelowBottomButton = 0
-        }
-
-        /// <summary>
-        /// The Type Of Button You Are Creating.
-        /// </summary>
-        public enum ButtonType
-        {
-            Default,
-            Toggle
-        }
-
-        /// <summary>
-        /// Creates A Button With A Lot Of Customization. | Created By Plague | Discord Server: http://discord.me/Poppy
+        /// Creates A Button With A Lot Of Customization And Returns The GameObject Of The Button Made. | Created By Plague | Discord Server: http://discord.me/Poppy
         ///     <para>
         ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
         ///     </para>
@@ -114,170 +72,220 @@ namespace PlagueButtonAPI
         /// <param name="CurrentToggleState">
         /// The Toggle State You Want The Button To Be On Creation.
         /// </param>
-        public static GameObject CreateButton(ButtonType ButtonType, string Text, string ToolTip, HorizontalPosition X, VerticalPosition Y, Transform Parent, Action<bool> ButtonListener, Color ToggledOnTextColour, Color? BorderColour, bool FullSizeButton = false, bool BottomHalf = true, bool CurrentToggleState = false)
-        {
-            //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
-            if (Parent == null)
+        public static GameObject CreateButton(ButtonType ButtonType, string Text, string ToolTip, HorizontalPosition X, VerticalPosition Y, Transform Parent, Action<bool> ButtonListener, Color ToggledOnTextColour, Color? BorderColour, bool FullSizeButton = false, bool    BottomHalf = true, bool CurrentToggleState = false)
             {
-                Parent = QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.transform;
-            }
-
-            //Get The Transform Of The Settings Button - Which We Are Going To Use As Our Template
-            Transform transform = UnityEngine.Object.Instantiate(QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu/SettingsButton").gameObject).transform;
-
-            //Button Position Calculation
-            float num = QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x - QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/BanButton").localPosition.x;
-
-            //Define Position To Place This Button In The Parent, Appended To Later
-            if (BottomHalf || FullSizeButton)
-            {
-                transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X, transform.localPosition.y + num * ((float)Y - 1.95f), transform.localPosition.z);
-            }
-            else
-            {
-                transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X, transform.localPosition.y + num * ((float)Y - 1.45f), transform.localPosition.z);
-            }
-
-            //Define Where To Put This Button
-            transform.SetParent(Parent, worldPositionStays: false);
-
-            //Set Text, Tooltip & Colours
-            transform.GetComponentInChildren<Text>().text = Text;
-            transform.GetComponentInChildren<UiTooltip>().text = ToolTip;
-
-            if (CurrentToggleState && ButtonType != ButtonAPI.ButtonType.Default)
-            {
-                transform.GetComponentInChildren<Text>().color = ToggledOnTextColour;
-            }
-            else
-            {
-                transform.GetComponentInChildren<Text>().color = Color.white;
-            }
-
-            //Set The Button's Border Colour
-            if (BorderColour != null)
-            {
-                transform.GetComponentInChildren<Image>().color = (Color)BorderColour;
-            }
-
-            //Size Scaling & Repositioning
-            if (!FullSizeButton)
-            {
-                transform.localPosition += new Vector3(0f, transform.GetComponent<RectTransform>().sizeDelta.y / 5f, 0f);
-                transform.localPosition -= new Vector3(0f, transform.GetComponent<RectTransform>().sizeDelta.y / 2f, 0f);
-                transform.GetComponent<RectTransform>().sizeDelta = new Vector2(transform.GetComponent<RectTransform>().sizeDelta.x, transform.GetComponent<RectTransform>().sizeDelta.y / 2f);
-            }
-            else
-            {
-                transform.localPosition -= new Vector3(0f, 20f, 0f);
-            }
-
-            //Remove Any Previous Events
-            transform.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
-
-            //Listener Redirection - To Get Around AddListener Not Passing A State Bool Due To Being A onClick Event
-            transform.GetComponent<Button>().onClick.AddListener(new Action(() =>
-            {
-                if (ButtonType == ButtonType.Toggle)
+                //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
+                if (Parent == null)
                 {
-                    ButtonListener?.Invoke(transform.GetComponentInChildren<Text>().color != ToggledOnTextColour);
+                    Parent = QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.transform;
+                }
+
+                //Get The Transform Of The Settings Button - Which We Are Going To Use As Our Template
+                Transform transform = UnityEngine.Object.Instantiate(QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu/SettingsButton").gameObject).transform;
+
+                //Button Position Calculation
+                float num = QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x - QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/BanButton").localPosition.x;
+
+                //Define Position To Place This Button In The Parent, Appended To Later
+                if (BottomHalf || FullSizeButton)
+                {
+                    transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X, transform.localPosition.y + num * ((float)Y - 1.95f), transform.localPosition.z);
                 }
                 else
                 {
-                    ButtonListener?.Invoke(true);
+                    transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X, transform.localPosition.y + num * ((float)Y - 1.45f), transform.localPosition.z);
                 }
-            }));
 
-            if (ButtonType == ButtonType.Toggle)
-            {
-                //Set The Text Colour To The Toggle State, Magenta Being Toggled On
+                //Define Where To Put This Button
+                transform.SetParent(Parent, worldPositionStays: false);
+
+                //Set Text, Tooltip & Colours
+                transform.GetComponentInChildren<Text>().text = Text;
+                transform.GetComponentInChildren<UiTooltip>().text = ToolTip;
+
+                if (CurrentToggleState && ButtonType != ButtonAPI.ButtonType.Default)
+                {
+                    transform.GetComponentInChildren<Text>().color = ToggledOnTextColour;
+                }
+                else
+                {
+                    transform.GetComponentInChildren<Text>().color = Color.white;
+                }
+
+                //Set The Button's Border Colour
+                if (BorderColour != null)
+                {
+                    transform.GetComponentInChildren<Image>().color = (Color)BorderColour;
+                }
+
+                //Size Scaling & Repositioning
+                if (!FullSizeButton)
+                {
+                    transform.localPosition += new Vector3(0f, transform.GetComponent<RectTransform>().sizeDelta.y / 5f, 0f);
+                    transform.localPosition -= new Vector3(0f, transform.GetComponent<RectTransform>().sizeDelta.y / 2f, 0f);
+                    transform.GetComponent<RectTransform>().sizeDelta = new Vector2(transform.GetComponent<RectTransform>().sizeDelta.x, transform.GetComponent<RectTransform>().sizeDelta.y / 2f);
+                }
+                else
+                {
+                    transform.localPosition -= new Vector3(0f, 20f, 0f);
+                }
+
+                //Remove Any Previous Events
+                transform.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
+
+                //Listener Redirection - To Get Around AddListener Not Passing A State Bool Due To Being A onClick Event
                 transform.GetComponent<Button>().onClick.AddListener(new Action(() =>
                 {
-                    if (transform.GetComponentInChildren<Text>().color == ToggledOnTextColour)
+                    if (ButtonType == ButtonType.Toggle)
                     {
-                        transform.GetComponentInChildren<Text>().color = Color.white;
+                        ButtonListener?.Invoke(transform.GetComponentInChildren<Text>().color != ToggledOnTextColour);
                     }
                     else
                     {
-                        transform.GetComponentInChildren<Text>().color = ToggledOnTextColour;
+                        ButtonListener?.Invoke(true);
                     }
                 }));
+
+                if (ButtonType == ButtonType.Toggle)
+                {
+                    //Set The Text Colour To The Toggle State, Magenta Being Toggled On
+                    transform.GetComponent<Button>().onClick.AddListener(new Action(() =>
+                    {
+                        if (transform.GetComponentInChildren<Text>().color == ToggledOnTextColour)
+                        {
+                            transform.GetComponentInChildren<Text>().color = Color.white;
+                        }
+                        else
+                        {
+                            transform.GetComponentInChildren<Text>().color = ToggledOnTextColour;
+                        }
+                    }));
+                }
+
+                //Return The GameObject For Handling It Elsewhere
+                return transform.gameObject;
+            }
+            #endregion
+
+            #region Sub Menu Creation And Handling
+            /// <summary>
+            /// Creates A Empty Page For Adding Buttons To. | Created By Plague | Discord Server: http://discord.me/Poppy
+            /// </summary>
+
+            /// <param name="name">
+            /// The Name You Want To Give The Page Internally.
+            /// </param>
+            public static GameObject MakeEmptyPage(string name)
+            {
+                if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                {
+                    MelonLoader.MelonModLogger.Log("Your Empty Page Name Cannot Be Empty!");
+                    return null;
+                }
+
+                //Clone The ShortcutMenu
+                Transform transform = UnityEngine.Object.Instantiate(QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject).transform;
+
+                //Change Internal Names
+                transform.transform.name = name;
+                transform.name = name;
+
+                //Remove All Buttons
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    UnityEngine.Object.Destroy(transform.GetChild(i).gameObject);
+                }
+
+                //Make This Page We Cloned A Child Of The ShortcutMenu
+                transform.SetParent(QuickMenu.prop_QuickMenu_0.transform, worldPositionStays: false);
+
+                //Make This Page We Cloned Inactive By Default
+                transform.gameObject.SetActive(value: false);
+
+                //Add It To The Handler
+                SubMenus.Add(transform.gameObject);
+
+                //Start SubMenu Handler
+                if (!HandlerIsRunning)
+                {
+                    MelonLoader.MelonCoroutines.Start(SubMenuHandler());
+                }
+
+                //Return The GameObject For Handling It Elsewhere
+                return transform.gameObject;
             }
 
-            //Return The GameObject For Handling It Elsewhere
-            return transform.gameObject;
+            /// <summary>
+            /// Enters The Submenu | Created By Plague | Discord Server: http://discord.me/Poppy
+            /// </summary>
+
+            /// <param name="name">
+            /// The GameObject Of The SubMenu You Want To Enter
+            /// </param>
+            public static void EnterSubMenu(GameObject menu)
+            {
+                if (QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.active)
+                {
+                    QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.SetActive(false);
+                }
+
+                if (QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.active)
+                {
+                    QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.SetActive(false);
+                }
+
+                if (menu != null)
+                {
+                    menu.SetActive(true);
+                }
+            }
+            #endregion
+        #endregion
+
+        #region Internal Enumerations
+        /// <summary>
+        /// The Horizontal Position Of The Button You Are Creating.
+        /// </summary>
+        public enum HorizontalPosition
+        {
+            LeftOfMenu = -4,
+
+            FirstButtonPos = -3,
+
+            SecondButtonPos = -2,
+
+            ThirdButtonPos = -1,
+
+            FourthButtonPos = 0,
+
+            RightOfMenu = 1
         }
 
         /// <summary>
-        /// Creates A Empty Page For Adding Buttons To. | Created By Plague | Discord Server: http://discord.me/Poppy
+        /// The Vertical Position Of The Button You Are Creating.
         /// </summary>
-
-        /// <param name="name">
-        /// The Name You Want To Give The Page Internally.
-        /// </param>
-        public static GameObject MakeEmptyPage(string name)
+        public enum VerticalPosition
         {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-            {
-                MelonLoader.MelonModLogger.Log("Your Empty Page Name Cannot Be Empty!");
-                return null;
-            }
+            AboveMenu = 5,
 
-            //Clone The ShortcutMenu
-            Transform transform = UnityEngine.Object.Instantiate(QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject).transform;
+            AboveTopButton = 4,
 
-            //Change Internal Names
-            transform.transform.name = name;
-            transform.name = name;
+            TopButton = 3,
 
-            //Remove All Buttons
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                UnityEngine.Object.Destroy(transform.GetChild(i).gameObject);
-            }
+            SecondButton = 2,
 
-            //Make This Page We Cloned A Child Of The ShortcutMenu
-            transform.SetParent(QuickMenu.prop_QuickMenu_0.transform, worldPositionStays: false);
+            BottomButton = 1,
 
-            //Make This Page We Cloned Inactive By Default
-            transform.gameObject.SetActive(value: false);
-
-            //Add It To The Handler
-            SubMenus.Add(transform.gameObject);
-
-            //Start SubMenu Handler
-            if (!HandlerIsRunning)
-            {
-                MelonLoader.MelonCoroutines.Start(SubMenuHandler());
-            }
-
-            //Return The GameObject For Handling It Elsewhere
-            return transform.gameObject;
+            BelowBottomButton = 0
         }
 
         /// <summary>
-        /// Enters The Submenu | Created By Plague | Discord Server: http://discord.me/Poppy
+        /// The Type Of Button You Are Creating.
         /// </summary>
-
-        /// <param name="name">
-        /// The GameObject Of The SubMenu You Want To Enter
-        /// </param>
-        public static void EnterSubMenu(GameObject menu)
+        public enum ButtonType
         {
-            if (QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.active)
-            {
-                QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.SetActive(false);
-            }
-
-            if (QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.active)
-            {
-                QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.SetActive(false);
-            }
-
-            if (menu != null)
-            {
-                menu.SetActive(true);
-            }
+            Default,
+            Toggle
         }
         #endregion
 
