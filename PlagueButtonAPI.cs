@@ -9,12 +9,14 @@ namespace PlagueButtonAPI
     public class ButtonAPI
     {
         #region Creditation And Disclaimer
-            // Plague Button API
-            // Created By @Plague#2850
-            // http://discord.me/Poppy
-            // Copyright Reserved
-            // MIT Licensed
-            // https://github.com/OFWModz/PlagueButtonAPI
+            private static string Creditation =
+                "Plague Button API" +
+                "http://discord.me/Poppy" +
+                "Copyright Reserved" +
+                "MIT Licensed" +
+                "https://github.com/OFWModz/PlagueButtonAPI" +
+                "Removal Or Modification Of This String Breaches The License." + 
+                "This String Is To Be Preserved AS IS.";
         #endregion
 
         #region Public Variables
