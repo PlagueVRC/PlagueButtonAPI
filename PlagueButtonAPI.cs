@@ -18,61 +18,61 @@ namespace PlagueButtonAPI
         #endregion
 
         #region Main Functions
-        #region Button Creation
-        /// <summary>
-        /// Creates A Button With A Lot Of Customization And Returns The GameObject Of The Button Made. | Created By Plague | Discord Server: http://discord.me/Poppy
-        ///     <para>
-        ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
-        ///     </para>
-        /// 
-        ///     <example>
-        ///     Here Is An Example Of How To Use This:
-        ///         <code>
-        ///         ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
-        ///            {
-        ///                //Do Something Here
-        ///            }, Color.magenta, null, false, false, true);
-        ///         </code>
-        ///     </example>
-        /// </summary>
-
-        /// <param name="ButtonType">
-        /// The Type Of Button You Wish To Create.
-        /// </param>
-        /// <param name="Text">
-        /// The Main Text In The Button
-        /// </param>
-        /// <param name="ToolTip">
-        /// The Text That Appears At The Top Of The Menu When You Hover Over The Button.
-        /// </param>
-        /// <param name="X">
-        /// The Horizontal Position Of The Button.
-        /// </param>
-        /// <param name="Y">
-        /// The Vertical Position Of The Button.
-        /// </param>
-        /// <param name="Parent">
-        /// The Transform Of The GameObject You Wish To Put Your Button In (You Can Set This As Just "null" For The Main ShortcutMenu).
-        /// </param>
-        /// <param name="ButtonListener">
-        /// What You Want The Button To Do When You Click It - Must Be delegate(bool nameofboolhere) {  }.
-        /// </param>
-        /// <param name="ToggledOnTextColour">
-        /// The Colour You Want The Main Text Of The Button You Defined Earlier To Change Into If This Button Is Toggled On.
-        /// </param>
-        /// <param name="BorderColour">
-        /// The Colour You Want The Border Of The Button To Be (You Can Set This As Just "null" For The Default Colour That The ShortcutMenu Currently Is!).
-        /// </param>
-        /// <param name="FullSizeButton">
-        /// If You Want This Button To Be A Full Size Normal Button, Or Half Sized (False) - Default Is Half Sized.
-        /// </param>
-        /// <param name="BottomHalf">
-        /// If You Want This Button To Be On The Bottom Half Of The VericalPosition You Chose Or The Top - Default Is Bottom Half.
-        /// </param>
-        /// <param name="CurrentToggleState">
-        /// The Toggle State You Want The Button To Be On Creation.
-        /// </param>
-        public static GameObject CreateButton(ButtonType ButtonType, string Text, string ToolTip, HorizontalPosition X, VerticalPosition Y, Transform Parent, Action<bool> ButtonListener, Color ToggledOnTextColour, Color? BorderColour, bool FullSizeButton = false, bool    BottomHalf = true, bool CurrentToggleState = false)
+			#region Button Creation
+			/// <summary>
+			/// Creates A Button With A Lot Of Customization And Returns The GameObject Of The Button Made. | Created By Plague | Discord Server: http://discord.me/Poppy
+			///     <para>
+			///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
+			///     </para>
+			/// 
+			///     <example>
+			///     Here Is An Example Of How To Use This:
+			///         <code>
+			///         ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
+			///            {
+			///                //Do Something Here
+			///            }, Color.magenta, null, false, false, true);
+			///         </code>
+			///     </example>
+			/// </summary>
+	
+			/// <param name="ButtonType">
+			/// The Type Of Button You Wish To Create.
+			/// </param>
+			/// <param name="Text">
+			/// The Main Text In The Button
+			/// </param>
+			/// <param name="ToolTip">
+			/// The Text That Appears At The Top Of The Menu When You Hover Over The Button.
+			/// </param>
+			/// <param name="X">
+			/// The Horizontal Position Of The Button.
+			/// </param>
+			/// <param name="Y">
+			/// The Vertical Position Of The Button.
+			/// </param>
+			/// <param name="Parent">
+			/// The Transform Of The GameObject You Wish To Put Your Button In (You Can Set This As Just "null" For The Main ShortcutMenu).
+			/// </param>
+			/// <param name="ButtonListener">
+			/// What You Want The Button To Do When You Click It - Must Be delegate(bool nameofboolhere) {  }.
+			/// </param>
+			/// <param name="ToggledOnTextColour">
+			/// The Colour You Want The Main Text Of The Button You Defined Earlier To Change Into If This Button Is Toggled On.
+			/// </param>
+			/// <param name="BorderColour">
+			/// The Colour You Want The Border Of The Button To Be (You Can Set This As Just "null" For The Default Colour That The ShortcutMenu Currently Is!).
+			/// </param>
+			/// <param name="FullSizeButton">
+			/// If You Want This Button To Be A Full Size Normal Button, Or Half Sized (False) - Default Is Half Sized.
+			/// </param>
+			/// <param name="BottomHalf">
+			/// If You Want This Button To Be On The Bottom Half Of The VericalPosition You Chose Or The Top - Default Is Bottom Half.
+			/// </param>
+			/// <param name="CurrentToggleState">
+			/// The Toggle State You Want The Button To Be On Creation.
+			/// </param>
+			public static GameObject CreateButton(ButtonType ButtonType, string Text, string ToolTip, HorizontalPosition X, VerticalPosition Y, Transform Parent, Action<bool> ButtonListener, Color ToggledOnTextColour, Color? BorderColour, bool FullSizeButton = false, bool    BottomHalf = true, bool CurrentToggleState = false)
             {
                 //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
                 if (Parent == null)
