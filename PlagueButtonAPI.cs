@@ -9,12 +9,12 @@ namespace PlagueButtonAPI
     public class ButtonAPI
     {
         #region Creditation And Disclaimer
-        // Plague Button API
-        // Created By @Plague#2850
-        // http://discord.me/Poppy
-        // Copyright Reserved
-        // MIT Licensed
-        // https://github.com/OFWModz/PlagueButtonAPI
+            // Plague Button API
+            // Created By @Plague#2850
+            // http://discord.me/Poppy
+            // Copyright Reserved
+            // MIT Licensed
+            // https://github.com/OFWModz/PlagueButtonAPI
         #endregion
 
         #region Public Variables
