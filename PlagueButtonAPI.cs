@@ -27,6 +27,7 @@ namespace PlagueButtonAPI
                     return QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.transform;
                 }
             }
+            
             public static Transform UserInteractMenuTransform
             {
                 get
@@ -47,7 +48,7 @@ namespace PlagueButtonAPI
                 ///     <example>
                 ///     Here Is An Example Of How To Use This:
                 ///         <code>
-                ///         ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
+                ///         ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
                 ///            {
                 ///                //Do Something Here
                 ///            }, Color.magenta, null, false, false, true);
@@ -245,12 +246,17 @@ namespace PlagueButtonAPI
                 {
                     if (ShortcutMenuTransform.gameObject.active)
                     {
-                ShortcutMenuTransform.gameObject.SetActive(false);
+                        ShortcutMenuTransform.gameObject.SetActive(false);
                     }
 
                     if (UserInteractMenuTransform.gameObject.active)
                     {
                         UserInteractMenuTransform.gameObject.SetActive(false);
+                    }
+
+                    foreach (GameObject Menu in SubMenus)
+                    {
+                        Menu.SetActive(false);
                     }
 
                     if (menu != null)
