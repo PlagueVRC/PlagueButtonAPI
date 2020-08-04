@@ -23,7 +23,7 @@ namespace PlagueButtonAPIExample
             }, Color.magenta, null, false, true, true);
 
             //SubMenu_1 Contents
-            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Next Page", "Goes To The Next Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, SubMenu_1.transform, delegate (bool a)
+            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Next Page", "Goes To The Next Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, SubMenu_1.transform, delegate (bool a)
             {
                 ButtonAPI.EnterSubMenu(SubMenu_2);
             }, Color.magenta, null, false, false, true);
@@ -34,7 +34,7 @@ namespace PlagueButtonAPIExample
             }, Color.magenta, null, false, false, true);
 
             //SubMenu_2 Contents
-            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Prev Page", "Goes To The Previous Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, SubMenu_2.transform, delegate (bool a)
+            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Prev Page", "Goes To The Previous Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, SubMenu_2.transform, delegate (bool a)
             {
                 ButtonAPI.EnterSubMenu(SubMenu_1);
             }, Color.magenta, null, false, false, true);
