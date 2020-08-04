@@ -34,6 +34,11 @@ namespace PlagueButtonAPIExample
             }, Color.magenta, null, false, false, true);
 
             //SubMenu_2 Contents
+            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Prev Page", "Goes To The Previous Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, SubMenu_2.transform, delegate (bool a)
+            {
+                ButtonAPI.EnterSubMenu(SubMenu_1);
+            }, Color.magenta, null, false, false, true);
+
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Hello World", "Prints Hello World To Console.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, SubMenu_2.transform, delegate (bool a)
             {
                 MelonModLogger.Log(ConsoleColor.Magenta, "Hello World!");
