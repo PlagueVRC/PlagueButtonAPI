@@ -1,4 +1,4 @@
-﻿using MelonLoader;
+using MelonLoader;
 using System;
 using UnityEngine;
 using PlagueButtonAPI;
@@ -9,9 +9,13 @@ namespace PlagueButtonAPIExample
     {
         public static GameObject SubMenu_1;
 
+        public static GameObject SubMenu_2;
+
         public override void VRChat_OnUiManagerInit()
         {
             SubMenu_1 = ButtonAPI.MakeEmptyPage("SubMenu_1");
+
+            SubMenu_2 = ButtonAPI.MakeEmptyPage("SubMenu_2");
 
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Utils", "Some Random Utils.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
             {
@@ -19,9 +23,20 @@ namespace PlagueButtonAPIExample
             }, Color.magenta, null, false, true, true);
 
             //SubMenu_1 Contents
+            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Next Page", "Goes To The Next Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, SubMenu_1.transform, delegate (bool a)
+            {
+                ButtonAPI.EnterSubMenu(SubMenu_2);
+            }, Color.magenta, null, false, false, true);
+
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, SubMenu_1.transform, delegate (bool a)
             {
                 TogglePickups(a);
+            }, Color.magenta, null, false, false, true);
+
+            //SubMenu_2 Contents
+            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Hello World", "Prints Hello World To Console.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, SubMenu_2.transform, delegate (bool a)
+            {
+                MelonModLogger.Log(ConsoleColor.Magenta, "Hello World!");
             }, Color.magenta, null, false, false, true);
         }
 
