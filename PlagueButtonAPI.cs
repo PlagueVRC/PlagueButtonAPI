@@ -190,11 +190,11 @@ namespace PlagueButtonAPI
 
             #region Sub Menu Creation And Handling
                 /// <summary>
-                /// Creates A Empty Page For Adding Buttons To. | Created By Plague | Discord Server: http://discord.me/Poppy
+                /// Creates A Empty Page For Adding Buttons To, If The Page Already Exists, This Will Return It. | Created By Plague | Discord Server: http://discord.me/Poppy
                 /// </summary>
 
                 /// <param name="name">
-                /// The Name You Want To Give The Page Internally.
+                /// The Name You Want To Give The Page/Find Internally.
                 /// </param>
                 public static GameObject MakeEmptyPage(string name)
                 {
