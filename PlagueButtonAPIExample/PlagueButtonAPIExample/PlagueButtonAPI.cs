@@ -207,8 +207,8 @@ namespace PlagueButtonAPI
                     Transform transform = UnityEngine.Object.Instantiate(QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject).transform;
 
                     //Change Internal Names
-                    transform.transform.name = name;
-                    transform.name = name;
+                    transform.transform.name = "PlagueButtonAPI" + name;
+                    transform.name = "PlagueButtonAPI" + name;
                     
                     //Remove All Buttons
                     for (int i = 0; i < transform.childCount; i++)
@@ -233,6 +233,28 @@ namespace PlagueButtonAPI
 
                     //Return The GameObject For Handling It Elsewhere
                     return transform.gameObject;
+                }
+
+                /// <summary>
+                /// Finds A SubMenu Inside Said Transform Created By My Button API. | Created By Plague | Discord Server: http://discord.me/Poppy
+                /// </summary>
+
+                /// <param name="name">
+                /// The Name OF The SubMenu To Find.
+                /// </param>
+                /// <param name="WhereTheSubMenuIsInside">
+                /// Where You Placed The SubMenu, Such As The ShortcutMenu Or UserInteractMenu
+                /// </param>
+                public static GameObject FindSubMenu(string name, Transform WhereTheSubMenuIsInside)
+                {
+                    if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                    {
+                        MelonLoader.MelonModLogger.Log("Your SubMenu Name Cannot Be Empty!");
+                        return null;
+                    }
+
+                    //Find The SubMenu And Return It
+                    return WhereTheSubMenuIsInside.Find("PlagueButtonAPI" + name).gameObject;
                 }
                 
                 /// <summary>
