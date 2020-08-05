@@ -119,8 +119,8 @@ namespace PlagueButtonAPI
                     //Define Where To Put This Button
                     transform.SetParent(Parent, worldPositionStays: false);
 
-            //Set Text, Tooltip & Colours
-            transform.GetComponentInChildren<Text>().supportRichText = true;
+                    //Set Text, Tooltip & Colours
+                    transform.GetComponentInChildren<Text>().supportRichText = true;
                     transform.GetComponentInChildren<Text>().text = Text;
                     transform.GetComponentInChildren<UiTooltip>().text = ToolTip;
                     
@@ -202,6 +202,12 @@ namespace PlagueButtonAPI
                     {
                         MelonLoader.MelonModLogger.Log("Your Empty Page Name Cannot Be Empty!");
                         return null;
+                    }
+
+                    //If This Page Already Exists, Return It
+                    if (QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").Find(name))
+                    {
+                        return QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").Find(name).gameObject;
                     }
 
                     //Clone The ShortcutMenu
