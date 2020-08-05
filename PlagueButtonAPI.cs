@@ -118,8 +118,9 @@ namespace PlagueButtonAPI
 
                     //Define Where To Put This Button
                     transform.SetParent(Parent, worldPositionStays: false);
-                    
-                    //Set Text, Tooltip & Colours
+
+            //Set Text, Tooltip & Colours
+            transform.GetComponentInChildren<Text>().supportRichText = true;
                     transform.GetComponentInChildren<Text>().text = Text;
                     transform.GetComponentInChildren<UiTooltip>().text = ToolTip;
                     
