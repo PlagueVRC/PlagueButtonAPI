@@ -205,9 +205,12 @@ namespace PlagueButtonAPI
                     }
 
                     //If This Page Already Exists, Return It
-                    if (QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").Find("PlagueButtonAPI" + name) != null)
+                    foreach (GameObject menu in SubMenus)
                     {
-                        return QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").Find("PlagueButtonAPI" + name).gameObject;
+                        if (menu.name == "PlagueButtonAPI" + name)
+                        {
+                            return menu;
+                        }
                     }
 
                     //Clone The ShortcutMenu
