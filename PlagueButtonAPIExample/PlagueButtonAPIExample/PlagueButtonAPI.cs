@@ -296,6 +296,34 @@ namespace PlagueButtonAPI
                         menu.SetActive(true);
                     }
                 }
+
+                /// <summary>
+                /// Sets The Buttons Toggle State | Created By Plague | Discord Server: http://discord.me/Poppy
+                /// </summary>
+
+                /// <param name="name">
+                /// The GameObject Of The Button You Wish To Set The Toggle State Of
+                /// </param>
+                /// <param name="OnColour">
+                /// The Colour You Chose For When The Button Is Toggled On Before
+                /// </param>
+                /// <param name="StateToSetTo">
+                /// The Toggle State You Wish To Set This Button To
+                /// </param>
+                public static void SetToggleState(GameObject button, Color OnColour, bool StateToSetTo)
+                {
+                    if (button != null)
+                    {
+                        if (button.GetComponentInChildren<Text>().color == OnColour)
+                        {
+                            button.GetComponentInChildren<Text>().color = Color.white;
+                        }
+                        else
+                        {
+                            button.GetComponentInChildren<Text>().color = OnColour;
+                        }
+                    }
+                }
             #endregion
         #endregion
 
