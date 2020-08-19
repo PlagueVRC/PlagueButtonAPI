@@ -10,32 +10,33 @@ namespace PlagueButtonAPIExample
     {
         public override void VRChat_OnUiManagerInit()
         {
+            //Make Button To Enter SubMenu_1
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Utils", "Some Random Utils.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
             {
                 ButtonAPI.EnterSubMenu(ButtonAPI.MakeEmptyPage("SubMenu_1"));
-            }, Color.magenta, null, false, true, true);
+            }, Color.white, Color.magenta, null, false, true, true);
 
             //SubMenu_1 Contents
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Next Page", "Goes To The Next Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_1").transform, delegate (bool a)
             {
                 ButtonAPI.EnterSubMenu(ButtonAPI.MakeEmptyPage("SubMenu_2"));
-            }, Color.magenta, null, false, false, true);
+            }, Color.white, Color.magenta, null, false, false, true);
 
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_1").transform, delegate (bool a)
             {
                 TogglePickups(a);
-            }, Color.magenta, null, false, false, true);
+            }, Color.white, Color.magenta, null, false, false, true);
 
             //SubMenu_2 Contents
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Prev Page", "Goes To The Previous Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_2").transform, delegate (bool a)
             {
                 ButtonAPI.EnterSubMenu(ButtonAPI.MakeEmptyPage("SubMenu_1"));
-            }, Color.magenta, null, false, false, true);
+            }, Color.white, Color.magenta, null, false, false, true);
 
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Hello World", "Prints Hello World To Console.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_2").transform, delegate (bool a)
             {
-                MelonModLogger.Log(ConsoleColor.Magenta, "Hello World!");
-            }, Color.magenta, null, false, false, true);
+                MelonLogger.Log(ConsoleColor.Magenta, "Hello World!");
+            }, Color.white, Color.magenta, null, false, false, true);
         }
 
         public static void TogglePickups(bool state)
