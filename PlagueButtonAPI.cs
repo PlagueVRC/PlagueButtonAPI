@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MelonLoader;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +9,9 @@ namespace PlagueButtonAPI
 {
     public class ButtonAPI
     {
-        #region Creditation And Disclaimer
-            private static string Creditation =
+        #pragma warning disable 414
+            #region Creditation And Disclaimer
+                private static string Creditation =
                 "Plague Button API" +
                 "http://discord.me/Poppy" +
                 "Copyright Reserved" +
@@ -17,24 +19,13 @@ namespace PlagueButtonAPI
                 "https://github.com/OFWModz/PlagueButtonAPI" +
                 "Removal Or Modification Of This String Breaches The License." + 
                 "This String Is To Be Preserved AS IS.";
-        #endregion
+            #endregion
+        #pragma warning restore 414
 
         #region Public Variables
-            public static Transform ShortcutMenuTransform
-            {
-                get
-                {
-                    return QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.transform;
-                }
-            }
-            
-            public static Transform UserInteractMenuTransform
-            {
-                get
-                {
-                    return QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.transform;
-                }
-            }
+            public static Transform ShortcutMenuTransform => QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.transform;
+
+            public static Transform UserInteractMenuTransform => QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.transform;
         #endregion
         
         #region Main Functions
@@ -106,7 +97,7 @@ namespace PlagueButtonAPI
                     //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
                     if (Parent == null)
                     {
-                        Parent = QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.transform;
+                        Parent = ShortcutMenuTransform.gameObject.transform;
                     }
 
                     //Get The Transform Of The Settings Button - Which We Are Going To Use As Our Template
@@ -219,7 +210,7 @@ namespace PlagueButtonAPI
                 {
                     if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
                     {
-                        MelonLoader.MelonModLogger.Log("Your Empty Page Name Cannot Be Empty!");
+                        MelonLogger.Log("Your Empty Page Name Cannot Be Empty!");
                         return null;
                     }
 
@@ -233,7 +224,7 @@ namespace PlagueButtonAPI
                     }
 
                     //Clone The ShortcutMenu
-                    Transform transform = UnityEngine.Object.Instantiate(QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject).transform;
+                    Transform transform = UnityEngine.Object.Instantiate(ShortcutMenuTransform.gameObject).transform;
 
                     //Change Internal Names
                     transform.transform.name = "PlagueButtonAPI" + name;
@@ -292,7 +283,7 @@ namespace PlagueButtonAPI
                 }
 
                 /// <summary>
-                /// Finds A SubMenu Inside Said Transform Created By My Button API. | Created By Plague | Discord Server: http://discord.me/Poppy
+                /// Finds A SubMenu Inside Said Transform Created By My Button API. This Method Will Not Create One Under This Name If Not Found. | Created By Plague | Discord Server: http://discord.me/Poppy
                 /// </summary>
 
                 /// <param name="name">
@@ -305,7 +296,7 @@ namespace PlagueButtonAPI
                 {
                     if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
                     {
-                        MelonLoader.MelonModLogger.Log("Your SubMenu Name Cannot Be Empty!");
+                        MelonLogger.Log("Your SubMenu Name Cannot Be Empty!");
                         return null;
                     }
 
@@ -314,11 +305,11 @@ namespace PlagueButtonAPI
                 }
                 
                 /// <summary>
-                /// Enters The Submenu | Created By Plague | Discord Server: http://discord.me/Poppy
+                /// Enters The Submenu. | Created By Plague | Discord Server: http://discord.me/Poppy
                 /// </summary>
 
                 /// <param name="name">
-                /// The GameObject Of The SubMenu You Want To Enter
+                /// The GameObject Of The SubMenu You Want To Enter.
                 /// </param>
                 public static void EnterSubMenu(GameObject menu)
                 {
@@ -344,20 +335,20 @@ namespace PlagueButtonAPI
                 }
 
                 /// <summary>
-                /// Sets The Buttons Toggle State | Created By Plague | Discord Server: http://discord.me/Poppy
+                /// Sets The Buttons Toggle State. | Created By Plague | Discord Server: http://discord.me/Poppy
                 /// </summary>
 
-                /// <param name="name">
-                /// The GameObject Of The Button You Wish To Set The Toggle State Of
+                /// <param name="button">
+                /// The GameObject Of The Button You Wish To Set The Toggle State Of.
                 /// </param>
                 /// <param name="OffColour">
-                /// The Off Colour You Chose For When The Button Is Toggled On Before
+                /// The Off Colour You Chose For When The Button Is Toggled On Before.
                 /// </param>
                 /// <param name="OnColour">
-                /// The On Colour You Chose For When The Button Is Toggled On Before
+                /// The On Colour You Chose For When The Button Is Toggled On Before.
                 /// </param>
                 /// <param name="StateToSetTo">
-                /// The Toggle State You Wish To Set This Button To
+                /// The Toggle State You Wish To Set This Button To.
                 /// </param>
                 public static void SetToggleState(GameObject button, Color OffColour, Color OnColour, bool StateToSetTo)
                 {
