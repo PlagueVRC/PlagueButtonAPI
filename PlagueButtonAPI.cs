@@ -51,7 +51,7 @@ namespace PlagueButtonAPI
                 ///         ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
                 ///            {
                 ///                //Do Something Here
-                ///            }, Color.magenta, null, false, false, true);
+                ///            }, Color.white, Color.magenta, null, false, false, true);
                 ///         </code>
                 ///     </example>
                 /// </summary>
@@ -77,6 +77,9 @@ namespace PlagueButtonAPI
                 /// <param name="ButtonListener">
                 /// What You Want The Button To Do When You Click It - Must Be delegate(bool nameofboolhere) {  }.
                 /// </param>
+                /// <param name="ToggledOffTextColour">
+                /// The Colour You Want The Main Text Of The Button You Defined Earlier To Change Into If This Button Is Toggled Off.
+                /// </param>
                 /// <param name="ToggledOnTextColour">
                 /// The Colour You Want The Main Text Of The Button You Defined Earlier To Change Into If This Button Is Toggled On.
                 /// </param>
@@ -86,13 +89,19 @@ namespace PlagueButtonAPI
                 /// <param name="FullSizeButton">
                 /// If You Want This Button To Be A Full Size Normal Button, Or Half Sized (False) - Default Is Half Sized.
                 /// </param>
-                /// <param name="BottomHalf">
+                /// <param name="HalfVertically">
                 /// If You Want This Button To Be On The Bottom Half Of The VericalPosition You Chose Or The Top - Default Is Bottom Half.
+                /// </param>
+                /// <param name="HalfHorizontally">
+                /// If You Want This Button To Have It's Size Cut In Half Horizontally.
                 /// </param>
                 /// <param name="CurrentToggleState">
                 /// The Toggle State You Want The Button To Be On Creation.
                 /// </param>
-                public static GameObject CreateButton(ButtonType ButtonType, string Text, string ToolTip, HorizontalPosition X, VerticalPosition Y, Transform Parent, Action<bool> ButtonListener, Color ToggledOnTextColour, Color? BorderColour, bool FullSizeButton = false, bool BottomHalf = true, bool CurrentToggleState = false)
+                /// <param name="SpriteForButton">
+                /// The Image Sprite You Want To Apply To The Button.
+                /// </param>
+                public static GameObject CreateButton(ButtonType ButtonType, string Text, string ToolTip, HorizontalPosition X, VerticalPosition Y, Transform Parent, Action<bool> ButtonListener,Color ToggledOffTextColour, Color ToggledOnTextColour, Color? BorderColour, bool FullSizeButton = false, bool HalfVertically = true, bool HalfHorizontally = false, bool CurrentToggleState = false, Sprite SpriteForButton = null)
                 {
                     //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
                     if (Parent == null)
@@ -107,7 +116,7 @@ namespace PlagueButtonAPI
                     float num = QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x - QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/BanButton").localPosition.x;
                     
                     //Define Position To Place This Button In The Parent, Appended To Later
-                    if (BottomHalf || FullSizeButton)
+                    if (HalfVertically || FullSizeButton)
                     {
                         transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X, transform.localPosition.y + num * ((float)Y - 1.95f), transform.localPosition.z);
                     }
@@ -130,7 +139,7 @@ namespace PlagueButtonAPI
                     }
                     else
                     {
-                        transform.GetComponentInChildren<Text>().color = Color.white;
+                        transform.GetComponentInChildren<Text>().color = ToggledOffTextColour;
                     }
 
                     //Set The Button's Border Colour
@@ -149,6 +158,16 @@ namespace PlagueButtonAPI
                     else
                     {
                         transform.localPosition -= new Vector3(0f, 20f, 0f);
+                    }
+
+                    if (HalfHorizontally)
+                    {
+                        transform.GetComponent<RectTransform>().sizeDelta = new Vector2(transform.GetComponent<RectTransform>().sizeDelta.x / 2f, transform.GetComponent<RectTransform>().sizeDelta.y);
+                    }
+
+                    if (SpriteForButton != null)
+                    {
+                        transform.GetComponentInChildren<Image>().sprite = SpriteForButton;
                     }
                     
                     //Remove Any Previous Events
@@ -169,12 +188,12 @@ namespace PlagueButtonAPI
                     
                     if (ButtonType == ButtonType.Toggle)
                     {
-                        //Set The Text Colour To The Toggle State, Magenta Being Toggled On
+                        //Set The Text Colour To The Toggle State, ToggledOnTextColour Being Toggled On
                         transform.GetComponent<Button>().onClick.AddListener(new Action(() =>
                         {
                             if (transform.GetComponentInChildren<Text>().color == ToggledOnTextColour)
                             {
-                                transform.GetComponentInChildren<Text>().color = Color.white;
+                                transform.GetComponentInChildren<Text>().color = ToggledOffTextColour;
                             }
                             else
                             {
@@ -246,6 +265,33 @@ namespace PlagueButtonAPI
                 }
 
                 /// <summary>
+                /// Sets A Button To Be Interactable Or Not. | Created By Plague | Discord Server: http://discord.me/Poppy
+                /// </summary>
+
+                /// <param name="button">
+                /// The GameObject Of The Button To Set The Interactivity Of.
+                /// </param>
+                /// <param name="state">
+                /// If You Want The Button To Be Interactable.
+                /// </param>
+                public static void SetButttonInteractivity(GameObject button, bool state)
+                {
+                    button.transform.GetComponent<Button>().interactable = state;
+                }
+
+                /// <summary>
+                /// Returns The Sprite Of A Given Button's GameObject. | Created By Plague | Discord Server: http://discord.me/Poppy
+                /// </summary>
+
+                /// <param name="button">
+                /// The GameObject Of The Button To Pull The Sprite From.
+                /// </param>
+                public static Sprite GetSpriteFromButton(GameObject button)
+                {
+                    return button.transform.GetComponentInChildren<Image>().sprite;
+                }
+
+                /// <summary>
                 /// Finds A SubMenu Inside Said Transform Created By My Button API. | Created By Plague | Discord Server: http://discord.me/Poppy
                 /// </summary>
 
@@ -253,7 +299,7 @@ namespace PlagueButtonAPI
                 /// The Name OF The SubMenu To Find.
                 /// </param>
                 /// <param name="WhereTheSubMenuIsInside">
-                /// Where You Placed The SubMenu, Such As The ShortcutMenu Or UserInteractMenu
+                /// Where You Placed The SubMenu, Such As The ShortcutMenu Or UserInteractMenu.
                 /// </param>
                 public static GameObject FindSubMenu(string name, Transform WhereTheSubMenuIsInside)
                 {
@@ -304,19 +350,22 @@ namespace PlagueButtonAPI
                 /// <param name="name">
                 /// The GameObject Of The Button You Wish To Set The Toggle State Of
                 /// </param>
+                /// <param name="OffColour">
+                /// The Off Colour You Chose For When The Button Is Toggled On Before
+                /// </param>
                 /// <param name="OnColour">
-                /// The Colour You Chose For When The Button Is Toggled On Before
+                /// The On Colour You Chose For When The Button Is Toggled On Before
                 /// </param>
                 /// <param name="StateToSetTo">
                 /// The Toggle State You Wish To Set This Button To
                 /// </param>
-                public static void SetToggleState(GameObject button, Color OnColour, bool StateToSetTo)
+                public static void SetToggleState(GameObject button, Color OffColour, Color OnColour, bool StateToSetTo)
                 {
                     if (button != null)
                     {
                         if (button.GetComponentInChildren<Text>().color == OnColour)
                         {
-                            button.GetComponentInChildren<Text>().color = Color.white;
+                            button.GetComponentInChildren<Text>().color = OffColour;
                         }
                         else
                         {
@@ -383,11 +432,6 @@ namespace PlagueButtonAPI
             
             private static IEnumerator SubMenuHandler()
             {
-                if (!HandlerIsRunning)
-                {
-                    HandlerIsRunning = true;
-                }
-
                 //If User Has Loaded A World
                 if (RoomManagerBase.prop_Boolean_3)
                 {
@@ -409,6 +453,11 @@ namespace PlagueButtonAPI
                 
                 //Re-Run Self
                 MelonLoader.MelonCoroutines.Start(SubMenuHandler());
+
+                if (!HandlerIsRunning)
+                {
+                    HandlerIsRunning = true;
+                }
             }
         #endregion
     }
