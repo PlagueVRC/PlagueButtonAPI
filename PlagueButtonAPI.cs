@@ -16,7 +16,7 @@ namespace PlagueButtonAPI
                 "Plague Button API" +
                 "http://discord.me/Poppy" +
                 "Copyright Reserved" +
-                "MIT Licensed" +
+                "Use-Only Licensed" +
                 "https://github.com/OFWModz/PlagueButtonAPI" +
                 "Removal Or Modification Of This String Breaches The License." +
                 "This String Is To Be Preserved AS IS.";
