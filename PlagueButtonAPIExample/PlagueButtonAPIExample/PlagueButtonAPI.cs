@@ -2,6 +2,7 @@ using MelonLoader;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -475,7 +476,7 @@ namespace PlagueButtonAPI
                 /// <param name="state">
                 /// If You Want The Button To Be Interactable.
                 /// </param>
-                public static void SetButttonInteractivity(GameObject button, bool state)
+                public static void SetButtonInteractivity(GameObject button, bool state)
                 {
                     button.transform.GetComponent<Button>().interactable = state;
                 }
