@@ -33,10 +33,10 @@ namespace PlagueButtonAPI
         #region Public Variables
 
         public static Transform ShortcutMenuTransform =>
-            QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu").gameObject.transform;
+            GameObject.Find("/UserInterface/QuickMenu/ShortcutMenu").transform;
 
         public static Transform UserInteractMenuTransform =>
-            QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu").gameObject.transform;
+            GameObject.Find("/UserInterface/QuickMenu/UserInteractMenu").transform;
 
         public static List<GameObject> ButtonsFromThisMod = new List<GameObject>();
 
@@ -124,13 +124,13 @@ namespace PlagueButtonAPI
 
             //Get The Transform Of The Settings Button - Which We Are Going To Use As Our Template
             Transform transform = UnityEngine.Object
-                .Instantiate(QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu/SettingsButton").gameObject)
+                .Instantiate(GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("ShortcutMenu/SettingsButton").gameObject)
                 .transform;
 
             //Button Position Calculation
             float num =
-                QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x -
-                QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/BanButton").localPosition.x;
+                GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x -
+                GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("UserInteractMenu/BanButton").localPosition.x;
 
             //Change Internal Names & Sanitize Them
             transform.name = "PlagueButton_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_"));
@@ -319,13 +319,13 @@ namespace PlagueButtonAPI
 
             //Get The Transform Of The Settings Button - Which We Are Going To Use As Our Template
             Transform transform = UnityEngine.Object
-                .Instantiate(QuickMenu.prop_QuickMenu_0.transform.Find("ShortcutMenu/SettingsButton").gameObject)
+                .Instantiate(GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("ShortcutMenu/SettingsButton").gameObject)
                 .transform;
 
             //Button Position Calculation
             float num =
-                QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x -
-                QuickMenu.prop_QuickMenu_0.transform.Find("UserInteractMenu/BanButton").localPosition.x;
+                GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x -
+                GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("UserInteractMenu/BanButton").localPosition.x;
 
             //Change Internal Names & Sanitize Them
             transform.name = "PlagueButton_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_"));
@@ -478,7 +478,7 @@ namespace PlagueButtonAPI
             }
 
             //Make This Page We Cloned A Child Of The QuickMenu
-            transform.SetParent(QuickMenu.prop_QuickMenu_0.transform, worldPositionStays: false);
+            transform.SetParent(GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform, worldPositionStays: false);
 
             //Make This Page We Cloned Inactive By Default
             transform.gameObject.SetActive(value: false);
