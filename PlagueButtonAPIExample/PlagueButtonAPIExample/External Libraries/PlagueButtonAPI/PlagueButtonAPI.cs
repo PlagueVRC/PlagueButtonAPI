@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace PlagueButtonAPI
 {
+    #region PlagueButtonAPI
     internal class ButtonAPI
     {
         #region Creditation And Disclaimer
@@ -248,161 +249,10 @@ namespace PlagueButtonAPI
             bool HalfHorizontally = false, bool CurrentToggleState = false, Sprite SpriteForButton = null,
             bool ChangeColourOnClick = true)
         {
-            //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
-            if (Parent == null)
-            {
-                Parent = ShortcutMenuTransform;
-            }
-
-            //Get The Transform Of The Settings Button - Which We Are Going To Use As Our Template
-            Transform transform = UnityEngine.Object
-                .Instantiate(GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("ShortcutMenu/SettingsButton").gameObject)
-                .transform;
-
-            PlagueButton plagueButton = new PlagueButton(transform.gameObject,
-                transform.GetComponent<Button>(),
-                transform.GetComponentInChildren<Text>(),
-                transform.GetComponentInChildren<UiTooltip>(),
-                transform.GetComponentInChildren<Image>(),
-                transform.GetComponent<RectTransform>(),
-                ToggledOffTextColour,
-                ToggledOnTextColour,
-                BorderColour,
-                CurrentToggleState, (float)X, (float)Y);
-
-            //Button Position Calculation
-            float num =
-                (GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x -
-                GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("UserInteractMenu/BanButton").localPosition.x) / 3.9f;
-
-            //Change Internal Names & Sanitize Them
-            transform.name = "PlagueButton_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_"));
-            transform.transform.name = "PlagueButton_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_"));
-
-            //Define Position To Place This Button In The Parent, Appended To Later
-            if (BottomHalf || FullSizeButton)
-            {
-                if (Parent == UserInteractMenuTransform)
-                {
-                    transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X,
-                        transform.localPosition.y + num * ((float)Y - 2.95f), transform.localPosition.z);
-                }
-                else
-                {
-                    transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X,
-                        transform.localPosition.y + num * ((float)Y - 1.95f), transform.localPosition.z);
-                }
-            }
-            else
-            {
-                if (Parent == UserInteractMenuTransform)
-                {
-                    transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X,
-                    transform.localPosition.y + num * ((float)Y - 2.45f), transform.localPosition.z);
-                }
-                else
-                {
-                    transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X,
-                        transform.localPosition.y + num * ((float)Y - 1.45f), transform.localPosition.z);
-                }
-            }
-
-            //Define Where To Put This Button
-            transform.SetParent(Parent, worldPositionStays: false);
-
-            //Set Text, Tooltip & Colours
-            transform.GetComponentInChildren<Text>().supportRichText = true;
-            transform.GetComponentInChildren<Text>().text = Text;
-            transform.GetComponentInChildren<UiTooltip>().text = ToolTip;
-            transform.GetComponentInChildren<UiTooltip>().alternateText = ToolTip;
-
-            if (CurrentToggleState && ButtonType != ButtonAPI.ButtonType.Default)
-            {
-                transform.GetComponentInChildren<Text>().color = ToggledOnTextColour;
-            }
-            else
-            {
-                transform.GetComponentInChildren<Text>().color = ToggledOffTextColour;
-            }
-
-            //Set The Button's Border Colour
-            if (BorderColour != null)
-            {
-                transform.GetComponentInChildren<Image>().color = (Color)BorderColour;
-            }
-
-            //Size Scaling & Repositioning
-            if (!FullSizeButton)
-            {
-                transform.localPosition +=
-                    new Vector3(0f, transform.GetComponent<RectTransform>().sizeDelta.y / 5f, 0f);
-                transform.localPosition -=
-                    new Vector3(0f, transform.GetComponent<RectTransform>().sizeDelta.y / 2f, 0f);
-                transform.GetComponent<RectTransform>().sizeDelta = new Vector2(
-                    transform.GetComponent<RectTransform>().sizeDelta.x,
-                    transform.GetComponent<RectTransform>().sizeDelta.y / 2f);
-            }
-            else
-            {
-                transform.localPosition -= new Vector3(0f, 20f, 0f);
-            }
-
-            if (HalfHorizontally)
-            {
-                transform.GetComponent<RectTransform>().sizeDelta = new Vector2(
-                    transform.GetComponent<RectTransform>().sizeDelta.x / 2f,
-                    transform.GetComponent<RectTransform>().sizeDelta.y);
-            }
-
-            if (SpriteForButton != null)
-            {
-                transform.GetComponentInChildren<Image>().sprite = SpriteForButton;
-            }
-
-            //Remove Any Previous Events
-            transform.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
-
-            //Listener Redirection - To Get Around AddListener Not Passing A State Bool Due To Being A onClick Event
-            transform.GetComponent<Button>().onClick.AddListener(new Action(() =>
-            {
-                if (ButtonType == ButtonType.Toggle)
-                {
-                    ButtonListener?.Invoke(transform.GetComponentInChildren<Text>().color != plagueButton.OnColour);
-                }
-                else
-                {
-                    ButtonListener?.Invoke(true);
-                }
-            }));
-
-            if (ButtonType == ButtonType.Toggle)
-            {
-                //Set The Text Colour To The Toggle State, ToggledOnTextColour Being Toggled On
-                transform.GetComponent<Button>().onClick.AddListener(new Action(() =>
-                {
-                    if (transform.GetComponentInChildren<Text>().color == plagueButton.OnColour)
-                    {
-                        transform.GetComponentInChildren<Text>().color = plagueButton.OffColour;
-                    }
-                    else
-                    {
-                        transform.GetComponentInChildren<Text>().color = plagueButton.OnColour;
-                    }
-                }));
-            }
-
-            //Update
-            plagueButton.gameObject = transform.gameObject;
-            plagueButton.button = transform.GetComponent<Button>();
-            plagueButton.text = transform.GetComponentInChildren<Text>();
-            plagueButton.tooltip = transform.GetComponentInChildren<UiTooltip>();
-            plagueButton.image = transform.GetComponentInChildren<Image>();
-            plagueButton.rect = transform.GetComponent<RectTransform>();
-
-            ButtonsFromThisMod.Add(plagueButton);
+            PlagueButton button = CreateButton(ButtonType, Text, ToolTip, (float)X, (float)Y, Parent, ButtonListener, ToggledOffTextColour, ToggledOnTextColour, BorderColour, FullSizeButton, BottomHalf, HalfHorizontally, CurrentToggleState, SpriteForButton, ChangeColourOnClick);
 
             //Return The GameObject For Handling It Elsewhere
-            return plagueButton;
+            return button;
         }
 
         /// <summary>
@@ -1015,5 +865,6 @@ namespace PlagueButtonAPI
             return null;
         }
     }
+    #endregion
     #endregion
 }
