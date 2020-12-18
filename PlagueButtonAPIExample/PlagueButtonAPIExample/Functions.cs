@@ -1,8 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using VRC.SDKBase;
 
@@ -12,20 +7,17 @@ namespace PlagueButtonAPIExample
     {
         internal static void TogglePortals(bool state)
         {
-            var array = Resources.FindObjectsOfTypeAll<PortalInternal>();
-            foreach (var i in array)
+            foreach (var i in Resources.FindObjectsOfTypeAll<PortalInternal>())
             {
-                if (i == null)
+                if (i != null)
                 {
-                    continue;
-                }
+                    i.enabled = state;
+                    i.gameObject.SetActive(state);
 
-                i.enabled = state;
-                i.gameObject.SetActive(state);
-
-                if (!state)
-                {
-                    Networking.Destroy(i.gameObject);
+                    if (!state)
+                    {
+                        Networking.Destroy(i.gameObject);
+                    }
                 }
             }
         }
