@@ -684,6 +684,41 @@ namespace PlagueButtonAPI
             }
         }
 
+        /// <summary>
+        /// Sets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
+        /// </param>
+        /// <param name="text">
+        /// The Text You Want To Place On The Button.
+        /// </param>
+        internal static void SetTextOfButton(GameObject button, string text)
+        {
+            if (button != null)
+            {
+                button.GetComponentInChildren<Text>().text = text;
+            }
+        }
+
+        /// <summary>
+        /// Sets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
+        /// </param>
+        /// <param name="text">
+        /// The Text You Want To Place On The Button.
+        /// </param>
+        internal static void SetTooltipOfButton(GameObject button, string text)
+        {
+            if (button != null)
+            {
+                button.GetComponentInChildren<UiTooltip>().text = text;
+                button.GetComponentInChildren<UiTooltip>().alternateText = text;
+            }
+        }
+
         #endregion Sub Menu Creation And Handling
 
         #endregion Main Functions
