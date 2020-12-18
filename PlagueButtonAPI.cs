@@ -1,7 +1,11 @@
 using MelonLoader;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using UnhollowerRuntimeLib;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace PlagueButtonAPI
@@ -116,7 +120,94 @@ namespace PlagueButtonAPI
 
         #region Main Functions
 
-        #region Button Creation
+        #region Slider Creation
+
+        internal class SliderRef
+        {
+            internal GameObject SliderObject;
+            internal Text SliderText;
+        }
+
+        /// <summary>
+        /// Creates A Slider At The Given Location. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        ///     <para>
+        ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
+        ///     </para>
+        /// <param name="Parent">The Parent To Place This Slider In, You Can Use ButtonAPI.ShortcutMenuTransform As A Example Transform.</param>
+        /// <param name="OnChanged">The Delegate To Call Upon The Slider Being Changed, This Is Used As: delegate(float val) { }</param>
+        /// <param name="X">The Horizontal Position Of The Slider.</param>
+        /// <param name="Y">The Vertical Position Of The Slider.</param>
+        /// <param name="Text">The Text To Place Above The Slider.</param>
+        /// <param name="InitialValue">The Initial Value Set On The Slider.</param>
+        /// <param name="MaxValue">The Max Value The Slider Can Go.</param>
+        /// <param name="MinValue">The Minimum Value The Slider Can Go.</param>
+        /// <returns>ButtonAPI.SliderRef</returns>
+        internal static SliderRef CreateSlider(Transform Parent, Action<float> OnChanged, float X, float Y, string Text,
+            float InitialValue, float MaxValue, float MinValue)
+        {
+            //Template Button For Positioning
+            GameObject gameObject = CreateButton(ButtonType.Default, "slider_element_" + X + Y,
+                "", X, Y, null, delegate (bool a) { }, Color.white, Color.magenta, Color.magenta, true, false, false,
+                false, null).gameObject;
+
+            gameObject.SetActive(value: false);
+
+            //Slider
+            Transform transform = UnityEngine.Object.Instantiate(
+                VRCUiManager.prop_VRCUiManager_0.menuContent.transform.Find("Screens/Settings/AudioDevicePanel/VolumeSlider"),
+                Parent);
+            transform.transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.transform.localPosition = gameObject.gameObject.transform.localPosition;
+
+            UnityEngine.Object.Destroy(gameObject);
+
+            transform.transform.localPosition -= new Vector3(70f, 0);
+
+            transform.GetComponentInChildren<RectTransform>().anchorMin += new Vector2(0.06f, 0f);
+            transform.GetComponentInChildren<RectTransform>().anchorMax += new Vector2(0.1f, 0f);
+
+            transform.GetComponentInChildren<Slider>().value = InitialValue;
+            transform.GetComponentInChildren<Slider>().Set(InitialValue);
+            transform.GetComponentInChildren<Slider>().maxValue = MaxValue;
+            transform.GetComponentInChildren<Slider>().minValue = MinValue;
+
+            //Text
+            GameObject gameObject2 = new GameObject("Text");
+            gameObject2.transform.SetParent(Parent, worldPositionStays: false);
+            Text text2 = gameObject2.AddComponent<Text>();
+            text2.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+            text2.fontSize = 64;
+            text2.text = Text + " (" + InitialValue.ToString("F", CultureInfo.CreateSpecificCulture("en-CA")) + ")";
+            text2.transform.localPosition = transform.transform.localPosition;
+            text2.transform.localPosition += new Vector3(0, 75, 0);
+            text2.enabled = true;
+            text2.GetComponent<RectTransform>().sizeDelta = new Vector2(text2.fontSize * Text.Length, 100f);
+            text2.alignment = TextAnchor.MiddleCenter;
+
+            transform.GetComponentInChildren<Slider>().onValueChanged = new Slider.SliderEvent();
+
+            //Update Text
+            transform.GetComponentInChildren<Slider>().onValueChanged.AddListener((Action<float>)delegate (float val)
+            {
+                text2.text = Text + " (" + val.ToString("F", CultureInfo.CreateSpecificCulture("en-CA")) + ")";
+
+                transform.GetComponentInChildren<Slider>().transform.Find("Fill Area/Label").GetComponent<Text>().text = RangeConv(Convert.ToInt32(val), MinValue, MaxValue, 0, 100) + "%";
+            });
+
+            transform.GetComponentInChildren<Slider>().onValueChanged.AddListener(OnChanged);
+
+            return new SliderRef { SliderObject = transform.gameObject, SliderText = text2 };
+        }
+
+        private static int RangeConv(float input, float MinPossibleInput, float MaxPossibleInput, float MinConv, float MaxConv)
+        {
+            return (int)((((input - MinPossibleInput) * (MaxConv - MinConv)) / (MaxPossibleInput - MinPossibleInput)) + MinConv);
+        }
+
+        #endregion
+
+        #region InputField Creation
 
         /// <summary>
         /// Creates A Input Field And Returns The Object Of The Input Field Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
@@ -178,6 +269,10 @@ namespace PlagueButtonAPI
 
             return inputfield;
         }
+
+        #endregion
+
+        #region Button Creation
 
         /// <summary>
         /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
