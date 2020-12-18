@@ -694,43 +694,40 @@ namespace PlagueButtonAPI
         #region Internal Functions - Not For The End User
 
         //Any Created Sub Menus By The User Are Stored Here
-        private static List<GameObject> SubMenus = new List<GameObject>();
+        internal static List<GameObject> SubMenus = new List<GameObject>();
+
+        private static float HandlerRoutineDelay = 0f;
 
         internal static void SubMenuHandler()
         {
-            if (SubMenus != null && SubMenus.Count > 0)
+            if (SubMenus != null && SubMenus.Count > 0 && QuickMenuObj != null && Time.time > HandlerRoutineDelay)
             {
+                HandlerRoutineDelay = Time.time + 0.2f;
+
                 //If User Has Loaded A World
                 if (RoomManager.prop_Boolean_3)
                 {
-                    //Vital Null Check
-                    if (VRCPlayer.field_Internal_Static_VRCPlayer_0 != null)
+                    for (int i = 0; i < SubMenus.Count; i++)
                     {
-                        if (QuickMenuObj != null)
+                        GameObject Menu = SubMenus[i];
+
+                        if (Menu.active) // Is In This SubMenu
                         {
-                            for (int i = 0; i < SubMenus.Count; i++)
+                            //If QuickMenu Was Closed
+                            if (!QuickMenuObj.prop_Boolean_0)
                             {
-                                GameObject Menu = SubMenus[i];
-
-                                if (Menu.active) // Is In This SubMenu
-                                {
-                                    //If QuickMenu Was Closed
-                                    if (!QuickMenuObj.prop_Boolean_0)
-                                    {
-                                        //Hide SubMenu
-                                        Menu.SetActive(false);
-                                    }
-
-                                    //If QuickMenu Is Open Normally When In A SubMenu (Aka When It Shouldn't Be)
-                                    else if (QuickMenuObj.prop_Boolean_0 && (ShortcutMenuTransform.gameObject.active || UserInteractMenuTransform.gameObject.active))
-                                    {
-                                        ShortcutMenuTransform.gameObject.SetActive(false);
-                                        UserInteractMenuTransform.gameObject.SetActive(false);
-                                    }
-
-                                    break;
-                                }
+                                //Hide SubMenu
+                                Menu.SetActive(false);
                             }
+
+                            //If QuickMenu Is Open Normally When In A SubMenu (Aka When It Shouldn't Be) - This Fixes The Menu Breaking When A Player Joins
+                            else if (ShortcutMenuTransform.gameObject.active || UserInteractMenuTransform.gameObject.active)
+                            {
+                                ShortcutMenuTransform.gameObject.SetActive(false);
+                                UserInteractMenuTransform.gameObject.SetActive(false);
+                            }
+
+                            break;
                         }
                     }
                 }
