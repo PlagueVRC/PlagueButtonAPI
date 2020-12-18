@@ -1,8 +1,6 @@
-
-
 using System;
 using System.Collections.Generic;
-
+using MelonLoader;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -475,7 +473,7 @@ namespace PlagueButtonAPI
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             {
-                VRCAntiCrash_Loader.API.VRCAntiLogger.Log(VRCAntiCrash_Loader.API.VRCAntiLogger.LogType.Log, "Your Empty Page Name Cannot Be Empty!");
+               MelonLogger.Log("Your Empty Page Name Cannot Be Empty!");
                 return null;
             }
 
@@ -553,7 +551,7 @@ namespace PlagueButtonAPI
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             {
-                VRCAntiCrash_Loader.API.VRCAntiLogger.Log(VRCAntiCrash_Loader.API.VRCAntiLogger.LogType.Log, "Your SubMenu Name Cannot Be Empty!");
+                MelonLogger.Log("Your SubMenu Name Cannot Be Empty!");
                 return null;
             }
 
