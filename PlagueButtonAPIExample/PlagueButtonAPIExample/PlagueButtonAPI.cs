@@ -1,18 +1,18 @@
+using MelonLoader;
 using System;
 using System.Collections.Generic;
-using MelonLoader;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace PlagueButtonAPI
 {
-    public class ButtonAPI
+    internal class ButtonAPI
     {
 #pragma warning disable 414
 
         #region Creditation And Disclaimer
 
-        private static string Creditation =
+        private static readonly string Creditation =
         "Plague Button API" +
         "http://Krewella.co.uk/Discord" +
         "Copyright Reserved" +
@@ -25,7 +25,80 @@ namespace PlagueButtonAPI
 
 #pragma warning restore 414
 
-        #region Public Variables
+        #region Button Class Type
+
+        internal class PlagueButton
+        {
+            #region Constructor
+            public PlagueButton(GameObject gameObject, Button button, Text text, UiTooltip tooltip, Image image, RectTransform rect, Color OffColour, Color OnColour, Color? BorderColour, bool ToggleState, float xPos, float yPos)
+            {
+                if (gameObject != null)
+                {
+                    this.gameObject = gameObject;
+                }
+
+                if (button != null)
+                {
+                    this.button = button;
+                }
+
+                if (text != null)
+                {
+                    this.text = text;
+                }
+
+                if (tooltip != null)
+                {
+                    this.tooltip = tooltip;
+                }
+
+                if (image != null)
+                {
+                    this.image = image;
+                }
+
+                if (rect != null)
+                {
+                    this.rect = rect;
+                }
+
+                this.OffColour = OffColour;
+                this.OnColour = OnColour;
+                BorderColor = BorderColour; // Only One Can Be Set, Thus No this. Is Needed.
+                this.ToggleState = ToggleState;
+                this.xPos = xPos;
+                this.yPos = yPos;
+            }
+            #endregion
+
+            #region Reference Objects
+            internal GameObject gameObject;
+            internal Button button;
+            internal Text text;
+            internal UiTooltip tooltip;
+            internal Image image;
+            internal RectTransform rect;
+            #endregion
+
+            #region Read Only Objects
+
+            internal readonly Color OffColour;
+
+            internal readonly Color OnColour;
+
+            internal readonly Color? BorderColor;
+
+            internal readonly bool ToggleState;
+
+            internal readonly float xPos;
+            internal readonly float yPos;
+
+            #endregion
+        }
+
+        #endregion
+
+        #region internal Variables
 
         internal static Transform ShortcutMenuTransform =>
             GameObject.Find("/UserInterface/QuickMenu/ShortcutMenu").transform;
@@ -36,18 +109,29 @@ namespace PlagueButtonAPI
         internal static Transform UserInteractMenuTransform =>
             GameObject.Find("/UserInterface/QuickMenu/UserInteractMenu").transform;
 
-        internal static List<GameObject> ButtonsFromThisMod = new List<GameObject>();
+        internal static List<PlagueButton> ButtonsFromThisMod = new List<PlagueButton>();
 
-        #endregion Public Variables
+        #endregion internal Variables
 
         #region Main Functions
 
         #region Button Creation
 
+        /// <summary>
+        /// Creates A Input Field And Returns The Object Of The Input Field Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        ///     <para>
+        ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
+        ///     </para>
+        /// <param name="PlaceHolderText">The Text To Show Before Anything Is Typed By The User.</param>
+        /// <param name="Y">The Vertical Position Of The InputField</param>
+        /// <param name="Parent">The Parent To Place This InputField In, You Can Use ButtonAPI.ShortcutMenuTransform As A Example Transform.</param>
+        /// <param name="TextChanged">The Delegate To Call Upon Text Being Changed, This Is Used As: delegate(string text) { }</param>
+        /// <returns>UnityEngine.UI.InputField</returns>
         internal static InputField CreateInputField(string PlaceHolderText, VerticalPosition Y, Transform Parent, Action<string> TextChanged)
         {
             //FreezeControls
-            //VRCInputManager.Method_Public_Static_Void_Boolean_0(true);
+            //VRCInputManager.Method_internal_Static_Void_Boolean_0(true);
 
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
             if (Parent == null)
@@ -158,7 +242,7 @@ namespace PlagueButtonAPI
         /// <param name="ChangeColourOnClick">
         /// Only Set This To False If You Are Setting The Button's Text Colour In The ButtonListener - Or The Toggling Will Break!
         /// </param>
-        internal static GameObject CreateButton(ButtonType ButtonType, string Text, string ToolTip, HorizontalPosition X,
+        internal static PlagueButton CreateButton(ButtonType ButtonType, string Text, string ToolTip, HorizontalPosition X,
             VerticalPosition Y, Transform Parent, Action<bool> ButtonListener, Color ToggledOffTextColour,
             Color ToggledOnTextColour, Color? BorderColour, bool FullSizeButton = false, bool BottomHalf = true,
             bool HalfHorizontally = false, bool CurrentToggleState = false, Sprite SpriteForButton = null,
@@ -174,6 +258,17 @@ namespace PlagueButtonAPI
             Transform transform = UnityEngine.Object
                 .Instantiate(GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("ShortcutMenu/SettingsButton").gameObject)
                 .transform;
+
+            PlagueButton plagueButton = new PlagueButton(transform.gameObject,
+                transform.GetComponent<Button>(),
+                transform.GetComponentInChildren<Text>(),
+                transform.GetComponentInChildren<UiTooltip>(),
+                transform.GetComponentInChildren<Image>(),
+                transform.GetComponent<RectTransform>(),
+                ToggledOffTextColour,
+                ToggledOnTextColour,
+                BorderColour,
+                CurrentToggleState, (float)X, (float)Y);
 
             //Button Position Calculation
             float num =
@@ -272,7 +367,7 @@ namespace PlagueButtonAPI
             {
                 if (ButtonType == ButtonType.Toggle)
                 {
-                    ButtonListener?.Invoke(transform.GetComponentInChildren<Text>().color != ToggledOnTextColour);
+                    ButtonListener?.Invoke(transform.GetComponentInChildren<Text>().color != plagueButton.OnColour);
                 }
                 else
                 {
@@ -285,21 +380,29 @@ namespace PlagueButtonAPI
                 //Set The Text Colour To The Toggle State, ToggledOnTextColour Being Toggled On
                 transform.GetComponent<Button>().onClick.AddListener(new Action(() =>
                 {
-                    if (transform.GetComponentInChildren<Text>().color == ToggledOnTextColour)
+                    if (transform.GetComponentInChildren<Text>().color == plagueButton.OnColour)
                     {
-                        transform.GetComponentInChildren<Text>().color = ToggledOffTextColour;
+                        transform.GetComponentInChildren<Text>().color = plagueButton.OffColour;
                     }
                     else
                     {
-                        transform.GetComponentInChildren<Text>().color = ToggledOnTextColour;
+                        transform.GetComponentInChildren<Text>().color = plagueButton.OnColour;
                     }
                 }));
             }
 
-            ButtonsFromThisMod.Add(transform.gameObject);
+            //Update
+            plagueButton.gameObject = transform.gameObject;
+            plagueButton.button = transform.GetComponent<Button>();
+            plagueButton.text = transform.GetComponentInChildren<Text>();
+            plagueButton.tooltip = transform.GetComponentInChildren<UiTooltip>();
+            plagueButton.image = transform.GetComponentInChildren<Image>();
+            plagueButton.rect = transform.GetComponent<RectTransform>();
+
+            ButtonsFromThisMod.Add(plagueButton);
 
             //Return The GameObject For Handling It Elsewhere
-            return transform.gameObject;
+            return plagueButton;
         }
 
         /// <summary>
@@ -366,7 +469,7 @@ namespace PlagueButtonAPI
         /// <param name="ChangeColourOnClick">
         /// Only Set This To False If You Are Setting The Button's Text Colour In The ButtonListener - Or The Toggling Will Break!
         /// </param>
-        internal static GameObject CreateButton(ButtonType ButtonType, string Text, string ToolTip, float X, float Y,
+        internal static PlagueButton CreateButton(ButtonType ButtonType, string Text, string ToolTip, float X, float Y,
             Transform Parent, Action<bool> ButtonListener, Color ToggledOffTextColour, Color ToggledOnTextColour,
             Color? BorderColour, bool FullSizeButton = false, bool BottomHalf = true, bool HalfHorizontally = false,
             bool CurrentToggleState = false, Sprite SpriteForButton = null, bool ChangeColourOnClick = true)
@@ -382,6 +485,17 @@ namespace PlagueButtonAPI
                 .Instantiate(GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("ShortcutMenu/SettingsButton").gameObject)
                 .transform;
 
+            PlagueButton plagueButton = new PlagueButton(transform.gameObject,
+                transform.GetComponent<Button>(),
+                transform.GetComponentInChildren<Text>(),
+                transform.GetComponentInChildren<UiTooltip>(),
+                transform.GetComponentInChildren<Image>(),
+                transform.GetComponent<RectTransform>(),
+                ToggledOffTextColour,
+                ToggledOnTextColour,
+                BorderColour,
+                CurrentToggleState, X, Y);
+
             //Button Position Calculation
             float num =
                 (GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x -
@@ -396,26 +510,26 @@ namespace PlagueButtonAPI
             {
                 if (Parent == UserInteractMenuTransform)
                 {
-                    transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X,
-                        transform.localPosition.y + num * ((float)Y - 2.95f), transform.localPosition.z);
+                    transform.localPosition = new Vector3(transform.localPosition.x + num * X,
+                        transform.localPosition.y + num * (Y - 2.95f), transform.localPosition.z);
                 }
                 else
                 {
-                    transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X,
-                        transform.localPosition.y + num * ((float)Y - 1.95f), transform.localPosition.z);
+                    transform.localPosition = new Vector3(transform.localPosition.x + num * X,
+                        transform.localPosition.y + num * (Y - 1.95f), transform.localPosition.z);
                 }
             }
             else
             {
                 if (Parent == UserInteractMenuTransform)
                 {
-                    transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X,
-                        transform.localPosition.y + num * ((float)Y - 2.45f), transform.localPosition.z);
+                    transform.localPosition = new Vector3(transform.localPosition.x + num * X,
+                        transform.localPosition.y + num * (Y - 2.45f), transform.localPosition.z);
                 }
                 else
                 {
-                    transform.localPosition = new Vector3(transform.localPosition.x + num * (float)X,
-                        transform.localPosition.y + num * ((float)Y - 1.45f), transform.localPosition.z);
+                    transform.localPosition = new Vector3(transform.localPosition.x + num * X,
+                        transform.localPosition.y + num * (Y - 1.45f), transform.localPosition.z);
                 }
             }
 
@@ -503,10 +617,18 @@ namespace PlagueButtonAPI
                 }));
             }
 
-            ButtonsFromThisMod.Add(transform.gameObject);
+            //Update
+            plagueButton.gameObject = transform.gameObject;
+            plagueButton.button = transform.GetComponent<Button>();
+            plagueButton.text = transform.GetComponentInChildren<Text>();
+            plagueButton.tooltip = transform.GetComponentInChildren<UiTooltip>();
+            plagueButton.image = transform.GetComponentInChildren<Image>();
+            plagueButton.rect = transform.GetComponent<RectTransform>();
+
+            ButtonsFromThisMod.Add(plagueButton);
 
             //Return The GameObject For Handling It Elsewhere
-            return transform.gameObject;
+            return plagueButton;
         }
 
         #endregion Button Creation
@@ -523,7 +645,7 @@ namespace PlagueButtonAPI
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             {
-               MelonLogger.Log("Your Empty Page Name Cannot Be Empty!");
+                MelonLogger.Log("Your Empty Page Name Cannot Be Empty!");
                 return null;
             }
 
@@ -561,31 +683,6 @@ namespace PlagueButtonAPI
 
             //Return The GameObject For Handling It Elsewhere
             return transform.gameObject;
-        }
-
-        /// <summary>
-        /// Sets A Button To Be Interactable Or Not. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
-        /// </summary>
-        /// <param name="button">
-        /// The GameObject Of The Button To Set The Interactivity Of.
-        /// </param>
-        /// <param name="state">
-        /// If You Want The Button To Be Interactable.
-        /// </param>
-        internal static void SetButtonInteractivity(GameObject button, bool state)
-        {
-            button.transform.GetComponent<Button>().interactable = state;
-        }
-
-        /// <summary>
-        /// Returns The Sprite Of A Given Button's GameObject. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
-        /// </summary>
-        /// <param name="button">
-        /// The GameObject Of The Button To Pull The Sprite From.
-        /// </param>
-        internal static Sprite GetSpriteFromButton(GameObject button)
-        {
-            return button.transform.GetComponentInChildren<Image>().sprite;
         }
 
         /// <summary>
@@ -651,71 +748,6 @@ namespace PlagueButtonAPI
             {
                 GameObject Menu = SubMenus[i];
                 Menu.SetActive(false);
-            }
-        }
-
-        /// <summary>
-        /// Sets The Buttons Toggle State. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
-        /// </summary>
-        /// <param name="button">
-        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
-        /// </param>
-        /// <param name="OffColour">
-        /// The Off Colour You Chose For When The Button Is Toggled On Before.
-        /// </param>
-        /// <param name="OnColour">
-        /// The On Colour You Chose For When The Button Is Toggled On Before.
-        /// </param>
-        /// <param name="StateToSetTo">
-        /// The Toggle State You Wish To Set This Button To.
-        /// </param>
-        internal static void SetToggleState(GameObject button, Color OffColour, Color OnColour, bool StateToSetTo)
-        {
-            if (button != null)
-            {
-                if (button.GetComponentInChildren<Text>().color == OnColour)
-                {
-                    button.GetComponentInChildren<Text>().color = OffColour;
-                }
-                else
-                {
-                    button.GetComponentInChildren<Text>().color = OnColour;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Sets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
-        /// </summary>
-        /// <param name="button">
-        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
-        /// </param>
-        /// <param name="text">
-        /// The Text You Want To Place On The Button.
-        /// </param>
-        internal static void SetTextOfButton(GameObject button, string text)
-        {
-            if (button != null)
-            {
-                button.GetComponentInChildren<Text>().text = text;
-            }
-        }
-
-        /// <summary>
-        /// Sets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
-        /// </summary>
-        /// <param name="button">
-        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
-        /// </param>
-        /// <param name="text">
-        /// The Text You Want To Place On The Button.
-        /// </param>
-        internal static void SetTooltipOfButton(GameObject button, string text)
-        {
-            if (button != null)
-            {
-                button.GetComponentInChildren<UiTooltip>().text = text;
-                button.GetComponentInChildren<UiTooltip>().alternateText = text;
             }
         }
 
@@ -821,4 +853,94 @@ namespace PlagueButtonAPI
 
         #endregion Internal Functions - Not For The End User
     }
+
+    #region Extension Methods
+    internal static class ButtonAPIExtensions
+    {
+        /// <summary>
+        /// Sets The Buttons Toggle State. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
+        /// </param>
+        /// <param name="StateToSetTo">
+        /// The Toggle State You Wish To Set This Button To.
+        /// </param>
+        internal static void SetToggleState(this ButtonAPI.PlagueButton button, bool StateToSetTo)
+        {
+            if (button.text != null && button.OnColour != null && button.OffColour != null)
+            {
+                button.text.color = button.text.color == button.OnColour ? button.OffColour : button.OnColour;
+            }
+        }
+
+        /// <summary>
+        /// Sets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
+        /// </param>
+        /// <param name="text">
+        /// The Text You Want To Place On The Button.
+        /// </param>
+        internal static void SetText(this ButtonAPI.PlagueButton button, string text)
+        {
+            if (button.text != null)
+            {
+                button.text.text = text;
+            }
+        }
+
+        /// <summary>
+        /// Sets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
+        /// </param>
+        /// <param name="text">
+        /// The Text You Want To Place On The Button.
+        /// </param>
+        internal static void SetTooltip(this ButtonAPI.PlagueButton button, string text)
+        {
+            if (button.tooltip != null)
+            {
+                button.tooltip.text = text;
+                button.tooltip.alternateText = text;
+            }
+        }
+
+        /// <summary>
+        /// Sets A Button To Be Interactable Or Not. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The GameObject Of The Button To Set The Interactivity Of.
+        /// </param>
+        /// <param name="state">
+        /// If You Want The Button To Be Interactable.
+        /// </param>
+        internal static void SetInteractivity(this ButtonAPI.PlagueButton button, bool state)
+        {
+            if (button.button != null)
+            {
+                button.button.interactable = state;
+            }
+        }
+
+        /// <summary>
+        /// Returns The Sprite Of A Given Button's GameObject. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The GameObject Of The Button To Pull The Sprite From.
+        /// </param>
+        internal static Sprite GetSprite(this ButtonAPI.PlagueButton button)
+        {
+            if (button.image != null)
+            {
+                return button.image.sprite;
+            }
+
+            return null;
+        }
+    }
+    #endregion
 }
