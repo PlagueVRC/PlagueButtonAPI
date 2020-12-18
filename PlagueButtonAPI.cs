@@ -8,9 +8,8 @@ namespace PlagueButtonAPI
 {
     internal class ButtonAPI
     {
-#pragma warning disable 414
-
         #region Creditation And Disclaimer
+#pragma warning disable 414
 
         private static readonly string Creditation =
         "Plague Button API" +
@@ -21,9 +20,8 @@ namespace PlagueButtonAPI
         "Removal Or Modification Of This String Breaches The License." +
         "This String Is To Be Preserved AS IS.";
 
-        #endregion Creditation And Disclaimer
-
 #pragma warning restore 414
+        #endregion Creditation And Disclaimer
 
         #region Button Class Type
 
@@ -72,12 +70,14 @@ namespace PlagueButtonAPI
             #endregion
 
             #region Reference Objects
+
             internal GameObject gameObject;
             internal Button button;
             internal Text text;
             internal UiTooltip tooltip;
             internal Image image;
             internal RectTransform rect;
+
             #endregion
 
             #region Read Only Objects
@@ -179,7 +179,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Creates A Button With A Lot Of Customization And Returns The GameObject Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         ///     <para>
         ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
         ///     </para>
@@ -406,7 +406,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Creates A Button With A Lot Of Customization And Returns The GameObject Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         ///     <para>
         ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
         ///     </para>
@@ -861,7 +861,7 @@ namespace PlagueButtonAPI
         /// Sets The Buttons Toggle State. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
+        /// The PlagueButton Of The Button You Wish To Set The Toggle State Of.
         /// </param>
         /// <param name="StateToSetTo">
         /// The Toggle State You Wish To Set This Button To.
@@ -875,10 +875,21 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
+        /// Gets The Buttons Toggle State. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The PlagueButton Of The Button You Wish To Set The Toggle State Of.
+        /// </param>
+        internal static bool GetToggleState(this ButtonAPI.PlagueButton button)
+        {
+            return button.ToggleState;
+        }
+
+        /// <summary>
         /// Sets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
+        /// The PlagueButton Of The Button You Wish To Set The Toggle State Of.
         /// </param>
         /// <param name="text">
         /// The Text You Want To Place On The Button.
@@ -892,10 +903,26 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Sets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Gets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
+        /// The PlagueButton Of The Button You Wish To Set The Toggle State Of.
+        /// </param>
+        internal static string GetText(this ButtonAPI.PlagueButton button)
+        {
+            if (button.text != null)
+            {
+                return button.text.text;
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// Sets The Buttons Tooltip Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The PlagueButton Of The Button You Wish To Set The Toggle State Of.
         /// </param>
         /// <param name="text">
         /// The Text You Want To Place On The Button.
@@ -910,10 +937,26 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
+        /// Gets The Buttons Tooltip Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
+        /// </param>
+        internal static string GetTooltip(this ButtonAPI.PlagueButton button)
+        {
+            if (button.tooltip != null)
+            {
+                return button.tooltip.text;
+            }
+
+            return "";
+        }
+
+        /// <summary>
         /// Sets A Button To Be Interactable Or Not. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The GameObject Of The Button To Set The Interactivity Of.
+        /// The PlagueButton Of The Button To Set The Interactivity Of.
         /// </param>
         /// <param name="state">
         /// If You Want The Button To Be Interactable.
@@ -927,10 +970,40 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
+        /// Gets If A Button Is Interactable Or Not. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The PlagueButton Of The Button To Set The Interactivity Of.
+        /// </param>
+        internal static bool GetInteractivity(this ButtonAPI.PlagueButton button)
+        {
+            if (button.button != null)
+            {
+                return button.button.interactable;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Sets The Sprite Of A Given Button. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// </summary>
+        /// <param name="button">
+        /// The PlagueButton Of The Button To Pull The Sprite From.
+        /// </param>
+        internal static void SetSprite(this ButtonAPI.PlagueButton button, Sprite sprite)
+        {
+            if (button.image != null)
+            {
+                button.image.sprite = sprite;
+            }
+        }
+
+        /// <summary>
         /// Returns The Sprite Of A Given Button's GameObject. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The GameObject Of The Button To Pull The Sprite From.
+        /// The PlagueButton Of The Button To Pull The Sprite From.
         /// </param>
         internal static Sprite GetSprite(this ButtonAPI.PlagueButton button)
         {
