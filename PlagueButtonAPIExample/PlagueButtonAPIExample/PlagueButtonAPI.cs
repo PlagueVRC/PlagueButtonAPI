@@ -44,6 +44,56 @@ namespace PlagueButtonAPI
 
         #region Button Creation
 
+        internal static InputField CreateInputField(string PlaceHolderText, VerticalPosition Y, Transform Parent, Action<string> TextChanged)
+        {
+            //FreezeControls
+            //VRCInputManager.Method_Public_Static_Void_Boolean_0(true);
+
+            //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
+            if (Parent == null)
+            {
+                Parent = QuickMenu.prop_QuickMenu_0.transform;
+            }
+
+            //Get The Transform Of InputField Of The Input Popup - Which We Are Going To Use As Our Template
+            InputField inputfield = UnityEngine.Object.Instantiate(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.inputPopup.GetComponentInChildren<InputField>());
+
+            inputfield.placeholder.GetComponent<Text>().text = PlaceHolderText;
+
+            inputfield.placeholder.GetComponent<Text>().alignment = TextAnchor.UpperLeft;
+
+            inputfield.textComponent.alignment = TextAnchor.UpperLeft;
+
+            ColorBlock tempcolorblock = inputfield.colors;
+
+            tempcolorblock.normalColor = Color.magenta;
+            tempcolorblock.highlightedColor = Color.magenta;
+            tempcolorblock.pressedColor = Color.magenta;
+
+            inputfield.colors = tempcolorblock;
+
+            //InputField Position Calculation
+            float num =
+                (GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x -
+                 GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("UserInteractMenu/BanButton").localPosition.x) / 3.9f;
+
+            //Define Position To Place This InputField In The Parent, Appended To By The TopOrBottom Switch
+            inputfield.transform.localPosition = new Vector3(-1185f, inputfield.transform.localPosition.y + num * ((float)Y - 1.57f), inputfield.transform.localPosition.z);
+
+            //Alignment Due To Scaling
+            inputfield.GetComponent<RectTransform>().sizeDelta = new Vector2(1675f, 410f);
+
+            inputfield.transform.localPosition -= new Vector3(-1185f, 130f, 0);
+
+            //Define Where To Put This InputField
+            inputfield.transform.SetParent(Parent, worldPositionStays: false);
+
+            inputfield.onValueChanged = new InputField.OnChangeEvent();
+            inputfield.onValueChanged.AddListener(TextChanged);
+
+            return inputfield;
+        }
+
         /// <summary>
         /// Creates A Button With A Lot Of Customization And Returns The GameObject Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         ///     <para>
