@@ -1,4 +1,4 @@
-﻿using LoadSprite;
+using LoadSprite;
 using MelonLoader;
 using PlagueButtonAPI;
 using System;
@@ -28,7 +28,7 @@ namespace PlagueButtonAPIExample
         {
             #region Test Code
 
-            ButtonAPI.CreateInputField("Enter Text Here..", ButtonAPI.VerticalPosition.AboveMenu, ButtonAPI.ShortcutMenuTransform, delegate (string text)
+            ButtonAPI.CreateInputField("Enter Text Here..", ButtonAPI.VerticalPosition.AboveMenu, ButtonAPI.MakeEmptyPage("SubMenu_1").transform, delegate (string text)
             {
                 MelonLogger.Log("New Text: " + text);
             });
