@@ -171,9 +171,9 @@ namespace PlagueButtonAPI
             transform.GetComponentInChildren<RectTransform>().anchorMax += new Vector2(0.1f, 0f);
 
             transform.GetComponentInChildren<Slider>().value = InitialValue;
-            transform.GetComponentInChildren<Slider>().Set(InitialValue);
             transform.GetComponentInChildren<Slider>().maxValue = MaxValue;
             transform.GetComponentInChildren<Slider>().minValue = MinValue;
+            transform.GetComponentInChildren<Slider>().Set(InitialValue);
 
             //Text
             GameObject gameObject2 = new GameObject("Text");
