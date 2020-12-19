@@ -57,6 +57,11 @@ namespace PlagueButtonAPIExample
                 }
             }, Color.white, Color.magenta, null, false, false, false, DisablePortals, null, true);
 
+            ButtonAPI.CreateSlider(ButtonAPI.MakeEmptyPage("SubMenu_1").transform, delegate(float v)
+            {
+
+            }, (float)ButtonAPI.HorizontalPosition.FirstButtonPos, (float)ButtonAPI.VerticalPosition.SecondButton, "Test Slider", 15f, 100f, 0f);
+
             //SubMenu_2 Contents
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Prev Page", "Goes To The Previous Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_2").transform, delegate (bool a)
             {
