@@ -198,6 +198,8 @@ namespace PlagueButtonAPI
                 transform.GetComponentInChildren<Slider>().transform.Find("Fill Area/Label").GetComponent<Text>().text = RangeConv(Convert.ToInt32(val), MinValue, MaxValue, 0, 100) + "%";
             });
 
+            transform.GetComponentInChildren<Slider>().transform.Find("Fill Area/Label").GetComponent<Text>().text = RangeConv(Convert.ToInt32(InitialValue), MinValue, MaxValue, 0, 100) + "%";
+
             transform.GetComponentInChildren<Slider>().onValueChanged.AddListener(OnChanged);
 
             return new SliderRef { SliderObject = transform.gameObject, SliderText = text2 };
@@ -211,8 +213,6 @@ namespace PlagueButtonAPI
         #endregion
 
         #region InputField Creation
-
-        //To Do: Make Input Field Automatically Freeze Controls
 
         /// <summary>
         /// Creates A Input Field And Returns The Object Of The Input Field Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
