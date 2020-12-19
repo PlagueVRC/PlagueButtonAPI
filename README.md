@@ -1,4 +1,4 @@
-# PlagueButtonAPI [![Downloads](https://img.shields.io/github/downloads/OFWModz/PlagueButtonAPI/total?color=magenta&label=Latest%20PlagueButtonAPIExample%20Downloads:)](https://github.com/OFWModz/PlagueButtonAPI/releases)
+# PlagueButtonAPI [![Downloads](https://img.shields.io/github/downloads/OFWModz/PlagueButtonAPI/total?color=magenta&label=Latest%20PlagueButtonAPIExample%20Downloads:)](https://github.com/OFWModz/PlagueButtonAPI/releases) [![License](https://img.shields.io/badge/License-Use%20Only-magenta.svg)](https://shields.io/)
 An extremely simple to use and mega customizable Button API for VRChat By @Plague#2850
 
 Official Discord Server: http://Krewella.co.uk/Discord
