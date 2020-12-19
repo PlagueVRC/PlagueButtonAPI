@@ -718,6 +718,8 @@ namespace PlagueButtonAPI
         /// </summary>
         internal enum HorizontalPosition
         {
+            ThreeLeftOfMenu = -6,
+
             TwoLeftOfMenu = -5,
 
             LeftOfMenu = -4,
@@ -730,7 +732,11 @@ namespace PlagueButtonAPI
 
             FourthButtonPos = 0,
 
-            RightOfMenu = 1
+            RightOfMenu = 1,
+
+            TwoRightOfMenu = 2,
+
+            ThreeRightOfMenu = 3
         }
 
         /// <summary>
@@ -750,7 +756,9 @@ namespace PlagueButtonAPI
 
             BottomButton = 1,
 
-            BelowBottomButton = 0
+            BelowBottomButton = 0,
+
+            TwoBelowBottomButton = 0
         }
 
         /// <summary>
