@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace PlagueButtonAPI
 {
-    #region PlagueButtonAPI - Created By Plague#2850 
+    #region PlagueButtonAPI - Created By Plague#2850
     internal class ButtonAPI
     {
         #region Creditation And Disclaimer
