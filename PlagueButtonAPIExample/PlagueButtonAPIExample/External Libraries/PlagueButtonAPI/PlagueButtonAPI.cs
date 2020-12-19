@@ -1,3 +1,4 @@
+using Il2CppSystem.Collections.Generic;
 using MelonLoader;
 using System;
 using System.Collections.Generic;
@@ -105,6 +106,8 @@ namespace PlagueButtonAPI
 
         #region internal Variables
 
+        private static bool HasRegisteredTypes = false;
+
         internal static Transform ShortcutMenuTransform =>
             GameObject.Find("/UserInterface/QuickMenu/ShortcutMenu").transform;
 
@@ -114,7 +117,7 @@ namespace PlagueButtonAPI
         internal static Transform UserInteractMenuTransform =>
             GameObject.Find("/UserInterface/QuickMenu/UserInteractMenu").transform;
 
-        internal static List<PlagueButton> ButtonsFromThisMod = new List<PlagueButton>();
+        internal static System.Collections.Generic.List<PlagueButton> ButtonsFromThisMod = new System.Collections.Generic.List<PlagueButton>();
 
         #endregion internal Variables
 
@@ -209,6 +212,8 @@ namespace PlagueButtonAPI
 
         #region InputField Creation
 
+        //To Do: Make Input Field Automatically Freeze Controls
+
         /// <summary>
         /// Creates A Input Field And Returns The Object Of The Input Field Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
@@ -222,8 +227,12 @@ namespace PlagueButtonAPI
         /// <returns>UnityEngine.UI.InputField</returns>
         internal static InputField CreateInputField(string PlaceHolderText, VerticalPosition Y, Transform Parent, Action<string> TextChanged)
         {
-            //FreezeControls
-            //VRCInputManager.Method_internal_Static_Void_Boolean_0(true);
+            if (!HasRegisteredTypes)
+            {
+                ClassInjector.RegisterTypeInIl2Cpp<SliderFreezeControls>();
+
+                HasRegisteredTypes = true;
+            }
 
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
             if (Parent == null)
@@ -233,6 +242,8 @@ namespace PlagueButtonAPI
 
             //Get The Transform Of InputField Of The Input Popup - Which We Are Going To Use As Our Template
             InputField inputfield = UnityEngine.Object.Instantiate(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.inputPopup.GetComponentInChildren<InputField>());
+
+            inputfield.gameObject.AddComponent<SliderFreezeControls>();
 
             inputfield.placeholder.GetComponent<Text>().text = PlaceHolderText;
 
@@ -756,7 +767,7 @@ namespace PlagueButtonAPI
         #region Internal Functions - Not For The End User
 
         //Any Created Sub Menus By The User Are Stored Here
-        internal static List<GameObject> SubMenus = new List<GameObject>();
+        internal static System.Collections.Generic.List<GameObject> SubMenus = new System.Collections.Generic.List<GameObject>();
 
         private static float HandlerRoutineDelay = 0f;
 
@@ -960,6 +971,34 @@ namespace PlagueButtonAPI
             return null;
         }
     }
+    #endregion
+
+    #region Component Tests
+
+    internal class SliderFreezeControls : MonoBehaviour
+    {
+        public SliderFreezeControls(IntPtr instance) : base(instance) {}
+
+        void OnEnable()
+        {
+            VRCInputManager.Method_Public_Static_Void_Boolean_0(true);
+        }
+
+        void OnDisable()
+        {
+            VRCInputManager.Method_Public_Static_Void_Boolean_0(false);
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                VRCInputManager.Method_Public_Static_Void_Boolean_0(false);
+                VRCUiManager.prop_VRCUiManager_0.Method_Public_Virtual_New_Void_0();
+            }
+        }
+    }
+
     #endregion
     #endregion
 }
