@@ -973,7 +973,7 @@ namespace PlagueButtonAPI
     }
     #endregion
 
-    #region Component Tests
+    #region Components
 
     internal class SliderFreezeControls : MonoBehaviour
     {
