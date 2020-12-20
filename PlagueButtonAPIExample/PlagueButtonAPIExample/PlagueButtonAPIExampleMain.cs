@@ -26,14 +26,10 @@ namespace PlagueButtonAPIExample
 
         public override void VRChat_OnUiManagerInit()
         {
-            #region Test Code
-
             ButtonAPI.CreateInputField("Enter Text Here..", ButtonAPI.VerticalPosition.AboveMenu, ButtonAPI.MakeEmptyPage("SubMenu_1").transform, delegate (string text)
             {
                 MelonLogger.Log("New Text: " + text);
             });
-
-            #endregion
 
             //Make Button To Enter SubMenu_1
             var test = ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, LoadedImage != null ? "" : "Utils", "Some Random Utils.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
