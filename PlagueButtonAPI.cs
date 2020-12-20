@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace PlagueButtonAPI
 {
-    #region PlagueButtonAPI - Created By Plague
+    #region PlagueButtonAPI - Created By Plague#2850
     internal class ButtonAPI
     {
         #region Creditation And Disclaimer
@@ -68,7 +68,7 @@ namespace PlagueButtonAPI
 
                 this.OffColour = OffColour;
                 this.OnColour = OnColour;
-                BorderColor = BorderColour; // Only One Can Be Set, Thus No this. Is Needed.
+                this.BorderColour = BorderColour;
                 this.ToggleState = ToggleState;
                 this.xPos = xPos;
                 this.yPos = yPos;
@@ -92,7 +92,7 @@ namespace PlagueButtonAPI
 
             internal readonly Color OnColour;
 
-            internal readonly Color? BorderColor;
+            internal readonly Color? BorderColour;
 
             internal readonly bool ToggleState;
 
