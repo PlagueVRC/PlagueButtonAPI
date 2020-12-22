@@ -11,4 +11,4 @@ Use-Only Licensed. See "LICENSE" File For Details.
 You Must Call ButtonAPI.SubMenuHandler In Your OnUpdate!
 
 # Test
-[![Discord](http://Krewella.co.uk/ButtonAPI)](http://Krewella.co.uk/ButtonAPI)
+[![Discord]](http://Krewella.co.uk/ButtonAPI)
