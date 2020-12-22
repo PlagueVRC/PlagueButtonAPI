@@ -5,7 +5,7 @@ An extremely simple to use and mega customizable Button API for VRChat By @Plagu
 
 [Discord Server For ButtonAPI](http://Krewella.co.uk/ButtonAPI)
 
-Use-Only Licensed. See "LICENSE" File For Details.
+Use-Only Licensed. See "[LICENSE](https://github.com/OFWModz/PlagueButtonAPI/blob/master/LICENSE)" File For Details.
 
 # NOTE
 You Must Call ButtonAPI.SubMenuHandler In Your OnUpdate!
