@@ -1,12 +1,8 @@
-using Il2CppSystem.Collections.Generic;
 using MelonLoader;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using UnhollowerRuntimeLib;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace PlagueButtonAPI
@@ -161,8 +157,8 @@ namespace PlagueButtonAPI
 
             //Slider
             Transform transform = UnityEngine.Object.Instantiate(
-                VRCUiManager.prop_VRCUiManager_0.menuContent.transform.Find("Screens/Settings/AudioDevicePanel/VolumeSlider"),
-                Parent);
+                VRCUiManager.prop_VRCUiManager_0.menuContent.transform.Find("Screens/Settings/AudioDevicePanel/VolumeSlider"), ShortcutMenuTransform);
+
             transform.transform.localScale = new Vector3(1f, 1f, 1f);
             transform.transform.localPosition = gameObject.gameObject.transform.localPosition;
 
@@ -180,7 +176,7 @@ namespace PlagueButtonAPI
 
             //Text
             GameObject gameObject2 = new GameObject("Text");
-            gameObject2.transform.SetParent(Parent, worldPositionStays: false);
+            gameObject2.transform.SetParent(ShortcutMenuTransform, worldPositionStays: false);
             Text text2 = gameObject2.AddComponent<Text>();
             text2.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
             text2.fontSize = 64;
@@ -190,6 +186,8 @@ namespace PlagueButtonAPI
             text2.enabled = true;
             text2.GetComponent<RectTransform>().sizeDelta = new Vector2(text2.fontSize * Text.Length, 100f);
             text2.alignment = TextAnchor.MiddleCenter;
+            gameObject2.transform.SetParent(Parent, worldPositionStays: true);
+            transform.SetParent(Parent, true);
 
             transform.GetComponentInChildren<Slider>().onValueChanged = new Slider.SliderEvent();
 
@@ -276,10 +274,12 @@ namespace PlagueButtonAPI
             inputfield.transform.localPosition -= new Vector3(-1185f, 130f, 0);
 
             //Define Where To Put This InputField
-            inputfield.transform.SetParent(Parent, worldPositionStays: false);
+            inputfield.transform.SetParent(ShortcutMenuTransform, worldPositionStays: false);
 
             inputfield.onValueChanged = new InputField.OnChangeEvent();
             inputfield.onValueChanged.AddListener(TextChanged);
+
+            inputfield.transform.SetParent(Parent, worldPositionStays: true);
 
             return inputfield;
         }
@@ -492,8 +492,8 @@ namespace PlagueButtonAPI
                 }
             }
 
-            //Define Where To Put This Button
-            transform.SetParent(Parent, worldPositionStays: false);
+            //Define Where To Put This Button Temporarily
+            transform.SetParent(ShortcutMenuTransform, worldPositionStays: false);
 
             //Set Text, Tooltip & Colours
             transform.GetComponentInChildren<Text>().supportRichText = true;
@@ -586,6 +586,9 @@ namespace PlagueButtonAPI
 
             ButtonsFromThisMod.Add(plagueButton);
 
+            //Define Where To Put This Button
+            transform.SetParent(Parent, worldPositionStays: true);
+
             //Return The GameObject For Handling It Elsewhere
             return plagueButton;
         }
@@ -635,7 +638,18 @@ namespace PlagueButtonAPI
             if (NewElementsMenuTransform.Find("PlagueButtonAPI") == null)
             {
                 var obj = new GameObject("PlagueButtonAPI");
+
                 obj.transform.SetParent(NewElementsMenuTransform);
+
+                for (int i = 0; i < NewElementsMenuTransform.childCount; i++)
+                {
+                    Transform Child = NewElementsMenuTransform.GetChild(i);
+
+                    if (Child.name != "PlagueButtonAPI")
+                    {
+                        Child.SetParent(obj.transform);
+                    }
+                }
             }
 
             //Make This Page We Cloned A Child Of The NewElementsMenuTransform
@@ -802,7 +816,7 @@ namespace PlagueButtonAPI
                     {
                         GameObject Menu = SubMenus[i];
 
-                        if (Menu.active) // Is In This SubMenu
+                        if (Menu.activeSelf) // Is In This SubMenu
                         {
                             //If QuickMenu Was Closed
                             if (!QuickMenuObj.prop_Boolean_0)
@@ -995,7 +1009,7 @@ namespace PlagueButtonAPI
 
     internal class SliderFreezeControls : MonoBehaviour
     {
-        public SliderFreezeControls(IntPtr instance) : base(instance) {}
+        public SliderFreezeControls(IntPtr instance) : base(instance) { }
 
         void OnEnable()
         {
