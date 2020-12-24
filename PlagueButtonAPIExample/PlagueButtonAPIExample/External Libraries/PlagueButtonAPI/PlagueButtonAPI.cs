@@ -631,8 +631,15 @@ namespace PlagueButtonAPI
                 UnityEngine.Object.Destroy(transform.GetChild(i).gameObject);
             }
 
+            //Organise Hierarchy Ree
+            if (NewElementsMenuTransform.Find("PlagueButtonAPI") == null)
+            {
+                var obj = new GameObject("PlagueButtonAPI");
+                obj.transform.SetParent(NewElementsMenuTransform);
+            }
+
             //Make This Page We Cloned A Child Of The NewElementsMenuTransform
-            transform.SetParent(NewElementsMenuTransform, worldPositionStays: false);
+            transform.SetParent(NewElementsMenuTransform.Find("PlagueButtonAPI"), worldPositionStays: false);
 
             //Make This Page We Cloned Inactive By Default
             transform.gameObject.SetActive(value: false);
