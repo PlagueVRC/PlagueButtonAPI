@@ -111,6 +111,9 @@ namespace PlagueButtonAPI
         internal static Transform ShortcutMenuTransform =>
             GameObject.Find("/UserInterface/QuickMenu/ShortcutMenu").transform;
 
+        internal static Transform NewElementsMenuTransform =>
+            GameObject.Find("/UserInterface/QuickMenu/QuickMenu_NewElements").transform;
+
         internal static QuickMenu QuickMenuObj =>
             ShortcutMenuTransform.parent.GetComponent<QuickMenu>();
 
@@ -628,8 +631,8 @@ namespace PlagueButtonAPI
                 UnityEngine.Object.Destroy(transform.GetChild(i).gameObject);
             }
 
-            //Make This Page We Cloned A Child Of The QuickMenu
-            transform.SetParent(GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform, worldPositionStays: false);
+            //Make This Page We Cloned A Child Of The NewElementsMenuTransform
+            transform.SetParent(NewElementsMenuTransform, worldPositionStays: false);
 
             //Make This Page We Cloned Inactive By Default
             transform.gameObject.SetActive(value: false);
