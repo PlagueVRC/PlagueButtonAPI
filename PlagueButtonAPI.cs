@@ -640,16 +640,6 @@ namespace PlagueButtonAPI
                 var obj = new GameObject("PlagueButtonAPI");
 
                 obj.transform.SetParent(NewElementsMenuTransform);
-
-                for (int i = 0; i < NewElementsMenuTransform.childCount; i++)
-                {
-                    Transform Child = NewElementsMenuTransform.GetChild(i);
-
-                    if (Child.name != "PlagueButtonAPI")
-                    {
-                        Child.SetParent(obj.transform);
-                    }
-                }
             }
 
             //Make This Page We Cloned A Child Of The NewElementsMenuTransform
