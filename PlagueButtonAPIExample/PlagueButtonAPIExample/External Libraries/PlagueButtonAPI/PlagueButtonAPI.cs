@@ -116,6 +116,8 @@ namespace PlagueButtonAPI
         internal static Transform UserInteractMenuTransform =>
             GameObject.Find("/UserInterface/QuickMenu/UserInteractMenu").transform;
 
+        internal static Transform CustomTransform = ShortcutMenuTransform;
+
         internal static System.Collections.Generic.List<PlagueButton> ButtonsFromThisMod = new System.Collections.Generic.List<PlagueButton>();
 
         #endregion internal Variables
@@ -148,6 +150,12 @@ namespace PlagueButtonAPI
         internal static SliderRef CreateSlider(Transform Parent, Action<float> OnChanged, float X, float Y, string Text,
             float InitialValue, float MaxValue, float MinValue)
         {
+            //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
+            if (Parent == null)
+            {
+                Parent = CustomTransform;
+            }
+
             //Template Button For Positioning
             GameObject gameObject = CreateButton(ButtonType.Default, "slider_element_" + X + Y,
                 "", X, Y, null, delegate (bool a) { }, Color.white, Color.magenta, Color.magenta, true, false, false,
@@ -226,8 +234,14 @@ namespace PlagueButtonAPI
         /// <param name="Parent">The Parent To Place This InputField In, You Can Use ButtonAPI.ShortcutMenuTransform As A Example Transform.</param>
         /// <param name="TextChanged">The Delegate To Call Upon Text Being Changed, This Is Used As: delegate(string text) { }</param>
         /// <returns>UnityEngine.UI.InputField</returns>
-        internal static InputField CreateInputField(string PlaceHolderText, VerticalPosition Y, Transform Parent, Action<string> TextChanged)
+        internal static InputField CreateInputField(string PlaceHolderText, VerticalPosition Y, Transform Parent, Action<string> TextChanged, Action OnEnterKeyPressed = null, Action OnCloseMenu = null)
         {
+            //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
+            if (Parent == null)
+            {
+                Parent = CustomTransform;
+            }
+
             if (!HasRegisteredTypes)
             {
                 ClassInjector.RegisterTypeInIl2Cpp<SliderFreezeControls>();
@@ -244,7 +258,17 @@ namespace PlagueButtonAPI
             //Get The Transform Of InputField Of The Input Popup - Which We Are Going To Use As Our Template
             InputField inputfield = UnityEngine.Object.Instantiate(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.inputPopup.GetComponentInChildren<InputField>());
 
-            inputfield.gameObject.AddComponent<SliderFreezeControls>();
+            SliderFreezeControls SliderFreezer = inputfield.gameObject.AddComponent<SliderFreezeControls>();
+
+            if (OnEnterKeyPressed != null)
+            {
+                SliderFreezer.OnEnterKeyPressed = OnEnterKeyPressed;
+            }
+
+            if (OnCloseMenu != null)
+            {
+                SliderFreezer.OnExit = OnCloseMenu;
+            }
 
             inputfield.placeholder.GetComponent<Text>().text = PlaceHolderText;
 
@@ -358,6 +382,12 @@ namespace PlagueButtonAPI
             bool HalfHorizontally = false, bool CurrentToggleState = false, Sprite SpriteForButton = null,
             bool ChangeColourOnClick = true)
         {
+            //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
+            if (Parent == null)
+            {
+                Parent = CustomTransform;
+            }
+
             PlagueButton button = CreateButton(ButtonType, Text, ToolTip, (float)X, (float)Y, Parent, ButtonListener, ToggledOffTextColour, ToggledOnTextColour, BorderColour, FullSizeButton, BottomHalf, HalfHorizontally, CurrentToggleState, SpriteForButton, ChangeColourOnClick);
 
             //Return The GameObject For Handling It Elsewhere
@@ -436,7 +466,7 @@ namespace PlagueButtonAPI
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
             if (Parent == null)
             {
-                Parent = ShortcutMenuTransform;
+                Parent = CustomTransform;
             }
 
             //Get The Transform Of The Settings Button - Which We Are Going To Use As Our Template
@@ -694,6 +724,11 @@ namespace PlagueButtonAPI
                 UserInteractMenuTransform.gameObject.SetActive(false);
             }
 
+            if (CustomTransform.gameObject.active)
+            {
+                CustomTransform.gameObject.SetActive(false);
+            }
+
             for (int i = 0; i < SubMenus.Count; i++)
             {
                 GameObject Menu = SubMenus[i];
@@ -713,6 +748,7 @@ namespace PlagueButtonAPI
         {
             ShortcutMenuTransform.gameObject.SetActive(false);
             UserInteractMenuTransform.gameObject.SetActive(false);
+            CustomTransform.gameObject.SetActive(false);
 
             for (int i = 0; i < SubMenus.Count; i++)
             {
@@ -816,10 +852,11 @@ namespace PlagueButtonAPI
                             }
 
                             //If QuickMenu Is Open Normally When In A SubMenu (Aka When It Shouldn't Be) - This Fixes The Menu Breaking When A Player Joins
-                            else if (ShortcutMenuTransform.gameObject.active || UserInteractMenuTransform.gameObject.active)
+                            else if (ShortcutMenuTransform.gameObject.active || UserInteractMenuTransform.gameObject.active || CustomTransform.gameObject.active)
                             {
                                 ShortcutMenuTransform.gameObject.SetActive(false);
                                 UserInteractMenuTransform.gameObject.SetActive(false);
+                                CustomTransform.gameObject.SetActive(false);
                             }
 
                             break;
@@ -1001,6 +1038,9 @@ namespace PlagueButtonAPI
     {
         public SliderFreezeControls(IntPtr instance) : base(instance) { }
 
+        internal Action OnExit;
+        internal Action OnEnterKeyPressed;
+
         void OnEnable()
         {
             VRCInputManager.Method_Public_Static_Void_Boolean_0(true);
@@ -1017,6 +1057,12 @@ namespace PlagueButtonAPI
             {
                 VRCInputManager.Method_Public_Static_Void_Boolean_0(false);
                 VRCUiManager.prop_VRCUiManager_0.Method_Public_Virtual_New_Void_0();
+
+                OnExit?.Invoke();
+            }
+            else if (Input.GetKeyDown(KeyCode.Return))
+            {
+                OnEnterKeyPressed?.Invoke();
             }
         }
     }
