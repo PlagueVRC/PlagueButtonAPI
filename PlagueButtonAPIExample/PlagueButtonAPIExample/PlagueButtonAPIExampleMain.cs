@@ -3,7 +3,10 @@ using MelonLoader;
 using PlagueButtonAPI;
 using System;
 using System.IO;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
+using VRC;
 
 namespace PlagueButtonAPIExample
 {
@@ -26,9 +29,31 @@ namespace PlagueButtonAPIExample
 
         public override void VRChat_OnUiManagerInit()
         {
-            ButtonAPI.CreateInputField("Enter Text Here..", ButtonAPI.VerticalPosition.AboveMenu, ButtonAPI.MakeEmptyPage("SubMenu_1").transform, delegate (string text)
+            InputField InputField = null;
+
+            InputField = ButtonAPI.CreateInputField("Enter Text Here..", ButtonAPI.VerticalPosition.AboveMenu, ButtonAPI.MakeEmptyPage("SubMenu_1").transform, delegate (string text)
             {
-                MelonLogger.Log("New Text: " + text);
+                //MelonLogger.Log("New Text: " + text);
+            }, delegate ()
+            {
+                if (InputField.text.StartsWith("teleport ") && InputField.text.Length > 9)
+                {
+                    Player TargetPlayer = PlayerManager.field_Private_Static_PlayerManager_0
+                        .field_Private_List_1_Player_0.ToArray()
+                        .FirstOrDefault(o => o.field_Private_APIUser_0.displayName.ToLower().StartsWith(InputField.text.Replace("teleport ", "").ToLower()));
+
+                    if (TargetPlayer != null)
+                    {
+                        MelonLogger.Log("Teleporting To: " + TargetPlayer.field_Private_APIUser_0.displayName);
+
+                        VRCPlayer.field_Internal_Static_VRCPlayer_0.transform.position =
+                            TargetPlayer.transform.position;
+                    }
+                    else
+                    {
+                        MelonLogger.Log("Player: " + InputField.text.Replace("teleport ", "") + " Not Found!");
+                    }
+                }
             });
 
             //Make Button To Enter SubMenu_1
@@ -53,7 +78,7 @@ namespace PlagueButtonAPIExample
                 }
             }, Color.white, Color.magenta, null, false, false, false, DisablePortals, null, true);
 
-            ButtonAPI.CreateSlider(ButtonAPI.MakeEmptyPage("SubMenu_1").transform, delegate(float v)
+            ButtonAPI.CreateSlider(ButtonAPI.MakeEmptyPage("SubMenu_1").transform, delegate (float v)
             {
 
             }, (float)ButtonAPI.HorizontalPosition.FirstButtonPos, (float)ButtonAPI.VerticalPosition.SecondButton, "Test Slider", 15f, 100f, 0f);
