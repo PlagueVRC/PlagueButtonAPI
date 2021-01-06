@@ -1,6 +1,10 @@
 # PlagueButtonAPI [![Downloads](https://img.shields.io/github/downloads/OFWModz/PlagueButtonAPI/total?color=magenta&label=Latest%20PlagueButtonAPIExample%20Downloads:)](https://github.com/OFWModz/PlagueButtonAPI/releases) [![License](https://img.shields.io/badge/License-Use%20Only-magenta.svg)](https://github.com/OFWModz/PlagueButtonAPI/blob/master/LICENSE)
 The Best VRChat Button API By @Plague#2850
 
+FAQ:
+```Q: What Is A Button API?
+A: A Button API Is A Set Of Pre-Coded Methods To Create Buttons, In This Case; In VRChat By Mods Such As Your Own.```
+
 [Main Discord Server](http://Krewella.co.uk/Discord)
 
 [Discord Server For ButtonAPI](http://Krewella.co.uk/ButtonAPI)
