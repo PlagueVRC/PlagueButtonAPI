@@ -1,6 +1,7 @@
 using MelonLoader;
 using System;
 using System.Globalization;
+using System.Reflection;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.UI;
@@ -182,6 +183,12 @@ namespace PlagueButtonAPI
             transform.GetComponentInChildren<Slider>().minValue = MinValue;
             transform.GetComponentInChildren<Slider>().Set(InitialValue);
 
+            var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
+
+            //Change Internal Names & Sanitize Them
+            transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + "Slider_" + X + "_" + Y + "_" + Parent.name.Replace(" ", "_");
+            transform.transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + "Slider_" + X + "_" + Y + "_" + Parent.name.Replace(" ", "_");
+
             //Text
             GameObject gameObject2 = new GameObject("Text");
             gameObject2.transform.SetParent(ShortcutMenuTransform, worldPositionStays: false);
@@ -194,6 +201,11 @@ namespace PlagueButtonAPI
             text2.enabled = true;
             text2.GetComponent<RectTransform>().sizeDelta = new Vector2(text2.fontSize * Text.Length, 100f);
             text2.alignment = TextAnchor.MiddleCenter;
+
+            //Change Internal Names & Sanitize Them
+            text2.transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + "Slider_" + X + "_" + Y + "_" + Parent.name.Replace(" ", "_");
+            text2.transform.transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + "Slider_" + X + "_" + Y + "_" + Parent.name.Replace(" ", "_");
+
             gameObject2.transform.SetParent(Parent, worldPositionStays: true);
             transform.SetParent(Parent, true);
 
@@ -233,6 +245,8 @@ namespace PlagueButtonAPI
         /// <param name="Y">The Vertical Position Of The InputField</param>
         /// <param name="Parent">The Parent To Place This InputField In, You Can Use ButtonAPI.ShortcutMenuTransform As A Example Transform.</param>
         /// <param name="TextChanged">The Delegate To Call Upon Text Being Changed, This Is Used As: delegate(string text) { }</param>
+        /// <param name="OnEnterKeyPressed">What Is Called When The Enter Key Is Pressed With The Control Visible, This Is Used As: delegate() { }</param>
+        /// <param name="OnCloseMenu">What Is Called When The QuickMenu Is Closed With The Control Visible, This Is Used As: delegate() { }</param>
         /// <returns>UnityEngine.UI.InputField</returns>
         internal static InputField CreateInputField(string PlaceHolderText, VerticalPosition Y, Transform Parent, Action<string> TextChanged, Action OnEnterKeyPressed = null, Action OnCloseMenu = null)
         {
@@ -257,6 +271,12 @@ namespace PlagueButtonAPI
 
             //Get The Transform Of InputField Of The Input Popup - Which We Are Going To Use As Our Template
             InputField inputfield = UnityEngine.Object.Instantiate(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.inputPopup.GetComponentInChildren<InputField>());
+
+            var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
+
+            //Change Internal Names & Sanitize Them
+            inputfield.transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + "InputField_" + (float)Y + "_" + Parent.name.Replace(" ", "_");
+            inputfield.transform.transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + "InputField_" + (float)Y + "_" + Parent.name.Replace(" ", "_");
 
             SliderFreezeControls SliderFreezer = inputfield.gameObject.AddComponent<SliderFreezeControls>();
 
@@ -490,9 +510,11 @@ namespace PlagueButtonAPI
                 (GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("UserInteractMenu/ForceLogoutButton").localPosition.x -
                 GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("UserInteractMenu/BanButton").localPosition.x) / 3.9f;
 
+            var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
+
             //Change Internal Names & Sanitize Them
-            transform.name = "PlagueButton_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_"));
-            transform.transform.name = "PlagueButton_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_"));
+            transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_") + "_Button_" + (float)X + "_" + (float)Y + "_" + Parent.name);
+            transform.transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_Button_") + "_" + (float)X + "_" + (float)Y + "_" + Parent.name);
 
             //Define Position To Place This Button In The Parent, Appended To Later
             if (BottomHalf || FullSizeButton)
@@ -641,11 +663,14 @@ namespace PlagueButtonAPI
                 return null;
             }
 
+            var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
+
             //If This Page Already Exists, Return It
             for (int i = 0; i < SubMenus.Count; i++)
             {
                 GameObject menu = SubMenus[i];
-                if (menu.name == "PlagueButtonAPI_" + name)
+
+                if (menu.name == "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name)
                 {
                     return menu;
                 }
@@ -655,8 +680,8 @@ namespace PlagueButtonAPI
             Transform transform = UnityEngine.Object.Instantiate(ShortcutMenuTransform.gameObject).transform;
 
             //Change Internal Names
-            transform.transform.name = "PlagueButtonAPI_" + name;
-            transform.name = "PlagueButtonAPI_" + name;
+            transform.transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name;
+            transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name;
 
             //Remove All Buttons
             for (int i = 0; i < transform.childCount; i++)
@@ -702,8 +727,10 @@ namespace PlagueButtonAPI
                 return null;
             }
 
+            var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
+
             //Find The SubMenu And Return It
-            return WhereTheSubMenuIsInside.Find("PlagueButtonAPI_" + name).gameObject;
+            return WhereTheSubMenuIsInside.Find("PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name).gameObject;
         }
 
         /// <summary>
