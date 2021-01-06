@@ -423,6 +423,147 @@ namespace PlagueButtonAPI
         ///     <example>
         ///     Here Is An Example Of How To Use This:
         ///         <code>
+        ///         ButtonAPI.CreateText(ButtonAPI.ButtonType.Toggle, ButtonAPI.SizeType.ButtonSize, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, null, true, true, delegate (bool a)
+        ///            {
+        ///                //Do Something Here
+        ///            }, false, Color.magenta, Color.white);
+        ///         </code>
+        ///     </example>
+        /// </summary>
+        /// <param name="ButtonType">
+        /// The Type Of Text You Wish To Create.
+        /// </param>
+        /// <param name="SizeType">
+        /// The Size Type OF The Text.
+        /// </param>
+        /// <param name="Text">
+        /// The Main Text In The Text.
+        /// </param>
+        /// <param name="ToolTip">
+        /// The Text That Appears At The Top Of The Menu When You Hover Over The Text.
+        /// </param>
+        /// <param name="X">
+        /// The Horizontal Position Of The Text.
+        /// </param>
+        /// <param name="Y">
+        /// The Vertical Position Of The Text.
+        /// </param>
+        /// <param name="Parent">
+        /// The Transform Of The GameObject You Wish To Put Your Text In (You Can Set This As Just "null" For The Main ShortcutMenu).
+        /// </param>
+        /// <param name="Clickable">
+        /// Whether The Text Should Be Clickable Or Just Plain Text.
+        /// </param>
+        /// <param name="TextListener">
+        /// What You Want The Text To Do When You Click It - Must Be delegate(bool nameofboolhere) {  }.
+        /// </param>
+        /// <param name="OffColour">
+        /// The Colour You Want The Main Text Of The Text You Defined Earlier To Change Into If This Text Is Toggled Off.
+        /// </param>
+        /// <param name="OnColour">
+        /// The Colour You Want The Main Text Of The Text You Defined Earlier To Change Into If This Text Is Toggled On.
+        /// </param>
+        /// <param name="CurrentToggleState">
+        /// The Toggle State You Want The Text To Be On Creation.
+        /// </param>
+        /// <param name="ChangeColourOnClick">
+        /// Only Set This To False If You Are Setting The Text's Text Colour In The TextListener - Or The Toggling Will Break!
+        /// </param>
+        internal static PlagueButton CreateText(ButtonType ButtonType, SizeType SizeType, string Text, string ToolTip, HorizontalPosition X,
+            VerticalPosition Y, Transform Parent, bool Clickable, bool ChangeColourOnClick, Action<bool> TextListener, bool CurrentToggleState, Color OnColour, Color OffColour)
+        {
+            PlagueButton button = CreateText(ButtonType, SizeType, Text, ToolTip, (float)X,
+             (float)Y,  Parent,  Clickable,  ChangeColourOnClick, TextListener, CurrentToggleState,  OnColour,  OffColour);
+
+            return button;
+        }
+
+        /// <summary>
+        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        ///     <para>
+        ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
+        ///     </para>
+        ///
+        ///     <example>
+        ///     Here Is An Example Of How To Use This:
+        ///         <code>
+        ///         ButtonAPI.CreateText(ButtonAPI.ButtonType.Toggle, ButtonAPI.SizeType.ButtonSize, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, null, true, true, delegate (bool a)
+        ///            {
+        ///                //Do Something Here
+        ///            }, false, Color.magenta, Color.white);
+        ///         </code>
+        ///     </example>
+        /// </summary>
+        /// <param name="ButtonType">
+        /// The Type Of Text You Wish To Create.
+        /// </param>
+        /// <param name="SizeType">
+        /// The Size Type OF The Text.
+        /// </param>
+        /// <param name="Text">
+        /// The Main Text In The Text.
+        /// </param>
+        /// <param name="ToolTip">
+        /// The Text That Appears At The Top Of The Menu When You Hover Over The Text.
+        /// </param>
+        /// <param name="X">
+        /// The Horizontal Position Of The Text.
+        /// </param>
+        /// <param name="Y">
+        /// The Vertical Position Of The Text.
+        /// </param>
+        /// <param name="Parent">
+        /// The Transform Of The GameObject You Wish To Put Your Text In (You Can Set This As Just "null" For The Main ShortcutMenu).
+        /// </param>
+        /// <param name="Clickable">
+        /// Whether The Text Should Be Clickable Or Just Plain Text.
+        /// </param>
+        /// <param name="TextListener">
+        /// What You Want The Text To Do When You Click It - Must Be delegate(bool nameofboolhere) {  }.
+        /// </param>
+        /// <param name="OffColour">
+        /// The Colour You Want The Main Text Of The Text You Defined Earlier To Change Into If This Text Is Toggled Off.
+        /// </param>
+        /// <param name="OnColour">
+        /// The Colour You Want The Main Text Of The Text You Defined Earlier To Change Into If This Text Is Toggled On.
+        /// </param>
+        /// <param name="CurrentToggleState">
+        /// The Toggle State You Want The Text To Be On Creation.
+        /// </param>
+        /// <param name="ChangeColourOnClick">
+        /// Only Set This To False If You Are Setting The Text's Text Colour In The TextListener - Or The Toggling Will Break!
+        /// </param>
+        internal static PlagueButton CreateText(ButtonType ButtonType, SizeType SizeType, string Text, string ToolTip, float X,
+            float Y, Transform Parent, bool Clickable, bool ChangeColourOnClick, Action<bool> TextListener, bool CurrentToggleState, Color OnColour, Color OffColour)
+        {
+            PlagueButton button = CreateButton(ButtonType, Text, ToolTip, (float)X, (float)Y, Parent, TextListener, OffColour, OnColour, null, false, false, false, CurrentToggleState, null, true);
+
+            UnityEngine.Object.Destroy(button.image);
+
+            if (SizeType == SizeType.QuickMenuSize)
+            {
+                button.rect.sizeDelta += new Vector2(5000f, 0f);
+            }
+
+            if (!Clickable)
+            {
+                UnityEngine.Object.Destroy(button.button);
+            }
+
+            button.text.alignment = TextAnchor.MiddleCenter;
+
+            return button;
+        }
+
+        /// <summary>
+        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        ///     <para>
+        ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
+        ///     </para>
+        ///
+        ///     <example>
+        ///     Here Is An Example Of How To Use This:
+        ///         <code>
         ///         ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos,      ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
         ///            {
         ///                //Do Something Here
@@ -589,6 +730,8 @@ namespace PlagueButtonAPI
                 transform.GetComponent<RectTransform>().sizeDelta = new Vector2(
                     transform.GetComponent<RectTransform>().sizeDelta.x / 2f,
                     transform.GetComponent<RectTransform>().sizeDelta.y);
+
+                transform.localPosition -= new Vector3(transform.GetComponent<RectTransform>().sizeDelta.x / 2f, 0f, 0f);
             }
 
             if (SpriteForButton != null)
@@ -655,7 +798,7 @@ namespace PlagueButtonAPI
         /// <param name="name">
         /// The Name You Want To Give The Page/Find Internally.
         /// </param>
-        internal static GameObject MakeEmptyPage(string name)
+        internal static GameObject MakeEmptyPage(string name, string OptionalTitleText = "", string OptionalTitleTextTooltip = "", Color? OptionalTitleTextOnColour = null, Color? OptionalTitleTextOffColour = null, Action<bool> OptionalTitleTextOnClick = null)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             {
@@ -705,6 +848,12 @@ namespace PlagueButtonAPI
 
             //Add It To The Handler
             SubMenus.Add(transform.gameObject);
+
+            //Title Text
+            if (!string.IsNullOrEmpty(OptionalTitleText))
+            {
+                CreateText(ButtonType.Toggle, ButtonAPI.SizeType.QuickMenuSize, OptionalTitleText, OptionalTitleTextTooltip, (float)ButtonAPI.HorizontalPosition.SecondButtonPos + 0.5f, (float)ButtonAPI.VerticalPosition.AboveMenu - 0.5f, transform, (OptionalTitleTextOnClick != null), false, OptionalTitleTextOnClick, false, OptionalTitleTextOnColour ?? (OptionalTitleTextOffColour ?? Color.white), OptionalTitleTextOffColour ?? (OptionalTitleTextOnColour ?? Color.white));
+            }
 
             //Return The GameObject For Handling It Elsewhere
             return transform.gameObject;
@@ -845,6 +994,15 @@ namespace PlagueButtonAPI
         {
             Default,
             Toggle
+        }
+
+        /// <summary>
+        /// The Type Of Text Label You Want To Make
+        /// </summary>
+        internal enum SizeType
+        {
+            ButtonSize,
+            QuickMenuSize
         }
 
         #endregion Internal Enumerations
