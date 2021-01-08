@@ -2,6 +2,7 @@ using MelonLoader;
 using System;
 using System.Globalization;
 using System.Reflection;
+using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.UI;
@@ -102,8 +103,6 @@ namespace PlagueButtonAPI
         #endregion
 
         #region internal Variables
-
-        private static bool HasRegisteredTypes = false;
 
         internal static Transform ShortcutMenuTransform =>
             GameObject.Find("/UserInterface/QuickMenu/ShortcutMenu").transform;
@@ -256,11 +255,9 @@ namespace PlagueButtonAPI
                 Parent = CustomTransform;
             }
 
-            if (!HasRegisteredTypes)
+            if (Il2CppClassPointerStore<FreezeControls>.NativeClassPtr == IntPtr.Zero)
             {
-                ClassInjector.RegisterTypeInIl2Cpp<SliderFreezeControls>();
-
-                HasRegisteredTypes = true;
+                ClassInjector.RegisterTypeInIl2Cpp<FreezeControls>();
             }
 
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
@@ -278,7 +275,7 @@ namespace PlagueButtonAPI
             inputfield.transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + "InputField_" + (float)Y + "_" + Parent.name.Replace(" ", "_");
             inputfield.transform.transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + "InputField_" + (float)Y + "_" + Parent.name.Replace(" ", "_");
 
-            SliderFreezeControls SliderFreezer = inputfield.gameObject.AddComponent<SliderFreezeControls>();
+            FreezeControls SliderFreezer = inputfield.gameObject.AddComponent<FreezeControls>();
 
             if (OnEnterKeyPressed != null)
             {
@@ -473,7 +470,7 @@ namespace PlagueButtonAPI
             VerticalPosition Y, Transform Parent, bool Clickable, bool ChangeColourOnClick, Action<bool> TextListener, bool CurrentToggleState, Color OnColour, Color OffColour)
         {
             PlagueButton button = CreateText(ButtonType, SizeType, Text, ToolTip, (float)X,
-             (float)Y,  Parent,  Clickable,  ChangeColourOnClick, TextListener, CurrentToggleState,  OnColour,  OffColour);
+             (float)Y, Parent, Clickable, ChangeColourOnClick, TextListener, CurrentToggleState, OnColour, OffColour);
 
             return button;
         }
@@ -536,7 +533,7 @@ namespace PlagueButtonAPI
         internal static PlagueButton CreateText(ButtonType ButtonType, SizeType SizeType, string Text, string ToolTip, float X,
             float Y, Transform Parent, bool Clickable, bool ChangeColourOnClick, Action<bool> TextListener, bool CurrentToggleState, Color OnColour, Color OffColour)
         {
-            PlagueButton button = CreateButton(ButtonType, Text, ToolTip, (float)X, (float)Y, Parent, TextListener, OffColour, OnColour, null, false, false, false, CurrentToggleState, null, true);
+            PlagueButton button = CreateButton(ButtonType, Text, ToolTip, X, Y, Parent, TextListener, OffColour, OnColour, null, false, false, false, CurrentToggleState, null, true);
 
             UnityEngine.Object.Destroy(button.image);
 
@@ -654,8 +651,8 @@ namespace PlagueButtonAPI
             var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
 
             //Change Internal Names & Sanitize Them
-            transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_") + "_Button_" + (float)X + "_" + (float)Y + "_" + Parent.name);
-            transform.transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_Button_") + "_" + (float)X + "_" + (float)Y + "_" + Parent.name);
+            transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_") + "_Button_" + X + "_" + Y + "_" + Parent.name);
+            transform.transform.name = "PlagueButtonAPI_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + Text.Replace(" ", "_".Replace(",", "_").Replace(":", "_Button_") + "_" + X + "_" + Y + "_" + Parent.name);
 
             //Define Position To Place This Button In The Parent, Appended To Later
             if (BottomHalf || FullSizeButton)
@@ -1219,9 +1216,9 @@ namespace PlagueButtonAPI
 
     #region Components
 
-    internal class SliderFreezeControls : MonoBehaviour
+    internal class FreezeControls : MonoBehaviour
     {
-        public SliderFreezeControls(IntPtr instance) : base(instance) { }
+        public FreezeControls(IntPtr instance) : base(instance) { }
 
         internal Action OnExit;
         internal Action OnEnterKeyPressed;
@@ -1234,6 +1231,8 @@ namespace PlagueButtonAPI
         void OnDisable()
         {
             VRCInputManager.Method_Public_Static_Void_Boolean_0(false);
+
+            OnExit?.Invoke();
         }
 
         void Update()
@@ -1242,8 +1241,6 @@ namespace PlagueButtonAPI
             {
                 VRCInputManager.Method_Public_Static_Void_Boolean_0(false);
                 VRCUiManager.prop_VRCUiManager_0.Method_Public_Virtual_New_Void_0();
-
-                OnExit?.Invoke();
             }
             else if (Input.GetKeyDown(KeyCode.Return))
             {
