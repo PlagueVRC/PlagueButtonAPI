@@ -1211,6 +1211,202 @@ namespace PlagueButtonAPI
 
             return null;
         }
+
+        /// <summary>
+        /// Destroys The Button
+        /// </summary>
+        /// <param name="button">
+        /// The PlagueButton Of The Button You Want To Destroy
+        /// </param>
+        /// <returns>
+        /// A Bool Indicating If Destroying Was Successful, Or The Button Didn't Exist
+        /// </returns>
+        internal static bool Destroy(this ButtonAPI.PlagueButton button)
+        {
+            if (ButtonAPI.ButtonsFromThisMod.Contains(button))
+            {
+                ButtonAPI.ButtonsFromThisMod.Remove(button);
+            }
+
+            if (button.gameObject != null)
+            {
+                UnityEngine.Object.Destroy(button.gameObject);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Retrieves A Component On This Button's GameObject, If It Is Not Found In The Root, It Will Check In Children.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The Component To Retrieve
+        /// </typeparam>
+        /// <param name="button">
+        /// The PlagueButton Of The Button
+        /// </param>
+        /// <returns>
+        /// Tuple - The Bool Being If It Was Found In Root, False Otherwise
+        /// </returns>
+        internal static Tuple<bool, T> GetComponent<T>(this ButtonAPI.PlagueButton button)
+        {
+            bool InRoot = false;
+
+            T ReturnableType = button.gameObject.GetComponent<T>();
+
+            if (ReturnableType == null)
+            {
+                ReturnableType = button.gameObject.GetComponentInChildren<T>();
+            }
+            else
+            {
+                InRoot = true;
+            }
+
+            return Tuple.Create(InRoot, ReturnableType);
+        }
+
+        /// <summary>
+        /// Adds A Component To The Root Of The Button's GameObject.
+        /// </summary>
+        /// <typeparam name="T">
+        /// Your Type Which Will Be The Component
+        /// </typeparam>
+        /// <param name="button">
+        /// The PlagueButton Of The Button
+        /// </param>
+        /// <returns>
+        /// The Component Added, Or Null If It Failed
+        /// </returns>
+        internal static Component AddComponent<T>(this ButtonAPI.PlagueButton button) where T : Component
+        {
+            try
+            {
+                return button.gameObject?.AddComponent<T>();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets If The Button Is Currently Active
+        /// </summary>
+        /// <param name="button">
+        ///The PlagueButton Of The Button
+        /// </param>
+        /// <returns>
+        /// A Boolean Indicating Active State
+        /// </returns>
+        internal static bool IsActive(this ButtonAPI.PlagueButton button)
+        {
+            return button.gameObject.active;
+        }
+
+        /// <summary>
+        /// Sets The Button's Active State, This Only Sets The Button's Main GameObject State, Not Its Children.
+        /// </summary>
+        /// <param name="button">
+        ///The PlagueButton Of The Button
+        /// </param>
+        /// <param name="state">
+        /// The State You Want To Set It To
+        /// </param>
+        internal static void SetActive(this ButtonAPI.PlagueButton button, bool state)
+        {
+            button.gameObject?.SetActive(state);
+        }
+
+        /// <summary>
+        /// Sets The Button & Its Children's Active States
+        /// </summary>
+        /// <param name="button">
+        /// The PlagueButton Of The Button
+        /// </param>
+        /// <param name="state">
+        /// The State You Want To Set It To
+        /// </param>
+        internal static void SetActiveRecursively(this ButtonAPI.PlagueButton button, bool state)
+        {
+            button.gameObject?.SetActiveRecursively(state);
+        }
+
+        /// <summary>
+        /// VRChat's Layers
+        /// </summary>
+        internal enum VRCLayer
+        {
+            Default,
+            TransparentFX,
+            IgnoreRaycast,
+            Empty1,
+            Water,
+            UI,
+            Empty2,
+            Empty3,
+            Interactive,
+            Player,
+            PlayerLocal,
+            Enviroment,
+            UiMenu,
+            Pickup,
+            PickupNoEnviroment,
+            StereoLeft,
+            StereoRight,
+            Walkthrough,
+            MirrorReflection,
+            reserved2,
+            reserved3,
+            reserved4,
+            PostProcessing,
+            Empty4,
+            Empty5,
+            Empty6,
+            Empty7,
+            Empty8,
+            Empty9,
+            Empty10,
+            Empty11,
+            Empty12
+        }
+
+        /// <summary>
+        /// Sets The Layer(s) Of The Button
+        /// </summary>
+        /// <param name="button">
+        /// The PlagueButton Of The Button
+        /// </param>
+        /// <param name="layers">
+        /// The Array Of VRCLayer(s) You Decide, Made With new VRCLayer[] { VRCLayer.LayerHere }
+        /// </param>
+        internal static void SetLayers(this ButtonAPI.PlagueButton button, VRCLayer[] layers)
+        {
+            int FinalLayer = 0;
+
+            for (int i = 0; i < layers.Length; i++)
+            {
+                if (FinalLayer == 0)
+                {
+                    FinalLayer = (1 << (int)layers[i]);
+                }
+                else
+                {
+                    FinalLayer = (FinalLayer | (1 << (int)layers[i]));
+                }
+            }
+
+            button.gameObject.layer = FinalLayer;
+
+            foreach (Transform trans in button.gameObject.GetComponentsInChildren<Transform>(true))
+            {
+                if (trans != null && trans.gameObject != null)
+                {
+                    trans.gameObject.layer = FinalLayer;
+                }
+            }
+        }
     }
     #endregion
 
