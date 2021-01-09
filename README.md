@@ -11,6 +11,8 @@ A: A Button API Is A Set Of Pre Coded Methods To Create Buttons, In This Case; I
 
 [Discord Server For ButtonAPI](http://Krewella.co.uk/ButtonAPI)
 
+[Basic Documentation](https://github.com/OFWModz/PlagueButtonAPI/wiki)
+
 Use-Only Licensed. See "[LICENSE](https://github.com/OFWModz/PlagueButtonAPI/blob/master/LICENSE)" File For Details.
 
 # NOTE
