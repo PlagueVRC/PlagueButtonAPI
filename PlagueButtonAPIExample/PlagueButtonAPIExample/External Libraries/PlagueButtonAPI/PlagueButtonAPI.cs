@@ -1,5 +1,6 @@
 using MelonLoader;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using UnhollowerBaseLib;
@@ -1406,6 +1407,30 @@ namespace PlagueButtonAPI
                     trans.gameObject.layer = FinalLayer;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets The Layer(s) This Button Is On
+        /// </summary>
+        /// <param name="button">
+        /// The PlagueButton Of The Button
+        /// </param>
+        /// <returns>
+        /// Integer[] Representing The Layer's Original Layer Numbers.
+        /// </returns>
+        internal static int[] GetLayers(this ButtonAPI.PlagueButton button)
+        {
+            List<int> LayersFound = new List<int>();
+
+            for (int i = 0; i < Enum.GetValues(typeof(VRCLayer)).Length; i++)
+            {
+                if ((button.gameObject.layer | 1 << i) > 0)
+                {
+                    LayersFound.Add(i);
+                }
+            }
+
+            return LayersFound.ToArray();
         }
     }
     #endregion
