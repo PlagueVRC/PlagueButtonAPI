@@ -1066,7 +1066,7 @@ namespace PlagueButtonAPI
         /// </param>
         internal static void SetToggleState(this ButtonAPI.PlagueButton button, bool StateToSetTo)
         {
-            if (button.text != null && button.OnColour != null && button.OffColour != null)
+            if (button.text != null)
             {
                 button.text.color = button.text.color == button.OnColour ? button.OffColour : button.OnColour;
             }
@@ -1303,6 +1303,11 @@ namespace PlagueButtonAPI
         /// </returns>
         internal static bool IsActive(this ButtonAPI.PlagueButton button)
         {
+            if (button.gameObject == null)
+            {
+                return false;
+            }
+
             return button.gameObject.active;
         }
 
@@ -1384,6 +1389,11 @@ namespace PlagueButtonAPI
         /// </param>
         internal static void SetLayers(this ButtonAPI.PlagueButton button, VRCLayer[] layers)
         {
+            if (button.gameObject == null)
+            {
+                return;
+            }
+
             int FinalLayer = 0;
 
             for (int i = 0; i < layers.Length; i++)
@@ -1431,6 +1441,39 @@ namespace PlagueButtonAPI
             }
 
             return LayersFound.ToArray();
+        }
+
+        /// <summary>
+        /// Sets The Button's Tag
+        /// </summary>
+        /// <param name="button">
+        /// The PlagueButton Of The Button
+        /// </param>
+        /// <param name="tag">
+        /// The String Of The Tag You Want To Set.
+        /// </param>
+        internal static void SetTag(this ButtonAPI.PlagueButton button, string tag)
+        {
+            if (button.gameObject != null)
+            {
+                button.gameObject.tag = tag;
+            }
+        }
+
+        /// <summary>
+        /// Gets The Button's Tag
+        /// </summary>
+        /// <param name="button">
+        /// The PlagueButton Of The Button
+        /// </param>
+        internal static string GetTag(this ButtonAPI.PlagueButton button)
+        {
+            if (button.gameObject != null)
+            {
+                return button.gameObject.tag;
+            }
+
+            return "";
         }
     }
     #endregion
