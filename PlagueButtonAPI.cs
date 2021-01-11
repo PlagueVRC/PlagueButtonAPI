@@ -33,7 +33,7 @@ namespace PlagueButtonAPI
         internal class PlagueButton
         {
             #region Constructor
-            public PlagueButton(GameObject gameObject, Button button, Text text, UiTooltip tooltip, Image image, RectTransform rect, Color OffColour, Color OnColour, Color? BorderColour, bool ToggleState, float xPos, float yPos)
+            public PlagueButton(GameObject gameObject = null, Button button = null, Text text = null, UiTooltip tooltip = null, Image image = null, RectTransform rect = null, Color? OffColour = null, Color? OnColour = null, Color? BorderColour = null, bool ToggleState = false, float xPos = 0f, float yPos = 0f)
             {
                 if (gameObject != null)
                 {
@@ -65,8 +65,16 @@ namespace PlagueButtonAPI
                     this.rect = rect;
                 }
 
-                this.OffColour = OffColour;
-                this.OnColour = OnColour;
+                if (OffColour != null)
+                {
+                    this.OffColour = (Color)OffColour;
+                }
+
+                if (OnColour != null)
+                {
+                    this.OnColour = (Color)OnColour;
+                }
+
                 this.BorderColour = BorderColour;
                 this.ToggleState = ToggleState;
                 this.xPos = xPos;
