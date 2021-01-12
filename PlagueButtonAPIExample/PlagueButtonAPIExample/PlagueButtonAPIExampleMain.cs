@@ -83,7 +83,7 @@ namespace PlagueButtonAPIExample
                 {
                     Functions.TogglePortals(true);
                 }
-            }, Color.white, Color.magenta, null, false, false, false, DisablePortals, null, true);
+            }, Color.white, Color.magenta, null, false, false, false, DisablePortals, null, true, KeyCode.LeftControl, KeyCode.P);
 
             //Test Checkbox
             ButtonAPI.PlagueButton CheckBox = null;

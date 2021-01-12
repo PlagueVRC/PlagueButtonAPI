@@ -28,7 +28,7 @@ namespace PlagueButtonAPI
 #pragma warning restore 414
         #endregion Creditation And Disclaimer
 
-        #region Button Class Type
+        #region PlagueButton Class
 
         internal class PlagueButton
         {
@@ -336,92 +336,10 @@ namespace PlagueButtonAPI
 
         #endregion
 
-        #region Button Creation
+        #region Text Creation
 
         /// <summary>
-        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
-        ///     <para>
-        ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
-        ///     </para>
-        ///
-        ///     <example>
-        ///     Here Is An Example Of How To Use This:
-        ///         <code>
-        ///         ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos,      ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
-        ///            {
-        ///                //Do Something Here
-        ///            }, Color.white, Color.magenta, null, false, false, true);
-        ///         </code>
-        ///     </example>
-        /// </summary>
-        /// <param name="ButtonType">
-        /// The Type Of Button You Wish To Create.
-        /// </param>
-        /// <param name="Text">
-        /// The Main Text In The Button
-        /// </param>
-        /// <param name="ToolTip">
-        /// The Text That Appears At The Top Of The Menu When You Hover Over The Button.
-        /// </param>
-        /// <param name="X">
-        /// The Horizontal Position Of The Button.
-        /// </param>
-        /// <param name="Y">
-        /// The Vertical Position Of The Button.
-        /// </param>
-        /// <param name="Parent">
-        /// The Transform Of The GameObject You Wish To Put Your Button In (You Can Set This As Just "null" For The Main ShortcutMenu).
-        /// </param>
-        /// <param name="ButtonListener">
-        /// What You Want The Button To Do When You Click It - Must Be delegate(bool nameofboolhere) {  }.
-        /// </param>
-        /// <param name="ToggledOffTextColour">
-        /// The Colour You Want The Main Text Of The Button You Defined Earlier To Change Into If This Button Is Toggled Off.
-        /// </param>
-        /// <param name="ToggledOnTextColour">
-        /// The Colour You Want The Main Text Of The Button You Defined Earlier To Change Into If This Button Is Toggled On.
-        /// </param>
-        /// <param name="BorderColour">
-        /// The Colour You Want The Border Of The Button To Be (You Can Set This As Just "null" For The Default Colour That The ShortcutMenu Currently Is!).
-        /// </param>
-        /// <param name="FullSizeButton">
-        /// If You Want This Button To Be A Full Size Normal Button, Or Half Sized (False) - Default Is Half Sized.
-        /// </param>
-        /// <param name="BottomHalf">
-        /// If You Want This Button To Be On The Bottom Half Of The VericalPosition You Chose Or The Top - Default Is Bottom Half.
-        /// </param>
-        /// <param name="HalfHorizontally">
-        /// If You Want This Button To Have It's Size Cut In Half Horizontally.
-        /// </param>
-        /// <param name="CurrentToggleState">
-        /// The Toggle State You Want The Button To Be On Creation.
-        /// </param>
-        /// <param name="SpriteForButton">
-        /// The Image Sprite You Want To Apply To The Button.
-        /// </param>
-        /// <param name="ChangeColourOnClick">
-        /// Only Set This To False If You Are Setting The Button's Text Colour In The ButtonListener - Or The Toggling Will Break!
-        /// </param>
-        internal static PlagueButton CreateButton(ButtonType ButtonType, string Text, string ToolTip, HorizontalPosition X,
-            VerticalPosition Y, Transform Parent, Action<bool> ButtonListener, Color ToggledOffTextColour,
-            Color ToggledOnTextColour, Color? BorderColour, bool FullSizeButton = false, bool BottomHalf = true,
-            bool HalfHorizontally = false, bool CurrentToggleState = false, Sprite SpriteForButton = null,
-            bool ChangeColourOnClick = true)
-        {
-            //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
-            if (Parent == null)
-            {
-                Parent = CustomTransform;
-            }
-
-            PlagueButton button = CreateButton(ButtonType, Text, ToolTip, (float)X, (float)Y, Parent, ButtonListener, ToggledOffTextColour, ToggledOnTextColour, BorderColour, FullSizeButton, BottomHalf, HalfHorizontally, CurrentToggleState, SpriteForButton, ChangeColourOnClick);
-
-            //Return The GameObject For Handling It Elsewhere
-            return button;
-        }
-
-        /// <summary>
-        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Creates Text With A Lot Of Customization And Returns The PlagueButton Of The Text Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         ///     <para>
         ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
         ///     </para>
@@ -485,7 +403,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Creates Text With A Lot Of Customization And Returns The PlagueButton Of The Text Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         ///     <para>
         ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
         ///     </para>
@@ -561,6 +479,10 @@ namespace PlagueButtonAPI
             return button;
         }
 
+        #endregion
+
+        #region Button Creation
+
         /// <summary>
         /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         ///     <para>
@@ -625,10 +547,104 @@ namespace PlagueButtonAPI
         /// <param name="ChangeColourOnClick">
         /// Only Set This To False If You Are Setting The Button's Text Colour In The ButtonListener - Or The Toggling Will Break!
         /// </param>
+        /// <param name="ConditionalOrSinglePressKeyBind">
+        /// A KeyCode Of A Conditional Such As Ctrl Or A Single Press KeyBind
+        /// </param>
+        /// <param name="OptionalKeyBind">
+        /// Optional KeyCode Of The KeyBind To Be Pressed With The Conditional Just Before
+        /// </param>
+        internal static PlagueButton CreateButton(ButtonType ButtonType, string Text, string ToolTip, HorizontalPosition X,
+            VerticalPosition Y, Transform Parent, Action<bool> ButtonListener, Color ToggledOffTextColour,
+            Color ToggledOnTextColour, Color? BorderColour, bool FullSizeButton = false, bool BottomHalf = true,
+            bool HalfHorizontally = false, bool CurrentToggleState = false, Sprite SpriteForButton = null,
+            bool ChangeColourOnClick = true, KeyCode? ConditionalOrSinglePressKeyBind = null, KeyCode? OptionalKeyBind = null)
+        {
+            //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
+            if (Parent == null)
+            {
+                Parent = CustomTransform;
+            }
+
+            PlagueButton button = CreateButton(ButtonType, Text, ToolTip, (float)X, (float)Y, Parent, ButtonListener, ToggledOffTextColour, ToggledOnTextColour, BorderColour, FullSizeButton, BottomHalf, HalfHorizontally, CurrentToggleState, SpriteForButton, ChangeColourOnClick, ConditionalOrSinglePressKeyBind, OptionalKeyBind);
+
+            //Return The GameObject For Handling It Elsewhere
+            return button;
+        }
+
+        /// <summary>
+        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        ///     <para>
+        ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
+        ///     </para>
+        ///
+        ///     <example>
+        ///     Here Is An Example Of How To Use This:
+        ///         <code>
+        ///         ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Toggle Pickups", "Toggles All Pickups In The Current Instance.", ButtonAPI.HorizontalPosition.FirstButtonPos,      ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
+        ///            {
+        ///                //Do Something Here
+        ///            }, Color.white, Color.magenta, null, false, false, true);
+        ///         </code>
+        ///     </example>
+        /// </summary>
+        /// <param name="ButtonType">
+        /// The Type Of Button You Wish To Create.
+        /// </param>
+        /// <param name="Text">
+        /// The Main Text In The Button
+        /// </param>
+        /// <param name="ToolTip">
+        /// The Text That Appears At The Top Of The Menu When You Hover Over The Button.
+        /// </param>
+        /// <param name="X">
+        /// The Horizontal Position Of The Button.
+        /// </param>
+        /// <param name="Y">
+        /// The Vertical Position Of The Button.
+        /// </param>
+        /// <param name="Parent">
+        /// The Transform Of The GameObject You Wish To Put Your Button In (You Can Set This As Just "null" For The Main ShortcutMenu).
+        /// </param>
+        /// <param name="ButtonListener">
+        /// What You Want The Button To Do When You Click It - Must Be delegate(bool nameofboolhere) {  }.
+        /// </param>
+        /// <param name="ToggledOffTextColour">
+        /// The Colour You Want The Main Text Of The Button You Defined Earlier To Change Into If This Button Is Toggled Off.
+        /// </param>
+        /// <param name="ToggledOnTextColour">
+        /// The Colour You Want The Main Text Of The Button You Defined Earlier To Change Into If This Button Is Toggled On.
+        /// </param>
+        /// <param name="BorderColour">
+        /// The Colour You Want The Border Of The Button To Be (You Can Set This As Just "null" For The Default Colour That The ShortcutMenu Currently Is!).
+        /// </param>
+        /// <param name="FullSizeButton">
+        /// If You Want This Button To Be A Full Size Normal Button, Or Half Sized (False) - Default Is Half Sized.
+        /// </param>
+        /// <param name="BottomHalf">
+        /// If You Want This Button To Be On The Bottom Half Of The VericalPosition You Chose Or The Top - Default Is Bottom Half.
+        /// </param>
+        /// <param name="HalfHorizontally">
+        /// If You Want This Button To Have It's Size Cut In Half Horizontally.
+        /// </param>
+        /// <param name="CurrentToggleState">
+        /// The Toggle State You Want The Button To Be On Creation.
+        /// </param>
+        /// <param name="SpriteForButton">
+        /// The Image Sprite You Want To Apply To The Button.
+        /// </param>
+        /// <param name="ChangeColourOnClick">
+        /// Only Set This To False If You Are Setting The Button's Text Colour In The ButtonListener - Or The Toggling Will Break!
+        /// </param>
+        /// <param name="ConditionalOrSinglePressKeyBind">
+        /// A KeyCode Of A Conditional Such As Ctrl Or A Single Press KeyBind
+        /// </param>
+        /// <param name="OptionalKeyBind">
+        /// Optional KeyCode Of The KeyBind To Be Pressed With The Conditional Just Before
+        /// </param>
         internal static PlagueButton CreateButton(ButtonType ButtonType, string Text, string ToolTip, float X, float Y,
             Transform Parent, Action<bool> ButtonListener, Color ToggledOffTextColour, Color ToggledOnTextColour,
             Color? BorderColour, bool FullSizeButton = false, bool BottomHalf = true, bool HalfHorizontally = false,
-            bool CurrentToggleState = false, Sprite SpriteForButton = null, bool ChangeColourOnClick = true)
+            bool CurrentToggleState = false, Sprite SpriteForButton = null, bool ChangeColourOnClick = true, KeyCode? ConditionalOrSinglePressKeyBind = null, KeyCode? OptionalKeyBind = null)
         {
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
             if (Parent == null)
@@ -789,6 +805,11 @@ namespace PlagueButtonAPI
 
             //Define Where To Put This Button
             transform.SetParent(Parent, worldPositionStays: true);
+
+            if (ConditionalOrSinglePressKeyBind != null)
+            {
+                RegisteredKeyBinds.Add(plagueButton.button, Tuple.Create((KeyCode)ConditionalOrSinglePressKeyBind, OptionalKeyBind));
+            }
 
             //Return The GameObject For Handling It Elsewhere
             return plagueButton;
@@ -1018,6 +1039,8 @@ namespace PlagueButtonAPI
         //Any Created Sub Menus By The User Are Stored Here
         internal static System.Collections.Generic.List<GameObject> SubMenus = new System.Collections.Generic.List<GameObject>();
 
+        private static Dictionary<Button, Tuple<KeyCode, KeyCode?>> RegisteredKeyBinds = new Dictionary<Button, Tuple<KeyCode, KeyCode?>>();
+
         private static float HandlerRoutineDelay = 0f;
 
         internal static void SubMenuHandler()
@@ -1051,6 +1074,27 @@ namespace PlagueButtonAPI
                             }
 
                             break;
+                        }
+                    }
+                }
+            }
+
+            if (RegisteredKeyBinds.Count > 0)
+            {
+                foreach (KeyValuePair<Button, Tuple<KeyCode, KeyCode?>> ButtonAndBinds in RegisteredKeyBinds)
+                {
+                    if (ButtonAndBinds.Value.Item2 != null)
+                    {
+                        if (Input.GetKey(ButtonAndBinds.Value.Item1) && Input.GetKeyDown((KeyCode)ButtonAndBinds.Value.Item2))
+                        {
+                            ButtonAndBinds.Key?.onClick?.Invoke();
+                        }
+                    }
+                    else
+                    {
+                        if (Input.GetKeyDown(ButtonAndBinds.Value.Item1))
+                        {
+                            ButtonAndBinds.Key?.onClick?.Invoke();
                         }
                     }
                 }
@@ -1486,7 +1530,7 @@ namespace PlagueButtonAPI
     }
     #endregion
 
-    #region Components
+    #region Custom Components
 
     internal class FreezeControls : MonoBehaviour
     {
