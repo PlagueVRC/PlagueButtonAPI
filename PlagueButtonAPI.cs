@@ -767,13 +767,20 @@ namespace PlagueButtonAPI
             //Listener Redirection - To Get Around AddListener Not Passing A State Bool Due To Being A onClick Event
             transform.GetComponent<Button>().onClick.AddListener(new Action(() =>
             {
-                if (ButtonType == ButtonType.Toggle)
+                try
                 {
-                    ButtonListener?.Invoke(transform.GetComponentInChildren<Text>().color != ToggledOnTextColour);
+                    if (ButtonType == ButtonType.Toggle)
+                    {
+                        ButtonListener?.Invoke(transform.GetComponentInChildren<Text>().color != ToggledOnTextColour);
+                    }
+                    else
+                    {
+                        ButtonListener?.Invoke(true);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ButtonListener?.Invoke(true);
+                    MelonLogger.LogError("An Exception Occured In The OnClick Of The " + Text + (ButtonType == ButtonType.Toggle ? " Toggle" : " Button") + " -->\n" + ex);
                 }
             }));
 
