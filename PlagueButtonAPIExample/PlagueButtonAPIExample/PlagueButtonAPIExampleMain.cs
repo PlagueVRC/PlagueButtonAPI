@@ -36,6 +36,18 @@ namespace PlagueButtonAPIExample
             Tuple<string, string, Color?, Color?, Action<bool>> SubMenu2Data = Tuple.Create<string, string, Color?, Color?, Action<bool>>("Sub Menu 2", "The Second SubMenu", Color.magenta,
                 null, delegate(bool a) { Process.Start("http://Krewella.co.uk/ButtonAPI"); });
 
+            //Make Button To Enter SubMenu_1
+            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, LoadedImage != null ? "" : "Utils", "Some Random Utils.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
+            {
+                ButtonAPI.EnterSubMenu(ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5));
+            }, Color.white, Color.magenta, null, true, false, false, false, LoadedImage, true);
+
+            //SubMenu_1 Contents
+            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Next Page", "Goes To The Next Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5).transform, delegate (bool a)
+            {
+                ButtonAPI.EnterSubMenu(ButtonAPI.MakeEmptyPage("SubMenu_2", SubMenu2Data.Item1, SubMenu2Data.Item2, SubMenu2Data.Item3, SubMenu2Data.Item4, SubMenu2Data.Item5));
+            }, Color.white, Color.magenta, null, false, false, false, false, null, true);
+
             InputField InputField = null;
 
             InputField = ButtonAPI.CreateInputField("Enter Text Here..", ButtonAPI.VerticalPosition.BelowBottomButton, ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5).transform, delegate (string text)
@@ -62,18 +74,6 @@ namespace PlagueButtonAPIExample
                     }
                 }
             });
-
-            //Make Button To Enter SubMenu_1
-            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, LoadedImage != null ? "" : "Utils", "Some Random Utils.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
-            {
-                ButtonAPI.EnterSubMenu(ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5));
-            }, Color.white, Color.magenta, null, true, false, false, false, LoadedImage, true);
-
-            //SubMenu_1 Contents
-            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Next Page", "Goes To The Next Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5).transform, delegate (bool a)
-            {
-                ButtonAPI.EnterSubMenu(ButtonAPI.MakeEmptyPage("SubMenu_2", SubMenu2Data.Item1, SubMenu2Data.Item2, SubMenu2Data.Item3, SubMenu2Data.Item4, SubMenu2Data.Item5));
-            }, Color.white, Color.magenta, null, false, false, false, false, null, true);
 
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "Disable Portals", "Disables Portals Entirely - This Stops That Stupid Notorious Menu Disabling Bullshit", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5).transform, delegate (bool a)
             {
