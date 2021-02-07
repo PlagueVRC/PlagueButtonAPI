@@ -22,6 +22,8 @@ namespace PlagueButtonAPIExample
 
         public override void OnApplicationStart()
         {
+
+
             if (File.Exists(Environment.CurrentDirectory + "\\ImageToLoad.png"))
             {
                 LoadedImage = (Environment.CurrentDirectory + "\\ImageToLoad.png").LoadSpriteFromDisk();
@@ -30,23 +32,23 @@ namespace PlagueButtonAPIExample
 
         public override void VRChat_OnUiManagerInit()
         {
-            Tuple<string, string, Color?, Color?, Action<bool>> SubMenu1Data = Tuple.Create<string, string, Color?, Color?, Action<bool>>("Sub Menu 1", "The First SubMenu", Color.magenta, null,
+            Tuple<string, string, Color?, Color?, Action<bool>> SubMenu1Data = Tuple.Create<string, string, Color?, Color?, Action<bool>>("Sub Menu 1", "The First SubMenu", UnityEngine.Color.magenta, null,
                 delegate(bool a) { Process.Start("http://Krewella.co.uk/ButtonAPI"); });
 
-            Tuple<string, string, Color?, Color?, Action<bool>> SubMenu2Data = Tuple.Create<string, string, Color?, Color?, Action<bool>>("Sub Menu 2", "The Second SubMenu", Color.magenta,
+            Tuple<string, string, Color?, Color?, Action<bool>> SubMenu2Data = Tuple.Create<string, string, Color?, Color?, Action<bool>>("Sub Menu 2", "The Second SubMenu", UnityEngine.Color.magenta,
                 null, delegate(bool a) { Process.Start("http://Krewella.co.uk/ButtonAPI"); });
 
             //Make Button To Enter SubMenu_1
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, LoadedImage != null ? "" : "Utils", "Some Random Utils.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, null, delegate (bool a)
             {
                 ButtonAPI.EnterSubMenu(ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5));
-            }, Color.white, Color.magenta, null, true, false, false, false, LoadedImage, true);
+            }, UnityEngine.Color.white, UnityEngine.Color.magenta, null, true, false, false, false, LoadedImage, true);
 
             //SubMenu_1 Contents
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Next Page", "Goes To The Next Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5).transform, delegate (bool a)
             {
                 ButtonAPI.EnterSubMenu(ButtonAPI.MakeEmptyPage("SubMenu_2", SubMenu2Data.Item1, SubMenu2Data.Item2, SubMenu2Data.Item3, SubMenu2Data.Item4, SubMenu2Data.Item5));
-            }, Color.white, Color.magenta, null, false, false, false, false, null, true);
+            }, UnityEngine.Color.white, UnityEngine.Color.magenta, null, false, false, false, false, null, true);
 
             InputField InputField = null;
 
@@ -83,7 +85,7 @@ namespace PlagueButtonAPIExample
                 {
                     Functions.TogglePortals(true);
                 }
-            }, Color.white, Color.magenta, null, false, false, false, DisablePortals, null, true, KeyCode.LeftControl, KeyCode.P);
+            }, UnityEngine.Color.white, UnityEngine.Color.magenta, null, false, false, false, DisablePortals, null, true, KeyCode.LeftControl, KeyCode.P);
 
             //Test Checkbox
             ButtonAPI.PlagueButton CheckBox = null;
@@ -91,12 +93,12 @@ namespace PlagueButtonAPIExample
             CheckBox = ButtonAPI.CreateButton(ButtonAPI.ButtonType.Toggle, "X", "A CheckBox, Ez", ButtonAPI.HorizontalPosition.SecondButtonPos, ButtonAPI.VerticalPosition.SecondButton, ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5).transform, delegate (bool a)
             {
                 CheckBox.text.text = (a ? "✓" : "X");
-            }, Color.white, Color.magenta, null, false, false, true, false, null, true);
+            }, UnityEngine.Color.white, UnityEngine.Color.magenta, null, false, false, true, false, null, true);
 
             ButtonAPI.CreateText(ButtonAPI.ButtonType.Toggle, ButtonAPI.SizeType.ButtonSize, "Some Text", "Just Some Text", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.SecondButton, ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5).transform, true, true, delegate (bool a)
             {
                 //Do Something Here
-            }, false, Color.magenta, Color.white);
+            }, false, UnityEngine.Color.magenta, UnityEngine.Color.white);
 
             ButtonAPI.CreateSlider(ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5).transform, delegate (float v)
             {
@@ -107,12 +109,12 @@ namespace PlagueButtonAPIExample
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Prev Page", "Goes To The Previous Page.", ButtonAPI.HorizontalPosition.LeftOfMenu, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_2", SubMenu2Data.Item1, SubMenu2Data.Item2, SubMenu2Data.Item3, SubMenu2Data.Item4, SubMenu2Data.Item5).transform, delegate (bool a)
             {
                 ButtonAPI.EnterSubMenu(ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5));
-            }, Color.white, Color.magenta, null, false, false, false, false, null, true);
+            }, UnityEngine.Color.white, UnityEngine.Color.magenta, null, false, false, false, false, null, true);
 
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Hello World", "Prints Hello World To Console.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_2", SubMenu2Data.Item1, SubMenu2Data.Item2, SubMenu2Data.Item3, SubMenu2Data.Item4, SubMenu2Data.Item5).transform, delegate (bool a)
             {
                 MelonLogger.Log(ConsoleColor.Magenta, "Hello World!");
-            }, Color.white, Color.magenta, null, false, false, false, false, null, true);
+            }, UnityEngine.Color.white, UnityEngine.Color.magenta, null, false, false, false, false, null, true);
         }
 
         internal static float OnUpdateRoutineDelay = 0f;
