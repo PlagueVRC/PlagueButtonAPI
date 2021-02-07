@@ -174,7 +174,7 @@ namespace PlagueButtonAPI
 
             //Slider
             Transform transform = UnityEngine.Object.Instantiate(
-                VRCUiManager.prop_VRCUiManager_0.menuContent.transform.Find("Screens/Settings/AudioDevicePanel/VolumeSlider"), ShortcutMenuTransform);
+                VRCUiManager.prop_VRCUiManager_0.field_Public_GameObject_0.transform.Find("Screens/Settings/AudioDevicePanel/VolumeSlider"), ShortcutMenuTransform);
 
             transform.transform.localScale = new Vector3(1f, 1f, 1f);
             transform.transform.localPosition = gameObject.gameObject.transform.localPosition;
@@ -276,7 +276,7 @@ namespace PlagueButtonAPI
             }
 
             //Get The Transform Of InputField Of The Input Popup - Which We Are Going To Use As Our Template
-            InputField inputfield = UnityEngine.Object.Instantiate(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.inputPopup.GetComponentInChildren<InputField>());
+            InputField inputfield = UnityEngine.Object.Instantiate(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.field_Public_VRCUiPopupInput_0.GetComponentInChildren<InputField>());
 
             var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
 
@@ -713,8 +713,8 @@ namespace PlagueButtonAPI
             //Set Text, Tooltip & Colours
             transform.GetComponentInChildren<Text>().supportRichText = true;
             transform.GetComponentInChildren<Text>().text = Text;
-            transform.GetComponentInChildren<UiTooltip>().text = ToolTip;
-            transform.GetComponentInChildren<UiTooltip>().alternateText = ToolTip;
+            transform.GetComponentInChildren<UiTooltip>().field_Public_String_0 = ToolTip;
+            transform.GetComponentInChildren<UiTooltip>().field_Public_String_1 = ToolTip;
 
             if (CurrentToggleState && ButtonType != ButtonAPI.ButtonType.Default)
             {
@@ -1188,8 +1188,8 @@ namespace PlagueButtonAPI
         {
             if (button.tooltip != null)
             {
-                button.tooltip.text = text;
-                button.tooltip.alternateText = text;
+                button.tooltip.field_Public_String_0 = text;
+                button.tooltip.field_Public_String_1 = text;
             }
         }
 
@@ -1203,7 +1203,7 @@ namespace PlagueButtonAPI
         {
             if (button.tooltip != null)
             {
-                return button.tooltip.text;
+                return button.tooltip.field_Public_String_0;
             }
 
             return "";
@@ -1563,7 +1563,7 @@ namespace PlagueButtonAPI
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 VRCInputManager.Method_Public_Static_Void_Boolean_0(false);
-                VRCUiManager.prop_VRCUiManager_0.Method_Public_Virtual_New_Void_0();
+                VRCUiManager.prop_VRCUiManager_0.Method_Public_Virtual_New_Void_Boolean_0();
             }
             else if (Input.GetKeyDown(KeyCode.Return))
             {
