@@ -16,4 +16,4 @@ A: A Button API Is A Set Of Pre Coded Methods To Create Buttons, In This Case; I
 Use-Only Licensed. See "[LICENSE](https://github.com/OFWModz/PlagueButtonAPI/blob/master/LICENSE)" File For Details.
 
 # NOTE
-You Must Call [ButtonAPI.SubMenuHandler](https://github.com/OFWModz/PlagueButtonAPI/blob/master/PlagueButtonAPI.cs#L859) In Your OnUpdate!
+You Must Call [ButtonAPI.SubMenuHandler](https://github.com/OFWModz/PlagueButtonAPI/blob/master/PlagueButtonAPI.cs#L1053) In Your OnUpdate!
