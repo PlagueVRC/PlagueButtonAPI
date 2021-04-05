@@ -7,13 +7,13 @@ Q: What Is A Button API?
 
 A: A Button API Is A Set Of Pre Coded Methods To Create Buttons, In This Case; In VRChat By Mods Such As Your Own.
 ```
-[Main Discord Server](http://Krewella.co.uk/Discord)
+[Main Discord Server](https://VRCAntiCrash.com/Discord)
 
-[Discord Server For ButtonAPI](http://Krewella.co.uk/ButtonAPI)
+[Discord Server For ButtonAPI](https://VRCAntiCrash.com/ButtonAPI)
 
 [Basic Documentation](https://github.com/OFWModz/PlagueButtonAPI/wiki)
 
 Use-Only Licensed. See "[LICENSE](https://github.com/OFWModz/PlagueButtonAPI/blob/master/LICENSE)" File For Details.
 
 # NOTE
-You Must Call [ButtonAPI.SubMenuHandler](https://github.com/OFWModz/PlagueButtonAPI/blob/master/PlagueButtonAPI.cs#L859) In Your OnUpdate!
+You Must Call [ButtonAPI.SubMenuHandler](https://github.com/OFWModz/PlagueButtonAPI/blob/master/PlagueButtonAPI.cs#L1053) In Your OnUpdate!
