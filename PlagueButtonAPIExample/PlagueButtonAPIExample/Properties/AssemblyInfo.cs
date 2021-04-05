@@ -14,7 +14,7 @@ using MelonLoader;
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: MelonInfo(typeof(PlagueButtonAPIExample.PlagueButtonAPIExampleMain), "PlagueButtonAPIExample", "", "Plague", "")]
+[assembly: MelonInfo(typeof(PlagueButtonAPIExample.PlagueButtonAPIExampleMain), "PlagueButtonAPIExample", "1.0", "Plague", "")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
