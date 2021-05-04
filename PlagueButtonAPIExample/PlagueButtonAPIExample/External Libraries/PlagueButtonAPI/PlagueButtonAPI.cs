@@ -18,7 +18,7 @@ namespace PlagueButtonAPI
 
         private static readonly string Creditation =
         "Plague Button API" +
-        "https://VRCAntiCrash.com/Discord" +
+        "https://VRCAntiCrash.com" +
         "Copyright Reserved" +
         "Use-Only Licensed" +
         "https://github.com/OFWModz/PlagueButtonAPI" +
@@ -113,19 +113,15 @@ namespace PlagueButtonAPI
 
         #region internal Variables
 
-        internal static Transform ShortcutMenuTransform =>
-            GameObject.Find("/UserInterface/QuickMenu/ShortcutMenu").transform;
+        internal static Transform ShortcutMenuTransform = null;
 
-        internal static Transform NewElementsMenuTransform =>
-            GameObject.Find("/UserInterface/QuickMenu/QuickMenu_NewElements").transform;
+        internal static Transform NewElementsMenuTransform = null;
 
-        internal static QuickMenu QuickMenuObj =>
-            ShortcutMenuTransform.parent.GetComponent<QuickMenu>();
+        internal static QuickMenu QuickMenuObj = null;
 
-        internal static Transform UserInteractMenuTransform =>
-            GameObject.Find("/UserInterface/QuickMenu/UserInteractMenu").transform;
+        internal static Transform UserInteractMenuTransform = null;
 
-        internal static Transform CustomTransform = ShortcutMenuTransform;
+        internal static Transform CustomTransform = null;
 
         internal static System.Collections.Generic.List<PlagueButton> ButtonsFromThisMod = new System.Collections.Generic.List<PlagueButton>();
 
@@ -159,6 +155,8 @@ namespace PlagueButtonAPI
         internal static SliderRef CreateSlider(Transform Parent, Action<float> OnChanged, float X, float Y, string Text,
             float InitialValue, float MaxValue, float MinValue)
         {
+            InitTransforms();
+
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
             if (Parent == null)
             {
@@ -258,6 +256,8 @@ namespace PlagueButtonAPI
         /// <returns>UnityEngine.UI.InputField</returns>
         internal static InputField CreateInputField(string PlaceHolderText, VerticalPosition Y, Transform Parent, Action<string> TextChanged, Action OnEnterKeyPressed = null, Action OnCloseMenu = null)
         {
+            InitTransforms();
+
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
             if (Parent == null)
             {
@@ -646,6 +646,8 @@ namespace PlagueButtonAPI
             Color? BorderColour, bool FullSizeButton = false, bool BottomHalf = true, bool HalfHorizontally = false,
             bool CurrentToggleState = false, Sprite SpriteForButton = null, bool ChangeColourOnClick = true, KeyCode? ConditionalOrSinglePressKeyBind = null, KeyCode? OptionalKeyBind = null)
         {
+            InitTransforms();
+
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
             if (Parent == null)
             {
@@ -827,11 +829,47 @@ namespace PlagueButtonAPI
         #region Sub Menu Creation And Handling
 
         /// <summary>
+        /// Initiates The Transform Object References
+        /// </summary>
+        private static void InitTransforms()
+        {
+            if (ButtonAPI.ShortcutMenuTransform == null)
+            {
+                ButtonAPI.ShortcutMenuTransform = GameObject.Find("/UserInterface/QuickMenu/ShortcutMenu").transform;
+
+                ButtonAPI.QuickMenuObj = ButtonAPI.ShortcutMenuTransform.parent.GetComponent<QuickMenu>();
+
+                if (ButtonAPI.CustomTransform == null)
+                {
+                    ButtonAPI.CustomTransform = ButtonAPI.ShortcutMenuTransform;
+                }
+            }
+
+            if (ButtonAPI.NewElementsMenuTransform == null)
+            {
+                ButtonAPI.NewElementsMenuTransform =
+                    GameObject.Find("/UserInterface/QuickMenu/QuickMenu_NewElements").transform;
+            }
+
+            if (ButtonAPI.UserInteractMenuTransform == null)
+            {
+                ButtonAPI.UserInteractMenuTransform =
+                    GameObject.Find("/UserInterface/QuickMenu/UserInteractMenu").transform;
+            }
+        }
+
+        /// <summary>
         /// Creates A Empty Page For Adding Buttons To, If The Page Already Exists, This Will Return It. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="name">
         /// The Name You Want To Give The Page/Find Internally.
         /// </param>
+        /// <param name="OptionalTitleText">Optional Text To Display At The Top Of The Page.</param>
+        /// <param name="OptionalTitleTextTooltip">Optional Text To Display When Hovering Over The Text Defined Just Before This.</param>
+        /// <param name="OptionalTitleTextOnColour">Optional Toggled On Colour Of The Text Defined Previous.</param>
+        /// <param name="OptionalTitleTextOffColour">Optional Toggled Off Colour Of The Text Defined Previous.</param>
+        /// <param name="OptionalTitleTextOnClick">Optional Function To Run On Selecting The Text Defined Previous</param>
+        /// <returns></returns>
         internal static GameObject MakeEmptyPage(string name, string OptionalTitleText = "", string OptionalTitleTextTooltip = "", Color? OptionalTitleTextOnColour = null, Color? OptionalTitleTextOffColour = null, Action<bool> OptionalTitleTextOnClick = null)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
@@ -839,6 +877,8 @@ namespace PlagueButtonAPI
                 MelonLogger.Log("Your Empty Page Name Cannot Be Empty!");
                 return null;
             }
+
+            InitTransforms();
 
             var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
 
@@ -1052,13 +1092,14 @@ namespace PlagueButtonAPI
 
         internal static void SubMenuHandler()
         {
-            if (SubMenus != null && SubMenus.Count > 0 && QuickMenuObj != null && Time.time > HandlerRoutineDelay)
+            if (RoomManager.prop_Boolean_3)
             {
-                HandlerRoutineDelay = Time.time + 0.2f;
-
-                //If User Has Loaded A World
-                if (RoomManager.prop_Boolean_3)
+                if (SubMenus != null && SubMenus.Count > 0 && QuickMenuObj != null && Time.time > HandlerRoutineDelay)
                 {
+                    HandlerRoutineDelay = Time.time + 0.2f;
+
+                    //If User Has Loaded A World
+
                     for (int i = 0; i < SubMenus.Count; i++)
                     {
                         GameObject Menu = SubMenus[i];
