@@ -718,7 +718,7 @@ namespace PlagueButtonAPI
             transform.GetComponentInChildren<UiTooltip>().field_Public_String_0 = ToolTip;
             transform.GetComponentInChildren<UiTooltip>().field_Public_String_1 = ToolTip;
 
-            if (CurrentToggleState && ButtonType != ButtonAPI.ButtonType.Default)
+            if (CurrentToggleState && ButtonType != ButtonType.Default)
             {
                 transform.GetComponentInChildren<Text>().color = ToggledOnTextColour;
             }
@@ -782,7 +782,7 @@ namespace PlagueButtonAPI
                 }
                 catch (Exception ex)
                 {
-                    MelonLogger.LogError("An Exception Occured In The OnClick Of The " + Text + (ButtonType == ButtonType.Toggle ? " Toggle" : " Button") + " -->\n" + ex);
+                    MelonLogger.Error("An Exception Occured In The OnClick Of The " + Text + (ButtonType == ButtonType.Toggle ? " Toggle" : " Button") + " -->\n" + ex);
                 }
             }));
 
@@ -833,27 +833,27 @@ namespace PlagueButtonAPI
         /// </summary>
         private static void InitTransforms()
         {
-            if (ButtonAPI.ShortcutMenuTransform == null)
+            if (ShortcutMenuTransform == null)
             {
-                ButtonAPI.ShortcutMenuTransform = GameObject.Find("/UserInterface/QuickMenu/ShortcutMenu").transform;
+                ShortcutMenuTransform = GameObject.Find("/UserInterface/QuickMenu/ShortcutMenu").transform;
 
-                ButtonAPI.QuickMenuObj = ButtonAPI.ShortcutMenuTransform.parent.GetComponent<QuickMenu>();
+                QuickMenuObj = ShortcutMenuTransform.parent.GetComponent<QuickMenu>();
 
-                if (ButtonAPI.CustomTransform == null)
+                if (CustomTransform == null)
                 {
-                    ButtonAPI.CustomTransform = ButtonAPI.ShortcutMenuTransform;
+                    CustomTransform = ShortcutMenuTransform;
                 }
             }
 
-            if (ButtonAPI.NewElementsMenuTransform == null)
+            if (NewElementsMenuTransform == null)
             {
-                ButtonAPI.NewElementsMenuTransform =
+                NewElementsMenuTransform =
                     GameObject.Find("/UserInterface/QuickMenu/QuickMenu_NewElements").transform;
             }
 
-            if (ButtonAPI.UserInteractMenuTransform == null)
+            if (UserInteractMenuTransform == null)
             {
-                ButtonAPI.UserInteractMenuTransform =
+                UserInteractMenuTransform =
                     GameObject.Find("/UserInterface/QuickMenu/UserInteractMenu").transform;
             }
         }
@@ -874,7 +874,7 @@ namespace PlagueButtonAPI
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             {
-                MelonLogger.Log("Your Empty Page Name Cannot Be Empty!");
+                MelonLogger.Msg("Your Empty Page Name Cannot Be Empty!");
                 return null;
             }
 
@@ -926,7 +926,7 @@ namespace PlagueButtonAPI
             //Title Text
             if (!string.IsNullOrEmpty(OptionalTitleText))
             {
-                CreateText(ButtonType.Toggle, ButtonAPI.SizeType.QuickMenuSize, OptionalTitleText, OptionalTitleTextTooltip, (float)ButtonAPI.HorizontalPosition.SecondButtonPos + 0.5f, (float)ButtonAPI.VerticalPosition.AboveMenu - 0.5f, transform, (OptionalTitleTextOnClick != null), false, OptionalTitleTextOnClick, false, OptionalTitleTextOnColour ?? (OptionalTitleTextOffColour ?? Color.white), OptionalTitleTextOffColour ?? (OptionalTitleTextOnColour ?? Color.white));
+                CreateText(ButtonType.Toggle, SizeType.QuickMenuSize, OptionalTitleText, OptionalTitleTextTooltip, (float)HorizontalPosition.SecondButtonPos + 0.5f, (float)VerticalPosition.AboveMenu - 0.5f, transform, (OptionalTitleTextOnClick != null), false, OptionalTitleTextOnClick, false, OptionalTitleTextOnColour ?? (OptionalTitleTextOffColour ?? Color.white), OptionalTitleTextOffColour ?? (OptionalTitleTextOnColour ?? Color.white));
             }
 
             //Return The GameObject For Handling It Elsewhere
@@ -944,9 +944,11 @@ namespace PlagueButtonAPI
         /// </param>
         internal static GameObject FindSubMenu(string name, Transform WhereTheSubMenuIsInside)
         {
+            InitTransforms();
+
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             {
-                MelonLogger.Log("Your SubMenu Name Cannot Be Empty!");
+                MelonLogger.Msg("Your SubMenu Name Cannot Be Empty!");
                 return null;
             }
 
@@ -959,7 +961,7 @@ namespace PlagueButtonAPI
         /// <summary>
         /// Enters The Submenu. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
-        /// <param name="name">
+        /// <param name="menu">
         /// The GameObject Of The SubMenu You Want To Enter.
         /// </param>
         internal static void EnterSubMenu(GameObject menu)
@@ -1084,7 +1086,7 @@ namespace PlagueButtonAPI
         #region Internal Functions - Not For The End User
 
         //Any Created Sub Menus By The User Are Stored Here
-        internal static System.Collections.Generic.List<GameObject> SubMenus = new System.Collections.Generic.List<GameObject>();
+        internal static List<GameObject> SubMenus = new List<GameObject>();
 
         private static Dictionary<Button, Tuple<KeyCode, KeyCode?>> RegisteredKeyBinds = new Dictionary<Button, Tuple<KeyCode, KeyCode?>>();
 
@@ -1182,7 +1184,7 @@ namespace PlagueButtonAPI
         /// Gets The Buttons Toggle State. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The PlagueButton Of The Button You Wish To Set The Toggle State Of.
+        /// The PlagueButton Of The Button You Wish To Get The Toggle State Of.
         /// </param>
         internal static bool GetToggleState(this ButtonAPI.PlagueButton button)
         {
@@ -1193,7 +1195,7 @@ namespace PlagueButtonAPI
         /// Sets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The PlagueButton Of The Button You Wish To Set The Toggle State Of.
+        /// The PlagueButton Of The Button You Wish To Set The Text Of.
         /// </param>
         /// <param name="text">
         /// The Text You Want To Place On The Button.
@@ -1210,26 +1212,21 @@ namespace PlagueButtonAPI
         /// Gets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The PlagueButton Of The Button You Wish To Set The Toggle State Of.
+        /// The PlagueButton Of The Button You Wish To Get The Text Of.
         /// </param>
         internal static string GetText(this ButtonAPI.PlagueButton button)
         {
-            if (button.text != null)
-            {
-                return button.text.text;
-            }
-
-            return "";
+            return button.text != null ? button.text.text : "";
         }
 
         /// <summary>
         /// Sets The Buttons Tooltip Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The PlagueButton Of The Button You Wish To Set The Toggle State Of.
+        /// The PlagueButton Of The Button You Wish To Set The Tooltip Of.
         /// </param>
         /// <param name="text">
-        /// The Text You Want To Place On The Button.
+        /// The Text You Want To Place On The Button's Tooltip.
         /// </param>
         internal static void SetTooltip(this ButtonAPI.PlagueButton button, string text)
         {
@@ -1244,16 +1241,11 @@ namespace PlagueButtonAPI
         /// Gets The Buttons Tooltip Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The GameObject Of The Button You Wish To Set The Toggle State Of.
+        /// The GameObject Of The Button You Wish To Get The Tooltip Of.
         /// </param>
         internal static string GetTooltip(this ButtonAPI.PlagueButton button)
         {
-            if (button.tooltip != null)
-            {
-                return button.tooltip.field_Public_String_0;
-            }
-
-            return "";
+            return button.tooltip != null ? button.tooltip.field_Public_String_0 : "";
         }
 
         /// <summary>
@@ -1277,23 +1269,21 @@ namespace PlagueButtonAPI
         /// Gets If A Button Is Interactable Or Not. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The PlagueButton Of The Button To Set The Interactivity Of.
+        /// The PlagueButton Of The Button To Get The Interactivity Of.
         /// </param>
         internal static bool GetInteractivity(this ButtonAPI.PlagueButton button)
         {
-            if (button.button != null)
-            {
-                return button.button.interactable;
-            }
-
-            return true;
+            return button.button == null || button.button.interactable;
         }
 
         /// <summary>
         /// Sets The Sprite Of A Given Button. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
         /// </summary>
         /// <param name="button">
-        /// The PlagueButton Of The Button To Pull The Sprite From.
+        /// The PlagueButton Of The Button To Set The Sprite Of.
+        /// </param>
+        /// <param name="sprite">
+        /// The Image Sprite To Apply.
         /// </param>
         internal static void SetSprite(this ButtonAPI.PlagueButton button, Sprite sprite)
         {
@@ -1311,12 +1301,7 @@ namespace PlagueButtonAPI
         /// </param>
         internal static Sprite GetSprite(this ButtonAPI.PlagueButton button)
         {
-            if (button.image != null)
-            {
-                return button.image.sprite;
-            }
-
-            return null;
+            return button.image != null ? button.image.sprite : null;
         }
 
         /// <summary>
@@ -1326,7 +1311,7 @@ namespace PlagueButtonAPI
         /// The PlagueButton Of The Button You Want To Destroy
         /// </param>
         /// <returns>
-        /// A Bool Indicating If Destroying Was Successful, Or The Button Didn't Exist
+        /// A Bool Indicating If Destroying Was Successful, Or The Button Didn't Exist To Destroy In The First Place.
         /// </returns>
         internal static bool Destroy(this ButtonAPI.PlagueButton button)
         {
@@ -1386,7 +1371,7 @@ namespace PlagueButtonAPI
         /// <returns>
         /// The Component Added, Or Null If It Failed
         /// </returns>
-        internal static Component AddComponent<T>(this ButtonAPI.PlagueButton button) where T : Component
+        internal static T AddComponent<T>(this ButtonAPI.PlagueButton button) where T : Component
         {
             try
             {
@@ -1402,26 +1387,21 @@ namespace PlagueButtonAPI
         /// Gets If The Button Is Currently Active
         /// </summary>
         /// <param name="button">
-        ///The PlagueButton Of The Button
+        /// The PlagueButton Of The Button
         /// </param>
         /// <returns>
         /// A Boolean Indicating Active State
         /// </returns>
         internal static bool IsActive(this ButtonAPI.PlagueButton button)
         {
-            if (button.gameObject == null)
-            {
-                return false;
-            }
-
-            return button.gameObject.active;
+            return button.gameObject != null && button.gameObject.active;
         }
 
         /// <summary>
         /// Sets The Button's Active State, This Only Sets The Button's Main GameObject State, Not Its Children.
         /// </summary>
         /// <param name="button">
-        ///The PlagueButton Of The Button
+        /// The PlagueButton Of The Button
         /// </param>
         /// <param name="state">
         /// The State You Want To Set It To
@@ -1574,12 +1554,7 @@ namespace PlagueButtonAPI
         /// </param>
         internal static string GetTag(this ButtonAPI.PlagueButton button)
         {
-            if (button.gameObject != null)
-            {
-                return button.gameObject.tag;
-            }
-
-            return "";
+            return button.gameObject != null ? button.gameObject.tag : "";
         }
     }
     #endregion
