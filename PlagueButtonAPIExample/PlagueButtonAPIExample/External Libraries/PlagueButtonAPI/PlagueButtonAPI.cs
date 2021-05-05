@@ -217,6 +217,8 @@ namespace PlagueButtonAPI
 
             transform.GetComponentInChildren<Slider>().onValueChanged = new Slider.SliderEvent();
 
+            transform.GetComponentInChildren<Slider>().onValueChanged.AddListener(OnChanged);
+
             //Update Text
             transform.GetComponentInChildren<Slider>().onValueChanged.AddListener((Action<float>)delegate (float val)
             {
@@ -226,8 +228,6 @@ namespace PlagueButtonAPI
             });
 
             transform.GetComponentInChildren<Slider>().transform.Find("Fill Area/Label").GetComponent<Text>().text = RangeConv(Convert.ToInt32(InitialValue), MinValue, MaxValue, 0, 100) + "%";
-
-            transform.GetComponentInChildren<Slider>().onValueChanged.AddListener(OnChanged);
 
             return new SliderRef { SliderObject = transform.gameObject, SliderText = text2 };
         }
