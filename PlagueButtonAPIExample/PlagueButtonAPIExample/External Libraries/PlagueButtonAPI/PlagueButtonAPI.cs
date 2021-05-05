@@ -32,7 +32,7 @@ namespace PlagueButtonAPI
 
         internal class PlagueButton
         {
-            #region Constructor
+            #region Constructors
             public PlagueButton(GameObject gameObject = null, Button button = null, Text text = null, UiTooltip tooltip = null, Image image = null, RectTransform rect = null, Color? OffColour = null, Color? OnColour = null, Color? BorderColour = null, bool ToggleState = false, float xPos = 0f, float yPos = 0f)
             {
                 if (gameObject != null)
@@ -65,6 +65,26 @@ namespace PlagueButtonAPI
                     this.rect = rect;
                 }
 
+                //Read Only - They Can Only Be Set Here!
+                if (OffColour != null)
+                {
+                    this.OffColour = (Color)OffColour;
+                }
+
+                if (OnColour != null)
+                {
+                    this.OnColour = (Color)OnColour;
+                }
+
+                this.BorderColour = BorderColour;
+                this.ToggleState = ToggleState;
+                this.xPos = xPos;
+                this.yPos = yPos;
+            }
+
+            public PlagueButton(Color? OffColour = null, Color? OnColour = null, Color? BorderColour = null, bool ToggleState = false, float xPos = 0f, float yPos = 0f)
+            {
+                //Read Only - They Can Only Be Set Here!
                 if (OffColour != null)
                 {
                     this.OffColour = (Color)OffColour;
@@ -84,12 +104,83 @@ namespace PlagueButtonAPI
 
             #region Reference Objects
 
-            internal GameObject gameObject;
-            internal Button button;
-            internal Text text;
-            internal UiTooltip tooltip;
-            internal Image image;
-            internal RectTransform rect;
+            private GameObject _gameObject;
+            internal GameObject gameObject
+            {
+                get => _gameObject;
+                set
+                {
+                    if (_gameObject == null)
+                    {
+                        _gameObject = value;
+                    }
+                }
+            }
+
+            private Button _button;
+            internal Button button
+            {
+                get => _button;
+                set
+                {
+                    if (_button == null)
+                    {
+                        _button = value;
+                    }
+                }
+            }
+
+            private Text _text;
+            internal Text text
+            {
+                get => _text;
+                set
+                {
+                    if (_text == null)
+                    {
+                        _text = value;
+                    }
+                }
+            }
+
+            private UiTooltip _tooltip;
+            internal UiTooltip tooltip
+            {
+                get => _tooltip;
+                set
+                {
+                    if (_tooltip == null)
+                    {
+                        _tooltip = value;
+                    }
+                }
+            }
+
+            private Image _image;
+            internal Image image
+            {
+                get => _image;
+                set
+                {
+                    if (_image == null)
+                    {
+                        _image = value;
+                    }
+                }
+            }
+
+            private RectTransform _rect;
+            internal RectTransform rect
+            {
+                get => _rect;
+                set
+                {
+                    if (_rect == null)
+                    {
+                        _rect = value;
+                    }
+                }
+            }
 
             #endregion
 
@@ -659,13 +750,7 @@ namespace PlagueButtonAPI
                 .Instantiate(GameObject.Find("/UserInterface/QuickMenu").GetComponent<QuickMenu>().transform.Find("ShortcutMenu/SettingsButton").gameObject)
                 .transform;
 
-            var plagueButton = new PlagueButton(transform.gameObject,
-                transform.GetComponent<Button>(),
-                transform.GetComponentInChildren<Text>(),
-                transform.GetComponentInChildren<UiTooltip>(),
-                transform.GetComponentInChildren<Image>(),
-                transform.GetComponent<RectTransform>(),
-                ToggledOffTextColour,
+            var plagueButton = new PlagueButton(ToggledOffTextColour,
                 ToggledOnTextColour,
                 BorderColour,
                 CurrentToggleState, X, Y);
@@ -1514,15 +1599,15 @@ namespace PlagueButtonAPI
         /// <returns>
         /// Integer[] Representing The Layer's Original Layer Numbers.
         /// </returns>
-        internal static int[] GetLayers(this ButtonAPI.PlagueButton button)
+        internal static VRCLayer[] GetLayers(this ButtonAPI.PlagueButton button)
         {
-            var LayersFound = new List<int>();
+            var LayersFound = new List<VRCLayer>();
 
             for (var i = 0; i < Enum.GetValues(typeof(VRCLayer)).Length; i++)
             {
                 if ((button.gameObject.layer | 1 << i) > 0)
                 {
-                    LayersFound.Add(i);
+                    LayersFound.Add((VRCLayer)i);
                 }
             }
 
