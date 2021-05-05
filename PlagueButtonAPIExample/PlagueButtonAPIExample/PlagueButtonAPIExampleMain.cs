@@ -54,7 +54,7 @@ namespace PlagueButtonAPIExample
 
             InputField = ButtonAPI.CreateInputField("Enter Text Here..", ButtonAPI.VerticalPosition.BelowBottomButton, ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5).transform, delegate (string text)
             {
-                //MelonLogger.Log("New Text: " + text);
+                //MelonLogger.Msg("New Text: " + text);
             }, delegate ()
             {
                 if (InputField.text.StartsWith("teleport ") && InputField.text.Length > 9)
@@ -65,14 +65,14 @@ namespace PlagueButtonAPIExample
 
                     if (TargetPlayer != null)
                     {
-                        MelonLogger.Log("Teleporting To: " + TargetPlayer.field_Private_APIUser_0.displayName);
+                        MelonLogger.Msg("Teleporting To: " + TargetPlayer.field_Private_APIUser_0.displayName);
 
                         VRCPlayer.field_Internal_Static_VRCPlayer_0.transform.position =
                             TargetPlayer.transform.position;
                     }
                     else
                     {
-                        MelonLogger.Log("Player: " + InputField.text.Replace("teleport ", "") + " Not Found!");
+                        MelonLogger.Msg("Player: " + InputField.text.Replace("teleport ", "") + " Not Found!");
                     }
                 }
             });
@@ -113,7 +113,7 @@ namespace PlagueButtonAPIExample
 
             ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Hello World", "Prints Hello World To Console.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_2", SubMenu2Data.Item1, SubMenu2Data.Item2, SubMenu2Data.Item3, SubMenu2Data.Item4, SubMenu2Data.Item5).transform, delegate (bool a)
             {
-                MelonLogger.Log(ConsoleColor.Magenta, "Hello World!");
+                MelonLogger.Msg(ConsoleColor.Magenta, "Hello World!");
             }, UnityEngine.Color.white, UnityEngine.Color.magenta, null, false, false, false, false, null, true);
         }
 
@@ -141,7 +141,7 @@ namespace PlagueButtonAPIExample
             }
             catch (System.Exception ex)
             {
-                MelonLogger.Log("Error in OnUpdate! - " + ex.Message + " From: " + ex.Source + " - Stack: " + ex.StackTrace);
+                MelonLogger.Msg("Error in OnUpdate! - " + ex.Message + " From: " + ex.Source + " - Stack: " + ex.StackTrace);
             }
         }
     }
