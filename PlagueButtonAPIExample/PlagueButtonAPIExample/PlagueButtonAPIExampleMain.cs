@@ -32,10 +32,10 @@ namespace PlagueButtonAPIExample
 
         public override void VRChat_OnUiManagerInit()
         {
-            Tuple<string, string, Color?, Color?, Action<bool>> SubMenu1Data = Tuple.Create<string, string, Color?, Color?, Action<bool>>("Sub Menu 1", "The First SubMenu", UnityEngine.Color.magenta, null,
+            var SubMenu1Data = Tuple.Create<string, string, Color?, Color?, Action<bool>>("Sub Menu 1", "The First SubMenu", UnityEngine.Color.magenta, null,
                 delegate(bool a) { Process.Start("https://VRCAntiCrash.com/ButtonAPI"); });
 
-            Tuple<string, string, Color?, Color?, Action<bool>> SubMenu2Data = Tuple.Create<string, string, Color?, Color?, Action<bool>>("Sub Menu 2", "The Second SubMenu", UnityEngine.Color.magenta,
+            var SubMenu2Data = Tuple.Create<string, string, Color?, Color?, Action<bool>>("Sub Menu 2", "The Second SubMenu", UnityEngine.Color.magenta,
                 null, delegate(bool a) { Process.Start("https://VRCAntiCrash.com/ButtonAPI"); });
 
             //Make Button To Enter SubMenu_1
@@ -59,7 +59,7 @@ namespace PlagueButtonAPIExample
             {
                 if (InputField.text.StartsWith("teleport ") && InputField.text.Length > 9)
                 {
-                    Player TargetPlayer = PlayerManager.field_Private_Static_PlayerManager_0
+                    var TargetPlayer = PlayerManager.field_Private_Static_PlayerManager_0
                         .field_Private_List_1_Player_0.ToArray()
                         .FirstOrDefault(o => o.field_Private_APIUser_0.displayName.ToLower().StartsWith(InputField.text.Replace("teleport ", "").ToLower()));
 

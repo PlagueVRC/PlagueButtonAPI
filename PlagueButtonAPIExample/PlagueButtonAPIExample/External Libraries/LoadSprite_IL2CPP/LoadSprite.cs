@@ -12,21 +12,21 @@ namespace LoadSprite
                 return null;
             }
 
-            byte[] data = File.ReadAllBytes(path);
+            var data = File.ReadAllBytes(path);
 
             if (data == null || data.Length <= 0)
             {
                 return null;
             }
 
-            Texture2D tex = new Texture2D(512, 512);
+            var tex = new Texture2D(512, 512);
 
             if (!Il2CppImageConversionManager.LoadImage(tex, data))
             {
                 return null;
             }
 
-            Sprite sprite = Sprite.CreateSprite(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f, 0, 0, new Vector4(), false);
+            var sprite = Sprite.CreateSprite(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f, 0, 0, new Vector4(), false);
 
             sprite.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
