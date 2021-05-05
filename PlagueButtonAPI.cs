@@ -308,7 +308,17 @@ namespace PlagueButtonAPI
 
             transform.GetComponentInChildren<Slider>().onValueChanged = new Slider.SliderEvent();
 
-            transform.GetComponentInChildren<Slider>().onValueChanged.AddListener(OnChanged);
+            transform.GetComponentInChildren<Slider>().onValueChanged.AddListener(new Action<float>((val) =>
+            {
+                try
+                {
+                    OnChanged.Invoke(val);
+                }
+                catch (Exception ex)
+                {
+                    MelonLogger.Error("An Exception Occured In The OnClick Of The " + Text + " Slider -->\n" + ex);
+                }
+            }));
 
             //Update Text
             transform.GetComponentInChildren<Slider>().onValueChanged.AddListener((Action<float>)delegate (float val)
@@ -418,7 +428,17 @@ namespace PlagueButtonAPI
             inputfield.transform.SetParent(ShortcutMenuTransform, worldPositionStays: false);
 
             inputfield.onValueChanged = new InputField.OnChangeEvent();
-            inputfield.onValueChanged.AddListener(TextChanged);
+            inputfield.onValueChanged.AddListener(new Action<string>((text) =>
+            {
+                try
+                {
+                    TextChanged.Invoke(text);
+                }
+                catch (Exception ex)
+                {
+                    MelonLogger.Error("An Exception Occured In The OnValueChanged Of A InputField -->\n" + ex);
+                }
+            }));
 
             inputfield.transform.SetParent(Parent, worldPositionStays: true);
 
