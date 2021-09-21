@@ -1,4 +1,4 @@
-# PlagueButtonAPI [![Downloads](https://img.shields.io/github/downloads/OFWModz/PlagueButtonAPI/total?color=magenta&label=Latest%20PlagueButtonAPIExample%20Downloads:)](https://github.com/OFWModz/PlagueButtonAPI/releases) [![License](https://img.shields.io/badge/License-Use%20Only-magenta.svg)](https://github.com/OFWModz/PlagueButtonAPI/blob/master/LICENSE)
+# PlagueButtonAPI [![Downloads](https://img.shields.io/github/downloads/PlagueVRC/PlagueButtonAPI/total?color=magenta&label=Latest%20PlagueButtonAPIExample%20Downloads:)](https://github.com/PlagueVRC/PlagueButtonAPI/releases) [![License](https://img.shields.io/badge/License-Use%20Only-magenta.svg)](https://github.com/PlagueVRC/PlagueButtonAPI/blob/master/LICENSE)
 The Best VRChat Button API By Plague
 
 FAQ:
@@ -11,9 +11,9 @@ A: A Button API Is A Set Of Pre Coded Methods To Create Buttons, In This Case; I
 
 [Discord Server For ButtonAPI](https://VRCAntiCrash.com/ButtonAPI)
 
-[Basic Documentation](https://github.com/OFWModz/PlagueButtonAPI/wiki)
+[Basic Documentation](https://github.com/PlagueVRC/PlagueButtonAPI/wiki)
 
-Use-Only Licensed. See "[LICENSE](https://github.com/OFWModz/PlagueButtonAPI/blob/master/LICENSE)" File For Details.
+Use-Only Licensed. See "[LICENSE](https://github.com/PlagueVRC/PlagueButtonAPI/blob/master/LICENSE)" File For Details.
 
 # NOTE
-You Must Call [ButtonAPI.SubMenuHandler](https://github.com/OFWModz/PlagueButtonAPI/blob/master/PlagueButtonAPI.cs#L1053) In Your OnUpdate!
+You Must Call [ButtonAPI.SubMenuHandler](https://github.com/PlagueVRC/PlagueButtonAPI/blob/master/PlagueButtonAPI.cs#L1053) In Your OnUpdate!
