@@ -22,8 +22,6 @@ namespace PlagueButtonAPIExample
 
         public override void OnApplicationStart()
         {
-
-
             if (File.Exists(Environment.CurrentDirectory + "\\ImageToLoad.png"))
             {
                 LoadedImage = (Environment.CurrentDirectory + "\\ImageToLoad.png").LoadSpriteFromDisk();
@@ -111,7 +109,7 @@ namespace PlagueButtonAPIExample
                 ButtonAPI.EnterSubMenu(ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5));
             }, UnityEngine.Color.white, UnityEngine.Color.magenta, null, false, false, false, false, null, true);
 
-            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "Hello World", "Prints Hello World To Console.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_2", SubMenu2Data.Item1, SubMenu2Data.Item2, SubMenu2Data.Item3, SubMenu2Data.Item4, SubMenu2Data.Item5).transform, delegate (bool a)
+            ButtonAPI.CreateButton(ButtonAPI.ButtonType.Default, "IPrintLn", "Prints Hello World To Console.", ButtonAPI.HorizontalPosition.FirstButtonPos, ButtonAPI.VerticalPosition.TopButton, ButtonAPI.MakeEmptyPage("SubMenu_2", SubMenu2Data.Item1, SubMenu2Data.Item2, SubMenu2Data.Item3, SubMenu2Data.Item4, SubMenu2Data.Item5).transform, delegate (bool a)
             {
                 MelonLogger.Msg(ConsoleColor.Magenta, "Hello World!");
             }, UnityEngine.Color.white, UnityEngine.Color.magenta, null, false, false, false, false, null, true);
@@ -126,8 +124,6 @@ namespace PlagueButtonAPIExample
                 //If User Has Loaded A World
                 if (RoomManager.prop_Boolean_3)
                 {
-                    ButtonAPI.SubMenuHandler(); // Routine Delay Is Built In
-
                     if (Time.time > OnUpdateRoutineDelay)
                     {
                         OnUpdateRoutineDelay = Time.time + 1f;
