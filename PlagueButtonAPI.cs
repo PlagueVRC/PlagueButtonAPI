@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace PlagueButtonAPI
 {
-    #region PlagueButtonAPI - Created By Plague#2850
+    #region PlagueButtonAPI - Created By Plague
     internal class ButtonAPI
     {
         #region Creditation And Disclaimer
@@ -229,7 +229,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Creates A Slider At The Given Location. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Creates A Slider At The Given Location. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         ///     <para>
         ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
@@ -246,7 +246,13 @@ namespace PlagueButtonAPI
         internal static SliderRef CreateSlider(Transform Parent, Action<float> OnChanged, float X, float Y, string Text,
             float InitialValue, float MaxValue, float MinValue)
         {
-            InitTransforms();
+            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            {
+                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
+                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+            }
+
+            ButtonAPIHandler.InitTransforms();
 
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
             if (Parent == null)
@@ -343,7 +349,7 @@ namespace PlagueButtonAPI
         #region InputField Creation
 
         /// <summary>
-        /// Creates A Input Field And Returns The Object Of The Input Field Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Creates A Input Field And Returns The Object Of The Input Field Made. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         ///     <para>
         ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
@@ -357,7 +363,13 @@ namespace PlagueButtonAPI
         /// <returns>UnityEngine.UI.InputField</returns>
         internal static InputField CreateInputField(string PlaceHolderText, VerticalPosition Y, Transform Parent, Action<string> TextChanged, Action OnEnterKeyPressed = null, Action OnCloseMenu = null)
         {
-            InitTransforms();
+            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            {
+                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
+                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+            }
+
+            ButtonAPIHandler.InitTransforms();
 
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
             if (Parent == null)
@@ -450,7 +462,7 @@ namespace PlagueButtonAPI
         #region Text Creation
 
         /// <summary>
-        /// Creates Text With A Lot Of Customization And Returns The PlagueButton Of The Text Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Creates Text With A Lot Of Customization And Returns The PlagueButton Of The Text Made. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         ///     <para>
         ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
         ///     </para>
@@ -514,7 +526,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Creates Text With A Lot Of Customization And Returns The PlagueButton Of The Text Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Creates Text With A Lot Of Customization And Returns The PlagueButton Of The Text Made. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         ///     <para>
         ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
         ///     </para>
@@ -595,7 +607,7 @@ namespace PlagueButtonAPI
         #region Button Creation
 
         /// <summary>
-        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         ///     <para>
         ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
         ///     </para>
@@ -683,7 +695,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Creates A Button With A Lot Of Customization And Returns The PlagueButton Of The Button Made. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         ///     <para>
         ///     As You Type Arguments Within This Method You Will See What Each Argument Does Here.
         ///     </para>
@@ -757,7 +769,13 @@ namespace PlagueButtonAPI
             Color? BorderColour, bool FullSizeButton = false, bool BottomHalf = true, bool HalfHorizontally = false,
             bool CurrentToggleState = false, Sprite SpriteForButton = null, bool ChangeColourOnClick = true, KeyCode? ConditionalOrSinglePressKeyBind = null, KeyCode? OptionalKeyBind = null)
         {
-            InitTransforms();
+            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            {
+                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
+                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+            }
+
+            ButtonAPIHandler.InitTransforms();
 
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
             if (Parent == null)
@@ -934,37 +952,7 @@ namespace PlagueButtonAPI
         #region Sub Menu Creation And Handling
 
         /// <summary>
-        /// Initiates The Transform Object References
-        /// </summary>
-        private static void InitTransforms()
-        {
-            if (ShortcutMenuTransform == null)
-            {
-                ShortcutMenuTransform = GameObject.Find("/UserInterface/QuickMenu/ShortcutMenu").transform;
-
-                QuickMenuObj = ShortcutMenuTransform.parent.GetComponent<QuickMenu>();
-
-                if (CustomTransform == null)
-                {
-                    CustomTransform = ShortcutMenuTransform;
-                }
-            }
-
-            if (NewElementsMenuTransform == null)
-            {
-                NewElementsMenuTransform =
-                    GameObject.Find("/UserInterface/QuickMenu/QuickMenu_NewElements").transform;
-            }
-
-            if (UserInteractMenuTransform == null)
-            {
-                UserInteractMenuTransform =
-                    GameObject.Find("/UserInterface/QuickMenu/UserInteractMenu").transform;
-            }
-        }
-
-        /// <summary>
-        /// Creates A Empty Page For Adding Buttons To, If The Page Already Exists, This Will Return It. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Creates A Empty Page For Adding Buttons To, If The Page Already Exists, This Will Return It. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="name">
         /// The Name You Want To Give The Page/Find Internally.
@@ -983,7 +971,13 @@ namespace PlagueButtonAPI
                 return null;
             }
 
-            InitTransforms();
+            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            {
+                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
+                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+            }
+
+            ButtonAPIHandler.InitTransforms();
 
             var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
 
@@ -1039,7 +1033,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Finds A SubMenu Inside Said Transform Created By My Button API. This Method Will Not Create One Under This Name If Not Found. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Finds A SubMenu Inside Said Transform Created By My Button API. This Method Will Not Create One Under This Name If Not Found. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="name">
         /// The Name OF The SubMenu To Find.
@@ -1049,7 +1043,13 @@ namespace PlagueButtonAPI
         /// </param>
         internal static GameObject FindSubMenu(string name, Transform WhereTheSubMenuIsInside)
         {
-            InitTransforms();
+            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            {
+                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
+                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+            }
+
+            ButtonAPIHandler.InitTransforms();
 
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             {
@@ -1064,13 +1064,19 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Enters The Submenu. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Enters The Submenu. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="menu">
         /// The GameObject Of The SubMenu You Want To Enter.
         /// </param>
         internal static void EnterSubMenu(GameObject menu)
         {
+            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            {
+                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
+                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+            }
+
             if (ShortcutMenuTransform.gameObject.active)
             {
                 ShortcutMenuTransform.gameObject.SetActive(false);
@@ -1103,6 +1109,12 @@ namespace PlagueButtonAPI
         /// </summary>
         internal static void CloseAllSubMenus()
         {
+            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            {
+                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
+                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+            }
+
             ShortcutMenuTransform.gameObject.SetActive(false);
             UserInteractMenuTransform.gameObject.SetActive(false);
             CustomTransform.gameObject.SetActive(false);
@@ -1193,74 +1205,10 @@ namespace PlagueButtonAPI
         //Any Created Sub Menus By The User Are Stored Here
         internal static List<GameObject> SubMenus = new List<GameObject>();
 
-        private static Dictionary<Button, Tuple<KeyCode, KeyCode?>> RegisteredKeyBinds = new Dictionary<Button, Tuple<KeyCode, KeyCode?>>();
-
-        private static float HandlerRoutineDelay = 0f;
-
-        internal static void SubMenuHandler()
-        {
-            //If User Has Loaded A World
-            if (RoomManager.prop_Boolean_3)
-            {
-                if (SubMenus != null && SubMenus.Count > 0 && Time.time > HandlerRoutineDelay)
-                {
-                    HandlerRoutineDelay = Time.time + 0.2f;
-
-                    if (QuickMenuObj == null || ShortcutMenuTransform == null || UserInteractMenuTransform == null || CustomTransform == null)
-                    {
-                        MelonLogger.Error("[PlagueButtonAPI] A NullRef Was Prevented In SubMenuHandler()! Either Recompile Your Mod Or Talk To Plague!");
-                        InitTransforms();
-                        return;
-                    }
-
-                    for (var i = 0; i < SubMenus.Count; i++)
-                    {
-                        var Menu = SubMenus[i];
-
-                        if (Menu.activeSelf) // Is In This SubMenu
-                        {
-                            //If QuickMenu Was Closed
-                            if (!QuickMenuObj.prop_Boolean_0)
-                            {
-                                //Hide SubMenu
-                                Menu.SetActive(false);
-                            }
-
-                            //If QuickMenu Is Open Normally When In A SubMenu (Aka When It Shouldn't Be) - This Fixes The Menu Breaking When A Player Joins
-                            else if (ShortcutMenuTransform.gameObject.active || UserInteractMenuTransform.gameObject.active || CustomTransform.gameObject.active)
-                            {
-                                ShortcutMenuTransform.gameObject.SetActive(false);
-                                UserInteractMenuTransform.gameObject.SetActive(false);
-                                CustomTransform.gameObject.SetActive(false);
-                            }
-
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (RegisteredKeyBinds.Count > 0)
-            {
-                foreach (var ButtonAndBinds in RegisteredKeyBinds)
-                {
-                    if (ButtonAndBinds.Value.Item2 != null)
-                    {
-                        if (Input.GetKey(ButtonAndBinds.Value.Item1) && Input.GetKeyDown((KeyCode)ButtonAndBinds.Value.Item2))
-                        {
-                            ButtonAndBinds.Key?.onClick?.Invoke();
-                        }
-                    }
-                    else
-                    {
-                        if (Input.GetKeyDown(ButtonAndBinds.Value.Item1))
-                        {
-                            ButtonAndBinds.Key?.onClick?.Invoke();
-                        }
-                    }
-                }
-            }
-        }
+        /// <summary>
+        /// Internal, Do Not Use This!
+        /// </summary>
+        internal static Dictionary<Button, Tuple<KeyCode, KeyCode?>> RegisteredKeyBinds = new Dictionary<Button, Tuple<KeyCode, KeyCode?>>();
 
         #endregion Internal Functions - Not For The End User
     }
@@ -1269,7 +1217,7 @@ namespace PlagueButtonAPI
     internal static class ButtonAPIExtensions
     {
         /// <summary>
-        /// Sets The Buttons Toggle State. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Sets The Buttons Toggle State. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="button">
         /// The PlagueButton Of The Button You Wish To Set The Toggle State Of.
@@ -1286,7 +1234,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Gets The Buttons Toggle State. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Gets The Buttons Toggle State. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="button">
         /// The PlagueButton Of The Button You Wish To Get The Toggle State Of.
@@ -1297,7 +1245,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Sets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Sets The Buttons Text. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="button">
         /// The PlagueButton Of The Button You Wish To Set The Text Of.
@@ -1314,7 +1262,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Gets The Buttons Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Gets The Buttons Text. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="button">
         /// The PlagueButton Of The Button You Wish To Get The Text Of.
@@ -1325,7 +1273,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Sets The Buttons Tooltip Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Sets The Buttons Tooltip Text. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="button">
         /// The PlagueButton Of The Button You Wish To Set The Tooltip Of.
@@ -1343,7 +1291,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Gets The Buttons Tooltip Text. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Gets The Buttons Tooltip Text. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="button">
         /// The GameObject Of The Button You Wish To Get The Tooltip Of.
@@ -1354,7 +1302,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Sets A Button To Be Interactable Or Not. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Sets A Button To Be Interactable Or Not. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="button">
         /// The PlagueButton Of The Button To Set The Interactivity Of.
@@ -1371,7 +1319,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Gets If A Button Is Interactable Or Not. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Gets If A Button Is Interactable Or Not. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="button">
         /// The PlagueButton Of The Button To Get The Interactivity Of.
@@ -1382,7 +1330,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Sets The Sprite Of A Given Button. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Sets The Sprite Of A Given Button. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="button">
         /// The PlagueButton Of The Button To Set The Sprite Of.
@@ -1399,7 +1347,7 @@ namespace PlagueButtonAPI
         }
 
         /// <summary>
-        /// Returns The Sprite Of A Given Button's GameObject. | Created By Plague | Discord Server: http://Krewella.co.uk/Discord
+        /// Returns The Sprite Of A Given Button's GameObject. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="button">
         /// The PlagueButton Of The Button To Pull The Sprite From.
@@ -1665,6 +1613,108 @@ namespace PlagueButtonAPI
     #endregion
 
     #region Custom Components
+
+    internal class ButtonAPIHandler : MonoBehaviour
+    {
+        public ButtonAPIHandler(IntPtr instance) : base(instance) { }
+
+        private static float HandlerRoutineDelay = 0f;
+
+        /// <summary>
+        /// Initiates The Transform Object References - Do Not Call This!
+        /// </summary>
+        internal static void InitTransforms()
+        {
+            if (ButtonAPI.ShortcutMenuTransform == null)
+            {
+                ButtonAPI.ShortcutMenuTransform = GameObject.Find("/UserInterface/QuickMenu/ShortcutMenu").transform;
+
+                ButtonAPI.QuickMenuObj = ButtonAPI.ShortcutMenuTransform.parent.GetComponent<QuickMenu>();
+
+                if (ButtonAPI.CustomTransform == null)
+                {
+                    ButtonAPI.CustomTransform = ButtonAPI.ShortcutMenuTransform;
+                }
+            }
+
+            if (ButtonAPI.NewElementsMenuTransform == null)
+            {
+                ButtonAPI.NewElementsMenuTransform =
+                    GameObject.Find("/UserInterface/QuickMenu/QuickMenu_NewElements").transform;
+            }
+
+            if (ButtonAPI.UserInteractMenuTransform == null)
+            {
+                ButtonAPI.UserInteractMenuTransform =
+                    GameObject.Find("/UserInterface/QuickMenu/UserInteractMenu").transform;
+            }
+        }
+
+        void Update()
+        {
+            //If User Has Loaded A World
+            if (RoomManager.prop_Boolean_3)
+            {
+                if (ButtonAPI.SubMenus != null && ButtonAPI.SubMenus.Count > 0 && Time.time > HandlerRoutineDelay)
+                {
+                    HandlerRoutineDelay = Time.time + 0.2f;
+
+                    if (ButtonAPI.QuickMenuObj == null || ButtonAPI.ShortcutMenuTransform == null || ButtonAPI.UserInteractMenuTransform == null || ButtonAPI.CustomTransform == null)
+                    {
+                        MelonLogger.Error("[PlagueButtonAPI] A NullRef Was Prevented In SubMenuHandler()! Either Recompile Your Mod Or Talk To Plague!");
+                        InitTransforms();
+                        return;
+                    }
+
+                    for (var i = 0; i < ButtonAPI.SubMenus.Count; i++)
+                    {
+                        var Menu = ButtonAPI.SubMenus[i];
+
+                        if (Menu.activeSelf) // Is In This SubMenu
+                        {
+                            //If QuickMenu Was Closed
+                            if (!ButtonAPI.QuickMenuObj.prop_Boolean_0)
+                            {
+                                //Hide SubMenu
+                                Menu.SetActive(false);
+                            }
+
+                            //If QuickMenu Is Open Normally When In A SubMenu (Aka When It Shouldn't Be) - This Fixes The Menu Breaking When A Player Joins
+                            else if (ButtonAPI.ShortcutMenuTransform.gameObject.active || ButtonAPI.UserInteractMenuTransform.gameObject.active || ButtonAPI.CustomTransform.gameObject.active)
+                            {
+                                ButtonAPI.ShortcutMenuTransform.gameObject.SetActive(false);
+                                ButtonAPI.UserInteractMenuTransform.gameObject.SetActive(false);
+                                ButtonAPI.CustomTransform.gameObject.SetActive(false);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (ButtonAPI.RegisteredKeyBinds.Count > 0)
+            {
+                foreach (var ButtonAndBinds in ButtonAPI.RegisteredKeyBinds)
+                {
+                    if (ButtonAndBinds.Value.Item2 != null)
+                    {
+                        if (Input.GetKey(ButtonAndBinds.Value.Item1) && Input.GetKeyDown((KeyCode)ButtonAndBinds.Value.Item2))
+                        {
+                            ButtonAndBinds.Key?.onClick?.Invoke();
+                        }
+                    }
+                    else
+                    {
+                        if (Input.GetKeyDown(ButtonAndBinds.Value.Item1))
+                        {
+                            ButtonAndBinds.Key?.onClick?.Invoke();
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     internal class FreezeControls : MonoBehaviour
     {
