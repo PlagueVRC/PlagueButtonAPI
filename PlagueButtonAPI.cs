@@ -1653,7 +1653,7 @@ namespace PlagueButtonAPI
         void Update()
         {
             //If User Has Loaded A World
-            if (RoomManager.prop_Boolean_3)
+            if (RoomManager.prop_Boolean_3) // This Seems To Go Splat Sometimes?
             {
                 if (ButtonAPI.SubMenus != null && ButtonAPI.SubMenus.Count > 0 && Time.time > HandlerRoutineDelay)
                 {
@@ -1661,7 +1661,7 @@ namespace PlagueButtonAPI
 
                     if (ButtonAPI.QuickMenuObj == null || ButtonAPI.ShortcutMenuTransform == null || ButtonAPI.UserInteractMenuTransform == null || ButtonAPI.CustomTransform == null)
                     {
-                        MelonLogger.Error("[PlagueButtonAPI] A NullRef Was Prevented In SubMenuHandler()! Either Recompile Your Mod Or Talk To Plague!");
+                        MelonLogger.Error("[PlagueButtonAPI] A NullRef Was Prevented In SubMenuHandler()! Either Recompile Your Mod Or Talk To Plague! NOTE: The ButtonAPI Will Attempt To Auto-Fix This For You, This May Or May Not Work!");
                         InitTransforms();
                         return;
                     }
