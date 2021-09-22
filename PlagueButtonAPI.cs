@@ -21,7 +21,7 @@ namespace PlagueButtonAPI
         "https://VRCAntiCrash.com" +
         "Copyright Reserved" +
         "Use-Only Licensed" +
-        "https://github.com/OFWModz/PlagueButtonAPI" +
+        "https://github.com/PlagueVRC/PlagueButtonAPI" +
         "Removal Or Modification Of This String Breaches The License." +
         "This String Is To Be Preserved AS IS.";
 
