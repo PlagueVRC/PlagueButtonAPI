@@ -50,7 +50,7 @@ namespace PlagueButtonAPIExample
 
             InputField InputField = null;
 
-            InputField = ButtonAPI.CreateInputField("Enter Text Here..", ButtonAPI.VerticalPosition.BelowBottomButton, ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5).transform, delegate (string text)
+            InputField = ButtonAPI.CreateInputField("Enter Text Here..", ButtonAPI.VerticalPosition.AboveMenu, ButtonAPI.MakeEmptyPage("SubMenu_1", SubMenu1Data.Item1, SubMenu1Data.Item2, SubMenu1Data.Item3, SubMenu1Data.Item4, SubMenu1Data.Item5).transform, delegate (string text)
             {
                 //MelonLogger.Msg("New Text: " + text);
             }, delegate ()
