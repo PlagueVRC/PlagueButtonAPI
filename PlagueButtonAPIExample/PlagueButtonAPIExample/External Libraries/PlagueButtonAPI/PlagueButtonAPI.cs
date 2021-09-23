@@ -246,10 +246,11 @@ namespace PlagueButtonAPI
         internal static SliderRef CreateSlider(Transform Parent, Action<float> OnChanged, float X, float Y, string Text,
             float InitialValue, float MaxValue, float MinValue)
         {
-            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            var QuickMenuObj = GameObject.Find("UserInterface/QuickMenu/");
+
+            if (!QuickMenuObj.GetComponent<ButtonAPIHandler>())
             {
-                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
-                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+                QuickMenuObj.AddComponent<ButtonAPIHandler>();
             }
 
             ButtonAPIHandler.InitTransforms();
@@ -363,10 +364,11 @@ namespace PlagueButtonAPI
         /// <returns>UnityEngine.UI.InputField</returns>
         internal static InputField CreateInputField(string PlaceHolderText, VerticalPosition Y, Transform Parent, Action<string> TextChanged, Action OnEnterKeyPressed = null, Action OnCloseMenu = null)
         {
-            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            var QuickMenuObj = GameObject.Find("UserInterface/QuickMenu/");
+
+            if (!QuickMenuObj.GetComponent<ButtonAPIHandler>())
             {
-                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
-                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+                QuickMenuObj.AddComponent<ButtonAPIHandler>();
             }
 
             ButtonAPIHandler.InitTransforms();
@@ -375,11 +377,6 @@ namespace PlagueButtonAPI
             if (Parent == null)
             {
                 Parent = CustomTransform;
-            }
-
-            if (Il2CppClassPointerStore<FreezeControls>.NativeClassPtr == IntPtr.Zero)
-            {
-                ClassInjector.RegisterTypeInIl2Cpp<FreezeControls>();
             }
 
             //Prevent Weird Bugs Due To A Invalid Parent - Set It To The Main QuickMenu
@@ -769,10 +766,11 @@ namespace PlagueButtonAPI
             Color? BorderColour, bool FullSizeButton = false, bool BottomHalf = true, bool HalfHorizontally = false,
             bool CurrentToggleState = false, Sprite SpriteForButton = null, bool ChangeColourOnClick = true, KeyCode? ConditionalOrSinglePressKeyBind = null, KeyCode? OptionalKeyBind = null)
         {
-            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            var QuickMenuObj = GameObject.Find("UserInterface/QuickMenu/");
+
+            if (!QuickMenuObj.GetComponent<ButtonAPIHandler>())
             {
-                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
-                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+                QuickMenuObj.AddComponent<ButtonAPIHandler>();
             }
 
             ButtonAPIHandler.InitTransforms();
@@ -971,10 +969,11 @@ namespace PlagueButtonAPI
                 return null;
             }
 
-            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            var QuickMenuObj = GameObject.Find("UserInterface/QuickMenu/");
+
+            if (!QuickMenuObj.GetComponent<ButtonAPIHandler>())
             {
-                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
-                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+                QuickMenuObj.AddComponent<ButtonAPIHandler>();
             }
 
             ButtonAPIHandler.InitTransforms();
@@ -1043,10 +1042,11 @@ namespace PlagueButtonAPI
         /// </param>
         internal static GameObject FindSubMenu(string name, Transform WhereTheSubMenuIsInside)
         {
-            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            var QuickMenuObj = GameObject.Find("UserInterface/QuickMenu/");
+
+            if (!QuickMenuObj.GetComponent<ButtonAPIHandler>())
             {
-                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
-                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+                QuickMenuObj.AddComponent<ButtonAPIHandler>();
             }
 
             ButtonAPIHandler.InitTransforms();
@@ -1071,10 +1071,11 @@ namespace PlagueButtonAPI
         /// </param>
         internal static void EnterSubMenu(GameObject menu)
         {
-            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            var QuickMenuObj = GameObject.Find("UserInterface/QuickMenu/");
+
+            if (!QuickMenuObj.GetComponent<ButtonAPIHandler>())
             {
-                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
-                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+                QuickMenuObj.AddComponent<ButtonAPIHandler>();
             }
 
             if (ShortcutMenuTransform.gameObject.active)
@@ -1109,10 +1110,11 @@ namespace PlagueButtonAPI
         /// </summary>
         internal static void CloseAllSubMenus()
         {
-            if (Il2CppClassPointerStore<ButtonAPIHandler>.NativeClassPtr == IntPtr.Zero)
+            var QuickMenuObj = GameObject.Find("UserInterface/QuickMenu/");
+
+            if (!QuickMenuObj.GetComponent<ButtonAPIHandler>())
             {
-                ClassInjector.RegisterTypeInIl2Cpp<ButtonAPIHandler>();
-                GameObject.Find("UserInterface/QuickMenu/").AddComponent<ButtonAPIHandler>();
+                QuickMenuObj.AddComponent<ButtonAPIHandler>();
             }
 
             ShortcutMenuTransform.gameObject.SetActive(false);
@@ -1614,6 +1616,7 @@ namespace PlagueButtonAPI
 
     #region Custom Components
 
+    [RegisterTypeInIl2Cpp]
     internal class ButtonAPIHandler : MonoBehaviour
     {
         public ButtonAPIHandler(IntPtr instance) : base(instance) { }
@@ -1716,6 +1719,7 @@ namespace PlagueButtonAPI
         }
     }
 
+    [RegisterTypeInIl2Cpp]
     internal class FreezeControls : MonoBehaviour
     {
         public FreezeControls(IntPtr instance) : base(instance) { }
