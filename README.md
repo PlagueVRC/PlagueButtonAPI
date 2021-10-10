@@ -2,11 +2,10 @@
 The Best VRChat Button API By Plague
 
 FAQ:
-```
-Q: What Is A Button API?
+Question | Answer
+--- | ---
+What Is A Button API? | A Button API Is A Set Of Pre Coded Methods To Create Buttons, In This Case; In VRChat By Mods Such As Your Own.
 
-A: A Button API Is A Set Of Pre Coded Methods To Create Buttons, In This Case; In VRChat By Mods Such As Your Own.
-```
 [Main Discord Server](https://VRCAntiCrash.com/Discord)
 
 [Discord Server For ButtonAPI](https://VRCAntiCrash.com/ButtonAPI)
