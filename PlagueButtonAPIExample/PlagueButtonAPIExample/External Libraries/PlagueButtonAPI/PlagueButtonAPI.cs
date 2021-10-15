@@ -1,11 +1,10 @@
+using IL2CPPAssetBundleAPI;
 using MelonLoader;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
-using IL2CPPAssetBundleAPI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -145,11 +144,6 @@ namespace PlagueButtonAPI
         private static Sprite Checked_Checkbox;
         internal static void CreateToggle(Transform Parent, string ObjectName, string Text, string ToolTip, Action<bool> OnToggle, bool DefaultState, Color? CheckboxColour = null)
         {
-            if (CheckboxColour == null)
-            {
-                CheckboxColour = Color.white;
-            }
-
             if (!HasInit)
             {
                 if (!HasRanCoroutine)
@@ -245,11 +239,13 @@ namespace PlagueButtonAPI
                         MelonLogger.Error($"Failed To Load Asset Bundle!\n\nBundle: {(OurBundle.bundle == null ? "Null" : "Exists")}\n\nError:\n{(OurBundle.error ?? "None")}");
                     }
                 }
-                
+
                 var IconImage = IconObj.GetComponent<Image>();
                 IconImage.sprite = DefaultState ? Checked_Checkbox : Unchecked_Checkbox;
 
-                IconObj.gameObject.AddComponent<ObjectHandler>().OnUpdate += (obj) =>
+                if (CheckboxColour != null)
+                {
+                    IconObj.gameObject.AddComponent<ObjectHandler>().OnUpdate += (obj) =>
                 {
                     var image = obj.GetComponent<Image>();
 
@@ -258,6 +254,7 @@ namespace PlagueButtonAPI
                         image.color = (Color)CheckboxColour;
                     }
                 };
+                }
 
                 var ButtonComp = NewButton.GetComponent<Button>();
                 ButtonComp.onClick = new Button.ButtonClickedEvent();
@@ -266,7 +263,11 @@ namespace PlagueButtonAPI
                     ButtonComp.onClick.AddListener(new Action(() =>
                     {
                         IconImage.sprite = (IconImage.sprite.name == Unchecked_Checkbox.name ? Checked_Checkbox : Unchecked_Checkbox);
-                        IconImage.color = (Color)CheckboxColour;
+
+                        if (CheckboxColour != null)
+                        {
+                            IconImage.color = (Color)CheckboxColour;
+                        }
 
                         OnToggle?.Invoke(IconImage.sprite.name == Checked_Checkbox.name);
                     }));
