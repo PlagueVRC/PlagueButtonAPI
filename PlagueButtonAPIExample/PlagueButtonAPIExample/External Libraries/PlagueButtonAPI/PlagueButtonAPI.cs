@@ -244,7 +244,7 @@ namespace PlagueButtonAPI
                         MelonLogger.Error($"Failed To Load Asset Bundle!\n\nBundle: {(OurBundle.bundle == null ? "Null" : "Exists")}\n\nError:\n{(OurBundle.error ?? "None")}");
                     }
                 }
-
+                
                 var IconImage = IconObj.GetComponent<Image>();
                 IconImage.sprite = DefaultState ? Checked_Checkbox : Unchecked_Checkbox;
                 IconImage.color = (Color)CheckboxColour;
