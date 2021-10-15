@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using IL2CPPAssetBundleAPI;
 using TMPro;
 using UnityEngine;
@@ -203,7 +204,7 @@ namespace PlagueButtonAPI
 
                 NewButton.SetParent(Parent.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup"));
 
-                NewButton.gameObject.SetActive(true);
+                NewButton.gameObject.SetActive(false);
 
                 UnityEngine.Object.Destroy(NewButton.GetComponent<VRC.UI.Elements.Controls.EmoteWingButton>());
 
@@ -247,7 +248,16 @@ namespace PlagueButtonAPI
                 
                 var IconImage = IconObj.GetComponent<Image>();
                 IconImage.sprite = DefaultState ? Checked_Checkbox : Unchecked_Checkbox;
-                IconImage.color = (Color)CheckboxColour; // Why the fuck does this not work in-game??? - It applies fine, but visually nothing happens???
+
+                IconObj.gameObject.AddComponent<ObjectHandler>().OnUpdate += (obj) =>
+                {
+                    var image = obj.GetComponent<Image>();
+
+                    if (image.color != CheckboxColour)
+                    {
+                        image.color = (Color)CheckboxColour;
+                    }
+                };
 
                 var ButtonComp = NewButton.GetComponent<Button>();
                 ButtonComp.onClick = new Button.ButtonClickedEvent();
@@ -256,11 +266,13 @@ namespace PlagueButtonAPI
                     ButtonComp.onClick.AddListener(new Action(() =>
                     {
                         IconImage.sprite = (IconImage.sprite.name == Unchecked_Checkbox.name ? Checked_Checkbox : Unchecked_Checkbox);
-                        IconImage.color = (Color)CheckboxColour; // Why the fuck does this not work in-game??? - It applies fine, but visually nothing happens???
+                        IconImage.color = (Color)CheckboxColour;
 
                         OnToggle?.Invoke(IconImage.sprite.name == Checked_Checkbox.name);
                     }));
                 }
+
+                NewButton.gameObject.SetActive(true);
             }
         }
 
@@ -539,6 +551,37 @@ namespace PlagueButtonAPI
     #endregion
 
     #region Custom Components
+
+    [RegisterTypeInIl2Cpp]
+    internal class ObjectHandler : MonoBehaviour
+    {
+        public ObjectHandler(IntPtr instance) : base(instance) { }
+
+        public Action<GameObject> OnEnabled = null;
+        public Action<GameObject> OnDisabled = null;
+        public Action<GameObject> OnDestroyed = null;
+        public Action<GameObject> OnUpdate = null;
+
+        void OnEnable()
+        {
+            OnEnabled?.Invoke(gameObject);
+        }
+
+        void OnDisable()
+        {
+            OnDisabled?.Invoke(gameObject);
+        }
+
+        void OnDestroy()
+        {
+            OnDestroyed?.Invoke(gameObject);
+        }
+
+        void Update()
+        {
+            OnUpdate?.Invoke(gameObject);
+        }
+    }
 
     [RegisterTypeInIl2Cpp]
     internal class FreezeControls : MonoBehaviour

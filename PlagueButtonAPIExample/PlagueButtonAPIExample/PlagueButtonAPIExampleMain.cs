@@ -45,7 +45,7 @@ namespace PlagueButtonAPIExample
                     (a) =>
                     {
                         MelonLogger.Msg("Test Toggle 1 Clicked! - State: " + a);
-                    }, false);
+                    }, false, Color.red);
 
                 yield break;
             }
