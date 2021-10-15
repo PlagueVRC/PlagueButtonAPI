@@ -246,14 +246,14 @@ namespace PlagueButtonAPI
                 if (CheckboxColour != null)
                 {
                     IconObj.gameObject.AddComponent<ObjectHandler>().OnUpdate += (obj) =>
-                {
-                    var image = obj.GetComponent<Image>();
-
-                    if (image.color != CheckboxColour)
                     {
-                        image.color = (Color)CheckboxColour;
-                    }
-                };
+                        var image = obj.GetComponent<Image>();
+
+                        if (image.color != CheckboxColour)
+                        {
+                            image.color = (Color)CheckboxColour;
+                        }
+                    };
                 }
 
                 var ButtonComp = NewButton.GetComponent<Button>();
