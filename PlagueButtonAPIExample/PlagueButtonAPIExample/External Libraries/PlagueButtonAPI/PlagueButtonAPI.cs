@@ -246,17 +246,18 @@ namespace PlagueButtonAPI
                 }
 
                 var IconImage = IconObj.GetComponent<Image>();
-                IconImage.color = (Color)CheckboxColour;
                 IconImage.sprite = DefaultState ? Checked_Checkbox : Unchecked_Checkbox;
+                IconImage.color = (Color)CheckboxColour;
 
                 var ButtonComp = NewButton.GetComponent<Button>();
                 ButtonComp.onClick = new Button.ButtonClickedEvent();
                 if (OnToggle != null)
                 {
-                    IconImage.sprite = (IconImage.sprite.name == Unchecked_Checkbox.name ? Checked_Checkbox : Unchecked_Checkbox);
-
                     ButtonComp.onClick.AddListener(new Action(() =>
                     {
+                        IconImage.sprite = (IconImage.sprite.name == Unchecked_Checkbox.name ? Checked_Checkbox : Unchecked_Checkbox);
+                        IconImage.color = (Color)CheckboxColour;
+
                         OnToggle?.Invoke(IconImage.sprite.name == Checked_Checkbox.name);
                     }));
                 }
