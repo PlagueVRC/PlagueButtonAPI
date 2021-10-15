@@ -247,7 +247,7 @@ namespace PlagueButtonAPI
                 
                 var IconImage = IconObj.GetComponent<Image>();
                 IconImage.sprite = DefaultState ? Checked_Checkbox : Unchecked_Checkbox;
-                IconImage.color = (Color)CheckboxColour;
+                IconImage.color = (Color)CheckboxColour; // Why the fuck does this not work in-game??? - It applies fine, but visually nothing happens???
 
                 var ButtonComp = NewButton.GetComponent<Button>();
                 ButtonComp.onClick = new Button.ButtonClickedEvent();
@@ -256,7 +256,7 @@ namespace PlagueButtonAPI
                     ButtonComp.onClick.AddListener(new Action(() =>
                     {
                         IconImage.sprite = (IconImage.sprite.name == Unchecked_Checkbox.name ? Checked_Checkbox : Unchecked_Checkbox);
-                        IconImage.color = (Color)CheckboxColour;
+                        IconImage.color = (Color)CheckboxColour; // Why the fuck does this not work in-game??? - It applies fine, but visually nothing happens???
 
                         OnToggle?.Invoke(IconImage.sprite.name == Checked_Checkbox.name);
                     }));
