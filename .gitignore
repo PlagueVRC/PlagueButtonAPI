@@ -12,7 +12,6 @@ PlagueButtonAPIExample/PlagueButtonAPIExample/obj/VRChat Mods Folder/TemporaryGe
 PlagueButtonAPIExample/PlagueButtonAPIExample/obj/VRChat Mods Folder/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
 PlagueButtonAPIExample/PlagueButtonAPIExample/obj/VRChat Mods Folder/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
 PlagueButtonAPIExample/PlagueButtonAPIExample/PlagueButtonAPIExample.csproj
-*.dll
 *.pdb
 PlagueButtonAPIExample/PlagueButtonAPIExample/obj/Normal/PlagueButtonAPIExample.csproj.FileListAbsolute.txt
 PlagueButtonAPIExample/PlagueButtonAPIExample/obj/VRChat Mods Folder/PlagueButtonAPIExample.csproj.FileListAbsolute.txt
@@ -22,3 +21,4 @@ PlagueButtonAPIExample/PlagueButtonAPIExample/obj/VRChat Mods Folder/build.force
 /PlagueButtonAPIExample/PlagueButtonAPI/obj
 /PlagueButtonAPI/ExampleButtonAPIUsage/obj/Release
 /PlagueButtonAPI/PlagueButtonAPI/obj
+/PlagueButtonAPI/PlagueButtonAPI/bin/Debug
