@@ -17,6 +17,45 @@ namespace PlagueButtonAPI
     #region PlagueButtonAPI - Created By Plague
     public class ButtonAPI : MelonMod
     {
+        #region Overrides
+
+        private static bool HasPageInit;
+        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
+        {
+            if (sceneName == "ui")
+            {
+                MelonCoroutines.Start(RunMe());
+
+                IEnumerator RunMe()
+                {
+                    yield return new WaitForSeconds(15f); // I Cba Checking Objects.
+
+                    HasPageInit = true;
+
+                    if (QueuedPages.Count > 0)
+                    {
+                        MelonLogger.Warning("Creating " + QueuedPages.Count + " Queued Pages..");
+                    }
+
+                    foreach (var page in QueuedPages)
+                    {
+                        page?.Invoke();
+                    }
+
+                    if (QueuedPages.Count > 0)
+                    {
+                        MelonLogger.Warning("Done!");
+                    }
+
+                    QueuedPages.Clear();
+
+                    yield break;
+                }
+            }
+        }
+
+        #endregion
+
         #region Creditation And Disclaimer
 #pragma warning disable 414
 
@@ -101,6 +140,7 @@ namespace PlagueButtonAPI
         #region Control Creation
 
         private static List<Action> QueuedButtons = new List<Action>();
+        private static List<Action> QueuedPages = new List<Action>();
 
         private static bool HasInit = false;
         private static bool HasRanCoroutine = false;
@@ -542,224 +582,237 @@ namespace PlagueButtonAPI
         /// <param name="PageText">Text To Display At The Top Of The Page And On The Button To Enter It.</param>
         /// <param name="PageTooltip">Text To Display When Hovering Over The Text Defined Just Before This.</param>
         /// <param name="OptionalButtonParent">Optional Parent Page To Put The Button To Enter This SubMenu In.</param>
-        /// <param name="OptionalTitleTextOnColour">Optional Toggled On Colour Of The Text Defined Previous.</param>
-        /// <param name="OptionalTitleTextOffColour">Optional Toggled Off Colour Of The Text Defined Previous.</param>
-        /// <param name="OptionalTitleTextOnClick">Optional Function To Run On Selecting The Text Defined Previous</param>
         /// <returns></returns>
-        public static PlaguePage MakeEmptyPage(Wing wing, string name, string PageText, string PageTooltip, UIPage OptionalButtonParent = null, Color? OptionalTitleTextOnColour = null, Color? OptionalTitleTextOffColour = null, Action<bool> OptionalTitleTextOnClick = null)
+        public static void MakeEmptyPage(Wing wing, string name, string PageText, string PageTooltip, UIPage OptionalButtonParent = null, Action<PlaguePage> OnCreation = null)
         {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+            if (!HasPageInit)
             {
-                MelonLogger.Msg("Your Page public Name Cannot Be Empty!");
-                return null;
+                QueuedPages.Add(new Action(() =>
+                {
+                    MakePage();
+                }));
+
+                return;
             }
 
-            InitTransforms();
+            MakePage();
 
-            var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
-            for (var i = 0; i < SubMenus.Count; i++)
+            void MakePage()
             {
-                var menu = SubMenus[i];
-
-                if (menu.gameObject.name == "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name + Enum.GetName(typeof(Wing), wing))
+                if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
                 {
-                    return menu;
+                    MelonLogger.Msg("Your Page public Name Cannot Be Empty!");
+                    return;
                 }
-            }
 
-            var LeftWingButtonsArea = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/WingMenu/ScrollRect/Viewport/VerticalLayoutGroup");
+                InitTransforms();
 
-            #region Menu Creation
-            //Dupe Menu
-            var MenuTransform = UnityEngine.Object.Instantiate(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/Explore")).transform;
-
-            //Name Menu Obj
-            MenuTransform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name + Enum.GetName(typeof(Wing), wing);
-
-            //Menu Parenting
-            MenuTransform.SetParent(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer"), false);
-
-            //Change Menu public Name
-            MenuTransform.GetComponent<UIPage>().Name = MenuTransform.name;
-
-            //localScale Bug Fixing, Also Fix Any localPosition Bugs
-            RepairShit(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/Explore"), MenuTransform);
-
-            //Set Menu Title Text
-            MenuTransform.FindOrNull("WngHeader_H1/LeftItemContainer/Text_Title").GetComponent<TextMeshProUGUI>().text = PageText;
-
-            var Layout = MenuTransform.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup").GetComponent<VerticalLayoutGroup>();
-            Layout.childControlWidth = false;
-            Layout.childControlHeight = false;
-
-            Layout.childScaleWidth = false;
-            Layout.childScaleHeight = false;
-
-            Layout.childForceExpandWidth = false;
-            Layout.childForceExpandHeight = false;
-
-            Layout.spacing = 25f;
-
-            Layout.padding.top = 12;
-
-            MenuTransform.FindOrNull("ScrollRect/Viewport").localPosition -= new Vector3(0f, 1f);
-
-            if (OptionalButtonParent != null)
-            {
-                var BackButton = MenuTransform.FindOrNull("WngHeader_H1/LeftItemContainer/Button_Back").GetComponent<Button>();
-                BackButton.onClick = new Button.ButtonClickedEvent();
-                BackButton.onClick.AddListener(new Action(() =>
+                var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
+                for (var i = 0; i < SubMenus.Count; i++)
                 {
-                    //Cache Our UIPage
-                    var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
+                    var menu = SubMenus[i];
 
-                    OurPage.Show(false, UIPage.TransitionType.Right);
+                    if (menu.gameObject.name == "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name + Enum.GetName(typeof(Wing), wing))
+                    {
+                        OnCreation?.Invoke(menu);
+                        return;
+                    }
+                }
 
-                    //Call OnPageShown
-                    OptionalButtonParent.OnPageShown();
+                var LeftWingButtonsArea = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/WingMenu/ScrollRect/Viewport/VerticalLayoutGroup");
 
-                    //Show PArent
-                    OptionalButtonParent.Show(true, UIPage.TransitionType.None);
+                #region Menu Creation
+                //Dupe Menu
+                var MenuTransform = UnityEngine.Object.Instantiate(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/Explore")).transform;
 
-                    OurPage.ClosePage();
+                //Name Menu Obj
+                MenuTransform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name + Enum.GetName(typeof(Wing), wing);
 
-                    OurPage.OnHideComplete();
+                //Menu Parenting
+                MenuTransform.SetParent(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer"), false);
 
-                    OptionalButtonParent.OnShowComplete();
+                //Change Menu public Name
+                MenuTransform.GetComponent<UIPage>().Name = MenuTransform.name;
 
-                    OptionalButtonParent.PopPage();
-                }));
-            }
-            #endregion
+                //localScale Bug Fixing, Also Fix Any localPosition Bugs
+                RepairShit(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/Explore"), MenuTransform);
 
-            //Testing Only
-            //LeftWingButtonsArea.FindOrNull("Button_Explore").gameObject.SetActive(true);
+                //Set Menu Title Text
+                MenuTransform.FindOrNull("WngHeader_H1/LeftItemContainer/Text_Title").GetComponent<TextMeshProUGUI>().text = PageText;
 
-            Button EntryButton = null;
+                var Layout = MenuTransform.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup").GetComponent<VerticalLayoutGroup>();
+                Layout.childControlWidth = false;
+                Layout.childControlHeight = false;
 
-            if (OptionalButtonParent == null)
-            {
-                //Dupe Button
-                var transform = UnityEngine.Object.Instantiate(LeftWingButtonsArea.FindOrNull("Button_Explore"));
+                Layout.childScaleWidth = false;
+                Layout.childScaleHeight = false;
 
-                //Enable Said Dupe
-                transform.gameObject.SetActive(true);
+                Layout.childForceExpandWidth = false;
+                Layout.childForceExpandHeight = false;
 
-                //Namings
-                transform.transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " +
-                                           info.Author.Replace(" ", "_") + "_" + name + "_" +
-                                           Enum.GetName(typeof(Wing), wing);
-                transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " +
-                                 info.Author.Replace(" ", "_") + "_" + name + "_" + Enum.GetName(typeof(Wing), wing);
+                Layout.spacing = 25f;
 
-                //Parenting
-                transform.SetParent(LeftWingButtonsArea.transform, true);
+                Layout.padding.top = 12;
 
-                //Set Text
-                transform.FindOrNull("Container/Text_QM_H3").GetComponent<TextMeshProUGUI>().text = PageText;
+                MenuTransform.FindOrNull("ScrollRect/Viewport").localPosition -= new Vector3(0f, 1f);
 
-                //Set ToolTip
-                var ToolTip = transform.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>();
-                ToolTip.text = (PageTooltip);
-                ToolTip.alternateText = (PageTooltip);
-
-                //Set ID, Keep Component For Init To Fix localScale Bug
-                var StyleElem = transform.GetComponent<StyleElement>();
-                StyleElem.id = transform.name;
-
-                transform.localScale = new Vector3(1f, 1f, 1f);
-                StyleElem.InitStyles();
-
-                //OnClick
-                EntryButton = transform.GetComponent<Button>();
-                EntryButton.onClick = new Button.ButtonClickedEvent();
-                EntryButton.onClick.AddListener(new Action(() =>
+                if (OptionalButtonParent != null)
                 {
-                    //Cache Our UIPage
-                    var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
-
-                    //Cache Whatever Page Is Open That Is NOT OurPage
-                    var ShownPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer").GetComponentsInChildren<UIPage>(false).FirstOrDefault(o => o != null && o != OurPage && o.IsStackShown());
-
-                    //In Case
-                    if (ShownPage != null)
+                    var BackButton = MenuTransform.FindOrNull("WngHeader_H1/LeftItemContainer/Button_Back").GetComponent<Button>();
+                    BackButton.onClick = new Button.ButtonClickedEvent();
+                    BackButton.onClick.AddListener(new Action(() =>
                     {
-                        ShownPage.Show(false, UIPage.TransitionType.None);
-                    }
+                        //Cache Our UIPage
+                        var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
 
-                    //Call OnPageShown
-                    OurPage.OnPageShown();
+                        OurPage.Show(false, UIPage.TransitionType.Right);
 
-                    //Show Our Page
-                    OurPage.Show(true, UIPage.TransitionType.Right);
+                        //Call OnPageShown
+                        OptionalButtonParent.OnPageShown();
 
-                    //In Case
-                    if (ShownPage != null)
-                    {
-                        ShownPage.PushPage(OurPage);
-                        ShownPage.OnHideComplete();
-                    }
-                    else
-                    {
-                        OurPage.PushPage(OurPage);
-                    }
+                        //Show PArent
+                        OptionalButtonParent.Show(true, UIPage.TransitionType.None);
 
-                    OurPage.OnShowComplete();
-                }));
-            }
-            else
-            {
-                CreateButton(OptionalButtonParent.transform, PageText, PageTooltip, () =>
+                        OurPage.ClosePage();
+
+                        OurPage.OnHideComplete();
+
+                        OptionalButtonParent.OnShowComplete();
+
+                        OptionalButtonParent.PopPage();
+                    }));
+                }
+                #endregion
+
+                //Testing Only
+                //LeftWingButtonsArea.FindOrNull("Button_Explore").gameObject.SetActive(true);
+
+                Button EntryButton = null;
+
+                if (OptionalButtonParent == null)
                 {
-                    //Cache Our UIPage
-                    var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
+                    //Dupe Button
+                    var transform = UnityEngine.Object.Instantiate(LeftWingButtonsArea.FindOrNull("Button_Explore"));
 
-                    //Cache Whatever Page Is Open That Is NOT OurPage
-                    var ShownPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer").GetComponentsInChildren<UIPage>(false).FirstOrDefault(o => o != null && o != OurPage && o.IsStackShown());
+                    //Enable Said Dupe
+                    transform.gameObject.SetActive(true);
 
-                    //In Case
-                    if (ShownPage != null)
+                    //Namings
+                    transform.transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " +
+                                               info.Author.Replace(" ", "_") + "_" + name + "_" +
+                                               Enum.GetName(typeof(Wing), wing);
+                    transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " +
+                                     info.Author.Replace(" ", "_") + "_" + name + "_" + Enum.GetName(typeof(Wing), wing);
+
+                    //Parenting
+                    transform.SetParent(LeftWingButtonsArea.transform, true);
+
+                    //Set Text
+                    transform.FindOrNull("Container/Text_QM_H3").GetComponent<TextMeshProUGUI>().text = PageText;
+
+                    //Set ToolTip
+                    var ToolTip = transform.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>();
+                    ToolTip.text = (PageTooltip);
+                    ToolTip.alternateText = (PageTooltip);
+
+                    //Set ID, Keep Component For Init To Fix localScale Bug
+                    var StyleElem = transform.GetComponent<StyleElement>();
+                    StyleElem.id = transform.name;
+
+                    transform.localScale = new Vector3(1f, 1f, 1f);
+                    StyleElem.InitStyles();
+
+                    //OnClick
+                    EntryButton = transform.GetComponent<Button>();
+                    EntryButton.onClick = new Button.ButtonClickedEvent();
+                    EntryButton.onClick.AddListener(new Action(() =>
                     {
-                        ShownPage.Show(false, UIPage.TransitionType.None);
-                    }
+                        //Cache Our UIPage
+                        var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
 
-                    //Call OnPageShown
-                    OurPage.OnPageShown();
+                        //Cache Whatever Page Is Open That Is NOT OurPage
+                        var ShownPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer").GetComponentsInChildren<UIPage>(false).FirstOrDefault(o => o != null && o != OurPage && o.IsStackShown());
 
-                    //Show Our Page
-                    OurPage.Show(true, UIPage.TransitionType.Right);
+                        //In Case
+                        if (ShownPage != null)
+                        {
+                            ShownPage.Show(false, UIPage.TransitionType.None);
+                        }
 
-                    //In Case
-                    if (ShownPage != null)
-                    {
-                        ShownPage.PushPage(OurPage);
-                        ShownPage.OnHideComplete();
-                    }
-                    else
-                    {
-                        OurPage.PushPage(OurPage);
-                    }
+                        //Call OnPageShown
+                        OurPage.OnPageShown();
 
-                    OurPage.OnShowComplete();
-                }, (obj) =>
+                        //Show Our Page
+                        OurPage.Show(true, UIPage.TransitionType.Right);
+
+                        //In Case
+                        if (ShownPage != null)
+                        {
+                            ShownPage.PushPage(OurPage);
+                            ShownPage.OnHideComplete();
+                        }
+                        else
+                        {
+                            OurPage.PushPage(OurPage);
+                        }
+
+                        OurPage.OnShowComplete();
+                    }));
+                }
+                else
                 {
-                    obj.SubMenu_Arrow.gameObject.SetActive(true);
-                    EntryButton = obj.button;
-                });
+                    CreateButton(OptionalButtonParent.transform, PageText, PageTooltip, () =>
+                    {
+                        //Cache Our UIPage
+                        var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
+
+                        //Cache Whatever Page Is Open That Is NOT OurPage
+                        var ShownPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer").GetComponentsInChildren<UIPage>(false).FirstOrDefault(o => o != null && o != OurPage && o.IsStackShown());
+
+                        //In Case
+                        if (ShownPage != null)
+                        {
+                            ShownPage.Show(false, UIPage.TransitionType.None);
+                        }
+
+                        //Call OnPageShown
+                        OurPage.OnPageShown();
+
+                        //Show Our Page
+                        OurPage.Show(true, UIPage.TransitionType.Right);
+
+                        //In Case
+                        if (ShownPage != null)
+                        {
+                            ShownPage.PushPage(OurPage);
+                            ShownPage.OnHideComplete();
+                        }
+                        else
+                        {
+                            OurPage.PushPage(OurPage);
+                        }
+
+                        OurPage.OnShowComplete();
+                    }, (obj) =>
+                    {
+                        obj.SubMenu_Arrow.gameObject.SetActive(true);
+                        EntryButton = obj.button;
+                    });
+                }
+
+                var Page = new PlaguePage
+                {
+                    gameObject = MenuTransform.gameObject,
+                    layout = MenuTransform.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup").GetComponent<VerticalLayoutGroup>(),
+                    page = MenuTransform.GetComponent<UIPage>(),
+                    pageBackButton = MenuTransform.FindOrNull("WngHeader_H1/LeftItemContainer/Button_Back").GetComponent<Button>(),
+                    pageEntryButton = EntryButton
+                };
+
+                SubMenus.Add(Page);
+
+                OnCreation?.Invoke(Page);
             }
-
-            var Page = new PlaguePage
-            {
-                gameObject = MenuTransform.gameObject,
-                layout = MenuTransform.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup").GetComponent<VerticalLayoutGroup>(),
-                page = MenuTransform.GetComponent<UIPage>(),
-                pageBackButton = MenuTransform.FindOrNull("WngHeader_H1/LeftItemContainer/Button_Back").GetComponent<Button>(),
-                pageEntryButton = EntryButton
-            };
-
-            SubMenus.Add(Page);
-
-            return Page;
         }
 
         #endregion

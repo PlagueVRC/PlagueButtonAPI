@@ -35,41 +35,34 @@ namespace ExampleButtonAPIUsage
 
         public override void VRChat_OnUiManagerInit()
         {
-            MelonCoroutines.Start(RunMe());
-
-            IEnumerator RunMe()
+            ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestMenu_1", "Test Menu", "Opens The Test Menu", null,
+            (page) =>
             {
-                yield return new WaitForSeconds(15f);
+                ButtonAPI.CreateButton(page.gameObject.transform, "Test Button 1", "A Test Button",
+                    () =>
+                    {
+                        MelonLogger.Msg("Test Button 1 Clicked!");
+                    });
 
-                var TestMenu_1 = ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestMenu_1", "Test Menu", "Opens The Test Menu");
+                ButtonAPI.CreateToggle(page.gameObject.transform, "Disable Portals", "Disables Portals Entirely.",
+                    (a) =>
+                    {
+                        DisablePortals = a;
+                    }, false, false);
 
-                ButtonAPI.CreateButton(TestMenu_1.gameObject.transform, "Test Button 1", "A Test Button",
-                () =>
-                {
-                    MelonLogger.Msg("Test Button 1 Clicked!");
-                });
-
-                ButtonAPI.CreateToggle(TestMenu_1.gameObject.transform, "Disable Portals", "Disables Portals Entirely.",
-                (a) =>
-                {
-                    DisablePortals = a;
-                }, false, false);
-
-                ButtonAPI.CreateToggle(TestMenu_1.gameObject.transform, "Test Toggle 2", "A Test Toggle",
+                ButtonAPI.CreateToggle(page.gameObject.transform, "Test Toggle 2", "A Test Toggle",
                     (a) =>
                     {
                         MelonLogger.Msg("Test Toggle 2 Clicked! - State: " + a);
                     }, true, true);
 
-                var TestSubMenu_1 = ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestSubMenu_1", "Test Sub Menu", "Opens The Test Sub Menu", TestMenu_1.page);
+                ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestSubMenu_1", "Test Sub Menu", "Opens The Test Sub Menu", page.page);
 
-                ButtonAPI.CreateSlider(TestMenu_1.gameObject.transform, "Test Slider", "A Test Slider", (val) =>
+                ButtonAPI.CreateSlider(page.gameObject.transform, "Test Slider", "A Test Slider", (val) =>
                 {
                     MelonLogger.Msg("Slider Value Changed! - Value: " + val);
                 }, 0f, 0f, 100f);
-
-                yield break;
-            }
+            });
         }
 
         internal static float OnUpdateRoutineDelay = 0f;
