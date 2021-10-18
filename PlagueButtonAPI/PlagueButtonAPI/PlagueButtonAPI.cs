@@ -87,49 +87,127 @@ namespace PlagueButtonAPI
 
         #region Instance Classes
 
+        /// <summary>
+        /// The Base Class For A Control.
+        /// </summary>
         public class PlagueBase
         {
+            /// <summary>
+            /// The Main Control GameObject
+            /// </summary>
             public GameObject gameObject;
+            /// <summary>
+            /// The Component For The Text That Appears On Control-Hover.
+            /// </summary>
             public VRC.UI.Elements.Tooltips.UiTooltip tooltip;
         }
 
+        /// <summary>
+        /// The Class For A Button.
+        /// </summary>
         public class PlagueButton : PlagueBase
         {
+            /// <summary>
+            /// The Button Component; What Handles You Clicking The Button, Etc.
+            /// </summary>
             public Button button;
 
+            /// <summary>
+            /// The Main Text That Appears On The Button.
+            /// </summary>
             public TextMeshProUGUI mainButtonText;
             
+            /// <summary>
+            /// The Blue Background Of The Button.
+            /// </summary>
             public Image buttonBackground;
+            /// <summary>
+            /// The Secondary Icon Of The Button. Currently Un-Used.
+            /// </summary>
             public Image Icon_Secondary;
+            /// <summary>
+            /// The SubMenu Arrow Of The Button. A Little Arrow At The Top Right Of A Button You Can Toggle. Note: Make Sub-Pages With MakeEmptyPage, Not Manually.
+            /// </summary>
             public Image SubMenu_Arrow;
+            /// <summary>
+            /// A Little Blue (x) At The Top Right Of The Button. Useful To Signify A Non-Interactable Button.
+            /// </summary>
             public Image Close_Badge;
+            /// <summary>
+            /// A Pulsiing Red (x) Over The Whole Button. Useful To Signify A Busy Button Click Operation. This May Be Made Automated In The Future For OnClicks.
+            /// </summary>
             public Image CancelGif;
         }
 
+        /// <summary>
+        /// The Class For A Toggle
+        /// </summary>
         public class PlagueToggle : PlagueButton
         {
+            /// <summary>
+            /// The Current Toggled State OF The Toggle Control.
+            /// </summary>
             public bool ToggleState => Icon_Secondary.sprite.name == Checked_Checkbox.name;
         }
 
+        /// <summary>
+        /// The Class For A Slider
+        /// </summary>
         public class PlagueSlider : PlagueBase
         {
+            /// <summary>
+            /// The Slider Component; What Handles You Changing The Value, Etc.
+            /// </summary>
             public Slider slider;
 
-            public TextMeshProUGUI mainButtonText;
+            /// <summary>
+            /// The Main Text That Appears Above The Slider.
+            /// </summary>
+            public TextMeshProUGUI mainSliderText;
 
+            /// <summary>
+            /// The Non-Filled Background Of The Slider.
+            /// </summary>
             public Image sliderBackground;
+            /// <summary>
+            /// The Filled Foreground Of The Slider.
+            /// </summary>
             public Image sliderFill;
 
+            /// <summary>
+            /// The Text That Represents The Percentage Of The Slider Filled (Based On The Slider Value).
+            /// </summary>
             public TextMeshProUGUI SliderPercentage;
+            /// <summary>
+            /// The Black Rounded Rectangle Behind The SliderPercentage Text.
+            /// </summary>
             public Image sliderPercentageBackground;
         }
 
+        /// <summary>
+        /// The Class For A Page
+        /// </summary>
         public class PlaguePage
         {
+            /// <summary>
+            /// The Main Page GameObject
+            /// </summary>
             public GameObject gameObject;
+            /// <summary>
+            /// The Page Component.
+            /// </summary>
             public UIPage page;
+            /// <summary>
+            /// The VerticalLayoutGroup Component; What Handles Control Alignment, Etc.
+            /// </summary>
             public VerticalLayoutGroup layout;
+            /// <summary>
+            /// The Component For The Main Button To Enter This Page.
+            /// </summary>
             public Button pageEntryButton;
+            /// <summary>
+            /// The Component On The Top Left Of The Page To Exit It.
+            /// </summary>
             public Button pageBackButton;
         }
 
@@ -535,7 +613,7 @@ namespace PlagueButtonAPI
                 OnCreation?.Invoke(new PlagueSlider
                 {
                     gameObject = NewSlider.gameObject,
-                    mainButtonText = NewSlider.FindOrNull("Container/Title").GetComponent<TMPro.TextMeshProUGUI>(),
+                    mainSliderText = NewSlider.FindOrNull("Container/Title").GetComponent<TMPro.TextMeshProUGUI>(),
                     slider = SliderComp,
                     sliderBackground = SliderComp.transform.FindOrNull("Background").GetComponent<Image>(),
                     sliderFill = SliderComp.transform.FindOrNull("Fill Area/Fill").GetComponent<Image>(),
@@ -550,6 +628,9 @@ namespace PlagueButtonAPI
 
         #region Sub Menu Creation
 
+        /// <summary>
+        /// Initializes Reference Objects And Transforms.
+        /// </summary>
         public static void InitTransforms()
         {
             if (QuickMenuObj != null)
