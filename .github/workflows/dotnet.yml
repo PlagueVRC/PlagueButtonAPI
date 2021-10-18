@@ -23,6 +23,12 @@ jobs:
       with:
         name: PlagueButtonAPI.dll
         path: PlagueButtonAPI/PlagueButtonAPI/bin/Debug/PlagueButtonAPI.dll
+        
+    - name: Upload PlagueButtonAPI PDB Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: PlagueButtonAPI.pdb
+        path: PlagueButtonAPI/PlagueButtonAPI/bin/Debug/PlagueButtonAPI.pdb
 
     - name: Upload ExampleButtonAPIUsage Artifact
       uses: actions/upload-artifact@v2
