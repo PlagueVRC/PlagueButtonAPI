@@ -72,16 +72,21 @@ namespace PlagueButtonAPI
         #endregion
 
         #region Public Variables
-
-        public static Transform ShortcutMenuTransform = null;
-
+        
+        /// <summary>
+        /// The Main QuickMenu/Container/Window/
+        /// </summary>
         public static Transform NewElementsMenuTransform = null;
 
+        /// <summary>
+        /// The Main QuickMenu.
+        /// </summary>
         public static QuickMenu QuickMenuObj = null;
 
+        /// <summary>
+        /// The Page When You Click On A User In-Game.
+        /// </summary>
         public static Transform UserInteractMenuTransform = null;
-
-        public static Transform CustomTransform = null;
 
         #endregion
 
@@ -642,13 +647,6 @@ namespace PlagueButtonAPI
 
             if (QuickMenuObj != null)
             {
-                ShortcutMenuTransform = QuickMenuObj.transform;
-
-                if (CustomTransform == null)
-                {
-                    CustomTransform = ShortcutMenuTransform;
-                }
-
                 if (NewElementsMenuTransform == null)
                 {
                     NewElementsMenuTransform = QuickMenuObj.transform.FindOrNull("Container/Window/").transform;
@@ -908,6 +906,9 @@ namespace PlagueButtonAPI
 
         #region Enums
 
+        /// <summary>
+        /// Which Wing To Use
+        /// </summary>
         public enum Wing
         {
             Left,
@@ -918,7 +919,9 @@ namespace PlagueButtonAPI
 
         #region Public Things - Not For The End User
 
-        //Any Created Sub Menus By The User Are Stored Here
+        /// <summary>
+        /// Any SubMenus Previously Created.
+        /// </summary>
         public static List<PlaguePage> SubMenus = new List<PlaguePage>();
 
         #endregion
@@ -1023,6 +1026,9 @@ namespace PlagueButtonAPI
 
     #region Custom Components
 
+    /// <summary>
+    /// A Component For Hooking To Generic Events Such As A Object Becoming Enabled, Disabled, Destroyed And For Events Such As Update.
+    /// </summary>
     [RegisterTypeInIl2Cpp]
     public class ObjectHandler : MonoBehaviour
     {
