@@ -14,6 +14,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1067AC86-8417-4F30-A9D0-EE8027BFB134}.Normal|Any CPU.ActiveCfg = Normal|Any CPU
+		{1067AC86-8417-4F30-A9D0-EE8027BFB134}.Normal|Any CPU.Build.0 = Normal|Any CPU
 		{1067AC86-8417-4F30-A9D0-EE8027BFB134}.VRChat Mods Folder|Any CPU.ActiveCfg = VRChat Mods Folder|Any CPU
 		{1067AC86-8417-4F30-A9D0-EE8027BFB134}.VRChat Mods Folder|Any CPU.Build.0 = VRChat Mods Folder|Any CPU
 		{4090D6AD-C19F-4E2A-9F7B-17128113E139}.Normal|Any CPU.ActiveCfg = Normal|Any CPU
