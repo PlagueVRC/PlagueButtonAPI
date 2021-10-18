@@ -19,17 +19,22 @@ namespace PlagueButtonAPI
     {
         #region Overrides
 
-        private static bool HasPageInit;
+        private static bool HasPageInit = false;
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
             if (sceneName == "ui")
             {
-                MelonCoroutines.Start(RunMe());
+                MelonLogger.Warning("UI Load!");
 
-                IEnumerator RunMe()
+                MelonCoroutines.Start(PlagueButtonAPI_Init());
+
+                IEnumerator PlagueButtonAPI_Init()
                 {
+                    MelonLogger.Warning("Waiting To Init..");
+
                     yield return new WaitForSeconds(15f); // I Cba Checking Objects.
 
+                    MelonLogger.Warning("Init!");
                     HasPageInit = true;
 
                     if (QueuedPages.Count > 0)

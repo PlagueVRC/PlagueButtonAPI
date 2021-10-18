@@ -33,36 +33,39 @@ namespace ExampleButtonAPIUsage
             }
         }
 
-        public override void VRChat_OnUiManagerInit()
+        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
-            ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestMenu_1", "Test Menu", "Opens The Test Menu", null,
-            (page) =>
+            if (sceneName == "ui")
             {
-                ButtonAPI.CreateButton(page.gameObject.transform, "Test Button 1", "A Test Button",
-                    () =>
+                ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestMenu_1", "Test Menu", "Opens The Test Menu", null,
+                    (page) =>
                     {
-                        MelonLogger.Msg("Test Button 1 Clicked!");
+                        ButtonAPI.CreateButton(page.gameObject.transform, "Test Button 1", "A Test Button",
+                            () =>
+                            {
+                                MelonLogger.Msg("Test Button 1 Clicked!");
+                            });
+
+                        ButtonAPI.CreateToggle(page.gameObject.transform, "Disable Portals", "Disables Portals Entirely.",
+                            (a) =>
+                            {
+                                DisablePortals = a;
+                            }, false, false);
+
+                        ButtonAPI.CreateToggle(page.gameObject.transform, "Test Toggle 2", "A Test Toggle",
+                            (a) =>
+                            {
+                                MelonLogger.Msg("Test Toggle 2 Clicked! - State: " + a);
+                            }, true, true);
+
+                        ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestSubMenu_1", "Test Sub Menu", "Opens The Test Sub Menu", page.page);
+
+                        ButtonAPI.CreateSlider(page.gameObject.transform, "Test Slider", "A Test Slider", (val) =>
+                        {
+                            MelonLogger.Msg("Slider Value Changed! - Value: " + val);
+                        }, 0f, 0f, 100f);
                     });
-
-                ButtonAPI.CreateToggle(page.gameObject.transform, "Disable Portals", "Disables Portals Entirely.",
-                    (a) =>
-                    {
-                        DisablePortals = a;
-                    }, false, false);
-
-                ButtonAPI.CreateToggle(page.gameObject.transform, "Test Toggle 2", "A Test Toggle",
-                    (a) =>
-                    {
-                        MelonLogger.Msg("Test Toggle 2 Clicked! - State: " + a);
-                    }, true, true);
-
-                ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestSubMenu_1", "Test Sub Menu", "Opens The Test Sub Menu", page.page);
-
-                ButtonAPI.CreateSlider(page.gameObject.transform, "Test Slider", "A Test Slider", (val) =>
-                {
-                    MelonLogger.Msg("Slider Value Changed! - Value: " + val);
-                }, 0f, 0f, 100f);
-            });
+            }
         }
 
         internal static float OnUpdateRoutineDelay = 0f;
