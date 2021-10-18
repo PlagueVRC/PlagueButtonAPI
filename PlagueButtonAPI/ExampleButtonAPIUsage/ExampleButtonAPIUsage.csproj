@@ -147,7 +147,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PlagueButtonAPIExample\PlagueButtonAPI.csproj">
+    <ProjectReference Include="..\PlagueButtonAPI\PlagueButtonAPI.csproj">
       <Project>{1067ac86-8417-4f30-a9d0-ee8027bfb134}</Project>
       <Name>PlagueButtonAPI</Name>
       <Private>False</Private>
