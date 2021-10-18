@@ -71,7 +71,7 @@ namespace ExampleButtonAPIUsage
         {
             try
             {
-                if (VRCUtils.IsWorldLoaded && Time.time > OnUpdateRoutineDelay)
+                if (Time.time > OnUpdateRoutineDelay && VRCUtils.IsWorldLoaded)
                 {
                     OnUpdateRoutineDelay = Time.time + 1f;
                     if (DisablePortals)
