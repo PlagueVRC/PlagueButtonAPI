@@ -48,14 +48,18 @@ namespace PlagueButtonAPI
 
         #region Instance Classes
 
-        public class PlagueButton
+        public class PlagueBase
         {
             public GameObject gameObject;
+            public VRC.UI.Elements.Tooltips.UiTooltip tooltip;
+        }
+
+        public class PlagueButton : PlagueBase
+        {
             public Button button;
 
             public TextMeshProUGUI mainButtonText;
-            public VRC.UI.Elements.Tooltips.UiTooltip tooltip;
-
+            
             public Image buttonBackground;
             public Image Icon_Secondary;
             public Image SubMenu_Arrow;
@@ -68,13 +72,11 @@ namespace PlagueButtonAPI
             public bool ToggleState => Icon_Secondary.sprite.name == Checked_Checkbox.name;
         }
 
-        public class PlagueSlider
+        public class PlagueSlider : PlagueBase
         {
-            public GameObject gameObject;
             public Slider slider;
 
             public TextMeshProUGUI mainButtonText;
-            public VRC.UI.Elements.Tooltips.UiTooltip tooltip;
 
             public Image sliderBackground;
             public Image sliderFill;
@@ -212,8 +214,8 @@ namespace PlagueButtonAPI
         }
 
         private static IL2CPPAssetBundle OurBundle = new IL2CPPAssetBundle();
-        private static Sprite Unchecked_Checkbox;
-        private static Sprite Checked_Checkbox;
+        public static Sprite Unchecked_Checkbox;
+        public static Sprite Checked_Checkbox;
         /// <summary>
         /// Creates A Toggle In The Specified Parent Page.
         /// </summary>
@@ -774,7 +776,7 @@ namespace PlagueButtonAPI
 
         #endregion public Enumerations
 
-        #region public Things - Not For The End User
+        #region Public Things - Not For The End User
 
         //Any Created Sub Menus By The User Are Stored Here
         public static List<PlaguePage> SubMenus = new List<PlaguePage>();
@@ -855,8 +857,26 @@ namespace PlagueButtonAPI
             }
             catch
             {
+
             }
+
             return null;
+        }
+
+        public static void SetActive(this ButtonAPI.PlagueBase plagueBase, bool state)
+        {
+            plagueBase.gameObject?.SetActive(state);
+        }
+
+        public static void SetInteractable(this ButtonAPI.PlagueButton plagueButton, bool interactable)
+        {
+            plagueButton.button.interactable = interactable;
+            plagueButton.CancelGif.gameObject.SetActive(!interactable);
+        }
+
+        public static void SetToggleState(this ButtonAPI.PlagueToggle plagueToggle, bool state)
+        {
+            plagueToggle.Icon_Secondary.sprite = state ? ButtonAPI.Checked_Checkbox : ButtonAPI.Unchecked_Checkbox;
         }
     }
     #endregion
