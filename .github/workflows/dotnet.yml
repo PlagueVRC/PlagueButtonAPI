@@ -19,13 +19,13 @@ jobs:
         msbuild.exe PlagueButtonAPI/PlagueButtonAPI.sln /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Debug"
         
     - name: Upload PlagueButtonAPI Artifact
-    - uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v2
       with:
         name: PlagueButtonAPI.dll
         path: PlagueButtonAPI/PlagueButtonAPI/bin/Debug/PlagueButtonAPI.dll
 
     - name: Upload ExampleButtonAPIUsage Artifact
-    - uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v2
       with:
         name: ExampleButtonAPIUsage.dll
         path: PlagueButtonAPI/ExampleButtonAPIUsage/bin/Debug/ExampleButtonAPIUsage.dll
