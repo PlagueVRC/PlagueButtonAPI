@@ -1,7 +1,7 @@
 # PlagueButtonAPI Beta Dev [![License](https://img.shields.io/badge/License-Use%20Only-magenta.svg)](https://github.com/PlagueVRC/PlagueButtonAPI/blob/master/LICENSE)
 The Best VRChat Button API By Plague
 
-[Download](https://github.com/PlagueVRC/PlagueButtonAPI/actions?query=event%3Apush+is%3Asuccess)
+# [Download Latest Build](https://github.com/PlagueVRC/PlagueButtonAPI/actions?query=event%3Apush+is%3Asuccess)
 
 # Screenshot:
 ![image](https://user-images.githubusercontent.com/36628963/137660571-4aee2252-639e-4d24-b32f-b98b0ec0973f.png)
