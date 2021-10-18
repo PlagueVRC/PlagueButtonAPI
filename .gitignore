@@ -18,3 +18,5 @@ PlagueButtonAPIExample/PlagueButtonAPIExample/obj/Normal/PlagueButtonAPIExample.
 PlagueButtonAPIExample/PlagueButtonAPIExample/obj/VRChat Mods Folder/PlagueButtonAPIExample.csproj.FileListAbsolute.txt
 PlagueButtonAPIExample/PlagueButtonAPIExample/obj/VRChat Mods Folder/build.force
 /PlagueButtonAPIExample/ExampleButtonAPIUsage/obj/Release
+*.suo
+/PlagueButtonAPIExample/PlagueButtonAPI/obj

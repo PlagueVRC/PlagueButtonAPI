@@ -1,5 +1,0 @@
-D:\Visual Studio Projects\PlagueButtonAPI\PlagueButtonAPIExample\PlagueButtonAPIExample\obj\VRChat Mods Folder\PlagueButtonAPI.csproj.CoreCompileInputs.cache
-G:\Games\SteamLibrary\steamapps\common\VRChat\Mods\PlagueButtonAPI.dll
-G:\Games\SteamLibrary\steamapps\common\VRChat\Mods\PlagueButtonAPI.pdb
-D:\Visual Studio Projects\PlagueButtonAPI\PlagueButtonAPIExample\PlagueButtonAPIExample\obj\VRChat Mods Folder\PlagueButtonAPI.dll
-D:\Visual Studio Projects\PlagueButtonAPI\PlagueButtonAPIExample\PlagueButtonAPIExample\obj\VRChat Mods Folder\PlagueButtonAPI.pdb
