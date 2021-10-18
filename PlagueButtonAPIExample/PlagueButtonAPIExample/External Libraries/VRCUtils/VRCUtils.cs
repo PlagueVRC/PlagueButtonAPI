@@ -3,11 +3,11 @@ using UnityEngine;
 using VRC.SDKBase;
 using VRC.UI.Elements;
 
-internal class VRCUtils
+public class VRCUtils
 {
-    internal static bool IsWorldLoaded => Resources.FindObjectsOfTypeAll<VRC_SceneDescriptor>() != null;
+    public static bool IsWorldLoaded => Resources.FindObjectsOfTypeAll<VRC_SceneDescriptor>() != null;
 
-    internal static bool IsQuickMenuOpen
+    public static bool IsQuickMenuOpen
     {
         get
         {

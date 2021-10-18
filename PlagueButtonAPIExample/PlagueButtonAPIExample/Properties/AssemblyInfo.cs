@@ -6,15 +6,15 @@ using MelonLoader;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PlagueButtonAPIExample")]
+[assembly: AssemblyTitle("PlagueButtonAPI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PlagueButtonAPIExample")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyProduct("PlagueButtonAPI")]
+[assembly: AssemblyCopyright("Copyright © Plague 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: MelonInfo(typeof(PlagueButtonAPIExample.PlagueButtonAPIExampleMain), "PlagueButtonAPIExample", "1.0", "Plague", "")]
+[assembly: MelonInfo(typeof(PlagueButtonAPI.ButtonAPI), "PlagueButtonAPI", "1.0", "Plague", "https://github.com/PlagueVRC/PlagueButtonAPI/tree/beta-ui")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

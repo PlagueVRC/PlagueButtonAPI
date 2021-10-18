@@ -10,11 +10,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using VRC.UI.Core.Styles;
 using VRC.UI.Elements;
+using Random = System.Random;
 
 namespace PlagueButtonAPI
 {
     #region PlagueButtonAPI - Created By Plague
-    internal class ButtonAPI
+    public class ButtonAPI : MelonMod
     {
         #region Creditation And Disclaimer
 #pragma warning disable 414
@@ -31,30 +32,38 @@ namespace PlagueButtonAPI
 #pragma warning restore 414
         #endregion
 
-        #region internal Variables
+        #region public Variables
 
-        internal static Transform ShortcutMenuTransform = null;
+        public static Transform ShortcutMenuTransform = null;
 
-        internal static Transform NewElementsMenuTransform = null;
+        public static Transform NewElementsMenuTransform = null;
 
-        internal static QuickMenu QuickMenuObj = null;
+        public static QuickMenu QuickMenuObj = null;
 
-        internal static Transform UserInteractMenuTransform = null;
+        public static Transform UserInteractMenuTransform = null;
 
-        internal static Transform CustomTransform = null;
+        public static Transform CustomTransform = null;
 
         #endregion
 
         #region Main Functions
 
-        #region Button Creation
+        #region Control Creation
 
         private static List<Action> QueuedButtons = new List<Action>();
 
         private static bool HasInit = false;
         private static bool HasRanCoroutine = false;
 
-        internal static void CreateButton(Transform Parent, string ObjectName, string Text, string ToolTip, Action OnClick)
+        /// <summary>
+        /// Creates A Button In The Specified Parent Page.
+        /// </summary>
+        /// <param name="Parent">The Transform Of The Page To Put This In. Use MakeEmptyPage To Obtain This.</param>
+        /// <param name="Text">The Main Text On The Button.</param>
+        /// <param name="ToolTip">The Text To Display When You Hover Over The Button.</param>
+        /// <param name="OnClick">A Method To Be Called On Button-Press. Use () => { } To Create This.</param>
+        /// <param name="OnCreation">A Method To Obtain The GameObject Of Your Button Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
+        public static void CreateButton(Transform Parent, string Text, string ToolTip, Action OnClick, Action<GameObject> OnCreation = null)
         {
             if (!HasInit)
             {
@@ -116,7 +125,9 @@ namespace PlagueButtonAPI
 
                 RepairShit(FindOrNull("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/Emotes/ScrollRect/Viewport/VerticalLayoutGroup/Emotes_SDK2/Button_Wave").transform, NewButton);
 
-                NewButton.name = ObjectName;
+                var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
+
+                NewButton.name = "PlagueButtonAPI_Button_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + Text + "_" + ToolTip + "_" + new Random().Next(0, 999999);
 
                 NewButton.FindOrNull("Icon").gameObject.SetActive(false);
 
@@ -126,7 +137,7 @@ namespace PlagueButtonAPI
                 TextObj.GetComponent<TextMeshProUGUI>().text = Text;
                 TextObj.GetComponent<RectTransform>().sizeDelta = new Vector2(350f, 48f);
 
-                TextObj.localPosition = new Vector3(0f, -25f, 0.0004f);
+                TextObj.localPosition = new Vector3(0f, -24f, 0.0004f);
 
                 NewButton.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().text = (ToolTip);
 
@@ -136,13 +147,26 @@ namespace PlagueButtonAPI
                 {
                     ButtonComp.onClick.AddListener(OnClick);
                 }
+
+                OnCreation?.Invoke(NewButton.gameObject);
             }
         }
 
         private static IL2CPPAssetBundle OurBundle = new IL2CPPAssetBundle();
         private static Sprite Unchecked_Checkbox;
         private static Sprite Checked_Checkbox;
-        internal static void CreateToggle(Transform Parent, string ObjectName, string Text, string ToolTip, Action<bool> OnToggle, bool DefaultState, Color? CheckboxColour = null)
+        /// <summary>
+        /// Creates A Toggle In The Specified Parent Page.
+        /// </summary>
+        /// <param name="Parent">The Transform Of The Page To Put This In. Use MakeEmptyPage To Obtain This.</param>
+        /// <param name="Text">The Main Text On The Toggle.</param>
+        /// <param name="ToolTip">The Text To Display When You Hover Over The Toggle.</param>
+        /// <param name="OnToggle">A Method To Be Called On Toggling. Use (val) => { } To Create This.</param>
+        /// <param name="DefaultState">The Default Toggle State Of The Toggle.</param>
+        /// <param name="RemoveButtonBackground">Whether Or Not To Remove The Blue Button Background And Only Leave A Checkbox And Text.</param>
+        /// <param name="CheckboxColour">Change The Colour Of The CheckBox Image; If You Insist..</param>
+        /// <param name="OnCreation">A Method To Obtain The GameObject Of Your Toggle Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
+        public static void CreateToggle(Transform Parent, string Text, string ToolTip, Action<bool> OnToggle, bool DefaultState, bool RemoveButtonBackground, Color? CheckboxColour = null, Action<GameObject> OnCreation = null)
         {
             if (!HasInit)
             {
@@ -204,7 +228,9 @@ namespace PlagueButtonAPI
 
                 RepairShit(FindOrNull("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/Emotes/ScrollRect/Viewport/VerticalLayoutGroup/Emotes_SDK2/Button_Wave").transform, NewButton);
 
-                NewButton.name = ObjectName;
+                var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
+
+                NewButton.name = "PlagueButtonAPI_Toggle_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + Text + "_" + ToolTip + "_" + new Random().Next(0, 999999);
 
                 NewButton.FindOrNull("Icon").gameObject.SetActive(false);
 
@@ -214,7 +240,7 @@ namespace PlagueButtonAPI
                 TextObj.GetComponent<TextMeshProUGUI>().text = Text;
                 TextObj.GetComponent<RectTransform>().sizeDelta = new Vector2(350f, 48f);
 
-                TextObj.localPosition = new Vector3(0f, -25f, 0.0004f);
+                TextObj.localPosition = new Vector3(0f, -24f, 0.0004f);
 
                 NewButton.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>().text = (ToolTip);
 
@@ -273,15 +299,130 @@ namespace PlagueButtonAPI
                     }));
                 }
 
+                if (RemoveButtonBackground)
+                {
+                    NewButton.FindOrNull("Background").GetComponent<Image>().color = new Color(0, 0, 0, 0);
+                }
+
                 NewButton.gameObject.SetActive(true);
+
+                OnCreation?.Invoke(NewButton.gameObject);
+            }
+        }
+
+        /// <summary>
+        /// Creates A Slider In The Specified Parent Page.
+        /// </summary>
+        /// <param name="Parent">The Transform Of The Page To Put This In. Use MakeEmptyPage To Obtain This.</param>
+        /// <param name="Text">The Main Text On The Slider.</param>
+        /// <param name="ToolTip">The Text To Display When You Hover Over The Slider.</param>
+        /// <param name="OnValueChanged">A Method To Be Called On Value Change. Use (val) => { } To Create This.</param>
+        /// <param name="DefaultValue">The Default Slider Value.</param>
+        /// <param name="MinPossibleValue">What Is The Lowest The Slider Can Go?</param>
+        /// <param name="MaxPossibleValue">What Is The Highest The Slider Can Go?</param>
+        /// <param name="OnCreation">A Method To Obtain The GameObject Of Your Slider Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
+        public static void CreateSlider(Transform Parent, string Text, string ToolTip, Action<float> OnValueChanged, float DefaultValue, float MinPossibleValue, float MaxPossibleValue, Action<GameObject> OnCreation = null)
+        {
+            if (!HasInit)
+            {
+                if (!HasRanCoroutine)
+                {
+                    MelonCoroutines.Start(CreateButton());
+
+                    IEnumerator CreateButton()
+                    {
+                        HasRanCoroutine = true;
+
+                        while (FindOrNull("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/Emotes/ScrollRect/Viewport/VerticalLayoutGroup/Emotes_SDK2/Button_Wave")?.transform == null)
+                        {
+                            yield return new WaitForEndOfFrame();
+                        }
+
+                        if (QueuedButtons.Count > 0)
+                        {
+                            MelonLogger.Warning("Creating " + QueuedButtons.Count + " Queued Buttons..");
+                        }
+
+                        foreach (var Button in QueuedButtons)
+                        {
+                            Button.Invoke();
+                        }
+
+                        if (QueuedButtons.Count > 0)
+                        {
+                            MelonLogger.Warning("Done!");
+                        }
+
+                        QueuedButtons.Clear();
+
+                        HasInit = true;
+
+                        yield break;
+                    }
+                }
+
+                QueuedButtons.Add(new Action(() =>
+                {
+                    MakeButton();
+                }));
+            }
+            else
+            {
+                MakeButton();
+            }
+
+            void MakeButton()
+            {
+                var NewSlider = UnityEngine.Object.Instantiate(FindOrNull("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/Emotes/Wing_Menu_RadialPuppet"));
+
+                NewSlider.transform.SetParent(Parent.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup"));
+
+                var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
+
+                NewSlider.name = "PlagueButtonAPI_Slider_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + Text + "_" + ToolTip + "_" + new Random().Next(0, 999999);
+
+                RepairShit(FindOrNull("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/Emotes/Wing_Menu_RadialPuppet").transform, NewSlider.transform);
+
+                NewSlider.transform.FindOrNull("Scrim").gameObject.SetActive(false);
+                NewSlider.transform.FindOrNull("Container/Icon").gameObject.SetActive(false);
+
+                var ToolTipHandler = NewSlider.AddComponent<VRC.UI.Elements.Tooltips.UiTooltip>();
+                ToolTipHandler.text = ToolTip;
+                ToolTipHandler.alternateText = ToolTip;
+
+                NewSlider.transform.FindOrNull("Container/Title").GetComponent<TMPro.TextMeshProUGUI>().text = Text;
+
+                var SliderComp = NewSlider.transform.FindOrNull("Container/Slider").GetComponent<Slider>();
+
+                NewSlider.GetComponent<RectTransform>().sizeDelta = new Vector2(360f, 100f);
+                SliderComp.GetComponent<RectTransform>().sizeDelta = new Vector2(355f, 75f);
+                SliderComp.transform.localPosition = new Vector3(0f, -100f, 0.0094f);
+
+                SliderComp.minValue = MinPossibleValue;
+                SliderComp.maxValue = MaxPossibleValue;
+
+                var SliderText = NewSlider.transform.FindOrNull("Container/Slider/Text/Value").GetComponent<TMPro.TextMeshProUGUI>();
+                SliderComp.onValueChanged = new Slider.SliderEvent();
+                SliderComp.onValueChanged.AddListener(new Action<float>((val) =>
+                {
+                    SliderText.text = RangeConv(val, MinPossibleValue, MaxPossibleValue, 0f, 100f) + "%";
+                }));
+
+                SliderComp.Set(DefaultValue);
+
+                SliderComp.onValueChanged.AddListener(OnValueChanged);
+
+                NewSlider.SetActive(true);
+
+                OnCreation?.Invoke(NewSlider);
             }
         }
 
         #endregion
 
-        #region Sub Menu Creation And Handling
+        #region Sub Menu Creation
 
-        internal static void InitTransforms()
+        public static void InitTransforms()
         {
             if (QuickMenuObj != null)
             {
@@ -315,18 +456,19 @@ namespace PlagueButtonAPI
         /// Creates A Empty Page For Adding Buttons To, If The Page Already Exists, This Will Return It. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="wing">Which Wing To Add This Page To.</param>
-        /// <param name="name">The Name You Want To Give The Page/Find Internally.</param>
+        /// <param name="name">The Name You Want To Give The Page/Find publicly.</param>
         /// <param name="PageText">Text To Display At The Top Of The Page And On The Button To Enter It.</param>
         /// <param name="PageTooltip">Text To Display When Hovering Over The Text Defined Just Before This.</param>
+        /// <param name="OptionalButtonParent">Optional Parent Page To Put The Button To Enter This SubMenu In.</param>
         /// <param name="OptionalTitleTextOnColour">Optional Toggled On Colour Of The Text Defined Previous.</param>
         /// <param name="OptionalTitleTextOffColour">Optional Toggled Off Colour Of The Text Defined Previous.</param>
         /// <param name="OptionalTitleTextOnClick">Optional Function To Run On Selecting The Text Defined Previous</param>
         /// <returns></returns>
-        internal static GameObject MakeEmptyPage(Wing wing, string name, string PageText, string PageTooltip, Color? OptionalTitleTextOnColour = null, Color? OptionalTitleTextOffColour = null, Action<bool> OptionalTitleTextOnClick = null)
+        public static GameObject MakeEmptyPage(Wing wing, string name, string PageText, string PageTooltip, UIPage OptionalButtonParent = null, Color? OptionalTitleTextOnColour = null, Color? OptionalTitleTextOffColour = null, Action<bool> OptionalTitleTextOnClick = null)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             {
-                MelonLogger.Msg("Your Page Internal Name Cannot Be Empty!");
+                MelonLogger.Msg("Your Page public Name Cannot Be Empty!");
                 return null;
             }
 
@@ -345,48 +487,18 @@ namespace PlagueButtonAPI
 
             var LeftWingButtonsArea = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/WingMenu/ScrollRect/Viewport/VerticalLayoutGroup");
 
-            //Testing Only
-            LeftWingButtonsArea.FindOrNull("Button_Explore").gameObject.SetActive(true);
-
-            //Dupe Button
-            var transform = UnityEngine.Object.Instantiate(LeftWingButtonsArea.FindOrNull("Button_Explore"));
-
-            //Enable Said Dupe
-            transform.gameObject.SetActive(true);
-
-            //Namings
-            transform.transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name + "_" + Enum.GetName(typeof(Wing), wing);
-            transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name + "_" + Enum.GetName(typeof(Wing), wing);
-
-            //Parenting
-            transform.SetParent(LeftWingButtonsArea.transform, true);
-
-            //Set Text
-            transform.FindOrNull("Container/Text_QM_H3").GetComponent<TextMeshProUGUI>().text = PageText;
-
-            //Set ToolTip
-            var ToolTip = transform.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>();
-            ToolTip.text = (PageTooltip);
-            ToolTip.alternateText = (PageTooltip);
-
-            //Set ID, Keep Component For Init To Fix localScale Bug
-            var StyleElem = transform.GetComponent<StyleElement>();
-            StyleElem.id = (name + "_" + Enum.GetName(typeof(Wing), wing));
-
-            transform.localScale = new Vector3(1f, 1f, 1f);
-            StyleElem.InitStyles();
-
+            #region Menu Creation
             //Dupe Menu
             var MenuTransform = UnityEngine.Object.Instantiate(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/Explore")).transform;
 
             //Name Menu Obj
-            MenuTransform.name = name + "_" + Enum.GetName(typeof(Wing), wing);
+            MenuTransform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name + Enum.GetName(typeof(Wing), wing);
 
             //Menu Parenting
             MenuTransform.SetParent(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer"), false);
 
-            //Change Menu Internal Name
-            MenuTransform.GetComponent<UIPage>().Name = (name + "_" + Enum.GetName(typeof(Wing), wing));
+            //Change Menu public Name
+            MenuTransform.GetComponent<UIPage>().Name = MenuTransform.name;
 
             //localScale Bug Fixing, Also Fix Any localPosition Bugs
             RepairShit(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/Explore"), MenuTransform);
@@ -410,47 +522,148 @@ namespace PlagueButtonAPI
 
             MenuTransform.FindOrNull("ScrollRect/Viewport").localPosition -= new Vector3(0f, 1f);
 
-            //OnClick
-            var button = transform.GetComponent<Button>();
-            button.onClick = new Button.ButtonClickedEvent();
-            button.onClick.AddListener(new Action(() =>
+            if (OptionalButtonParent != null)
             {
-                MelonLogger.Msg("Button Click!");
-
-                //Cache Our UIPage
-                var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + name + "_" + Enum.GetName(typeof(Wing), wing)).GetComponent<UIPage>();
-
-                //Cache Whatever Page Is Open That Is NOT OurPage
-                var ShownPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer").GetComponentsInChildren<UIPage>(false).FirstOrDefault(o => o != null && o != OurPage && o.IsStackShown());
-
-                //In Case
-                if (ShownPage != null)
+                var BackButton = MenuTransform.FindOrNull("WngHeader_H1/LeftItemContainer/Button_Back").GetComponent<Button>();
+                BackButton.onClick = new Button.ButtonClickedEvent();
+                BackButton.onClick.AddListener(new Action(() =>
                 {
-                    MelonLogger.Msg("Hiding ShownPage: " + ShownPage.gameObject.name + "!");
-                    ShownPage.Show(false, UIPage.TransitionType.None);
-                }
+                    //Cache Our UIPage
+                    var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
 
-                //Call OnPageShown
-                OurPage.OnPageShown();
+                    OurPage.Show(false, UIPage.TransitionType.Right);
 
-                //Show Our Page
-                OurPage.Show(true, UIPage.TransitionType.Right);
+                    //Call OnPageShown
+                    OptionalButtonParent.OnPageShown();
 
-                //In Case
-                if (ShownPage != null)
+                    //Show PArent
+                    OptionalButtonParent.Show(true, UIPage.TransitionType.None);
+
+                    OurPage.ClosePage();
+
+                    OurPage.OnHideComplete();
+
+                    OptionalButtonParent.OnShowComplete();
+
+                    OptionalButtonParent.PopPage();
+                }));
+            }
+            #endregion
+
+            //Testing Only
+            //LeftWingButtonsArea.FindOrNull("Button_Explore").gameObject.SetActive(true);
+
+            if (OptionalButtonParent == null)
+            {
+                //Dupe Button
+                var transform = UnityEngine.Object.Instantiate(LeftWingButtonsArea.FindOrNull("Button_Explore"));
+
+                //Enable Said Dupe
+                transform.gameObject.SetActive(true);
+
+                //Namings
+                transform.transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " +
+                                           info.Author.Replace(" ", "_") + "_" + name + "_" +
+                                           Enum.GetName(typeof(Wing), wing);
+                transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " +
+                                 info.Author.Replace(" ", "_") + "_" + name + "_" + Enum.GetName(typeof(Wing), wing);
+
+                //Parenting
+                transform.SetParent(LeftWingButtonsArea.transform, true);
+
+                //Set Text
+                transform.FindOrNull("Container/Text_QM_H3").GetComponent<TextMeshProUGUI>().text = PageText;
+
+                //Set ToolTip
+                var ToolTip = transform.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>();
+                ToolTip.text = (PageTooltip);
+                ToolTip.alternateText = (PageTooltip);
+
+                //Set ID, Keep Component For Init To Fix localScale Bug
+                var StyleElem = transform.GetComponent<StyleElement>();
+                StyleElem.id = transform.name;
+
+                transform.localScale = new Vector3(1f, 1f, 1f);
+                StyleElem.InitStyles();
+
+                //OnClick
+                var button = transform.GetComponent<Button>();
+                button.onClick = new Button.ButtonClickedEvent();
+                button.onClick.AddListener(new Action(() =>
                 {
-                    MelonLogger.Msg("Pushing!");
-                    ShownPage.PushPage(OurPage);
-                    ShownPage.OnHideComplete();
-                }
-                else
-                {
-                    MelonLogger.Msg("Self Pushing!"); // Likely Doesn't Work; Only Here For Edge Cases Anyways
-                    OurPage.PushPage(OurPage);
-                }
+                    //Cache Our UIPage
+                    var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
 
-                OurPage.OnShowComplete();
-            }));
+                    //Cache Whatever Page Is Open That Is NOT OurPage
+                    var ShownPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer").GetComponentsInChildren<UIPage>(false).FirstOrDefault(o => o != null && o != OurPage && o.IsStackShown());
+
+                    //In Case
+                    if (ShownPage != null)
+                    {
+                        ShownPage.Show(false, UIPage.TransitionType.None);
+                    }
+
+                    //Call OnPageShown
+                    OurPage.OnPageShown();
+
+                    //Show Our Page
+                    OurPage.Show(true, UIPage.TransitionType.Right);
+
+                    //In Case
+                    if (ShownPage != null)
+                    {
+                        ShownPage.PushPage(OurPage);
+                        ShownPage.OnHideComplete();
+                    }
+                    else
+                    {
+                        OurPage.PushPage(OurPage);
+                    }
+
+                    OurPage.OnShowComplete();
+                }));
+            }
+            else
+            {
+                CreateButton(OptionalButtonParent.transform, PageText, PageTooltip, () =>
+                {
+                    //Cache Our UIPage
+                    var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
+
+                    //Cache Whatever Page Is Open That Is NOT OurPage
+                    var ShownPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer").GetComponentsInChildren<UIPage>(false).FirstOrDefault(o => o != null && o != OurPage && o.IsStackShown());
+
+                    //In Case
+                    if (ShownPage != null)
+                    {
+                        ShownPage.Show(false, UIPage.TransitionType.None);
+                    }
+
+                    //Call OnPageShown
+                    OurPage.OnPageShown();
+
+                    //Show Our Page
+                    OurPage.Show(true, UIPage.TransitionType.Right);
+
+                    //In Case
+                    if (ShownPage != null)
+                    {
+                        ShownPage.PushPage(OurPage);
+                        ShownPage.OnHideComplete();
+                    }
+                    else
+                    {
+                        OurPage.PushPage(OurPage);
+                    }
+
+                    OurPage.OnShowComplete();
+                }, (obj) =>
+                {
+                    obj.transform.FindOrNull("Badge_MMJump").gameObject.SetActive(true);
+                });
+            }
+
+            SubMenus.Add(MenuTransform.gameObject);
 
             return MenuTransform.gameObject;
         }
@@ -461,24 +674,29 @@ namespace PlagueButtonAPI
 
         #region Enums
 
-        internal enum Wing
+        public enum Wing
         {
             Left,
             Right
         }
 
-        #endregion Internal Enumerations
+        #endregion public Enumerations
 
-        #region Internal Things - Not For The End User
+        #region public Things - Not For The End User
 
         //Any Created Sub Menus By The User Are Stored Here
-        internal static List<GameObject> SubMenus = new List<GameObject>();
+        public static List<GameObject> SubMenus = new List<GameObject>();
 
         #endregion
 
         #region Helpers
 
-        internal static GameObject FindOrNull(string path)
+        public static int RangeConv(float input, float MinPossibleInput, float MaxPossibleInput, float MinConv, float MaxConv)
+        {
+            return (int)((((input - MinPossibleInput) * (MaxConv - MinConv)) / (MaxPossibleInput - MinPossibleInput)) + MinConv);
+        }
+
+        public static GameObject FindOrNull(string path)
         {
             try
             {
@@ -493,7 +711,7 @@ namespace PlagueButtonAPI
         }
 
         //This Assumes Exact Hierarchy Identicality
-        internal static void RepairShit(Transform Template, Transform Dupe, bool Debug = false, bool Initial = true)
+        public static void RepairShit(Transform Template, Transform Dupe, bool Debug = false, bool Initial = true)
         {
             if (Initial)
             {
@@ -535,9 +753,9 @@ namespace PlagueButtonAPI
     }
 
     #region Extension Methods
-    internal static class ButtonAPIExtensions
+    public static class ButtonAPIExtensions
     {
-        internal static Transform FindOrNull(this Transform transform, string path)
+        public static Transform FindOrNull(this Transform transform, string path)
         {
             try
             {
@@ -554,7 +772,7 @@ namespace PlagueButtonAPI
     #region Custom Components
 
     [RegisterTypeInIl2Cpp]
-    internal class ObjectHandler : MonoBehaviour
+    public class ObjectHandler : MonoBehaviour
     {
         public ObjectHandler(IntPtr instance) : base(instance) { }
 
@@ -581,40 +799,6 @@ namespace PlagueButtonAPI
         void Update()
         {
             OnUpdate?.Invoke(gameObject);
-        }
-    }
-
-    [RegisterTypeInIl2Cpp]
-    internal class FreezeControls : MonoBehaviour
-    {
-        public FreezeControls(IntPtr instance) : base(instance) { }
-
-        internal Action OnExit;
-        internal Action OnEnterKeyPressed;
-
-        void OnEnable()
-        {
-            VRCInputManager.Method_Public_Static_Void_Boolean_PDM_0(true);
-        }
-
-        void OnDisable()
-        {
-            VRCInputManager.Method_Public_Static_Void_Boolean_PDM_0(false);
-
-            OnExit?.Invoke();
-        }
-
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                VRCInputManager.Method_Public_Static_Void_Boolean_PDM_0(false);
-                VRCUiManager.prop_VRCUiManager_0.Method_Public_Virtual_New_Void_Boolean_0();
-            }
-            else if (Input.GetKeyDown(KeyCode.Return))
-            {
-                OnEnterKeyPressed?.Invoke();
-            }
         }
     }
 
