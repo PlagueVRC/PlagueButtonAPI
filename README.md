@@ -3,6 +3,8 @@ The Best VRChat Button API By Plague
 
 # [> Download Latest Build <](https://github.com/PlagueVRC/PlagueButtonAPI/actions?query=event%3Apush+is%3Asuccess)
 
+# [Docs](https://github.com/PlagueVRC/PlagueButtonAPI/edit/beta-ui/Docs/README.md)
+
 # Screenshot:
 ![image](https://user-images.githubusercontent.com/36628963/137660571-4aee2252-639e-4d24-b32f-b98b0ec0973f.png)
 
