@@ -1,15 +1,9 @@
-﻿using HarmonyLib;
-using LoadSprite;
+﻿using LoadSprite;
 using MelonLoader;
 using PlagueButtonAPI;
 using System;
-using System.Collections;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
-using VRC.UI.Elements;
 
 [assembly: MelonInfo(typeof(ExampleButtonAPIUsage.ExampleButtonAPIUsageMain), "Example PlagueButtonAPI Usage", "1.0", "Plague")]
 [assembly: MelonGame("VRChat", "VRChat")]
