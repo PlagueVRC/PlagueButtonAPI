@@ -21,4 +21,9 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: PlagueButtonAPI.dll
-        path: bin/Debug/PlagueButtonAPI.dll
+        path: PlagueButtonAPI/bin/Debug/PlagueButtonAPI.dll
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ExampleButtonAPIUsage.dll
+        path: ExampleButtonAPIUsage/bin/Debug/ExampleButtonAPIUsage.dll
