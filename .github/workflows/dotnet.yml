@@ -17,3 +17,8 @@ jobs:
     - name: Build Solution
       run: |
         msbuild.exe PlagueButtonAPI/PlagueButtonAPI.sln /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Debug"
+        
+    - uses: actions/upload-artifact@v2
+      with:
+        name: PlagueButtonAPI.dll
+        path: bin/Debug/PlagueButtonAPI.dll
