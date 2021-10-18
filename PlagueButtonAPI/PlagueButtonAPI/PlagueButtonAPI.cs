@@ -32,7 +32,7 @@ namespace PlagueButtonAPI
 #pragma warning restore 414
         #endregion
 
-        #region public Variables
+        #region Public Variables
 
         public static Transform ShortcutMenuTransform = null;
 
@@ -43,6 +43,54 @@ namespace PlagueButtonAPI
         public static Transform UserInteractMenuTransform = null;
 
         public static Transform CustomTransform = null;
+
+        #endregion
+
+        #region Instance Classes
+
+        public class PlagueButton
+        {
+            public GameObject gameObject;
+            public Button button;
+
+            public TextMeshProUGUI mainButtonText;
+            public VRC.UI.Elements.Tooltips.UiTooltip tooltip;
+
+            public Image buttonBackground;
+            public Image Icon_Secondary;
+            public Image SubMenu_Arrow;
+            public Image Close_Badge;
+            public Image CancelGif;
+        }
+
+        public class PlagueToggle : PlagueButton
+        {
+            public bool ToggleState => Icon_Secondary.sprite.name == Checked_Checkbox.name;
+        }
+
+        public class PlagueSlider
+        {
+            public GameObject gameObject;
+            public Slider slider;
+
+            public TextMeshProUGUI mainButtonText;
+            public VRC.UI.Elements.Tooltips.UiTooltip tooltip;
+
+            public Image sliderBackground;
+            public Image sliderFill;
+
+            public TextMeshProUGUI SliderPercentage;
+            public Image sliderPercentageBackground;
+        }
+
+        public class PlaguePage
+        {
+            public GameObject gameObject;
+            public UIPage page;
+            public VerticalLayoutGroup layout;
+            public Button pageEntryButton;
+            public Button pageBackButton;
+        }
 
         #endregion
 
@@ -63,7 +111,7 @@ namespace PlagueButtonAPI
         /// <param name="ToolTip">The Text To Display When You Hover Over The Button.</param>
         /// <param name="OnClick">A Method To Be Called On Button-Press. Use () => { } To Create This.</param>
         /// <param name="OnCreation">A Method To Obtain The GameObject Of Your Button Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
-        public static void CreateButton(Transform Parent, string Text, string ToolTip, Action OnClick, Action<GameObject> OnCreation = null)
+        public static void CreateButton(Transform Parent, string Text, string ToolTip, Action OnClick, Action<PlagueButton> OnCreation = null)
         {
             if (!HasInit)
             {
@@ -148,7 +196,18 @@ namespace PlagueButtonAPI
                     ButtonComp.onClick.AddListener(OnClick);
                 }
 
-                OnCreation?.Invoke(NewButton.gameObject);
+                OnCreation?.Invoke(new PlagueButton
+                {
+                    button = ButtonComp,
+                    buttonBackground = NewButton.FindOrNull("Background").GetComponent<Image>(),
+                    CancelGif = NewButton.FindOrNull("Cancel").GetComponent<Image>(),
+                    Close_Badge = NewButton.FindOrNull("Badge_Close").GetComponent<Image>(),
+                    gameObject = NewButton.gameObject,
+                    Icon_Secondary = NewButton.FindOrNull("Icon_Secondary").GetComponent<Image>(),
+                    mainButtonText = TextObj.GetComponent<TextMeshProUGUI>(),
+                    SubMenu_Arrow = NewButton.FindOrNull("Badge_MMJump").GetComponent<Image>(),
+                    tooltip = NewButton.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>()
+                });
             }
         }
 
@@ -166,7 +225,7 @@ namespace PlagueButtonAPI
         /// <param name="RemoveButtonBackground">Whether Or Not To Remove The Blue Button Background And Only Leave A Checkbox And Text.</param>
         /// <param name="CheckboxColour">Change The Colour Of The CheckBox Image; If You Insist..</param>
         /// <param name="OnCreation">A Method To Obtain The GameObject Of Your Toggle Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
-        public static void CreateToggle(Transform Parent, string Text, string ToolTip, Action<bool> OnToggle, bool DefaultState, bool RemoveButtonBackground, Color? CheckboxColour = null, Action<GameObject> OnCreation = null)
+        public static void CreateToggle(Transform Parent, string Text, string ToolTip, Action<bool> OnToggle, bool DefaultState, bool RemoveButtonBackground, Color? CheckboxColour = null, Action<PlagueToggle> OnCreation = null)
         {
             if (!HasInit)
             {
@@ -306,7 +365,18 @@ namespace PlagueButtonAPI
 
                 NewButton.gameObject.SetActive(true);
 
-                OnCreation?.Invoke(NewButton.gameObject);
+                OnCreation?.Invoke(new PlagueToggle
+                {
+                    button = ButtonComp,
+                    buttonBackground = NewButton.FindOrNull("Background").GetComponent<Image>(),
+                    CancelGif = NewButton.FindOrNull("Cancel").GetComponent<Image>(),
+                    Close_Badge = NewButton.FindOrNull("Badge_Close").GetComponent<Image>(),
+                    gameObject = NewButton.gameObject,
+                    Icon_Secondary = NewButton.FindOrNull("Icon_Secondary").GetComponent<Image>(),
+                    mainButtonText = TextObj.GetComponent<TextMeshProUGUI>(),
+                    SubMenu_Arrow = NewButton.FindOrNull("Badge_MMJump").GetComponent<Image>(),
+                    tooltip = NewButton.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>()
+                });
             }
         }
 
@@ -321,7 +391,7 @@ namespace PlagueButtonAPI
         /// <param name="MinPossibleValue">What Is The Lowest The Slider Can Go?</param>
         /// <param name="MaxPossibleValue">What Is The Highest The Slider Can Go?</param>
         /// <param name="OnCreation">A Method To Obtain The GameObject Of Your Slider Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
-        public static void CreateSlider(Transform Parent, string Text, string ToolTip, Action<float> OnValueChanged, float DefaultValue, float MinPossibleValue, float MaxPossibleValue, Action<GameObject> OnCreation = null)
+        public static void CreateSlider(Transform Parent, string Text, string ToolTip, Action<float> OnValueChanged, float DefaultValue, float MinPossibleValue, float MaxPossibleValue, Action<PlagueSlider> OnCreation = null)
         {
             if (!HasInit)
             {
@@ -414,7 +484,17 @@ namespace PlagueButtonAPI
 
                 NewSlider.SetActive(true);
 
-                OnCreation?.Invoke(NewSlider);
+                OnCreation?.Invoke(new PlagueSlider
+                {
+                    gameObject = NewSlider,
+                    mainButtonText = NewSlider.transform.FindOrNull("Container/Title").GetComponent<TMPro.TextMeshProUGUI>(),
+                    slider = SliderComp,
+                    sliderBackground = SliderComp.transform.FindOrNull("Background").GetComponent<Image>(),
+                    sliderFill = SliderComp.transform.FindOrNull("Fill Area/Fill").GetComponent<Image>(),
+                    SliderPercentage = SliderComp.transform.FindOrNull("Text/Value").GetComponent<TextMeshProUGUI>(),
+                    sliderPercentageBackground = SliderComp.transform.FindOrNull("Text/Image").GetComponent<Image>(),
+                    tooltip = NewSlider.GetComponent<VRC.UI.Elements.Tooltips.UiTooltip>()
+                });
             }
         }
 
@@ -464,7 +544,7 @@ namespace PlagueButtonAPI
         /// <param name="OptionalTitleTextOffColour">Optional Toggled Off Colour Of The Text Defined Previous.</param>
         /// <param name="OptionalTitleTextOnClick">Optional Function To Run On Selecting The Text Defined Previous</param>
         /// <returns></returns>
-        public static GameObject MakeEmptyPage(Wing wing, string name, string PageText, string PageTooltip, UIPage OptionalButtonParent = null, Color? OptionalTitleTextOnColour = null, Color? OptionalTitleTextOffColour = null, Action<bool> OptionalTitleTextOnClick = null)
+        public static PlaguePage MakeEmptyPage(Wing wing, string name, string PageText, string PageTooltip, UIPage OptionalButtonParent = null, Color? OptionalTitleTextOnColour = null, Color? OptionalTitleTextOffColour = null, Action<bool> OptionalTitleTextOnClick = null)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
             {
@@ -479,7 +559,7 @@ namespace PlagueButtonAPI
             {
                 var menu = SubMenus[i];
 
-                if (menu.name == "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name + Enum.GetName(typeof(Wing), wing))
+                if (menu.gameObject.name == "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name + Enum.GetName(typeof(Wing), wing))
                 {
                     return menu;
                 }
@@ -553,6 +633,8 @@ namespace PlagueButtonAPI
             //Testing Only
             //LeftWingButtonsArea.FindOrNull("Button_Explore").gameObject.SetActive(true);
 
+            Button EntryButton = null;
+
             if (OptionalButtonParent == null)
             {
                 //Dupe Button
@@ -587,9 +669,9 @@ namespace PlagueButtonAPI
                 StyleElem.InitStyles();
 
                 //OnClick
-                var button = transform.GetComponent<Button>();
-                button.onClick = new Button.ButtonClickedEvent();
-                button.onClick.AddListener(new Action(() =>
+                EntryButton = transform.GetComponent<Button>();
+                EntryButton.onClick = new Button.ButtonClickedEvent();
+                EntryButton.onClick.AddListener(new Action(() =>
                 {
                     //Cache Our UIPage
                     var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
@@ -659,13 +741,23 @@ namespace PlagueButtonAPI
                     OurPage.OnShowComplete();
                 }, (obj) =>
                 {
-                    obj.transform.FindOrNull("Badge_MMJump").gameObject.SetActive(true);
+                    obj.SubMenu_Arrow.gameObject.SetActive(true);
+                    EntryButton = obj.button;
                 });
             }
 
-            SubMenus.Add(MenuTransform.gameObject);
+            var Page = new PlaguePage
+            {
+                gameObject = MenuTransform.gameObject,
+                layout = MenuTransform.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup").GetComponent<VerticalLayoutGroup>(),
+                page = MenuTransform.GetComponent<UIPage>(),
+                pageBackButton = MenuTransform.FindOrNull("WngHeader_H1/LeftItemContainer/Button_Back").GetComponent<Button>(),
+                pageEntryButton = EntryButton
+            };
 
-            return MenuTransform.gameObject;
+            SubMenus.Add(Page);
+
+            return Page;
         }
 
         #endregion
@@ -685,7 +777,7 @@ namespace PlagueButtonAPI
         #region public Things - Not For The End User
 
         //Any Created Sub Menus By The User Are Stored Here
-        public static List<GameObject> SubMenus = new List<GameObject>();
+        public static List<PlaguePage> SubMenus = new List<PlaguePage>();
 
         #endregion
 
