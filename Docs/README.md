@@ -1,6 +1,6 @@
 # Class Tree:
 <details>
-  <summary></summary>
+  <summary>Expand Me!</summary>
   This Is The Root Namespace. Anything Seen Here Can Already Be Accessed On Reference Without A "using" Directive.
 
 - <details>
