@@ -584,7 +584,7 @@ namespace PlagueButtonAPI
         /// Creates A Empty Page For Adding Buttons To, If The Page Already Exists, This Will Return It. | Created By Plague | Discord Server: http://VRCAntiCrash.com
         /// </summary>
         /// <param name="wing">Which Wing To Add This Page To.</param>
-        /// <param name="name">The Name You Want To Give The Page/Find publicly.</param>
+        /// <param name="name">The Name You Want To Give The Page Internally / Find From Previous Creation.</param>
         /// <param name="PageText">Text To Display At The Top Of The Page And On The Button To Enter It.</param>
         /// <param name="PageTooltip">Text To Display When Hovering Over The Text Defined Just Before This.</param>
         /// <param name="OptionalButtonParent">Optional Parent Page To Put The Button To Enter This SubMenu In.</param>
