@@ -13,19 +13,7 @@ jobs:
     
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
-      
-    - name: Navigate to Workspace
-      run: cd $GITHUB_WORKSPACE
-
-    - name: Create Build Directory
-      run: mkdir _build
 
     - name: Build Solution
       run: |
-        msbuild.exe PlagueButtonAPI/PlagueButtonAPI.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="../_build"
-        
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: PlagueButtonAPI
-        path: "./_build"  
+        msbuild.exe PlagueButtonAPI/PlagueButtonAPI.sln /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release"
