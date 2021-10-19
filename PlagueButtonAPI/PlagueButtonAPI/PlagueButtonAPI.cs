@@ -843,7 +843,7 @@ namespace PlagueButtonAPI
 
                 OnCreation?.Invoke(Page);
 
-                //MelonLogger.Warning($"Page: {name} Created!");
+                //MelonLogger.Warning($"Page: {name} Created!"); // Test
             }
         }
 
