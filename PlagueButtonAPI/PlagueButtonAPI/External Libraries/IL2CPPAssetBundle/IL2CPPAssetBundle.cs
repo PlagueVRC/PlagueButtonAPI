@@ -49,7 +49,7 @@ namespace IL2CPPAssetBundleAPI
                     return false;
                 }
 
-                Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource);
+                var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource);
 
                 if (stream != null && stream.Length > 0)
                 {

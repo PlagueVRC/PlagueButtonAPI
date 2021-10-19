@@ -144,7 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="External Libraries\IL2CPPAssetBundle\IL2CPPAssetBundle.cs" />
-    <Compile Include="External Libraries\LoadSprite_IL2CPP\LoadSprite.cs" />
     <Compile Include="External Libraries\VRCUtils\VRCUtils.cs" />
     <Compile Include="PlagueButtonAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

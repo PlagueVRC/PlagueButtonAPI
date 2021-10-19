@@ -1,5 +1,4 @@
-﻿using LoadSprite;
-using MelonLoader;
+﻿using MelonLoader;
 using PlagueButtonAPI;
 using System;
 using System.IO;
@@ -14,18 +13,9 @@ namespace ExampleButtonAPIUsage
     {
         #region Variables
 
-        internal static Sprite LoadedImage = null;
         internal static bool DisablePortals = false;
 
         #endregion
-
-        public override void OnApplicationStart()
-        {
-            if (File.Exists(Environment.CurrentDirectory + "\\ImageToLoad.png"))
-            {
-                LoadedImage = (Environment.CurrentDirectory + "\\ImageToLoad.png").LoadSpriteFromDisk();
-            }
-        }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {

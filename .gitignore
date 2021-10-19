@@ -26,3 +26,5 @@ PlagueButtonAPIExample/PlagueButtonAPIExample/obj/VRChat Mods Folder/build.force
 /PlagueButtonAPI/ExampleButtonAPIUsage/obj/VRChat Mods Folder
 *.htm
 /PlagueButtonAPI/ExampleButtonAPIUsage/obj/Normal
+/PlagueButtonAPI/ExampleButtonAPIUsage/ExampleButtonAPIUsage.csproj.user
+/PlagueButtonAPI/PlagueButtonAPI/PlagueButtonAPI.csproj.user
