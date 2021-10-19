@@ -4,8 +4,8 @@ on:
   push:
     branches: beta-ui
     paths:
-      - 'PlagueButtonAPI'
-      - 'References'
+      - 'PlagueButtonAPI/**'
+      - 'References/**'
 
 jobs:
   build:
