@@ -6,6 +6,7 @@ on:
     paths:
       - 'PlagueButtonAPI/**'
       - 'References/**'
+      - '.github/workflows/**'
 
 jobs:
   build:
