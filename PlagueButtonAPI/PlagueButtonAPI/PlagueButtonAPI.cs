@@ -22,39 +22,70 @@ namespace PlagueButtonAPI
         private static bool HasPageInit = false;
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
-            if (sceneName == "ui")
+            if (!HasPageInit)
             {
-                MelonLogger.Warning(Creditation);
-
-                MelonCoroutines.Start(PlagueButtonAPI_Init());
-
-                IEnumerator PlagueButtonAPI_Init()
+                if (sceneName == "ui")
                 {
-                    MelonLogger.Warning("Waiting To Init..");
+                    MelonLogger.Warning(Creditation);
 
-                    yield return new WaitForSeconds(15f); // I Cba Checking Objects.
+                    MelonCoroutines.Start(DoInitPrep());
 
-                    MelonLogger.Warning("Init!");
-                    HasPageInit = true;
-
-                    if (QueuedPages.Count > 0)
+                    IEnumerator DoInitPrep()
                     {
-                        MelonLogger.Warning("Creating " + QueuedPages.Count + " Queued Pages..");
+                        yield return new WaitForSeconds(10f);
+
+                        InitTransforms();
+
+                        if (QuickMenuObj == null)
+                        {
+                            MelonLogger.Error("Fatal Error: QuickMenuObj Is Null!");
+                            yield break;
+                        }
+
+                        while (QuickMenuObj.transform.FindOrNull("Container/Window/Wing_Left/Container/InnerContainer/Emotes/ScrollRect/Viewport/VerticalLayoutGroup/Emotes_SDK2/Button_Wave")?.transform is var TemplateButton && (TemplateButton == null || !TemplateButton.gameObject.activeSelf))
+                        {
+                            yield return new WaitForSeconds(0.1f);
+                        }
+
+                        MelonLogger.Warning("Init!");
+                        HasPageInit = true;
+
+                        if (QueuedPages.Count > 0)
+                        {
+                            MelonLogger.Warning("Creating " + QueuedPages.Count + " Queued Pages..");
+                        }
+
+                        foreach (var page in QueuedPages)
+                        {
+                            page?.Invoke();
+                        }
+
+                        if (QueuedPages.Count > 0)
+                        {
+                            MelonLogger.Warning("Done!");
+                        }
+
+                        QueuedPages.Clear();
+
+                        if (QueuedControls.Count > 0)
+                        {
+                            MelonLogger.Warning("Creating " + QueuedControls.Count + " Queued Controls..");
+                        }
+
+                        foreach (var page in QueuedControls)
+                        {
+                            page?.Invoke();
+                        }
+
+                        if (QueuedControls.Count > 0)
+                        {
+                            MelonLogger.Warning("Done!");
+                        }
+
+                        QueuedControls.Clear();
+
+                        yield break;
                     }
-
-                    foreach (var page in QueuedPages)
-                    {
-                        page?.Invoke();
-                    }
-
-                    if (QueuedPages.Count > 0)
-                    {
-                        MelonLogger.Warning("Done!");
-                    }
-
-                    QueuedPages.Clear();
-
-                    yield break;
                 }
             }
         }
@@ -65,19 +96,19 @@ namespace PlagueButtonAPI
 #pragma warning disable 414
 
         public static readonly string Creditation =
-        "\nPlague Button API" +
+        "\n\nPlague Button API" +
         "\nhttps://VRCAntiCrash.com" +
         "\nCopyright Reserved" +
         "\nUse-Only Licensed" +
         "\nhttps://github.com/PlagueVRC/PlagueButtonAPI/tree/beta-ui" +
         "\nRemoval Or Modification Of This String Breaches The License." +
-        "\nThis String Is To Be Preserved AS IS.";
+        "\nThis String Is To Be Preserved AS IS.\n";
 
 #pragma warning restore 414
         #endregion
 
         #region Public Variables
-        
+
         /// <summary>
         /// The Main QuickMenu + /Container/Window/.
         /// </summary>
@@ -126,7 +157,7 @@ namespace PlagueButtonAPI
             /// The Main Text That Appears On The Button.
             /// </summary>
             public TextMeshProUGUI mainButtonText;
-            
+
             /// <summary>
             /// The Blue Background Of The Button.
             /// </summary>
@@ -227,11 +258,10 @@ namespace PlagueButtonAPI
 
         #region Control Creation
 
-        private static List<Action> QueuedButtons = new List<Action>();
+        private static List<Action> QueuedControls = new List<Action>();
         private static List<Action> QueuedPages = new List<Action>();
 
         private static bool HasInit = false;
-        private static bool HasRanCoroutine = false;
 
         /// <summary>
         /// Creates A Button In The Specified Parent Page.
@@ -240,50 +270,14 @@ namespace PlagueButtonAPI
         /// <param name="Text">The Main Text On The Button.</param>
         /// <param name="ToolTip">The Text To Display When You Hover Over The Button.</param>
         /// <param name="OnClick">A Method To Be Called On Button-Press. Use () => { } To Create This.</param>
-        /// <param name="OnCreation">A Method To Obtain The GameObject Of Your Button Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
-        public static void CreateButton(Transform Parent, string Text, string ToolTip, Action OnClick, Action<PlagueButton> OnCreation = null)
+        /// <param name="OnCreation">A Method To Obtain The PlagueButton Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
+        public static void CreateButton(PlaguePage Parent, string Text, string ToolTip, Action OnClick, Action<PlagueButton> OnCreation = null)
         {
             InitTransforms();
 
             if (!HasInit)
             {
-                if (!HasRanCoroutine)
-                {
-                    MelonCoroutines.Start(CreateButton());
-
-                    IEnumerator CreateButton()
-                    {
-                        HasRanCoroutine = true;
-
-                        while (QuickMenuObj.transform.FindOrNull("Container/Window/Wing_Left/Container/InnerContainer/Emotes/ScrollRect/Viewport/VerticalLayoutGroup/Emotes_SDK2/Button_Wave")?.transform == null)
-                        {
-                            yield return new WaitForEndOfFrame();
-                        }
-
-                        if (QueuedButtons.Count > 0)
-                        {
-                            MelonLogger.Warning("Creating " + QueuedButtons.Count + " Queued Buttons..");
-                        }
-
-                        foreach (var Button in QueuedButtons)
-                        {
-                            Button.Invoke();
-                        }
-
-                        if (QueuedButtons.Count > 0)
-                        {
-                            MelonLogger.Warning("Done!");
-                        }
-
-                        QueuedButtons.Clear();
-
-                        HasInit = true;
-
-                        yield break;
-                    }
-                }
-
-                QueuedButtons.Add(new Action(() =>
+                QueuedControls.Add(new Action(() =>
                 {
                     MakeButton();
                 }));
@@ -297,7 +291,7 @@ namespace PlagueButtonAPI
             {
                 var NewButton = UnityEngine.Object.Instantiate(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_Left/Container/InnerContainer/Emotes/ScrollRect/Viewport/VerticalLayoutGroup/Emotes_SDK2/Button_Wave").transform);
 
-                NewButton.SetParent(Parent.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup"));
+                NewButton.SetParent(Parent.gameObject.transform.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup"));
 
                 NewButton.gameObject.SetActive(true);
 
@@ -356,50 +350,14 @@ namespace PlagueButtonAPI
         /// <param name="DefaultState">The Default Toggle State Of The Toggle.</param>
         /// <param name="RemoveButtonBackground">Whether Or Not To Remove The Blue Button Background And Only Leave A Checkbox And Text.</param>
         /// <param name="CheckboxColour">Change The Colour Of The CheckBox Image; If You Insist..</param>
-        /// <param name="OnCreation">A Method To Obtain The GameObject Of Your Toggle Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
-        public static void CreateToggle(Transform Parent, string Text, string ToolTip, Action<bool> OnToggle, bool DefaultState, bool RemoveButtonBackground, Color? CheckboxColour = null, Action<PlagueToggle> OnCreation = null)
+        /// <param name="OnCreation">A Method To Obtain The PlagueToggle Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
+        public static void CreateToggle(PlaguePage Parent, string Text, string ToolTip, Action<bool> OnToggle, bool DefaultState, bool RemoveButtonBackground, Color? CheckboxColour = null, Action<PlagueToggle> OnCreation = null)
         {
             InitTransforms();
 
             if (!HasInit)
             {
-                if (!HasRanCoroutine)
-                {
-                    MelonCoroutines.Start(CreateButton());
-
-                    IEnumerator CreateButton()
-                    {
-                        HasRanCoroutine = true;
-
-                        while (QuickMenuObj.transform.FindOrNull("Container/Window/Wing_Left/Container/InnerContainer/Emotes/ScrollRect/Viewport/VerticalLayoutGroup/Emotes_SDK2/Button_Wave")?.transform == null)
-                        {
-                            yield return new WaitForEndOfFrame();
-                        }
-
-                        if (QueuedButtons.Count > 0)
-                        {
-                            MelonLogger.Warning("Creating " + QueuedButtons.Count + " Queued Buttons..");
-                        }
-
-                        foreach (var Button in QueuedButtons)
-                        {
-                            Button.Invoke();
-                        }
-
-                        if (QueuedButtons.Count > 0)
-                        {
-                            MelonLogger.Warning("Done!");
-                        }
-
-                        QueuedButtons.Clear();
-
-                        HasInit = true;
-
-                        yield break;
-                    }
-                }
-
-                QueuedButtons.Add(new Action(() =>
+                QueuedControls.Add(new Action(() =>
                 {
                     MakeButton();
                 }));
@@ -413,7 +371,7 @@ namespace PlagueButtonAPI
             {
                 var NewButton = UnityEngine.Object.Instantiate(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_Left/Container/InnerContainer/Emotes/ScrollRect/Viewport/VerticalLayoutGroup/Emotes_SDK2/Button_Wave").transform);
 
-                NewButton.SetParent(Parent.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup"));
+                NewButton.SetParent(Parent.gameObject.transform.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup"));
 
                 NewButton.gameObject.SetActive(false);
 
@@ -524,50 +482,14 @@ namespace PlagueButtonAPI
         /// <param name="DefaultValue">The Default Slider Value.</param>
         /// <param name="MinPossibleValue">What Is The Lowest The Slider Can Go?</param>
         /// <param name="MaxPossibleValue">What Is The Highest The Slider Can Go?</param>
-        /// <param name="OnCreation">A Method To Obtain The GameObject Of Your Slider Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
-        public static void CreateSlider(Transform Parent, string Text, string ToolTip, Action<float> OnValueChanged, float DefaultValue, float MinPossibleValue, float MaxPossibleValue, Action<PlagueSlider> OnCreation = null)
+        /// <param name="OnCreation">A Method To Obtain The PlagueSlider Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
+        public static void CreateSlider(PlaguePage Parent, string Text, string ToolTip, Action<float> OnValueChanged, float DefaultValue, float MinPossibleValue, float MaxPossibleValue, Action<PlagueSlider> OnCreation = null)
         {
             InitTransforms();
 
             if (!HasInit)
             {
-                if (!HasRanCoroutine)
-                {
-                    MelonCoroutines.Start(CreateButton());
-
-                    IEnumerator CreateButton()
-                    {
-                        HasRanCoroutine = true;
-
-                        while (QuickMenuObj.transform.FindOrNull("Container/Window/Wing_Left/Container/InnerContainer/Emotes/ScrollRect/Viewport/VerticalLayoutGroup/Emotes_SDK2/Button_Wave")?.transform == null)
-                        {
-                            yield return new WaitForEndOfFrame();
-                        }
-
-                        if (QueuedButtons.Count > 0)
-                        {
-                            MelonLogger.Warning("Creating " + QueuedButtons.Count + " Queued Buttons..");
-                        }
-
-                        foreach (var Button in QueuedButtons)
-                        {
-                            Button.Invoke();
-                        }
-
-                        if (QueuedButtons.Count > 0)
-                        {
-                            MelonLogger.Warning("Done!");
-                        }
-
-                        QueuedButtons.Clear();
-
-                        HasInit = true;
-
-                        yield break;
-                    }
-                }
-
-                QueuedButtons.Add(new Action(() =>
+                QueuedControls.Add(new Action(() =>
                 {
                     MakeButton();
                 }));
@@ -581,7 +503,7 @@ namespace PlagueButtonAPI
             {
                 var NewSlider = UnityEngine.Object.Instantiate(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_Left/Container/InnerContainer/Emotes/Wing_Menu_RadialPuppet"));
 
-                NewSlider.transform.SetParent(Parent.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup"));
+                NewSlider.transform.SetParent(Parent.gameObject.transform.FindOrNull("ScrollRect/Viewport/VerticalLayoutGroup"));
 
                 var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
 
@@ -672,11 +594,11 @@ namespace PlagueButtonAPI
         /// <param name="PageText">Text To Display At The Top Of The Page And On The Button To Enter It.</param>
         /// <param name="PageTooltip">Text To Display When Hovering Over The Text Defined Just Before This.</param>
         /// <param name="OptionalButtonParent">Optional Parent Page To Put The Button To Enter This SubMenu In.</param>
+        /// <param name="Image">The Image On The Left Of The Button IF No OptionalButtonParent Was Defined.</param>
+        /// <param name="OnCreation">A Method To Obtain The PlaguePage Once Made If Needed. This Is A Method Due To PlagueButtonAPI Supporting Queued Creation.</param>
         /// <returns></returns>
-        public static void MakeEmptyPage(Wing wing, string name, string PageText, string PageTooltip, UIPage OptionalButtonParent = null, Action<PlaguePage> OnCreation = null)
+        public static void MakeEmptyPage(Wing wing, string name, string PageText, string PageTooltip, UIPage OptionalButtonParent = null, Sprite Image = null, Action<PlaguePage> OnCreation = null)
         {
-            InitTransforms();
-
             if (!HasPageInit)
             {
                 QueuedPages.Add(new Action(() =>
@@ -691,6 +613,8 @@ namespace PlagueButtonAPI
 
             void MakePage()
             {
+                InitTransforms();
+
                 if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
                 {
                     MelonLogger.Msg("Your Page public Name Cannot Be Empty!");
@@ -698,11 +622,17 @@ namespace PlagueButtonAPI
                 }
 
                 var info = Assembly.GetExecutingAssembly().GetCustomAttribute<MelonInfoAttribute>();
+
+                var InternalName =
+                "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " +
+                info.Author.Replace(" ", "_") + "_" + name + "_" +
+                Enum.GetName(typeof(Wing), wing);
+
                 for (var i = 0; i < SubMenus.Count; i++)
                 {
                     var menu = SubMenus[i];
 
-                    if (menu.gameObject.name == "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name + Enum.GetName(typeof(Wing), wing))
+                    if (menu.gameObject.name == InternalName)
                     {
                         OnCreation?.Invoke(menu);
                         return;
@@ -716,7 +646,7 @@ namespace PlagueButtonAPI
                 var MenuTransform = UnityEngine.Object.Instantiate(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/Explore")).transform;
 
                 //Name Menu Obj
-                MenuTransform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " + info.Author.Replace(" ", "_") + "_" + name + Enum.GetName(typeof(Wing), wing);
+                MenuTransform.name = InternalName;
 
                 //Menu Parenting
                 MenuTransform.SetParent(QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer"), false);
@@ -753,7 +683,7 @@ namespace PlagueButtonAPI
                     BackButton.onClick.AddListener(new Action(() =>
                     {
                         //Cache Our UIPage
-                        var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
+                        var OurPage = MenuTransform.GetComponent<UIPage>();
 
                         OurPage.Show(false, UIPage.TransitionType.Right);
 
@@ -788,14 +718,13 @@ namespace PlagueButtonAPI
                     transform.gameObject.SetActive(true);
 
                     //Namings
-                    transform.transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " +
-                                               info.Author.Replace(" ", "_") + "_" + name + "_" +
-                                               Enum.GetName(typeof(Wing), wing);
-                    transform.name = "PlagueButtonAPI_SubMenu_" + info.Name.Replace(" ", "_") + " By " +
-                                     info.Author.Replace(" ", "_") + "_" + name + "_" + Enum.GetName(typeof(Wing), wing);
+                    transform.transform.name = InternalName;
+                    transform.name = InternalName;
 
                     //Parenting
                     transform.SetParent(LeftWingButtonsArea.transform, true);
+
+                    RepairShit(LeftWingButtonsArea.FindOrNull("Button_Explore"), transform);
 
                     //Set Text
                     transform.FindOrNull("Container/Text_QM_H3").GetComponent<TextMeshProUGUI>().text = PageText;
@@ -812,13 +741,24 @@ namespace PlagueButtonAPI
                     transform.localScale = new Vector3(1f, 1f, 1f);
                     StyleElem.InitStyles();
 
+                    var IconForButton = transform.FindOrNull("Container/Icon");
+
+                    if (Image == null)
+                    {
+                        IconForButton.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        IconForButton.GetComponent<Image>().sprite = Image;
+                    }
+
                     //OnClick
                     EntryButton = transform.GetComponent<Button>();
                     EntryButton.onClick = new Button.ButtonClickedEvent();
                     EntryButton.onClick.AddListener(new Action(() =>
                     {
                         //Cache Our UIPage
-                        var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
+                        var OurPage = MenuTransform.GetComponent<UIPage>();
 
                         //Cache Whatever Page Is Open That Is NOT OurPage
                         var ShownPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer").GetComponentsInChildren<UIPage>(false).FirstOrDefault(o => o != null && o != OurPage && o.IsStackShown());
@@ -851,10 +791,10 @@ namespace PlagueButtonAPI
                 }
                 else
                 {
-                    CreateButton(OptionalButtonParent.transform, PageText, PageTooltip, () =>
+                    CreateButton(new PlaguePage { gameObject = OptionalButtonParent.gameObject }, PageText, PageTooltip, () =>
                     {
                         //Cache Our UIPage
-                        var OurPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer/" + MenuTransform.name).GetComponent<UIPage>();
+                        var OurPage = MenuTransform.GetComponent<UIPage>();
 
                         //Cache Whatever Page Is Open That Is NOT OurPage
                         var ShownPage = QuickMenuObj.transform.FindOrNull("Container/Window/Wing_" + Enum.GetName(typeof(Wing), wing) + "/Container/InnerContainer").GetComponentsInChildren<UIPage>(false).FirstOrDefault(o => o != null && o != OurPage && o.IsStackShown());
@@ -902,6 +842,8 @@ namespace PlagueButtonAPI
                 SubMenus.Add(Page);
 
                 OnCreation?.Invoke(Page);
+
+                //MelonLogger.Warning($"Page: {name} Created!");
             }
         }
 
@@ -1001,12 +943,41 @@ namespace PlagueButtonAPI
         {
             try
             {
-                return transform.Find(path);
+                path = path.Replace("\\", "/");
+
+                if (path[0] == '/')
+                {
+                    path = path.Substring(1, path.Length);
+                }
+
+                if (path[path.Length - 1] == '/')
+                {
+                    path = path.Substring(0, path.Length - 1);
+                }
+
+                var EndObject = transform;
+
+                foreach (var child in path.Split('/'))
+                {
+                    if (!string.IsNullOrWhiteSpace(child) && child.Length > 1)
+                    {
+                        EndObject = EndObject.Find(child.Replace("/", ""));
+                    }
+                }
+
+                if (EndObject == null || EndObject == transform)
+                {
+                    MelonLogger.Error($"Failed To Find Child Object At Path: {path}");
+                }
+
+                return EndObject;
             }
             catch
             {
 
             }
+
+            MelonLogger.Error($"Failed To Find Child Object At Path: {path}");
 
             return null;
         }

@@ -31,22 +31,22 @@ namespace ExampleButtonAPIUsage
         {
             if (sceneName == "ui")
             {
-                ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestMenu_1", "Test Menu", "Opens The Test Menu", null,
+                ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestMenu_1", "Test Menu", "Opens The Test Menu", null, null,
                     (page) =>
                     {
-                        ButtonAPI.CreateButton(page.gameObject.transform, "Test Button 1", "A Test Button",
+                        ButtonAPI.CreateButton(page, "Test Button 1", "A Test Button",
                             () =>
                             {
                                 MelonLogger.Msg("Test Button 1 Clicked!");
                             });
 
-                        ButtonAPI.CreateToggle(page.gameObject.transform, "Disable Portals", "Disables Portals Entirely.",
+                        ButtonAPI.CreateToggle(page, "Disable Portals", "Disables Portals Entirely.",
                             (a) =>
                             {
                                 DisablePortals = a;
                             }, false, false);
 
-                        ButtonAPI.CreateToggle(page.gameObject.transform, "Test Toggle 2", "A Test Toggle",
+                        ButtonAPI.CreateToggle(page, "Test Toggle 2", "A Test Toggle",
                             (a) =>
                             {
                                 MelonLogger.Msg("Test Toggle 2 Clicked! - State: " + a);
@@ -54,7 +54,7 @@ namespace ExampleButtonAPIUsage
 
                         ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestSubMenu_1", "Test Sub Menu", "Opens The Test Sub Menu", page.page);
 
-                        ButtonAPI.CreateSlider(page.gameObject.transform, "Test Slider", "A Test Slider", (val) =>
+                        ButtonAPI.CreateSlider(page, "Test Slider", "A Test Slider", (val) =>
                         {
                             MelonLogger.Msg("Slider Value Changed! - Value: " + val);
                         }, 0f, 0f, 100f);
