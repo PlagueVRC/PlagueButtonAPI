@@ -3,6 +3,9 @@ name: .NET
 on:
   push:
     branches: beta-ui
+    paths:
+      - 'PlagueButtonAPI'
+      - 'References'
 
 jobs:
   build:
