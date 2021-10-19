@@ -24,7 +24,7 @@ namespace PlagueButtonAPI
         {
             if (sceneName == "ui")
             {
-                MelonLogger.Warning("UI Load!");
+                MelonLogger.Warning(Creditation);
 
                 MelonCoroutines.Start(PlagueButtonAPI_Init());
 
@@ -64,14 +64,14 @@ namespace PlagueButtonAPI
         #region Creditation And Disclaimer
 #pragma warning disable 414
 
-        private static readonly string Creditation =
-        "Plague Button API" +
-        "https://VRCAntiCrash.com" +
-        "Copyright Reserved" +
-        "Use-Only Licensed" +
-        "https://github.com/PlagueVRC/PlagueButtonAPI" +
-        "Removal Or Modification Of This String Breaches The License." +
-        "This String Is To Be Preserved AS IS.";
+        public static readonly string Creditation =
+        "\nPlague Button API" +
+        "\nhttps://VRCAntiCrash.com" +
+        "\nCopyright Reserved" +
+        "\nUse-Only Licensed" +
+        "\nhttps://github.com/PlagueVRC/PlagueButtonAPI/tree/beta-ui" +
+        "\nRemoval Or Modification Of This String Breaches The License." +
+        "\nThis String Is To Be Preserved AS IS.";
 
 #pragma warning restore 414
         #endregion
@@ -79,7 +79,7 @@ namespace PlagueButtonAPI
         #region Public Variables
         
         /// <summary>
-        /// The Main QuickMenu/Container/Window/
+        /// The Main QuickMenu + /Container/Window/.
         /// </summary>
         public static Transform NewElementsMenuTransform = null;
 
@@ -344,8 +344,8 @@ namespace PlagueButtonAPI
         }
 
         private static IL2CPPAssetBundle OurBundle = new IL2CPPAssetBundle();
-        public static Sprite Unchecked_Checkbox;
-        public static Sprite Checked_Checkbox;
+        internal static Sprite Unchecked_Checkbox;
+        internal static Sprite Checked_Checkbox;
         /// <summary>
         /// Creates A Toggle In The Specified Parent Page.
         /// </summary>
@@ -641,7 +641,7 @@ namespace PlagueButtonAPI
         /// <summary>
         /// Initializes Reference Objects And Transforms.
         /// </summary>
-        public static void InitTransforms()
+        private static void InitTransforms()
         {
             if (QuickMenuObj != null)
             {
@@ -922,23 +922,23 @@ namespace PlagueButtonAPI
 
         #endregion public Enumerations
 
-        #region Public Things - Not For The End User
+        #region Not For The End User
 
         /// <summary>
         /// Any SubMenus Previously Created.
         /// </summary>
-        public static List<PlaguePage> SubMenus = new List<PlaguePage>();
+        private static List<PlaguePage> SubMenus = new List<PlaguePage>();
 
         #endregion
 
         #region Helpers
 
-        public static int RangeConv(float input, float MinPossibleInput, float MaxPossibleInput, float MinConv, float MaxConv)
+        private static int RangeConv(float input, float MinPossibleInput, float MaxPossibleInput, float MinConv, float MaxConv)
         {
             return (int)((((input - MinPossibleInput) * (MaxConv - MinConv)) / (MaxPossibleInput - MinPossibleInput)) + MinConv);
         }
 
-        public static GameObject FindOrNull(string path)
+        private static GameObject FindOrNull(string path)
         {
             try
             {
@@ -953,7 +953,7 @@ namespace PlagueButtonAPI
         }
 
         //This Assumes Exact Hierarchy Identicality
-        public static void RepairShit(Transform Template, Transform Dupe, bool Debug = false, bool Initial = true)
+        private static void RepairShit(Transform Template, Transform Dupe, bool Debug = false, bool Initial = true)
         {
             if (Initial)
             {
@@ -997,7 +997,7 @@ namespace PlagueButtonAPI
     #region Extension Methods
     public static class ButtonAPIExtensions
     {
-        public static Transform FindOrNull(this Transform transform, string path)
+        internal static Transform FindOrNull(this Transform transform, string path)
         {
             try
             {
