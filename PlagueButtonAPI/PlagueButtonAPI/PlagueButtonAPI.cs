@@ -17,6 +17,8 @@ namespace PlagueButtonAPI
     #region PlagueButtonAPI - Created By Plague
     public class ButtonAPI : MelonMod
     {
+        //This Will Cause A Rebuild
+
         #region Overrides
 
         private static bool HasPageInit = false;
