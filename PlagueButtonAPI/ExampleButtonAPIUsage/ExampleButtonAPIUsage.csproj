@@ -142,6 +142,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="External Libraries\LoadSprite.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="ExampleButtonAPIUsageMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,8 +151,9 @@
     <ProjectReference Include="..\PlagueButtonAPI\PlagueButtonAPI.csproj">
       <Project>{1067ac86-8417-4f30-a9d0-ee8027bfb134}</Project>
       <Name>PlagueButtonAPI</Name>
-      <Private>True</Private>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

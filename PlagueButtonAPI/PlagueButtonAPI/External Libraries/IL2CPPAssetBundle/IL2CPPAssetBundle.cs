@@ -15,13 +15,13 @@ namespace IL2CPPAssetBundleAPI
         /// <summary>
         /// The Loaded AssetBundle, Null By Default
         /// </summary>
-        internal AssetBundle bundle = null;
+        public AssetBundle bundle = null;
 
-        internal bool HasLoadedABundle = false;
+        public bool HasLoadedABundle = false;
 
-        internal string error = "";
+        public string error = "";
 
-        internal IL2CPPAssetBundle(string resource = null)
+        public IL2CPPAssetBundle(string resource = null)
         {
             if (!string.IsNullOrEmpty(resource))
             {
@@ -34,7 +34,7 @@ namespace IL2CPPAssetBundleAPI
         /// </summary>
         /// <param name="resource">The Path To The Embedded Resource File - Example: VRCAntiCrash.Resources.plaguelogo.asset</param>
         /// <returns>True If Successful</returns>
-        internal bool LoadBundle(string resource)
+        public bool LoadBundle(string resource)
         {
             if (HasLoadedABundle)
             {
@@ -102,9 +102,9 @@ namespace IL2CPPAssetBundleAPI
         /// <summary>
         /// Loads An Asset From The Previously Loaded AssetBundle
         /// </summary>
-        /// <param name="str">The Internal Name Of The Asset Inside The AssetBundle</param>
+        /// <param name="str">The public Name Of The Asset Inside The AssetBundle</param>
         /// <returns>The Asset You Searched For, Null If No AssetBundle Was Previously Loaded</returns>
-        internal T Load<T>(string str) where T : Object
+        public T Load<T>(string str) where T : Object
         {
             try
             {

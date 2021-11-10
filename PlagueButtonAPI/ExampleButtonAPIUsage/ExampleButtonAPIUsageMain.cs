@@ -1,7 +1,10 @@
 ﻿using MelonLoader;
 using PlagueButtonAPI;
 using System;
-using System.IO;
+using LoadSprite;
+using PlagueButtonAPI.Controls;
+using PlagueButtonAPI.Controls.Grouping;
+using PlagueButtonAPI.Pages;
 using UnityEngine;
 
 [assembly: MelonInfo(typeof(ExampleButtonAPIUsage.ExampleButtonAPIUsageMain), "Example PlagueButtonAPI Usage", "1.0", "Plague")]
@@ -14,41 +17,43 @@ namespace ExampleButtonAPIUsage
         #region Variables
 
         internal static bool DisablePortals = false;
+        internal static Sprite ButtonImage = null;
 
         #endregion
+
+        public override void OnApplicationStart()
+        {
+            ButtonImage = (Environment.CurrentDirectory + "\\ImageToLoad.png").LoadSpriteFromDisk();
+        }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
             if (sceneName == "ui")
             {
-                ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestMenu_1", "Test Menu", "Opens The Test Menu", null, null,
-                    (page) =>
+                ButtonAPI.OnInit += () =>
+                {
+                    var Page = new MenuPage("TestMenu_1", "Main Menu");
+
+                    new Tab(Page, ButtonImage);
+
+                    var FunctionalGroup = new ButtonGroup(Page, "Functional Options");
+
+                    new ToggleButton(FunctionalGroup, "Disable Portals", "Re-Enables Portals", "Disables Portals Entirely", (val) =>
                     {
-                        ButtonAPI.CreateButton(page, "Test Button 1", "A Test Button",
-                            () =>
-                            {
-                                MelonLogger.Msg("Test Button 1 Clicked!");
-                            });
-
-                        ButtonAPI.CreateToggle(page, "Disable Portals", "Disables Portals Entirely.",
-                            (a) =>
-                            {
-                                DisablePortals = a;
-                            }, false, false);
-
-                        ButtonAPI.CreateToggle(page, "Test Toggle 2", "A Test Toggle",
-                            (a) =>
-                            {
-                                MelonLogger.Msg("Test Toggle 2 Clicked! - State: " + a);
-                            }, true, true);
-
-                        ButtonAPI.MakeEmptyPage(ButtonAPI.Wing.Left, "TestSubMenu_1", "Test Sub Menu", "Opens The Test Sub Menu", page.page);
-
-                        ButtonAPI.CreateSlider(page, "Test Slider", "A Test Slider", (val) =>
-                        {
-                            MelonLogger.Msg("Slider Value Changed! - Value: " + val);
-                        }, 0f, 0f, 100f);
+                        DisablePortals = val;
                     });
+
+                    var NonFunctionalGroup = new ButtonGroup(Page, "Non-Functional Options");
+
+                    new SingleButton(NonFunctionalGroup, "Button", "Button", null, ButtonImage);
+                    new SimpleSingleButton(NonFunctionalGroup, "Simple Button", "Simple Button", null);
+                    //new TextButton(NonFunctionalGroup, "Text_1", "Text", "Big Text", null);
+                    new ToggleButton(NonFunctionalGroup, "Toggle", "Toggle Off", "Toggle On", null);
+                    new Slider(NonFunctionalGroup, "Slider", "Slider", null);
+                    new Slider(Page, "Slider", "Slider", null);
+
+                    new SimpleButtonGroup(Page);
+                };
             }
         }
 

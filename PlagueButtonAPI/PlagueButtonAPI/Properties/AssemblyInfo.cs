@@ -14,8 +14,6 @@ using MelonLoader;
 [assembly: AssemblyCopyright("Copyright © Plague 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: MelonInfo(typeof(PlagueButtonAPI.ButtonAPI), "PlagueButtonAPI", "1.0", "Plague", "https://github.com/PlagueVRC/PlagueButtonAPI/tree/beta-ui")]
-[assembly: MelonGame("VRChat", "VRChat")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
