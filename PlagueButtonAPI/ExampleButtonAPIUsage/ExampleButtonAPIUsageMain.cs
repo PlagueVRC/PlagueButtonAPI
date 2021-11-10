@@ -47,7 +47,6 @@ namespace ExampleButtonAPIUsage
 
                     new SingleButton(NonFunctionalGroup, "Button", "Button", null, ButtonImage);
                     new SimpleSingleButton(NonFunctionalGroup, "Simple Button", "Simple Button", null);
-                    //new TextButton(NonFunctionalGroup, "Text_1", "Text", "Big Text", null);
                     new ToggleButton(NonFunctionalGroup, "Toggle", "Toggle Off", "Toggle On", null);
                     new Slider(NonFunctionalGroup, "Slider", "Slider", null);
                     new Slider(Page, "Slider", "Slider", null);
