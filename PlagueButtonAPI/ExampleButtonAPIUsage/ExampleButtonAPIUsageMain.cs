@@ -45,13 +45,26 @@ namespace ExampleButtonAPIUsage
 
                     var NonFunctionalGroup = new ButtonGroup(Page, "Non-Functional Options");
 
-                    new SingleButton(NonFunctionalGroup, "Button", "Button", null, ButtonImage);
-                    new SimpleSingleButton(NonFunctionalGroup, "Simple Button", "Simple Button", null);
-                    new ToggleButton(NonFunctionalGroup, "Toggle", "Toggle Off", "Toggle On", null);
-                    new Slider(NonFunctionalGroup, "Slider", "Slider", null);
-                    new Slider(Page, "Slider", "Slider", null);
-
-                    new SimpleButtonGroup(Page);
+                    new SingleButton(NonFunctionalGroup, "Button", "Button", () =>
+                    {
+                        MelonLogger.Msg("Button Clicked!");
+                    }, ButtonImage);
+                    new SimpleSingleButton(NonFunctionalGroup, "Simple Button", "Simple Button", () =>
+                    {
+                        MelonLogger.Msg("Simple Button Clicked!");
+                    });
+                    new ToggleButton(NonFunctionalGroup, "Toggle", "Toggle Off", "Toggle On", (val) =>
+                    {
+                        MelonLogger.Msg("Toggle Button Clicked! -> State: " + val);
+                    });
+                    new Slider(NonFunctionalGroup, "Slider", "Slider", (val) =>
+                    {
+                        MelonLogger.Msg("Slider Adjusted! -> State: " + val);
+                    });
+                    new Slider(Page, "Slider", "Slider", (val) =>
+                    {
+                        MelonLogger.Msg("Slider Adjusted! -> State: " + val);
+                    });
                 };
             }
         }
