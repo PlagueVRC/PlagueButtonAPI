@@ -61,6 +61,11 @@ namespace PlagueButtonAPI.Controls
         {
         }
 
+        public ToggleButton(CollapsibleButtonGroup grp, string text, string offTooltip, string onTooltip, Action<bool> stateChanged, Sprite icon = null)
+            : this(grp.buttonGroup, text, offTooltip, onTooltip, stateChanged, icon)
+        {
+        }
+
         public void SetAction(Action<bool> newAction)
         {
             buttonToggle.onValueChanged = new Toggle.ToggleEvent();

@@ -1,4 +1,3 @@
-using System;
 using PlagueButtonAPI.Misc;
 using PlagueButtonAPI.Pages;
 using TMPro;
@@ -8,50 +7,67 @@ using Object = UnityEngine.Object;
 
 namespace PlagueButtonAPI.Controls.Grouping
 {
-	public class ButtonGroup
-	{
-		private TextMeshProUGUI headerText;
+    public class ButtonGroup
+    {
+        public readonly TextMeshProUGUI headerText;
 
-		public GameObject gameObject;
+        public readonly GameObject gameObject;
 
-		private GameObject headerGameObject;
+        public readonly GameObject headerGameObject;
 
-		public RectMask2D parentMenuMask;
+        public readonly RectMask2D parentMenuMask;
 
-		public ButtonGroup(Transform parent, string text)
+        private readonly bool WasNoText;
+
+        public ButtonGroup(Transform parent, string text, bool NoText = false, TextAnchor ButtonAlignment = TextAnchor.UpperCenter)
         {
-            headerGameObject = Object.Instantiate(ButtonAPI.buttonGroupHeaderBase, parent);
-            headerText = headerGameObject.GetComponentInChildren<TextMeshProUGUI>(true);
-            headerText.text = text;
-            headerText.GetComponent<RectTransform>().sizeDelta = new Vector2(915f, 50f);
+            WasNoText = NoText;
+
+            if (!NoText)
+            {
+                headerGameObject = Object.Instantiate(ButtonAPI.buttonGroupHeaderBase, parent);
+                headerText = headerGameObject.GetComponentInChildren<TextMeshProUGUI>(true);
+                headerText.text = text;
+                headerText.GetComponent<RectTransform>().sizeDelta = new Vector2(915f, 50f);
+            }
+
             gameObject = Object.Instantiate(ButtonAPI.buttonGroupBase, parent);
             gameObject.transform.DestroyChildren();
+            gameObject.GetComponent<GridLayoutGroup>().childAlignment = ButtonAlignment;
             parentMenuMask = parent.parent.GetComponent<RectMask2D>();
         }
 
-        public ButtonGroup(MenuPage parent, string text) : this(parent.menuContents, text)
+        public ButtonGroup(MenuPage parent, string text, bool NoText = false, TextAnchor ButtonAlignment = TextAnchor.UpperCenter) : this(parent.menuContents, text, NoText, ButtonAlignment)
         {
 
         }
 
-		public void SetText(string newText)
-		{
-			headerText.text = newText;
-		}
+        public void SetText(string newText)
+        {
+            if (!WasNoText)
+            {
+                headerText.text = newText;
+            }
+        }
 
-		public void Destroy()
-		{
-			Object.Destroy(headerText.gameObject);
-			Object.Destroy(gameObject);
-		}
+        public void Destroy()
+        {
+            if (!WasNoText)
+            {
+                Object.Destroy(headerText.gameObject);
+            }
 
-		public void SetActive(bool state)
-		{
-			if (headerGameObject != null)
-			{
-				headerGameObject.SetActive(state);
-			}
-			gameObject.SetActive(state);
-		}
-	}
+            Object.Destroy(gameObject);
+        }
+
+        public void SetActive(bool state)
+        {
+            if (!WasNoText && headerGameObject != null)
+            {
+                headerGameObject.SetActive(state);
+            }
+
+            gameObject.SetActive(state);
+        }
+    }
 }

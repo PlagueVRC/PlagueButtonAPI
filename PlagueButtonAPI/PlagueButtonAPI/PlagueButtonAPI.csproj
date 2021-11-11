@@ -40,6 +40,10 @@
       <HintPath>..\..\References\PlagueButtonAPI\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DataModel">
+      <HintPath>..\..\References\PlagueButtonAPI\DataModel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Il2Cppmscorlib">
       <HintPath>..\..\References\PlagueButtonAPI\Il2Cppmscorlib.dll</HintPath>
       <Private>False</Private>
@@ -143,6 +147,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Grouping\CollapsibleButtonGroup.cs" />
     <Compile Include="Main\ButtonAPI.cs" />
     <Compile Include="Controls\Grouping\ButtonGroup.cs" />
     <Compile Include="Misc\ComponentManager.cs" />

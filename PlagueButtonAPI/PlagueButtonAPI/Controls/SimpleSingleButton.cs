@@ -47,6 +47,11 @@ namespace PlagueButtonAPI.Controls
         {
         }
 
+        public SimpleSingleButton(CollapsibleButtonGroup grp, string text, string tooltip, Action click)
+            : this(grp.buttonGroup, tooltip, text, click)
+        {
+        }
+
         public void SetAction(Action newAction)
         {
             buttonButton.onClick = new Button.ButtonClickedEvent();

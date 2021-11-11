@@ -22,6 +22,10 @@ namespace PlagueButtonAPI
 
         public static GameObject buttonGroupHeaderBase;
 
+        public static GameObject collapsibleButtonGroupFoldoutButtonBase;
+
+        public static GameObject collapsibleButtonGroupGridBase;
+
         public static GameObject menuPageBase;
 
         public static GameObject menuTabBase;
@@ -53,7 +57,7 @@ namespace PlagueButtonAPI
 
         private static IEnumerator WaitForQMClone()
         {
-            while (GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/") == null)
+            while (GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/") == null || GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_QM_Emojis/ScrollRect/Viewport/VerticalLayoutGroup/QM_EmojiGrid(Clone)") == null)
             {
                 yield return new WaitForEndOfFrame();
             }
@@ -63,6 +67,8 @@ namespace PlagueButtonAPI
             toggleButtonBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Settings/Panel_QM_ScrollRect/Viewport/VerticalLayoutGroup/Buttons_UI_Elements_Row_1/Button_ToggleQMInfo").gameObject;
             buttonGroupBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions").gameObject;
             buttonGroupHeaderBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Header_QuickActions").gameObject;
+            collapsibleButtonGroupFoldoutButtonBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_QM_Emojis/ScrollRect/Viewport/VerticalLayoutGroup/QM_GridFoldout(Clone)").gameObject;
+            collapsibleButtonGroupGridBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_QM_Emojis/ScrollRect/Viewport/VerticalLayoutGroup/QM_EmojiGrid(Clone)").gameObject;
             menuPageBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard").gameObject;
             menuTabBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Page_Buttons_QM/HorizontalLayoutGroup/Page_Settings").gameObject;
             sliderBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_AudioSettings/Content/Audio/VolumeSlider_Master").gameObject;

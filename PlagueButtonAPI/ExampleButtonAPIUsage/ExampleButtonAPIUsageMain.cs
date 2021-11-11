@@ -49,22 +49,33 @@ namespace ExampleButtonAPIUsage
                     {
                         MelonLogger.Msg("Button Clicked!");
                     }, ButtonImage);
+
                     new SimpleSingleButton(NonFunctionalGroup, "Simple Button", "Simple Button", () =>
                     {
                         MelonLogger.Msg("Simple Button Clicked!");
                     });
+
                     new ToggleButton(NonFunctionalGroup, "Toggle", "Toggle Off", "Toggle On", (val) =>
                     {
                         MelonLogger.Msg("Toggle Button Clicked! -> State: " + val);
                     });
+
                     new Slider(NonFunctionalGroup, "Slider", "Slider", (val) =>
                     {
                         MelonLogger.Msg("Slider Adjusted! -> State: " + val);
                     });
+
                     new Slider(Page, "Slider", "Slider", (val) =>
                     {
                         MelonLogger.Msg("Slider Adjusted! -> State: " + val);
                     });
+
+                    var Dropdown = new CollapsibleButtonGroup(Page, "Dropdown");
+
+                    new SingleButton(Dropdown, "Button", "Button", () =>
+                    {
+                        MelonLogger.Msg("Button Clicked!");
+                    }, ButtonImage);
                 };
             }
         }
