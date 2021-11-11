@@ -70,7 +70,7 @@ namespace ExampleButtonAPIUsage
                         MelonLogger.Msg("Slider Adjusted! -> State: " + val);
                     });
 
-                    var Dropdown = new CollapsibleButtonGroup(Page, "Dropdown");
+                    var Dropdown = new CollapsibleButtonGroup(Page, "Dropdown", "Toggles The Dropdown");
 
                     new SingleButton(Dropdown, "Button", "Button", () =>
                     {

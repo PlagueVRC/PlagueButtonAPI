@@ -5,6 +5,7 @@ using PlagueButtonAPI.Pages;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VRC.UI.Core.Styles;
 using VRC.UI.Elements;
 using Object = UnityEngine.Object;
 
@@ -16,7 +17,7 @@ namespace PlagueButtonAPI.Controls.Grouping
 
         public ButtonGroup buttonGroup;
 
-        public GameObject foldoutButtonObject;
+        public SingleButton mainButtonObject;
 
         public RectMask2D parentMenuMask;
 
@@ -24,7 +25,9 @@ namespace PlagueButtonAPI.Controls.Grouping
 
         private static Sprite arrowUp;
 
-        public CollapsibleButtonGroup(Transform parent, string text, bool openByDefault = false)
+        private bool IsOpen;
+
+        public CollapsibleButtonGroup(Transform parent, string text, string tooltip, bool openByDefault = false)
         {
             if (arrowUp == null || arrowDown == null)
             {
@@ -34,30 +37,39 @@ namespace PlagueButtonAPI.Controls.Grouping
                 arrowDown = TexToSprite(icons.arrowDown);
             }
 
-            foldoutButtonObject = Object.Instantiate(ButtonAPI.collapsibleButtonGroupFoldoutButtonBase, parent);
+            IsOpen = openByDefault;
+
+            mainButtonObject = new SingleButton(parent, text, tooltip, () =>
+            {
+                IsOpen = !IsOpen;
+
+                mainButtonObject.SetIcon(IsOpen ? arrowUp : arrowDown);
+                buttonGroup?.SetActive(IsOpen);
+
+            }, openByDefault ? arrowUp : arrowDown);
+
+            mainButtonObject.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(1024f, 100f);
+
+            var TextObj = mainButtonObject.gameObject.transform.Find("Text_H4");
+            TextObj.GetComponent<TextMeshProUGUI>().fontSize = 50;
+            TextObj.GetComponent<RectTransform>().sizeDelta = new Vector2(500f, 48f);
+            TextObj.localPosition = new Vector3(-350f, -23f, 0f);
+
+            mainButtonObject.gameObject.transform.Find("Icon").localPosition = new Vector3(450f, 33f, 0f);
+            mainButtonObject.gameObject.transform.localScale = new Vector3(0.88f, 1f, 1f);
+
+            mainButtonObject.gameObject.GetComponent<StyleElement>().enabled = false;
+
             buttonGroup = new ButtonGroup(parent, "", false, TextAnchor.UpperLeft);
 
             parentMenuMask = parent.parent.GetComponent<RectMask2D>();
 
-            foldoutButtonObjectText = foldoutButtonObject.GetComponentInChildren<TextMeshProUGUI>(true);
-            foldoutButtonObjectText.text = text;
-
-            var ToggleObj = foldoutButtonObject.GetComponentInChildren<Toggle>();
-
-            ToggleObj.onValueChanged = new Toggle.ToggleEvent();
-            ToggleObj.onValueChanged.AddListener(new Action<bool>((val) =>
-            {
-                foldoutButtonObject.transform.Find("Arrow").GetComponent<Image>().sprite = val ? arrowUp : arrowDown;
-                buttonGroup?.SetActive(val);
-            }));
-
-            foldoutButtonObject.transform.Find("Arrow").GetComponent<Image>().sprite = openByDefault ? arrowUp : arrowDown;
-            buttonGroup?.SetActive(openByDefault);
+            mainButtonObject.SetIcon(IsOpen ? arrowUp : arrowDown);
+            buttonGroup?.SetActive(IsOpen);
         }
 
-        public CollapsibleButtonGroup(MenuPage parent, string text, bool openByDefault = false) : this(parent.menuContents, text, openByDefault)
+        public CollapsibleButtonGroup(MenuPage parent, string text, string tooltip, bool openByDefault = false) : this(parent.menuContents, text, tooltip, openByDefault)
         {
-
         }
 
         public void SetText(string newText)
@@ -73,7 +85,7 @@ namespace PlagueButtonAPI.Controls.Grouping
 
         public void SetActive(bool state)
         {
-            foldoutButtonObject?.SetActive(state);
+            mainButtonObject?.SetActive(state);
             buttonGroup?.SetActive(state);
         }
 
