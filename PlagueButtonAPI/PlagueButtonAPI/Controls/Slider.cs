@@ -8,19 +8,19 @@ namespace PlagueButtonAPI.Controls
 {
     public class Slider
     {
-        private TextMeshProUGUI sliderText;
+        public readonly TextMeshProUGUI sliderText;
 
-        private TextMeshProUGUI sliderPercentText;
+        public readonly TextMeshProUGUI sliderPercentText;
 
-        private UnityEngine.UI.Slider sliderSlider;
+        public readonly UnityEngine.UI.Slider sliderSlider;
 
-        private VRC.UI.Elements.Tooltips.UiTooltip sliderTooltip;
+        public readonly VRC.UI.Elements.Tooltips.UiTooltip sliderTooltip;
 
-        private bool _floor;
+        private readonly bool _floor;
 
-        private bool _percent;
+        private readonly bool _percent;
 
-        public GameObject gameObject;
+        public readonly GameObject gameObject;
 
         public Slider(Transform parent, string text, string tooltip, Action<float> onSliderAdjust, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)
         {

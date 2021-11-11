@@ -10,15 +10,15 @@ namespace PlagueButtonAPI.Controls
 {
     public class SingleButton
     {
-        private TextMeshProUGUI buttonText;
+        public readonly TextMeshProUGUI buttonText;
 
-        private Image buttonImage;
+        public readonly Image buttonImage;
 
-        private Button buttonButton;
+        public readonly Button buttonButton;
 
-        private VRC.UI.Elements.Tooltips.UiTooltip buttonTooltip;
+        public readonly VRC.UI.Elements.Tooltips.UiTooltip buttonTooltip;
 
-        public GameObject gameObject;
+        public readonly GameObject gameObject;
 
         public SingleButton(Transform parent, string text, string tooltip, Action click, Sprite icon = null, bool preserveColor = false)
         {

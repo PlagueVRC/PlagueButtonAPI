@@ -10,15 +10,15 @@ namespace PlagueButtonAPI.Controls
 {
 	public class Tab
 	{
-		private GameObject gameObject;
+        public readonly GameObject gameObject;
 
-		private MenuTab menuTab;
+        public readonly MenuTab menuTab;
 
-		private Image tabIcon;
+        public readonly Image tabIcon;
 
-		private GameObject badgeGameObject;
+        public readonly GameObject badgeGameObject;
 
-		private TextMeshProUGUI badgeText;
+        public readonly TextMeshProUGUI badgeText;
 
 		public Tab(string menu, Sprite icon = null, Transform parent = null)
         {

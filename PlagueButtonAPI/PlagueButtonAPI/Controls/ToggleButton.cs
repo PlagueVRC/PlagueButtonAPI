@@ -12,15 +12,15 @@ namespace PlagueButtonAPI.Controls
 {
     public class ToggleButton
     {
-        public TextMeshProUGUI buttonText;
+        public readonly TextMeshProUGUI buttonText;
 
-        public Image buttonImage;
+        public readonly Image buttonImage;
 
-        public Toggle buttonToggle;
+        public readonly Toggle buttonToggle;
 
-        public UiToggleTooltip toggleTooltip;
+        public readonly UiToggleTooltip toggleTooltip;
 
-        public GameObject gameObject;
+        public readonly GameObject gameObject;
 
         public ToggleButton(Transform parent, string text, string offTooltip, string onTooltip, Action<bool> stateChanged, Sprite icon = null)
         {

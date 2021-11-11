@@ -15,17 +15,19 @@ namespace PlagueButtonAPI.Controls
 {
     public class Label
     {
+        public readonly SimpleSingleButton LabelButton;
+
         public Label(Transform parent, string text, string tooltip, Action onClick = null)
         {
-            var Template = new SimpleSingleButton(parent, text, tooltip, onClick);
+            LabelButton = new SimpleSingleButton(parent, text, tooltip, onClick);
 
-            Template.gameObject.transform.Find("Background").GetComponent<Image>().color = new Color(0f, 0f, 0f, 0f);
+            LabelButton.gameObject.transform.Find("Background").GetComponent<Image>().color = new Color(0f, 0f, 0f, 0f);
 
             if (onClick == null)
             {
-                Template.gameObject.GetComponent<Button>().enabled = false;
+                LabelButton.gameObject.GetComponent<Button>().enabled = false;
 
-                var Handler = Template.gameObject.AddComponent<ObjectHandler>();
+                var Handler = LabelButton.gameObject.AddComponent<ObjectHandler>();
 
                 Handler.OnEnabled += (obj) =>
                 {

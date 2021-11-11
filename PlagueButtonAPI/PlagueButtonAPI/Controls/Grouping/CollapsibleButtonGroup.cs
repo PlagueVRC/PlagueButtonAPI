@@ -15,13 +15,13 @@ namespace PlagueButtonAPI.Controls.Grouping
 {
     public class CollapsibleButtonGroup
     {
-        public TextMeshProUGUI foldoutButtonObjectText;
+        public readonly TextMeshProUGUI foldoutButtonObjectText;
 
-        public ButtonGroup buttonGroup;
+        public readonly ButtonGroup buttonGroup;
 
-        public SingleButton mainButtonObject;
+        public readonly SingleButton mainButtonObject;
 
-        public RectMask2D parentMenuMask;
+        public readonly RectMask2D parentMenuMask;
 
         private static Sprite arrowDown;
 
