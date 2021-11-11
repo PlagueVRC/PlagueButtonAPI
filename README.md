@@ -6,7 +6,7 @@ The Best VRChat Button API By Plague
 # [Docs](https://github.com/PlagueVRC/PlagueButtonAPI/blob/beta-ui/Docs/README.md)
 
 # Preview:
-![image](https://user-images.githubusercontent.com/36628963/141183366-7ad90590-0fb2-4b05-8453-b6a12843220c.png)
+![image](https://user-images.githubusercontent.com/36628963/141266069-9c7f3a2a-3303-4278-81b7-5ead92e3489a.png)
 
 FAQ:
 Question | Answer
