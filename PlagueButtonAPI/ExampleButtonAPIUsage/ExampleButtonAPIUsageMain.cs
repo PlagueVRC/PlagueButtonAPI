@@ -1,10 +1,10 @@
-﻿using MelonLoader;
+﻿using LoadSprite;
+using MelonLoader;
 using PlagueButtonAPI;
-using System;
-using LoadSprite;
 using PlagueButtonAPI.Controls;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
+using System;
 using UnityEngine;
 
 [assembly: MelonInfo(typeof(ExampleButtonAPIUsage.ExampleButtonAPIUsageMain), "Example PlagueButtonAPI Usage", "1.0", "Plague")]
