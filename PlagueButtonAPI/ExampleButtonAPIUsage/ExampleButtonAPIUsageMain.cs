@@ -42,7 +42,7 @@ namespace ExampleButtonAPIUsage
                     {
                         DisablePortals = val;
                         Functions.TogglePortals(!val);
-                    });
+                    }).SetToggleState(false, true);
 
                     var NonFunctionalGroup = new ButtonGroup(Page, "Non-Functional Options");
 
