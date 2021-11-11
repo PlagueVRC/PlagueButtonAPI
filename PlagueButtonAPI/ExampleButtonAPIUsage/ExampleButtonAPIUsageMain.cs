@@ -41,6 +41,7 @@ namespace ExampleButtonAPIUsage
                     new ToggleButton(FunctionalGroup, "Disable Portals", "Re-Enables Portals", "Disables Portals Entirely", (val) =>
                     {
                         DisablePortals = val;
+                        Functions.TogglePortals(!val);
                     });
 
                     var NonFunctionalGroup = new ButtonGroup(Page, "Non-Functional Options");
