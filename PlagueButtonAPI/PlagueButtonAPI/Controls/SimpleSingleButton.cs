@@ -1,6 +1,6 @@
-using System;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,7 +31,14 @@ namespace PlagueButtonAPI.Controls
                 buttonButton.onClick.AddListener(click);
             }
             buttonTooltip = gameObject.GetComponentInChildren<VRC.UI.Elements.Tooltips.UiTooltip>(true);
-            buttonTooltip.field_Public_String_0 = tooltip;
+            if (!string.IsNullOrEmpty(tooltip))
+            {
+                buttonTooltip.field_Public_String_0 = tooltip;
+            }
+            else
+            {
+                buttonTooltip.enabled = false;
+            }
             UnityEngine.Object.Destroy(gameObject.transform.Find("Icon").gameObject);
             UnityEngine.Object.Destroy(gameObject.transform.Find("Icon_Secondary").gameObject);
             buttonText.color = new Color(0.9f, 0.9f, 0.9f);

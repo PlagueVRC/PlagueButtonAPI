@@ -35,9 +35,16 @@ namespace PlagueButtonAPI.Controls
                 buttonToggle.onValueChanged.AddListener(stateChanged);
             }
             toggleTooltip = gameObject.GetComponentInChildren<UiToggleTooltip>(true);
-            toggleTooltip.field_Public_String_0 = onTooltip;
-            toggleTooltip.field_Public_String_1 = offTooltip;
-            toggleTooltip.prop_Boolean_0 = true;
+            if (!string.IsNullOrEmpty(onTooltip) && !string.IsNullOrEmpty(offTooltip))
+            {
+                toggleTooltip.field_Public_String_0 = onTooltip;
+                toggleTooltip.field_Public_String_1 = offTooltip;
+                toggleTooltip.prop_Boolean_0 = true;
+            }
+            else
+            {
+                toggleTooltip.enabled = false;
+            }
             buttonImage = gameObject.transform.Find("Icon_On").GetComponentInChildren<Image>(true);
             if (icon != null)
             {

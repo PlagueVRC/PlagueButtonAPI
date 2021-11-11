@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\Grouping\CollapsibleButtonGroup.cs" />
+    <Compile Include="Controls\Label.cs" />
     <Compile Include="Main\ButtonAPI.cs" />
     <Compile Include="Controls\Grouping\ButtonGroup.cs" />
     <Compile Include="Misc\ComponentManager.cs" />

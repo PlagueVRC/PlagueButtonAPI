@@ -58,7 +58,15 @@ namespace PlagueButtonAPI.Controls
             sliderSlider.value = defaultValue;
 
             sliderTooltip = gameObject.GetComponentInChildren<VRC.UI.Elements.Tooltips.UiTooltip>(true);
-            sliderTooltip.field_Public_String_0 = tooltip;
+            
+            if (!string.IsNullOrEmpty(tooltip))
+            {
+                sliderTooltip.field_Public_String_0 = tooltip;
+            }
+            else
+            {
+                sliderTooltip.enabled = false;
+            }
 
             _floor = floor;
             _percent = percent;

@@ -76,6 +76,13 @@ namespace ExampleButtonAPIUsage
                     {
                         MelonLogger.Msg("Button Clicked!");
                     }, ButtonImage);
+
+                    new Label(Dropdown, "Label", "Label", () =>
+                    {
+                        MelonLogger.Msg("Label Clicked!");
+                    });
+
+                    new Label(Page, "Thanks For Looking. :)", null);
                 };
             }
         }

@@ -32,7 +32,14 @@ namespace PlagueButtonAPI.Controls
                 buttonButton.onClick.AddListener(click);
             }
             buttonTooltip = gameObject.GetComponentInChildren<VRC.UI.Elements.Tooltips.UiTooltip>(true);
-            buttonTooltip.field_Public_String_0 = tooltip;
+            if (!string.IsNullOrEmpty(tooltip))
+            {
+                buttonTooltip.field_Public_String_0 = tooltip;
+            }
+            else
+            {
+                buttonTooltip.enabled = false;
+            }
             buttonImage = gameObject.transform.Find("Icon").GetComponentInChildren<Image>(true);
             if (icon != null)
             {

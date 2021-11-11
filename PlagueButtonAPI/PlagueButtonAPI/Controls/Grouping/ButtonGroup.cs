@@ -39,7 +39,6 @@ namespace PlagueButtonAPI.Controls.Grouping
 
         public ButtonGroup(MenuPage parent, string text, bool NoText = false, TextAnchor ButtonAlignment = TextAnchor.UpperCenter) : this(parent.menuContents, text, NoText, ButtonAlignment)
         {
-
         }
 
         public void SetText(string newText)
