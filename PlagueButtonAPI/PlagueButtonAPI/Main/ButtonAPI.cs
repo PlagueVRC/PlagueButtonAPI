@@ -77,4 +77,38 @@ namespace PlagueButtonAPI
 
         public static event Action OnInit;
     }
+
+    /// <summary>
+    /// A Component For Hooking To Generic Events Such As A Object Becoming Enabled, Disabled, Destroyed And For Events Such As Update.
+    /// </summary>
+    [RegisterTypeInIl2Cpp]
+    public class ObjectHandler : MonoBehaviour
+    {
+        public ObjectHandler(IntPtr instance) : base(instance) { }
+
+        public Action<GameObject> OnEnabled = null;
+        public Action<GameObject> OnDisabled = null;
+        public Action<GameObject> OnDestroyed = null;
+        public Action<GameObject> OnUpdate = null;
+
+        void OnEnable()
+        {
+            OnEnabled?.Invoke(gameObject);
+        }
+
+        void OnDisable()
+        {
+            OnDisabled?.Invoke(gameObject);
+        }
+
+        void OnDestroy()
+        {
+            OnDestroyed?.Invoke(gameObject);
+        }
+
+        void Update()
+        {
+            OnUpdate?.Invoke(gameObject);
+        }
+    }
 }

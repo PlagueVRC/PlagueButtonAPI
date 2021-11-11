@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
+using MelonLoader;
 using PlagueButtonAPI.Misc;
 using PlagueButtonAPI.Pages;
 using TMPro;
@@ -45,7 +47,6 @@ namespace PlagueButtonAPI.Controls.Grouping
 
                 mainButtonObject.SetIcon(IsOpen ? arrowUp : arrowDown);
                 buttonGroup?.SetActive(IsOpen);
-
             }, openByDefault ? arrowUp : arrowDown);
 
             mainButtonObject.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(1024f, 100f);
@@ -58,7 +59,26 @@ namespace PlagueButtonAPI.Controls.Grouping
             mainButtonObject.gameObject.transform.Find("Icon").localPosition = new Vector3(450f, 33f, 0f);
             mainButtonObject.gameObject.transform.localScale = new Vector3(0.88f, 1f, 1f);
 
-            mainButtonObject.gameObject.GetComponent<StyleElement>().enabled = false;
+            var Handler = mainButtonObject.gameObject.AddComponent<ObjectHandler>();
+
+            Handler.OnEnabled += (obj) =>
+            {
+                var style = obj.GetComponent<StyleElement>();
+
+                if (style != null)
+                {
+                    MelonCoroutines.Start(DelayedAction());
+
+                    IEnumerator DelayedAction()
+                    {
+                        yield return new WaitForSeconds(0.5f);
+
+                        style.enabled = false;
+
+                        yield break;
+                    }
+                }
+            };
 
             buttonGroup = new ButtonGroup(parent, "", false, TextAnchor.UpperLeft);
 
