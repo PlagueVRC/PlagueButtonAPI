@@ -3,6 +3,7 @@ using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
 using TMPro;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace PlagueButtonAPI.Controls
 {
@@ -55,7 +56,17 @@ namespace PlagueButtonAPI.Controls
             });
 
             sliderSlider.Set(defaultValue);
+
             sliderSlider.value = defaultValue;
+
+            var Handler = slider.sliderPercentText.gameObject.AddComponent<ObjectHandler>();
+
+            Handler.OnEnabled += (obj) =>
+            {
+                slider.sliderPercentText.text = (floor ? Mathf.Floor(defaultValue).ToString() : defaultValue.ToString("0.0")) + (percent ? "%" : "");
+
+                Object.Destroy(slider.sliderPercentText.gameObject.GetComponent<ObjectHandler>());
+            };
 
             sliderTooltip = gameObject.GetComponentInChildren<VRC.UI.Elements.Tooltips.UiTooltip>(true);
             
