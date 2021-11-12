@@ -126,6 +126,11 @@ namespace PlagueButtonAPI.Pages
             };
         }
 
+        public void SetTitle(string text)
+        {
+            pageTitleText.text = text;
+        }
+
         public void AddExtButton(Action onClick, string tooltip, Sprite icon)
         {
             GameObject obj = UnityEngine.Object.Instantiate(extButtonGameObject, extButtonGameObject.transform.parent);

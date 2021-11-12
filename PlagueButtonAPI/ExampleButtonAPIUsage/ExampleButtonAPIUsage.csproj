@@ -40,6 +40,10 @@
       <HintPath>..\..\References\ExampleButtonAPIUsage\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DataModel">
+      <HintPath>..\..\References\ExampleButtonAPIUsage\DataModel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Il2Cppmscorlib">
       <HintPath>..\..\References\ExampleButtonAPIUsage\Il2Cppmscorlib.dll</HintPath>
       <Private>False</Private>
@@ -64,6 +68,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIExpansionKit, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\ExampleButtonAPIUsage\UIExpansionKit.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnhollowerBaseLib">
       <HintPath>..\..\References\ExampleButtonAPIUsage\UnhollowerBaseLib.dll</HintPath>
       <Private>False</Private>
@@ -146,6 +155,7 @@
     <Compile Include="Functions.cs" />
     <Compile Include="ExampleButtonAPIUsageMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PlagueButtonAPI\PlagueButtonAPI.csproj">

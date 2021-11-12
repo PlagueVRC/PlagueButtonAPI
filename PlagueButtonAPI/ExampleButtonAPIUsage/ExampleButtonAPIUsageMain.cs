@@ -5,7 +5,9 @@ using PlagueButtonAPI.Controls;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
 using System;
+using UIExpansionKit.API;
 using UnityEngine;
+using VRC;
 
 [assembly: MelonInfo(typeof(ExampleButtonAPIUsage.ExampleButtonAPIUsageMain), "Example PlagueButtonAPI Usage", "1.0", "Plague")]
 [assembly: MelonGame("VRChat", "VRChat")]
@@ -86,6 +88,30 @@ namespace ExampleButtonAPIUsage
                     new Label(Page, "Thanks For Looking. :)", null);
 
                     //Ideally Use UIX For Menu Entering Instead Of Tabs. You Can Also Use UIX When You Select Someone To Enter Your Menu.
+                    Player SelectedPlayer = null;
+
+                    var UserPage = new MenuPage("UserTestMenu_1", "User Menu");
+
+                    var OptionsGroup = new ButtonGroup(UserPage, "Options");
+
+                    new SingleButton(OptionsGroup, "Button", "Button", () =>
+                    {
+                        MelonLogger.Msg("Button Clicked! - Selected Player: " + (SelectedPlayer != null ? SelectedPlayer.field_Private_APIUser_0.displayName : "<Null>"));
+                    }, ButtonImage);
+
+                    ExpansionKitApi.GetExpandedMenu(ExpandedMenu.UserQuickMenu).AddSimpleButton("User Options Example", () =>
+                    {
+                        SelectedPlayer = Utils.GetCurrentlySelectedPlayer();
+                        UserPage.SetTitle("User Menu: " + (SelectedPlayer != null ? SelectedPlayer.field_Private_APIUser_0.displayName : "<Null>"));
+                        UserPage.OpenMenu();
+                    });
+
+                    ExpansionKitApi.GetExpandedMenu(ExpandedMenu.UserQuickMenuRemote).AddSimpleButton("User Options Example", () =>
+                    {
+                        SelectedPlayer = Utils.GetCurrentlySelectedPlayer();
+                        UserPage.SetTitle("User Menu: " + (SelectedPlayer != null ? SelectedPlayer.field_Private_APIUser_0.displayName : "<Null>"));
+                        UserPage.OpenMenu();
+                    });
                 };
             }
         }
