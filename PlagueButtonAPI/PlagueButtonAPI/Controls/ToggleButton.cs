@@ -22,6 +22,8 @@ namespace PlagueButtonAPI.Controls
 
         public readonly GameObject gameObject;
 
+        public bool ToggleState;
+
         public ToggleButton(Transform parent, string text, string offTooltip, string onTooltip, Action<bool> stateChanged, Sprite icon = null)
         {
             gameObject = UnityEngine.Object.Instantiate(ButtonAPI.toggleButtonBase, parent);
@@ -30,11 +32,14 @@ namespace PlagueButtonAPI.Controls
             buttonToggle = gameObject.GetComponentInChildren<Toggle>(true);
             buttonToggle.onValueChanged = new Toggle.ToggleEvent();
             buttonToggle.isOn = false;
+
             if (stateChanged != null)
             {
                 buttonToggle.onValueChanged.AddListener(stateChanged);
             }
+
             toggleTooltip = gameObject.GetComponentInChildren<UiToggleTooltip>(true);
+
             if (!string.IsNullOrEmpty(onTooltip) && !string.IsNullOrEmpty(offTooltip))
             {
                 toggleTooltip.field_Public_String_0 = onTooltip;
@@ -45,7 +50,9 @@ namespace PlagueButtonAPI.Controls
             {
                 toggleTooltip.enabled = false;
             }
+
             buttonImage = gameObject.transform.Find("Icon_On").GetComponentInChildren<Image>(true);
+
             if (icon != null)
             {
                 buttonImage.sprite = icon;
@@ -56,6 +63,13 @@ namespace PlagueButtonAPI.Controls
                 buttonImage.sprite = ButtonAPI.onIconSprite;
                 buttonImage.overrideSprite = ButtonAPI.onIconSprite;
             }
+
+            var ObjHandler = buttonToggle.gameObject.AddComponent<ObjectHandler>();
+
+            ObjHandler.OnEnabled += (obj) =>
+            {
+                SetToggleState(true, true);
+            };
         }
 
         public ToggleButton(MenuPage pge, string text, string offTooltip, string onTooltip, Action<bool> stateChanged, Sprite icon = null)
@@ -119,6 +133,8 @@ namespace PlagueButtonAPI.Controls
             {
                 buttonToggle.onValueChanged.Invoke(newState);
             }
+
+            ToggleState = newState;
         }
 
         public void SetInteractable(bool val)
