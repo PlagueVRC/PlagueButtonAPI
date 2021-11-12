@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Linq;
+using MelonLoader;
 using PlagueButtonAPI.Misc;
 using TMPro;
 using UnityEngine;
@@ -7,6 +9,7 @@ using UnityEngine.UI;
 using VRC.UI.Core.Styles;
 using VRC.UI.Elements;
 using VRC.UI.Elements.Menus;
+using Object = UnityEngine.Object;
 
 namespace PlagueButtonAPI.Pages
 {
@@ -98,6 +101,27 @@ namespace PlagueButtonAPI.Pages
             gameObject.transform.Find("ScrollRect").GetComponent<ScrollRect>().enabled = true;
             gameObject.transform.Find("ScrollRect").GetComponent<ScrollRect>().verticalScrollbar = gameObject.transform.Find("ScrollRect/Scrollbar").GetComponent<Scrollbar>();
             gameObject.transform.Find("ScrollRect").GetComponent<ScrollRect>().verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
+
+            var Handler = gameObject.transform.Find("ScrollRect/Scrollbar").gameObject.AddComponent<ObjectHandler>();
+
+            Handler.OnEnabled += (obj) =>
+            {
+                MelonCoroutines.Start(RunMe());
+
+                IEnumerator RunMe()
+                {
+                    yield return new WaitForSeconds(0.5f);
+
+                    obj.GetComponent<StyleElement>().enabled = false;
+                    obj.transform.Find("Sliding Area/Handle").GetComponent<StyleElement>().enabled = false;
+
+                    obj.transform.Find("Sliding Area/Handle").GetComponent<Image>().color = new Color(0.4156863f, 0.8901961f, 0.9764706f, 0.02f);
+
+                    Object.Destroy(Handler);
+
+                    yield break;
+                }
+            };
         }
 
         public void AddExtButton(Action onClick, string tooltip, Sprite icon)

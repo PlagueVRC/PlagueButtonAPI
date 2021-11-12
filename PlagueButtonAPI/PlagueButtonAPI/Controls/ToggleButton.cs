@@ -64,13 +64,13 @@ namespace PlagueButtonAPI.Controls
                 buttonImage.overrideSprite = ButtonAPI.onIconSprite;
             }
 
-            var ObjHandler = buttonToggle.gameObject.AddComponent<ObjectHandler>();
+            var Handler = buttonToggle.gameObject.AddComponent<ObjectHandler>();
 
-            ObjHandler.OnEnabled += (obj) =>
+            Handler.OnEnabled += (obj) =>
             {
                 SetToggleState(ToggleState, true);
 
-                Object.Destroy(buttonToggle.gameObject.GetComponent<ObjectHandler>());
+                Object.Destroy(Handler);
             };
         }
 

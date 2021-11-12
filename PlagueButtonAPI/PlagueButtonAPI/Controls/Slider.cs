@@ -65,7 +65,7 @@ namespace PlagueButtonAPI.Controls
             {
                 slider.sliderPercentText.text = (floor ? Mathf.Floor(defaultValue).ToString() : defaultValue.ToString("0.0")) + (percent ? "%" : "");
 
-                Object.Destroy(slider.sliderPercentText.gameObject.GetComponent<ObjectHandler>());
+                Object.Destroy(Handler);
             };
 
             sliderTooltip = gameObject.GetComponentInChildren<VRC.UI.Elements.Tooltips.UiTooltip>(true);
