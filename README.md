@@ -1,4 +1,4 @@
-# PlagueButtonAPI New UI Dev [![License](https://img.shields.io/badge/License-Use%20Only-magenta.svg)](https://github.com/PlagueVRC/PlagueButtonAPI/LICENSE) ![](https://img.shields.io/github/workflow/status/PlagueVRC/PlagueButtonAPI/.NET?color=magenta)
+# PlagueButtonAPI New UI Dev [![License](https://img.shields.io/badge/License-Use%20Only-magenta.svg)](https://github.com/PlagueVRC/PlagueButtonAPI/blob/new-ui/LICENSE) [![Status](https://img.shields.io/github/workflow/status/PlagueVRC/PlagueButtonAPI/.NET?color=magenta)](https://github.com/PlagueVRC/PlagueButtonAPI/actions?query=event%3Apush+is%3Asuccess)
 The Best VRChat Button API By Plague
 
 # [> Download Latest Build <](https://github.com/PlagueVRC/PlagueButtonAPI/actions?query=event%3Apush+is%3Asuccess)
@@ -17,4 +17,4 @@ What Is A Button API? | A Button API Is A Set Of Pre Coded Methods To Create But
 
 [Discord Server For ButtonAPI](https://VRCAntiCrash.com/ButtonAPI)
 
-Use-Only Licensed. See "[LICENSE](https://github.com/PlagueVRC/PlagueButtonAPI/LICENSE)" File For Details.
+Use-Only Licensed. See "[LICENSE](https://github.com/PlagueVRC/PlagueButtonAPI/blob/new-ui/LICENSE)" File For Details.
