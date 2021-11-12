@@ -20,7 +20,7 @@ namespace PlagueButtonAPI.Controls
 
         public readonly GameObject gameObject;
 
-        public SingleButton(Transform parent, string text, string tooltip, Action click, Sprite icon = null, bool preserveColor = false)
+        public SingleButton(Transform parent, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false)
         {
             gameObject = UnityEngine.Object.Instantiate(ButtonAPI.singleButtonBase, parent);
             buttonText = gameObject.GetComponentInChildren<TextMeshProUGUI>(true);
@@ -56,20 +56,25 @@ namespace PlagueButtonAPI.Controls
             {
                 buttonImage.gameObject.SetActive(false);
             }
+
+            if (SubMenuIcon)
+            {
+                gameObject.transform.Find("Badge_MMJump").gameObject.SetActive(true);
+            }
         }
 
-        public SingleButton(MenuPage pge, string text, string tooltip, Action click, Sprite icon = null, bool preserveColor = false)
-            : this(pge.menuContents, text, tooltip, click, icon, preserveColor)
+        public SingleButton(MenuPage pge, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false)
+            : this(pge.menuContents, text, tooltip, click, SubMenuIcon, icon, preserveColor)
         {
         }
 
-        public SingleButton(ButtonGroup grp, string text, string tooltip, Action click, Sprite icon = null, bool preserveColor = false)
-            : this(grp.gameObject.transform, text, tooltip, click, icon, preserveColor)
+        public SingleButton(ButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false)
+            : this(grp.gameObject.transform, text, tooltip, click, SubMenuIcon, icon, preserveColor)
         {
         }
 
-        public SingleButton(CollapsibleButtonGroup grp, string text, string tooltip, Action click, Sprite icon = null, bool preserveColor = false)
-            : this(grp.buttonGroup, text, tooltip, click, icon, preserveColor)
+        public SingleButton(CollapsibleButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false)
+            : this(grp.buttonGroup, text, tooltip, click, SubMenuIcon, icon, preserveColor)
         {
         }
 

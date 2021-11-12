@@ -102,14 +102,18 @@ namespace ExampleButtonAPIUsage
                     ExpansionKitApi.GetExpandedMenu(ExpandedMenu.UserQuickMenu).AddSimpleButton("User Options Example", () =>
                     {
                         SelectedPlayer = Utils.GetCurrentlySelectedPlayer();
+
                         UserPage.SetTitle("User Menu: " + (SelectedPlayer != null ? SelectedPlayer.field_Private_APIUser_0.displayName : "<Null>"));
+
                         UserPage.OpenMenu();
                     });
 
                     ExpansionKitApi.GetExpandedMenu(ExpandedMenu.UserQuickMenuRemote).AddSimpleButton("User Options Example", () =>
                     {
                         SelectedPlayer = Utils.GetCurrentlySelectedPlayer();
+
                         UserPage.SetTitle("User Menu: " + (SelectedPlayer != null ? SelectedPlayer.field_Private_APIUser_0.displayName : "<Null>"));
+
                         UserPage.OpenMenu();
                     });
                 };

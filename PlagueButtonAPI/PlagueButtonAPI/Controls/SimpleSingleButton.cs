@@ -17,7 +17,7 @@ namespace PlagueButtonAPI.Controls
 
         public readonly GameObject gameObject;
 
-        public SimpleSingleButton(Transform parent, string text, string tooltip, Action click)
+        public SimpleSingleButton(Transform parent, string text, string tooltip, Action click, bool SubMenuIcon = false)
         {
             gameObject = UnityEngine.Object.Instantiate(ButtonAPI.singleButtonBase, parent);
             buttonText = gameObject.GetComponentInChildren<TextMeshProUGUI>(true);
@@ -42,20 +42,25 @@ namespace PlagueButtonAPI.Controls
             UnityEngine.Object.Destroy(gameObject.transform.Find("Icon").gameObject);
             UnityEngine.Object.Destroy(gameObject.transform.Find("Icon_Secondary").gameObject);
             buttonText.color = new Color(0.9f, 0.9f, 0.9f);
+
+            if (SubMenuIcon)
+            {
+                gameObject.transform.Find("Badge_MMJump").gameObject.SetActive(true);
+            }
         }
 
-        public SimpleSingleButton(MenuPage pge, string text, string tooltip, Action click)
-            : this(pge.menuContents, text, tooltip, click)
+        public SimpleSingleButton(MenuPage pge, string text, string tooltip, Action click, bool SubMenuIcon = false)
+            : this(pge.menuContents, text, tooltip, click, SubMenuIcon)
         {
         }
 
-        public SimpleSingleButton(ButtonGroup grp, string text, string tooltip, Action click)
-            : this(grp.gameObject.transform, tooltip, text, click)
+        public SimpleSingleButton(ButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false)
+            : this(grp.gameObject.transform, tooltip, text, click, SubMenuIcon)
         {
         }
 
-        public SimpleSingleButton(CollapsibleButtonGroup grp, string text, string tooltip, Action click)
-            : this(grp.buttonGroup, tooltip, text, click)
+        public SimpleSingleButton(CollapsibleButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false)
+            : this(grp.buttonGroup, tooltip, text, click, SubMenuIcon)
         {
         }
 
