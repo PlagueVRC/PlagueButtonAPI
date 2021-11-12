@@ -115,6 +115,8 @@ namespace PlagueButtonAPI.Pages
                     obj.GetComponent<StyleElement>().enabled = false;
                     obj.transform.Find("Sliding Area/Handle").GetComponent<StyleElement>().enabled = false;
 
+                    yield return new WaitForSeconds(0.5f);
+
                     obj.transform.Find("Sliding Area/Handle").GetComponent<Image>().color = new Color(0.4156863f, 0.8901961f, 0.9764706f, 0.02f);
 
                     Object.Destroy(Handler);
