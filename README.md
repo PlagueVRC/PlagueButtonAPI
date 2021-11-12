@@ -1,4 +1,4 @@
-# PlagueButtonAPI Beta Dev [![License](https://img.shields.io/badge/License-Use%20Only-magenta.svg)](https://github.com/PlagueVRC/PlagueButtonAPI/blob/master/LICENSE) ![](https://img.shields.io/github/workflow/status/PlagueVRC/PlagueButtonAPI/.NET?color=magenta)
+# PlagueButtonAPI New UI Dev [![License](https://img.shields.io/badge/License-Use%20Only-magenta.svg)](https://github.com/PlagueVRC/PlagueButtonAPI/blob/master/LICENSE) ![](https://img.shields.io/github/workflow/status/PlagueVRC/PlagueButtonAPI/.NET?color=magenta)
 The Best VRChat Button API By Plague
 
 # [> Download Latest Build <](https://github.com/PlagueVRC/PlagueButtonAPI/actions?query=event%3Apush+is%3Asuccess)
