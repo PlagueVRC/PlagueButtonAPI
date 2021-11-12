@@ -1,12 +1,12 @@
-using MelonLoader;
-using System;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC.UI.Elements.Controls;
 using VRC.UI.Elements.Tooltips;
+using Object = UnityEngine.Object;
 
 namespace PlagueButtonAPI.Controls
 {
@@ -68,7 +68,9 @@ namespace PlagueButtonAPI.Controls
 
             ObjHandler.OnEnabled += (obj) =>
             {
-                SetToggleState(true, true);
+                SetToggleState(ToggleState, true);
+
+                Object.Destroy(buttonToggle.gameObject.GetComponent<ObjectHandler>());
             };
         }
 

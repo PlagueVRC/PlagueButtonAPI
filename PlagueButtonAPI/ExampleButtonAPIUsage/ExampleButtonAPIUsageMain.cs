@@ -59,7 +59,7 @@ namespace ExampleButtonAPIUsage
                     new ToggleButton(NonFunctionalGroup, "Toggle", "Toggle Off", "Toggle On", (val) =>
                     {
                         MelonLogger.Msg("Toggle Button Clicked! -> State: " + val);
-                    });
+                    }).SetToggleState(true, true);
 
                     new Slider(NonFunctionalGroup, "Slider", "Slider", (val) =>
                     {
