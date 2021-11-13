@@ -1,1 +1,1 @@
-# See The Example Mod's Code For A Quick Example Of Usage: [Click Here](https://github.com/PlagueVRC/PlagueButtonAPI/blob/beta-ui/PlagueButtonAPI/ExampleButtonAPIUsage/ExampleButtonAPIUsageMain.cs#L31)
+# See The Example Mod's Code For A Quick Example Of Usage: [Click Here](https://github.com/PlagueVRC/PlagueButtonAPI/blob/new-ui/PlagueButtonAPI/ExampleButtonAPIUsage/ExampleButtonAPIUsageMain.cs#L31)
