@@ -141,8 +141,17 @@
       <HintPath>..\..\References\ExampleButtonAPIUsage\VRCCore-Standalone.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="VRChatUtilityKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\ExampleButtonAPIUsage\VRChatUtilityKit.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="VRCSDK2">
       <HintPath>..\..\References\ExampleButtonAPIUsage\VRCSDK2.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VRCSDK3A">
+      <HintPath>..\..\References\ExampleButtonAPIUsage\VRCSDK3A.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VRCSDKBase">

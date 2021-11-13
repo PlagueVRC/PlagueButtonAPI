@@ -41,7 +41,7 @@ namespace PlagueButtonAPI.Pages
             gameObject.name = "Menu_" + menuName;
             gameObject.transform.SetSiblingIndex(5);
             gameObject.SetActive(false);
-            UnityEngine.Object.DestroyImmediate(gameObject.GetComponent<LaunchPadQMMenu>());
+            UnityEngine.Object.DestroyImmediate(gameObject.GetOrAddComponent<LaunchPadQMMenu>());
             page = gameObject.AddComponent<UIPage>();
             page.field_Public_String_0 = menuName;
             page.field_Private_Boolean_1 = true;
@@ -96,11 +96,11 @@ namespace PlagueButtonAPI.Pages
             }
 
             this.preserveColor = preserveColor;
-            menuMask = menuContents.parent.gameObject.GetComponent<RectMask2D>();
+            menuMask = menuContents.parent.gameObject.GetOrAddComponent<RectMask2D>();
             menuMask.enabled = true;
-            gameObject.transform.Find("ScrollRect").GetComponent<ScrollRect>().enabled = true;
-            gameObject.transform.Find("ScrollRect").GetComponent<ScrollRect>().verticalScrollbar = gameObject.transform.Find("ScrollRect/Scrollbar").GetComponent<Scrollbar>();
-            gameObject.transform.Find("ScrollRect").GetComponent<ScrollRect>().verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
+            gameObject.transform.Find("ScrollRect").GetOrAddComponent<ScrollRect>().enabled = true;
+            gameObject.transform.Find("ScrollRect").GetOrAddComponent<ScrollRect>().verticalScrollbar = gameObject.transform.Find("ScrollRect/Scrollbar").GetOrAddComponent<Scrollbar>();
+            gameObject.transform.Find("ScrollRect").GetOrAddComponent<ScrollRect>().verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
 
             var Handler = gameObject.transform.Find("ScrollRect/Scrollbar").gameObject.AddComponent<ObjectHandler>();
 
@@ -112,12 +112,12 @@ namespace PlagueButtonAPI.Pages
                 {
                     yield return new WaitForSeconds(0.5f);
 
-                    obj.GetComponent<StyleElement>().enabled = false;
-                    obj.transform.Find("Sliding Area/Handle").GetComponent<StyleElement>().enabled = false;
+                    obj.GetOrAddComponent<StyleElement>().enabled = false;
+                    obj.transform.Find("Sliding Area/Handle").GetOrAddComponent<StyleElement>().enabled = false;
 
                     yield return new WaitForSeconds(0.5f);
 
-                    obj.transform.Find("Sliding Area/Handle").GetComponent<Image>().color = new Color(0.4156863f, 0.8901961f, 0.9764706f, 0.02f);
+                    obj.transform.Find("Sliding Area/Handle").GetOrAddComponent<Image>().color = new Color(0.4156863f, 0.8901961f, 0.9764706f, 0.02f);
 
                     Object.Destroy(Handler);
 

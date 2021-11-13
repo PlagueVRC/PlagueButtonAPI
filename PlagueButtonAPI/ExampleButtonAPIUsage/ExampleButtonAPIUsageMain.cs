@@ -5,6 +5,8 @@ using PlagueButtonAPI.Controls;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
 using System;
+using System.Collections.Generic;
+using PlagueButtonAPI.Misc;
 using UIExpansionKit.API;
 using UnityEngine;
 using VRC;
@@ -26,6 +28,18 @@ namespace ExampleButtonAPIUsage
         public override void OnApplicationStart()
         {
             ButtonImage = (Environment.CurrentDirectory + "\\ImageToLoad.png").LoadSpriteFromDisk();
+
+            VRChatUtilityKit.Utilities.NetworkEvents.OnAvatarInstantiated += NetworkEvents_OnAvatarInstantiated;
+        }
+
+        private Dictionary<string, Sprite> UserImages = new Dictionary<string, Sprite>();
+        private void NetworkEvents_OnAvatarInstantiated(VRCAvatarManager arg1, VRC.Core.ApiAvatar arg2, GameObject arg3)
+        {
+            var tex = Utils.TakePictureOfPlayer(arg1.field_Private_VRCPlayer_0);
+
+            var sprite = Utils.CreateSpriteFromTex(tex);
+
+            UserImages[arg1.field_Private_VRCPlayer_0.gameObject.GetOrAddComponent<Player>().field_Private_APIUser_0.id] = sprite;
         }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
@@ -48,10 +62,39 @@ namespace ExampleButtonAPIUsage
 
                     var NonFunctionalGroup = new ButtonGroup(Page, "Non-Functional Options");
 
-                    new SingleButton(NonFunctionalGroup, "Button", "Button", () =>
+                    var PlayerListMenu = new MenuPage("PlayersList_1", "Player List", false);
+
+                    var PlayersGroup = new ButtonGroup(PlayerListMenu, "", true, TextAnchor.UpperLeft);
+                    var Handler = PlayersGroup.gameObject.GetOrAddComponent<ObjectHandler>();
+
+                    Handler.OnUpdateEachSecond += (obj, IsEnabled) =>
                     {
-                        MelonLogger.Msg("Button Clicked!");
-                    }, ButtonImage);
+                        if (IsEnabled)
+                        {
+                            PlayersGroup.gameObject.transform.DestroyChildren();
+
+                            foreach (var player in Utils.GetAllPlayers())
+                            {
+                                var image = UserImages.ContainsKey(player.field_Private_APIUser_0.id) ? UserImages[player.field_Private_APIUser_0.id] : null;
+
+                                if (player.field_Private_APIUser_0 == null)
+                                {
+                                    MelonLogger.Error("Null APIUser!");
+                                    continue;
+                                }
+
+                                new SingleButton(PlayersGroup, player.field_Private_APIUser_0.displayName, "Selects This Player", () =>
+                                {
+                                    
+                                }, true, image);
+                            }
+                        }
+                    };
+
+                    new SingleButton(NonFunctionalGroup, "Player List", "Opens A Basic Player List", () =>
+                    {
+                        PlayerListMenu.OpenMenu();
+                    }, true, ButtonImage);
 
                     new SimpleSingleButton(NonFunctionalGroup, "Simple Button", "Simple Button", () =>
                     {
@@ -78,7 +121,7 @@ namespace ExampleButtonAPIUsage
                     new SingleButton(Dropdown, "Button", "Button", () =>
                     {
                         MelonLogger.Msg("Button Clicked!");
-                    }, ButtonImage);
+                    }, false, ButtonImage);
 
                     new Label(Dropdown, "Label", "Label", () =>
                     {
@@ -97,7 +140,7 @@ namespace ExampleButtonAPIUsage
                     new SingleButton(OptionsGroup, "Button", "Button", () =>
                     {
                         MelonLogger.Msg("Button Clicked! - Selected Player: " + (SelectedPlayer != null ? SelectedPlayer.field_Private_APIUser_0.displayName : "<Null>"));
-                    }, ButtonImage);
+                    }, false, ButtonImage);
 
                     ExpansionKitApi.GetExpandedMenu(ExpandedMenu.UserQuickMenu).AddSimpleButton("User Options Example", () =>
                     {

@@ -1,4 +1,5 @@
 using System;
+using PlagueButtonAPI.Misc;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
 using TMPro;
@@ -49,7 +50,7 @@ namespace PlagueButtonAPI.Controls
                 if (preserveColor)
                 {
                     buttonImage.color = Color.white;
-                    buttonImage.GetComponent<StyleElement>().enabled = false;
+                    buttonImage.gameObject.GetOrAddComponent<StyleElement>().enabled = false;
                 }
             }
             else

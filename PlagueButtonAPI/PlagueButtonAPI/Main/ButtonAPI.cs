@@ -36,7 +36,7 @@ namespace PlagueButtonAPI
 
         public static MenuStateController GetMenuStateControllerInstance()
         {
-            return Resources.FindObjectsOfTypeAll<QuickMenu>().FirstOrDefault()?.gameObject.GetComponent<MenuStateController>();
+            return Resources.FindObjectsOfTypeAll<QuickMenu>().FirstOrDefault()?.gameObject.GetOrAddComponent<MenuStateController>();
         }
 
         public override void OnUiManagerInit()
@@ -68,9 +68,9 @@ namespace PlagueButtonAPI
             sliderBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_AudioSettings/Content/Audio/VolumeSlider_Master").gameObject;
 
             //For Toggles
-            onIconSprite = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Notifications/Panel_NoNotifications_Message/Icon").GetComponent<Image>().sprite;
+            onIconSprite = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Notifications/Panel_NoNotifications_Message/Icon").GetOrAddComponent<Image>().sprite;
 
-            xIconSprite = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Here/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_WorldActions/Button_FavoriteWorld/Icon_Secondary").GetComponent<Image>().sprite;
+            xIconSprite = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Here/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_WorldActions/Button_FavoriteWorld/Icon_Secondary").GetOrAddComponent<Image>().sprite;
 
             OnInit?.Invoke();
 
@@ -91,16 +91,22 @@ namespace PlagueButtonAPI
         public Action<GameObject> OnEnabled = null;
         public Action<GameObject> OnDisabled = null;
         public Action<GameObject> OnDestroyed = null;
-        public Action<GameObject> OnUpdate = null;
+        public Action<GameObject, bool> OnUpdate = null;
+        public Action<GameObject, bool> OnUpdateEachSecond = null;
+
+        private bool IsEnabled;
+        private float UpdateDelay = 0f;
 
         void OnEnable()
         {
             OnEnabled?.Invoke(gameObject);
+            IsEnabled = true;
         }
 
         void OnDisable()
         {
             OnDisabled?.Invoke(gameObject);
+            IsEnabled = false;
         }
 
         void OnDestroy()
@@ -110,7 +116,14 @@ namespace PlagueButtonAPI
 
         void Update()
         {
-            OnUpdate?.Invoke(gameObject);
+            OnUpdate?.Invoke(gameObject, IsEnabled);
+
+            if (UpdateDelay < Time.time)
+            {
+                UpdateDelay = Time.time + 1f;
+
+                OnUpdateEachSecond?.Invoke(gameObject, IsEnabled);
+            }
         }
     }
 }

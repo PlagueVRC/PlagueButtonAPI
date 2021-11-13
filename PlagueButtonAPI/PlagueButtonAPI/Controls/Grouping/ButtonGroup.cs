@@ -1,3 +1,4 @@
+using MelonLoader;
 using PlagueButtonAPI.Misc;
 using PlagueButtonAPI.Pages;
 using TMPro;
@@ -28,13 +29,25 @@ namespace PlagueButtonAPI.Controls.Grouping
                 headerGameObject = Object.Instantiate(ButtonAPI.buttonGroupHeaderBase, parent);
                 headerText = headerGameObject.GetComponentInChildren<TextMeshProUGUI>(true);
                 headerText.text = text;
-                headerText.GetComponent<RectTransform>().sizeDelta = new Vector2(915f, 50f);
+                headerText.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(915f, 50f);
             }
 
             gameObject = Object.Instantiate(ButtonAPI.buttonGroupBase, parent);
             gameObject.transform.DestroyChildren();
-            gameObject.GetComponent<GridLayoutGroup>().childAlignment = ButtonAlignment;
-            parentMenuMask = parent.parent.GetComponent<RectMask2D>();
+            gameObject.GetOrAddComponent<GridLayoutGroup>().childAlignment = ButtonAlignment;
+            parentMenuMask = parent.parent.GetOrAddComponent<RectMask2D>();
+
+            var Handler = gameObject.GetOrAddComponent<ObjectHandler>();
+
+            Handler.OnUpdateEachSecond += (obj, IsEnabled) =>
+            {
+                if (IsEnabled)
+                {
+                    var rows = (int) Mathf.Ceil((obj.transform.childCount / 4f));
+
+                    obj.GetComponent<RectTransform>().sizeDelta = new Vector2(1024, (208 * rows));
+                }
+            };
         }
 
         public ButtonGroup(MenuPage parent, string text, bool NoText = false, TextAnchor ButtonAlignment = TextAnchor.UpperCenter) : this(parent.menuContents, text, NoText, ButtonAlignment)

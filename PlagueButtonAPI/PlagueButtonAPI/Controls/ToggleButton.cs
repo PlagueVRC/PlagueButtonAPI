@@ -1,3 +1,4 @@
+using PlagueButtonAPI.Misc;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
 using System;
@@ -127,10 +128,10 @@ namespace PlagueButtonAPI.Controls
             buttonToggle.onValueChanged = new Toggle.ToggleEvent();
             buttonToggle.isOn = newState;
             buttonToggle.onValueChanged = onValueChanged;
-            buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_0(newState);
-            buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_1(newState);
-            buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_2(newState);
-            buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_3(newState);
+            buttonToggle.gameObject.GetOrAddComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_0(newState);
+            buttonToggle.gameObject.GetOrAddComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_1(newState);
+            buttonToggle.gameObject.GetOrAddComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_2(newState);
+            buttonToggle.gameObject.GetOrAddComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_3(newState);
             if (invoke)
             {
                 buttonToggle.onValueChanged.Invoke(newState);

@@ -6,9 +6,33 @@ using VRC.UI.Elements;
 
 namespace PlagueButtonAPI.Misc
 {
-    internal static class Extensions
+    public static class Extensions
 	{
-		public static GameObject FindObject(this GameObject parent, string name)
+        public static T GetOrAddComponent<T>(this GameObject obj) where T : Behaviour
+        {
+            var comp = obj.GetComponent<T>();
+
+            if (comp == null)
+            {
+                comp = obj.AddComponent<T>();
+            }
+
+            return comp;
+        }
+
+        public static T GetOrAddComponent<T>(this Transform obj) where T : Behaviour
+        {
+            var comp = obj.GetComponent<T>();
+
+            if (comp == null)
+            {
+                comp = obj.gameObject.AddComponent<T>();
+            }
+
+            return comp;
+        }
+
+        public static GameObject FindObject(this GameObject parent, string name)
 		{
 			Transform[] array = parent.GetComponentsInChildren<Transform>(true);
 			foreach (Transform transform in array)

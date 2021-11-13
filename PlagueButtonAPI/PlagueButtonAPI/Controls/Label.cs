@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MelonLoader;
 using PlagueButtonAPI.Controls.Grouping;
+using PlagueButtonAPI.Misc;
 using PlagueButtonAPI.Pages;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,17 +22,17 @@ namespace PlagueButtonAPI.Controls
         {
             LabelButton = new SimpleSingleButton(parent, text, tooltip, onClick);
 
-            LabelButton.gameObject.transform.Find("Background").GetComponent<Image>().color = new Color(0f, 0f, 0f, 0f);
+            LabelButton.gameObject.transform.Find("Background").GetOrAddComponent<Image>().color = new Color(0f, 0f, 0f, 0f);
 
             if (onClick == null)
             {
-                LabelButton.gameObject.GetComponent<Button>().enabled = false;
+                LabelButton.gameObject.GetOrAddComponent<Button>().enabled = false;
 
                 var Handler = LabelButton.gameObject.AddComponent<ObjectHandler>();
 
                 Handler.OnEnabled += (obj) =>
                 {
-                    var style = obj.GetComponent<StyleElement>();
+                    var style = obj.GetOrAddComponent<StyleElement>();
 
                     if (style != null)
                     {

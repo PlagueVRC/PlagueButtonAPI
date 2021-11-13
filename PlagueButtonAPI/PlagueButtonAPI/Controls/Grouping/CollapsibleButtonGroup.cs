@@ -47,12 +47,12 @@ namespace PlagueButtonAPI.Controls.Grouping
 
                 mainButtonObject.SetIcon(IsOpen ? arrowUp : arrowDown);
                 buttonGroup?.SetActive(IsOpen);
-            }, openByDefault ? arrowUp : arrowDown);
+            }, false, openByDefault ? arrowUp : arrowDown);
 
             mainButtonObject.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(1024f, 100f);
 
             var TextObj = mainButtonObject.gameObject.transform.Find("Text_H4");
-            TextObj.GetComponent<TextMeshProUGUI>().fontSize = 50;
+            TextObj.GetOrAddComponent<TextMeshProUGUI>().fontSize = 50;
             TextObj.GetComponent<RectTransform>().sizeDelta = new Vector2(500f, 48f);
             TextObj.localPosition = new Vector3(-350f, -23f, 0f);
 
@@ -63,7 +63,7 @@ namespace PlagueButtonAPI.Controls.Grouping
 
             Handler.OnEnabled += (obj) =>
             {
-                var style = obj.GetComponent<StyleElement>();
+                var style = obj.GetOrAddComponent<StyleElement>();
 
                 if (style != null)
                 {
@@ -82,7 +82,7 @@ namespace PlagueButtonAPI.Controls.Grouping
 
             buttonGroup = new ButtonGroup(parent, "", false, TextAnchor.UpperLeft);
 
-            parentMenuMask = parent.parent.GetComponent<RectMask2D>();
+            parentMenuMask = parent.parent.GetOrAddComponent<RectMask2D>();
 
             mainButtonObject.SetIcon(IsOpen ? arrowUp : arrowDown);
             buttonGroup?.SetActive(IsOpen);
