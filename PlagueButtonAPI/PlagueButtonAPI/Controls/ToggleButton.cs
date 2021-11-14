@@ -69,7 +69,7 @@ namespace PlagueButtonAPI.Controls
 
             Handler.OnEnabled += (obj) =>
             {
-                SetToggleState(ToggleState, true);
+                SetToggleState(ToggleState);
 
                 Object.Destroy(Handler);
             };
