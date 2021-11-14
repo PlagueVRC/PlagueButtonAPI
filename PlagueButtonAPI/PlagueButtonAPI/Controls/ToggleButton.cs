@@ -32,7 +32,7 @@ namespace PlagueButtonAPI.Controls
             buttonText.text = text;
             buttonToggle = gameObject.GetComponentInChildren<Toggle>(true);
             buttonToggle.onValueChanged = new Toggle.ToggleEvent();
-            buttonToggle.isOn = false;
+            buttonToggle.Set(false, false);
 
             if (stateChanged != null)
             {

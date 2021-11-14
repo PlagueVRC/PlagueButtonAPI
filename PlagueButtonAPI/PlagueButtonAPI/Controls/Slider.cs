@@ -55,7 +55,7 @@ namespace PlagueButtonAPI.Controls
                 onSliderAdjust?.Invoke(val);
             });
 
-            sliderSlider.Set(defaultValue);
+            sliderSlider.Set(defaultValue, false);
 
             sliderSlider.value = defaultValue;
 
