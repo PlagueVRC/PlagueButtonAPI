@@ -23,7 +23,7 @@ namespace PlagueButtonAPI.Controls
 
         public readonly GameObject gameObject;
 
-        public Slider(Transform parent, string text, string tooltip, Action<float> onSliderAdjust, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)
+        public Slider(Transform parent, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)
         {
             var slider = this;
             gameObject = UnityEngine.Object.Instantiate(ButtonAPI.sliderBase, parent);
@@ -43,6 +43,7 @@ namespace PlagueButtonAPI.Controls
 
             sliderSlider = gameObject.GetComponentInChildren<UnityEngine.UI.Slider>();
             sliderSlider.onValueChanged = new UnityEngine.UI.Slider.SliderEvent();
+            sliderSlider.minValue = minValue;
             sliderSlider.maxValue = maxValue;
             if (isGroup)
             {
@@ -51,7 +52,7 @@ namespace PlagueButtonAPI.Controls
 
             sliderSlider.onValueChanged.AddListener((Action<float>)delegate (float val)
             {
-                slider.sliderPercentText.text = (floor ? Mathf.Floor(val).ToString() : val.ToString("0.0")) + (percent ? "%" : "");
+                slider.sliderPercentText.text = (floor ? Mathf.Floor(val).ToString() : val.ToString("0.00")) + (percent ? "%" : "");
                 onSliderAdjust?.Invoke(val);
             });
 
@@ -63,7 +64,7 @@ namespace PlagueButtonAPI.Controls
 
             Handler.OnEnabled += (obj) =>
             {
-                slider.sliderPercentText.text = (floor ? Mathf.Floor(defaultValue).ToString() : defaultValue.ToString("0.0")) + (percent ? "%" : "");
+                slider.sliderPercentText.text = (floor ? Mathf.Floor(defaultValue).ToString() : defaultValue.ToString("0.00")) + (percent ? "%" : "");
 
                 Object.Destroy(Handler);
             };
@@ -83,18 +84,18 @@ namespace PlagueButtonAPI.Controls
             _percent = percent;
         }
 
-        public Slider(MenuPage pge, string text, string tooltip, Action<float> onSliderAdjust, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)
-            : this(pge.menuContents, text, tooltip, onSliderAdjust, maxValue, defaultValue, floor, percent, isGroup)
+        public Slider(MenuPage pge, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)
+            : this(pge.menuContents, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup)
         {
         }
 
-        public Slider(ButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)
-            : this(grp.gameObject.transform, text, tooltip, onSliderAdjust, maxValue, defaultValue, floor, percent, isGroup)
+        public Slider(ButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)
+            : this(grp.gameObject.transform, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup)
         {
         }
 
-        public Slider(CollapsibleButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)
-            : this(grp.buttonGroup, text, tooltip, onSliderAdjust, maxValue, defaultValue, floor, percent, isGroup)
+        public Slider(CollapsibleButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)
+            : this(grp.buttonGroup, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup)
         {
         }
 
