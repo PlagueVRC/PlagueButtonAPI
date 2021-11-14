@@ -55,12 +55,12 @@ namespace PlagueButtonAPI.Controls
         }
 
         public SimpleSingleButton(ButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false)
-            : this(grp.gameObject.transform, tooltip, text, click, SubMenuIcon)
+            : this(grp.gameObject.transform, text, tooltip, click, SubMenuIcon)
         {
         }
 
         public SimpleSingleButton(CollapsibleButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false)
-            : this(grp.buttonGroup, tooltip, text, click, SubMenuIcon)
+            : this(grp.buttonGroup, text, tooltip, click, SubMenuIcon)
         {
         }
 
