@@ -21,7 +21,7 @@ namespace PlagueButtonAPI.Controls
 
         public readonly TextMeshProUGUI badgeText;
 
-		public Tab(string menu, Sprite icon = null, Transform parent = null)
+		public Tab(string menu, string tooltip, Sprite icon = null, Transform parent = null)
         {
             if (parent == null)
             {
@@ -42,10 +42,21 @@ namespace PlagueButtonAPI.Controls
             menuTab.gameObject.GetOrAddComponent<Button>().onClick.AddListener((Action)delegate
             {
                 menuTab.gameObject.GetOrAddComponent<StyleElement>().field_Private_Selectable_0 = menuTab.gameObject.GetOrAddComponent<Button>();
+
+                var tooltipObj = menuTab.gameObject.GetOrAddComponent<VRC.UI.Elements.Tooltips.UiTooltip>();
+
+                if (!string.IsNullOrEmpty(tooltip))
+                {
+                    tooltipObj.field_Public_String_0 = tooltip;
+                }
+                else
+                {
+                    tooltipObj.enabled = false;
+                }
             });
         }
 
-        public Tab(MenuPage menu, Sprite icon = null, Transform parent = null) : this(menu.menuName, icon, parent)
+        public Tab(MenuPage menu, string tooltip, Sprite icon = null, Transform parent = null) : this(menu.menuName, tooltip, icon, parent)
         {
         }
 

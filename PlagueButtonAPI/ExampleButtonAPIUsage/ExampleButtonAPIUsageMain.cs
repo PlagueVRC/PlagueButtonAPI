@@ -50,7 +50,7 @@ namespace ExampleButtonAPIUsage
                 {
                     var Page = new MenuPage("TestMenu_1", "Main Menu");
 
-                    new Tab(Page, ButtonImage);
+                    new Tab(Page, "Main Menu", ButtonImage);
 
                     var FunctionalGroup = new ButtonGroup(Page, "Functional Options");
 
