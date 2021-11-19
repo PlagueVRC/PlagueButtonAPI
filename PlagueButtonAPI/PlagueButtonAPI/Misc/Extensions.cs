@@ -169,7 +169,7 @@ namespace PlagueButtonAPI.Misc
 
 		public static void ShowAlert(this VRC.UI.Elements.QuickMenu qm, string message)
 		{
-			qm.Method_Public_Virtual_Final_New_Void_String_4(message);
+			qm.Method_Public_Virtual_Final_New_Void_String_3(message);
 		}
 
 		public static void ShowOKDialog(this VRC.UI.Elements.QuickMenu qm, string title, string message, Action okButton = null)
@@ -184,7 +184,7 @@ namespace PlagueButtonAPI.Misc
 
 		public static void AskConfirmOpenURL(this VRC.UI.Elements.QuickMenu qm, string url)
 		{
-			qm.Method_Public_Virtual_Final_New_Void_String_3(url);
+			qm.Method_Public_Virtual_Final_New_Void_String_2(url);
 		}
 	}
 }
