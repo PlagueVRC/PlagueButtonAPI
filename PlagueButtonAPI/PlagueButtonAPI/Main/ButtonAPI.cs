@@ -29,14 +29,14 @@ namespace PlagueButtonAPI
 
         public static Sprite xIconSprite;
 
-        public static QuickMenu GetQuickMenuInstance()
+        public static VRC.UI.Elements.QuickMenu GetQuickMenuInstance()
         {
-            return Resources.FindObjectsOfTypeAll<QuickMenu>().FirstOrDefault();
+            return Resources.FindObjectsOfTypeAll<VRC.UI.Elements.QuickMenu>().FirstOrDefault();
         }
 
         public static MenuStateController GetMenuStateControllerInstance()
         {
-            return Resources.FindObjectsOfTypeAll<QuickMenu>().FirstOrDefault()?.gameObject.GetOrAddComponent<MenuStateController>();
+            return Resources.FindObjectsOfTypeAll<VRC.UI.Elements.QuickMenu>().FirstOrDefault()?.gameObject.GetOrAddComponent<MenuStateController>();
         }
 
         public override void OnUiManagerInit()
@@ -48,7 +48,7 @@ namespace PlagueButtonAPI
 
         private static IEnumerator WaitForQMClone()
         {
-            while (GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/") == null)
+            while (GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/") == null || GetMenuStateControllerInstance() == null)
             {
                 yield return new WaitForEndOfFrame();
             }

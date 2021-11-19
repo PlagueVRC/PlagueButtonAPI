@@ -37,93 +37,125 @@ namespace PlagueButtonAPI.Pages
 
         public MenuPage(string menuName, string pageTitle, bool root = true, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false)
         {
-            gameObject = UnityEngine.Object.Instantiate(ButtonAPI.menuPageBase, ButtonAPI.menuPageBase.transform.parent);
-            gameObject.name = "Menu_" + menuName;
-            gameObject.transform.SetSiblingIndex(5);
-            gameObject.SetActive(false);
-            UnityEngine.Object.DestroyImmediate(gameObject.GetOrAddComponent<LaunchPadQMMenu>());
-            page = gameObject.AddComponent<UIPage>();
-            page.field_Public_String_0 = menuName;
-            page.field_Private_Boolean_1 = true;
-            page.field_Private_MenuStateController_0 = ButtonAPI.GetMenuStateControllerInstance();
-            page.field_Private_List_1_UIPage_0 = new Il2CppSystem.Collections.Generic.List<UIPage>();
-            page.field_Private_List_1_UIPage_0.Add(page);
-            ButtonAPI.GetMenuStateControllerInstance().field_Private_Dictionary_2_String_UIPage_0.Add(menuName, page);
-            this.menuName = menuName;
-            if (root)
+            if (ButtonAPI.menuPageBase == null)
             {
-                System.Collections.Generic.List<UIPage> list = ButtonAPI.GetMenuStateControllerInstance().field_Public_ArrayOf_UIPage_0.ToList();
-                list.Add(page);
-                ButtonAPI.GetMenuStateControllerInstance().field_Public_ArrayOf_UIPage_0 = list.ToArray();
+                MelonLogger.Error("Fatal Error: ButtonAPI.menuPageBase Is Null!");
+                return;
             }
 
-            gameObject.transform.Find("ScrollRect/Viewport/VerticalLayoutGroup").DestroyChildren();
-            menuContents = gameObject.transform.Find("ScrollRect/Viewport/VerticalLayoutGroup");
-            pageTitleText = gameObject.GetComponentInChildren<TextMeshProUGUI>(true);
-            pageTitleText.text = pageTitle;
-            isRoot = root;
-            backButtonGameObject = gameObject.transform.GetChild(0).Find("LeftItemContainer/Button_Back").gameObject;
-            extButtonGameObject = gameObject.transform.GetChild(0).Find("RightItemContainer/Button_QM_Expand").gameObject;
-            backButtonGameObject.SetActive(backButton);
-            backButtonGameObject.GetComponentInChildren<Button>().onClick = new Button.ButtonClickedEvent();
-            backButtonGameObject.GetComponentInChildren<Button>().onClick.AddListener((Action)delegate
+            var region = 0;
+
+            try
             {
-                if (isRoot)
+                gameObject = UnityEngine.Object.Instantiate(ButtonAPI.menuPageBase, ButtonAPI.menuPageBase.transform.parent);
+                gameObject.name = "Menu_" + menuName;
+                gameObject.transform.SetSiblingIndex(5);
+                gameObject.SetActive(false);
+                region++;
+                UnityEngine.Object.DestroyImmediate(gameObject.GetOrAddComponent<LaunchPadQMMenu>());
+                region++;
+                page = gameObject.AddComponent<UIPage>();
+                region++;
+                page.field_Public_String_0 = menuName;
+                page.field_Private_Boolean_1 = true;
+                page.field_Private_MenuStateController_0 = ButtonAPI.GetMenuStateControllerInstance();
+                page.field_Private_List_1_UIPage_0 = new Il2CppSystem.Collections.Generic.List<UIPage>();
+                page.field_Private_List_1_UIPage_0.Add(page);
+                region++;
+                ButtonAPI.GetMenuStateControllerInstance().field_Private_Dictionary_2_String_UIPage_0.Add(menuName, page);
+                region++;
+                this.menuName = menuName;
+                if (root)
                 {
-                    ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_Boolean_0("QuickMenuDashboard");
+                    System.Collections.Generic.List<UIPage> list = ButtonAPI.GetMenuStateControllerInstance().field_Public_ArrayOf_UIPage_0.ToList();
+                    list.Add(page);
+                    ButtonAPI.GetMenuStateControllerInstance().field_Public_ArrayOf_UIPage_0 = list.ToArray();
                 }
-                else
+
+                region++;
+
+                gameObject.transform.Find("ScrollRect/Viewport/VerticalLayoutGroup").DestroyChildren();
+                region++;
+                menuContents = gameObject.transform.Find("ScrollRect/Viewport/VerticalLayoutGroup");
+                region++;
+                pageTitleText = gameObject.GetComponentInChildren<TextMeshProUGUI>(true);
+                region++;
+                pageTitleText.text = pageTitle;
+                isRoot = root;
+                backButtonGameObject = gameObject.transform.GetChild(0).Find("LeftItemContainer/Button_Back").gameObject;
+                region++;
+                extButtonGameObject = gameObject.transform.GetChild(0).Find("RightItemContainer/Button_QM_Expand").gameObject;
+                region++;
+                backButtonGameObject.SetActive(backButton);
+                region++;
+                backButtonGameObject.GetComponentInChildren<Button>().onClick = new Button.ButtonClickedEvent();
+                backButtonGameObject.GetComponentInChildren<Button>().onClick.AddListener((Action)delegate
                 {
-                    page.Method_Protected_Virtual_New_Void_0();
+                    if (isRoot)
+                    {
+                        ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_Boolean_0("QuickMenuDashboard");
+                    }
+                    else
+                    {
+                        page.Method_Protected_Virtual_New_Void_0();
+                    }
+                });
+                region++;
+                extButtonGameObject.SetActive(expandButton);
+                extButtonGameObject.GetComponentInChildren<Button>().onClick = new Button.ButtonClickedEvent();
+                if (expandButtonAction != null)
+                {
+                    extButtonGameObject.GetComponentInChildren<Button>().onClick.AddListener(expandButtonAction);
                 }
-            });
-            extButtonGameObject.SetActive(expandButton);
-            extButtonGameObject.GetComponentInChildren<Button>().onClick = new Button.ButtonClickedEvent();
-            if (expandButtonAction != null)
-            {
-                extButtonGameObject.GetComponentInChildren<Button>().onClick.AddListener(expandButtonAction);
+                extButtonGameObject.GetComponentInChildren<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = expandButtonTooltip;
+                if (expandButtonSprite != null)
+                {
+                    extButtonGameObject.GetComponentInChildren<Image>().sprite = expandButtonSprite;
+                    extButtonGameObject.GetComponentInChildren<Image>().overrideSprite = expandButtonSprite;
+                    if (preserveColor)
+                    {
+                        extButtonGameObject.GetComponentInChildren<Image>().color = Color.white;
+                        extButtonGameObject.GetComponentInChildren<StyleElement>(true).enabled = false;
+                    }
+                }
+
+                region++;
+                this.preserveColor = preserveColor;
+                menuMask = menuContents.parent.gameObject.GetOrAddComponent<RectMask2D>();
+                region++;
+                menuMask.enabled = true;
+                region++;
+                gameObject.transform.Find("ScrollRect").GetOrAddComponent<ScrollRect>().enabled = true;
+                gameObject.transform.Find("ScrollRect").GetOrAddComponent<ScrollRect>().verticalScrollbar = gameObject.transform.Find("ScrollRect/Scrollbar").GetOrAddComponent<Scrollbar>();
+                gameObject.transform.Find("ScrollRect").GetOrAddComponent<ScrollRect>().verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
+
+                var Handler = gameObject.transform.Find("ScrollRect/Scrollbar").gameObject.AddComponent<ObjectHandler>();
+
+                Handler.OnEnabled += (obj) =>
+                {
+                    MelonCoroutines.Start(RunMe());
+
+                    IEnumerator RunMe()
+                    {
+                        yield return new WaitForSeconds(0.5f);
+
+                        obj.GetOrAddComponent<StyleElement>().enabled = false;
+                        obj.transform.Find("Sliding Area/Handle").GetOrAddComponent<StyleElement>().enabled = false;
+
+                        yield return new WaitForSeconds(0.5f);
+
+                        obj.transform.Find("Sliding Area/Handle").GetOrAddComponent<Image>().color = new Color(0.4156863f, 0.8901961f, 0.9764706f, 0.02f);
+
+                        Object.Destroy(Handler);
+
+                        yield break;
+                    }
+                };
             }
-            extButtonGameObject.GetComponentInChildren<VRC.UI.Elements.Tooltips.UiTooltip>().field_Public_String_0 = expandButtonTooltip;
-            if (expandButtonSprite != null)
+            catch (Exception ex)
             {
-                extButtonGameObject.GetComponentInChildren<Image>().sprite = expandButtonSprite;
-                extButtonGameObject.GetComponentInChildren<Image>().overrideSprite = expandButtonSprite;
-                if (preserveColor)
-                {
-                    extButtonGameObject.GetComponentInChildren<Image>().color = Color.white;
-                    extButtonGameObject.GetComponentInChildren<StyleElement>(true).enabled = false;
-                }
+                MelonLogger.Error("Exception Caught When Making Page At Region: " + region + "\n\n" + ex);
             }
-
-            this.preserveColor = preserveColor;
-            menuMask = menuContents.parent.gameObject.GetOrAddComponent<RectMask2D>();
-            menuMask.enabled = true;
-            gameObject.transform.Find("ScrollRect").GetOrAddComponent<ScrollRect>().enabled = true;
-            gameObject.transform.Find("ScrollRect").GetOrAddComponent<ScrollRect>().verticalScrollbar = gameObject.transform.Find("ScrollRect/Scrollbar").GetOrAddComponent<Scrollbar>();
-            gameObject.transform.Find("ScrollRect").GetOrAddComponent<ScrollRect>().verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
-
-            var Handler = gameObject.transform.Find("ScrollRect/Scrollbar").gameObject.AddComponent<ObjectHandler>();
-
-            Handler.OnEnabled += (obj) =>
-            {
-                MelonCoroutines.Start(RunMe());
-
-                IEnumerator RunMe()
-                {
-                    yield return new WaitForSeconds(0.5f);
-
-                    obj.GetOrAddComponent<StyleElement>().enabled = false;
-                    obj.transform.Find("Sliding Area/Handle").GetOrAddComponent<StyleElement>().enabled = false;
-
-                    yield return new WaitForSeconds(0.5f);
-
-                    obj.transform.Find("Sliding Area/Handle").GetOrAddComponent<Image>().color = new Color(0.4156863f, 0.8901961f, 0.9764706f, 0.02f);
-
-                    Object.Destroy(Handler);
-
-                    yield break;
-                }
-            };
         }
 
         public void SetTitle(string text)
