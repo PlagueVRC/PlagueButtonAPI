@@ -1,13 +1,71 @@
 using System;
+using System.Linq;
+using System.Reflection;
 using MelonLoader;
+using UnhollowerRuntimeLib;
+using UnhollowerRuntimeLib.XrefScans;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC.UI.Elements;
+using VRC.UI.Elements.Controls;
 
 namespace PlagueButtonAPI.Misc
 {
     public static class Extensions
 	{
+        private static MethodInfo ourShowAlertMethod;
+
+        private static MethodInfo ourShowOKDialogMethod;
+
+        private static MethodInfo ourShowConfirmDialogMethod;
+
+        private static MethodInfo ourAskConfirmOpenURLMethod;
+
+        public static MethodInfo ShowOKDialogMethod
+        {
+            get
+            {
+                if (ourShowOKDialogMethod != null)
+                {
+                    return ourShowOKDialogMethod;
+                }
+
+                ourShowOKDialogMethod = typeof(VRC.UI.Elements.QuickMenu).GetMethods().First(it => it != null && it.GetParameters().Length == 3 && it.Name.Contains("_PDM") && it.GetParameters().First().ParameterType == typeof(string) && it.GetParameters().Last().ParameterType == typeof(Il2CppSystem.Action) && XrefScanner.XrefScan(it).Any(jt => jt.Type == XrefType.Global && jt.ReadAsObject()?.ToString() == "ConfirmDialog"));
+
+                return ourShowOKDialogMethod;
+            }
+        }
+
+        public static MethodInfo ShowConfirmDialogMethod
+        {
+            get
+            {
+                if (ourShowConfirmDialogMethod != null)
+                {
+                    return ourShowConfirmDialogMethod;
+                }
+
+                ourShowConfirmDialogMethod = typeof(VRC.UI.Elements.QuickMenu).GetMethods().First(it => it != null && it.GetParameters().Length == 4 && it.Name.Contains("_PDM") && it.GetParameters()[0].ParameterType == typeof(string) && it.GetParameters()[1].ParameterType == typeof(string) && it.GetParameters()[2].ParameterType == typeof(Il2CppSystem.Action) && it.GetParameters()[3].ParameterType == typeof(Il2CppSystem.Action) && XrefScanner.UsedBy(it).ToList().Count > 30);
+
+                return ourShowConfirmDialogMethod;
+            }
+        }
+
+        public static MethodInfo AskConfirmOpenURLMethod
+        {
+            get
+            {
+                if (ourAskConfirmOpenURLMethod != null)
+                {
+                    return ourAskConfirmOpenURLMethod;
+                }
+
+                ourAskConfirmOpenURLMethod = typeof(VRC.UI.Elements.QuickMenu).GetMethods().First(it => it != null && it.GetParameters().Length == 1 && it.Name.Contains("_Virtual_Final_New") && it.GetParameters().First().ParameterType == typeof(string) && XrefScanner.XrefScan(it).Any(jt => jt.Type == XrefType.Global && jt.ReadAsObject() != null && jt.ReadAsObject().ToString().Contains("This link will open in your web browser.")));
+
+                return ourAskConfirmOpenURLMethod;
+            }
+        }
+
         public static T GetOrAddComponent<T>(this GameObject obj) where T : Behaviour
         {
             var comp = obj.GetComponent<T>();
@@ -35,7 +93,7 @@ namespace PlagueButtonAPI.Misc
         public static GameObject FindObject(this GameObject parent, string name)
 		{
 			Transform[] array = parent.GetComponentsInChildren<Transform>(true);
-			foreach (Transform transform in array)
+			foreach (var transform in array)
 			{
 				if (transform.name == name)
 				{
@@ -47,7 +105,7 @@ namespace PlagueButtonAPI.Misc
 
 		public static string GetPath(this GameObject gameObject)
 		{
-			string text = "/" + gameObject.name;
+			var text = "/" + gameObject.name;
 			while (gameObject.transform.parent != null)
 			{
 				gameObject = gameObject.transform.parent.gameObject;
@@ -58,7 +116,7 @@ namespace PlagueButtonAPI.Misc
 
 		public static void DestroyChildren(this Transform transform, Func<Transform, bool> exclude)
 		{
-			for (int num = transform.childCount - 1; num >= 0; num--)
+			for (var num = transform.childCount - 1; num >= 0; num--)
 			{
 				if (exclude == null || exclude(transform.GetChild(num)))
 				{
@@ -104,17 +162,17 @@ namespace PlagueButtonAPI.Misc
 
 		public static Sprite ToSprite(this Texture2D tex)
 		{
-			Rect rect = new Rect(0f, 0f, tex.width, tex.height);
-			Vector2 pivot = new Vector2(0.5f, 0.5f);
-			Vector4 border = Vector4.zero;
-			Sprite sprite = Sprite.CreateSprite_Injected(tex, ref rect, ref pivot, 50f, 0u, SpriteMeshType.FullRect, ref border, false);
+			var rect = new Rect(0f, 0f, tex.width, tex.height);
+			var pivot = new Vector2(0.5f, 0.5f);
+			var border = Vector4.zero;
+			var sprite = Sprite.CreateSprite_Injected(tex, ref rect, ref pivot, 50f, 0u, SpriteMeshType.FullRect, ref border, false);
 			sprite.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 			return sprite;
 		}
 
 		public static string ReplaceFirst(this string text, string search, string replace)
 		{
-			int num = text.IndexOf(search);
+			var num = text.IndexOf(search);
 			if (num < 0)
 			{
 				return text;
@@ -124,7 +182,7 @@ namespace PlagueButtonAPI.Misc
 
 		public static ColorBlock SetColor(this ColorBlock block, Color color)
 		{
-			ColorBlock result = default(ColorBlock);
+			var result = default(ColorBlock);
 			result.colorMultiplier = block.colorMultiplier;
 			result.disabledColor = Color.grey;
 			result.highlightedColor = color;
@@ -136,8 +194,8 @@ namespace PlagueButtonAPI.Misc
 
 		public static void DelegateSafeInvoke(this Delegate @delegate, params object[] args)
 		{
-			Delegate[] invocationList = @delegate.GetInvocationList();
-			for (int i = 0; i < invocationList.Length; i++)
+			var invocationList = @delegate.GetInvocationList();
+			for (var i = 0; i < invocationList.Length; i++)
 			{
 				try
 				{
@@ -169,22 +227,57 @@ namespace PlagueButtonAPI.Misc
 
 		public static void ShowAlert(this VRC.UI.Elements.QuickMenu qm, string message)
 		{
-			qm.Method_Public_Virtual_Final_New_Void_String_3(message);
-		}
+            if (ourShowAlertMethod == null)
+            {
+                var methods = typeof(ModalAlert).GetMethods();
+
+                foreach (var methodInfo in methods)
+                {
+                    if (methodInfo.Name.Contains("Method_Private_Void_") && !methodInfo.Name.Contains("PDM") && methodInfo.GetParameters().Length == 0)
+                    {
+                        qm.field_Private_ModalAlert_0.field_Private_String_0 = message;
+
+                        methodInfo.Invoke(qm.field_Private_ModalAlert_0, null);
+
+                        if (qm.transform.Find("Container/Window/QMParent/Modal_Alert/Background_Alert").gameObject.activeSelf)
+                        {
+                            ourShowAlertMethod = methodInfo;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                qm.field_Private_ModalAlert_0.field_Private_String_0 = message;
+                ourShowAlertMethod.Invoke(qm.field_Private_ModalAlert_0, null);
+            }
+        }
 
 		public static void ShowOKDialog(this VRC.UI.Elements.QuickMenu qm, string title, string message, Action okButton = null)
 		{
-			qm.Method_Public_Void_String_String_Action_PDM_0(title, message, okButton);
-		}
+            ShowOKDialogMethod.Invoke(qm, new object[]
+            {
+                title,
+                message,
+                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(okButton)
+            });
+        }
 
 		public static void ShowConfirmDialog(this VRC.UI.Elements.QuickMenu qm, string title, string message, Action yesButton = null, Action noButton = null)
 		{
-			qm.Method_Public_Void_String_String_Action_Action_PDM_0(title, message, yesButton, noButton);
-		}
+            ShowConfirmDialogMethod.Invoke(qm, new object[]
+            {
+                title,
+                message,
+                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(yesButton),
+                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(noButton)
+            });
+        }
 
 		public static void AskConfirmOpenURL(this VRC.UI.Elements.QuickMenu qm, string url)
 		{
-			qm.Method_Public_Virtual_Final_New_Void_String_2(url);
-		}
+            AskConfirmOpenURLMethod.Invoke(qm, new object[] { url });
+        }
 	}
 }

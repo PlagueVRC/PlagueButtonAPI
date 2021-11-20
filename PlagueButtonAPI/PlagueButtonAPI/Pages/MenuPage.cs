@@ -67,7 +67,7 @@ namespace PlagueButtonAPI.Pages
                 this.menuName = menuName;
                 if (root)
                 {
-                    System.Collections.Generic.List<UIPage> list = ButtonAPI.GetMenuStateControllerInstance().field_Public_ArrayOf_UIPage_0.ToList();
+                    var list = ButtonAPI.GetMenuStateControllerInstance().field_Public_ArrayOf_UIPage_0.ToList();
                     list.Add(page);
                     ButtonAPI.GetMenuStateControllerInstance().field_Public_ArrayOf_UIPage_0 = list.ToArray();
                 }
@@ -165,7 +165,7 @@ namespace PlagueButtonAPI.Pages
 
         public void AddExtButton(Action onClick, string tooltip, Sprite icon)
         {
-            GameObject obj = UnityEngine.Object.Instantiate(extButtonGameObject, extButtonGameObject.transform.parent);
+            var obj = UnityEngine.Object.Instantiate(extButtonGameObject, extButtonGameObject.transform.parent);
             obj.SetActive(true);
             obj.GetComponentInChildren<Button>().onClick = new Button.ButtonClickedEvent();
             obj.GetComponentInChildren<Button>().onClick.AddListener(onClick);

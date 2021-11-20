@@ -124,7 +124,7 @@ namespace PlagueButtonAPI.Controls
 
         public void SetToggleState(bool newState, bool invoke = false)
         {
-            Toggle.ToggleEvent onValueChanged = buttonToggle.onValueChanged;
+            var onValueChanged = buttonToggle.onValueChanged;
             buttonToggle.onValueChanged = new Toggle.ToggleEvent();
             buttonToggle.isOn = newState;
             buttonToggle.onValueChanged = onValueChanged;

@@ -111,7 +111,7 @@ namespace PlagueButtonAPI.Controls.Grouping
 
         private static Sprite TexToSprite(Texture2D tex)
         {
-            Sprite sprite = Sprite.CreateSprite(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f, 0, 0, new Vector4(), false);
+            var sprite = Sprite.CreateSprite(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f, 0, 0, new Vector4(), false);
 
             sprite.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 

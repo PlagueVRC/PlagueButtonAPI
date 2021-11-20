@@ -9,8 +9,8 @@ namespace PlagueButtonAPI.Misc
 	{
 		public override void OnApplicationStart()
 		{
-			Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-			for (int i = 0; i < types.Length; i++)
+			var types = Assembly.GetExecutingAssembly().GetTypes();
+			for (var i = 0; i < types.Length; i++)
 			{
 				RegisterTypeRecursive(types[i]);
 			}

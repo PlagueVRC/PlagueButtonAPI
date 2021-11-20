@@ -133,7 +133,7 @@ namespace PlagueButtonAPI.Controls
 
         public void SetValue(float newValue, bool invoke = false)
         {
-            UnityEngine.UI.Slider.SliderEvent onValueChanged = sliderSlider.onValueChanged;
+            var onValueChanged = sliderSlider.onValueChanged;
             sliderSlider.onValueChanged = new UnityEngine.UI.Slider.SliderEvent();
             sliderSlider.value = newValue;
             sliderSlider.onValueChanged = onValueChanged;
