@@ -30,7 +30,7 @@ namespace PlagueButtonAPI.Misc
                     return ourShowOKDialogMethod;
                 }
 
-                ourShowOKDialogMethod = typeof(VRC.UI.Elements.QuickMenu).GetMethods().First(it => it != null && it.GetParameters().Length == 3 && it.Name.Contains("_PDM") && it.GetParameters().First().ParameterType == typeof(string) && it.GetParameters().Last().ParameterType == typeof(Il2CppSystem.Action) && XrefScanner.XrefScan(it).Any(jt => jt.Type == XrefType.Global && jt.ReadAsObject()?.ToString() == "ConfirmDialog"));
+                ourShowOKDialogMethod = typeof(VRC.UI.Elements.QuickMenu).GetMethods().First(it => it.GetParameters().Length == 3 && it.Name.Contains("_PDM") && it.GetParameters().First().ParameterType == typeof(string) && it.GetParameters().Last().ParameterType == typeof(Il2CppSystem.Action) && XrefScanner.XrefScan(it).Any(jt => jt.Type == XrefType.Global && jt.ReadAsObject()?.ToString() == "ConfirmDialog"));
 
                 return ourShowOKDialogMethod;
             }
@@ -45,7 +45,7 @@ namespace PlagueButtonAPI.Misc
                     return ourShowConfirmDialogMethod;
                 }
 
-                ourShowConfirmDialogMethod = typeof(VRC.UI.Elements.QuickMenu).GetMethods().First(it => it != null && it.GetParameters().Length == 4 && it.Name.Contains("_PDM") && it.GetParameters()[0].ParameterType == typeof(string) && it.GetParameters()[1].ParameterType == typeof(string) && it.GetParameters()[2].ParameterType == typeof(Il2CppSystem.Action) && it.GetParameters()[3].ParameterType == typeof(Il2CppSystem.Action) && XrefScanner.UsedBy(it).ToList().Count > 30);
+                ourShowConfirmDialogMethod = typeof(VRC.UI.Elements.QuickMenu).GetMethods().First(it => it.GetParameters().Length == 4 && it.Name.Contains("_PDM") && it.GetParameters()[0].ParameterType == typeof(string) && it.GetParameters()[1].ParameterType == typeof(string) && it.GetParameters()[2].ParameterType == typeof(Il2CppSystem.Action) && it.GetParameters()[3].ParameterType == typeof(Il2CppSystem.Action) && XrefScanner.UsedBy(it).ToList().Count > 30);
 
                 return ourShowConfirmDialogMethod;
             }
@@ -60,7 +60,7 @@ namespace PlagueButtonAPI.Misc
                     return ourAskConfirmOpenURLMethod;
                 }
 
-                ourAskConfirmOpenURLMethod = typeof(VRC.UI.Elements.QuickMenu).GetMethods().First(it => it != null && it.GetParameters().Length == 1 && it.Name.Contains("_Virtual_Final_New") && it.GetParameters().First().ParameterType == typeof(string) && XrefScanner.XrefScan(it).Any(jt => jt.Type == XrefType.Global && jt.ReadAsObject() != null && jt.ReadAsObject().ToString().Contains("This link will open in your web browser.")));
+                ourAskConfirmOpenURLMethod = typeof(VRC.UI.Elements.QuickMenu).GetMethods().First(it => it.GetParameters().Length == 1 && it.Name.Contains("_Virtual_Final_New") && it.GetParameters().First().ParameterType == typeof(string) && XrefScanner.XrefScan(it).Any(jt => jt.Type == XrefType.Global && jt.ReadAsObject() != null && jt.ReadAsObject().ToString().Contains("This link will open in your web browser.")));
 
                 return ourAskConfirmOpenURLMethod;
             }
