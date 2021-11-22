@@ -26,6 +26,7 @@ namespace PlagueButtonAPI.Controls
             gameObject = UnityEngine.Object.Instantiate(ButtonAPI.singleButtonBase, parent);
             buttonText = gameObject.GetComponentInChildren<TextMeshProUGUI>(true);
             buttonText.text = text;
+            buttonText.alignment = TextAlignment;
             buttonButton = gameObject.GetComponentInChildren<Button>(true);
             buttonButton.onClick = new Button.ButtonClickedEvent();
             if (click != null)
