@@ -21,7 +21,7 @@ namespace PlagueButtonAPI.Controls
 
         public readonly GameObject gameObject;
 
-        public SingleButton(Transform parent, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false)
+        public SingleButton(Transform parent, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
         {
             gameObject = UnityEngine.Object.Instantiate(ButtonAPI.singleButtonBase, parent);
             buttonText = gameObject.GetComponentInChildren<TextMeshProUGUI>(true);
@@ -64,18 +64,18 @@ namespace PlagueButtonAPI.Controls
             }
         }
 
-        public SingleButton(MenuPage pge, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false)
-            : this(pge.menuContents, text, tooltip, click, SubMenuIcon, icon, preserveColor)
+        public SingleButton(MenuPage pge, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
+            : this(pge.menuContents, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment)
         {
         }
 
-        public SingleButton(ButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false)
-            : this(grp.gameObject.transform, text, tooltip, click, SubMenuIcon, icon, preserveColor)
+        public SingleButton(ButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
+            : this(grp.gameObject.transform, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment)
         {
         }
 
-        public SingleButton(CollapsibleButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false)
-            : this(grp.buttonGroup, text, tooltip, click, SubMenuIcon, icon, preserveColor)
+        public SingleButton(CollapsibleButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
+            : this(grp.buttonGroup, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment)
         {
         }
 

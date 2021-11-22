@@ -47,7 +47,7 @@ namespace PlagueButtonAPI.Controls.Grouping
 
                 mainButtonObject.SetIcon(IsOpen ? arrowUp : arrowDown);
                 buttonGroup?.SetActive(IsOpen);
-            }, false, openByDefault ? arrowUp : arrowDown);
+            }, false, openByDefault ? arrowUp : arrowDown, false, TextAlignmentOptions.Right);
 
             mainButtonObject.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(1024f, 100f);
 
