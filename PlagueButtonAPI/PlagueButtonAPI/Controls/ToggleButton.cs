@@ -1,5 +1,5 @@
-using PlagueButtonAPI.Misc;
 using PlagueButtonAPI.Controls.Grouping;
+using PlagueButtonAPI.Misc;
 using PlagueButtonAPI.Pages;
 using System;
 using TMPro;
@@ -128,10 +128,12 @@ namespace PlagueButtonAPI.Controls
             buttonToggle.onValueChanged = new Toggle.ToggleEvent();
             buttonToggle.isOn = newState;
             buttonToggle.onValueChanged = onValueChanged;
-            buttonToggle.gameObject.GetOrAddComponent<UiToggleTooltip>().Method_Private_Void_Boolean_PDM_0(newState);
-            buttonToggle.gameObject.GetOrAddComponent<UiToggleTooltip>().Method_Private_Void_Boolean_PDM_1(newState);
-            buttonToggle.gameObject.GetOrAddComponent<UiToggleTooltip>().Method_Private_Void_Boolean_PDM_2(newState);
-            buttonToggle.gameObject.GetOrAddComponent<UiToggleTooltip>().Method_Private_Void_Boolean_PDM_3(newState);
+
+            buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_0(newState);
+            buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_1(newState);
+            buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_2(newState);
+            buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_3(newState);
+
             var tooltip = buttonToggle.gameObject.GetComponent<UiToggleTooltip>();
             if (tooltip != null)
             {
@@ -143,16 +145,16 @@ namespace PlagueButtonAPI.Controls
             }
 
             ToggleState = newState;
-        }
+            }
 
         public void SetInteractable(bool val)
-        {
-            buttonToggle.interactable = val;
-        }
+            {
+                buttonToggle.interactable = val;
+            }
 
-        public void SetActive(bool state)
-        {
-            gameObject.SetActive(state);
-        }
-    }
+            public void SetActive(bool state)
+            {
+                gameObject.SetActive(state);
+            }
+            }
 }
