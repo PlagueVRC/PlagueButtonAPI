@@ -133,6 +133,7 @@ namespace PlagueButtonAPI.Controls
             buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_1(newState);
             buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_2(newState);
             buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_3(newState);
+            buttonToggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_4(newState);
 
             var tooltip = buttonToggle.gameObject.GetComponent<UiToggleTooltip>();
             if (tooltip != null)
