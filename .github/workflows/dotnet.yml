@@ -50,8 +50,8 @@ jobs:
       with:
         draft: false
         prerelease: false
-        release_name: ${{ env.id }}
-        tag_name: ${{ env.id }}
+        release_name: ${{ github.job }}
+        tag_name: ${{ github.job }}
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
