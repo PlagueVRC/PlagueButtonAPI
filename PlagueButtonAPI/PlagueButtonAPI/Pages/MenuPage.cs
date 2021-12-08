@@ -178,11 +178,11 @@ namespace PlagueButtonAPI.Pages
         {
             if (isRoot)
             {
-                ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_UIContext_Boolean_0(page.field_Public_String_0);
+                ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_UIContext_Boolean_1(page.field_Public_String_0);
             }
             else
             {
-                ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_UIContext_Boolean_0(page.field_Public_String_0);
+                ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_UIContext_Boolean_1(page.field_Public_String_0);
             }
         }
 
