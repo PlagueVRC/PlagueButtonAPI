@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using MelonLoader;
 using PlagueButtonAPI.Misc;
 
-[assembly: MelonInfo(typeof(PlagueButtonAPI.Mod), "PlagueButtonAPI", "1.0", "Plague", "https://github.com/PlagueVRC/PlagueButtonAPI/tree/beta-ui")]
+[assembly: MelonInfo(typeof(PlagueButtonAPI.Mod), "PlagueButtonAPI", "1.0", "Plague", "https://github.com/PlagueVRC/PlagueButtonAPI/releases/latest/download/PlagueButtonAPI.dll")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 namespace PlagueButtonAPI
