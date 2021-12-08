@@ -51,7 +51,7 @@ jobs:
         draft: false
         prerelease: false
         release_name: ${{ steps.version.outputs.version }}
-        tag_name: ${{ github.event.head_commit.message github.event.head_commit.id }}
+        tag_name: ${{ github.event.head_commit.message }} ${{ github.event.head_commit.id }}
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
