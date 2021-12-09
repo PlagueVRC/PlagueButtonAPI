@@ -39,10 +39,6 @@ jobs:
       with:
         name: ExampleButtonAPIUsage.dll
         path: PlagueButtonAPI/ExampleButtonAPIUsage/bin/Debug/ExampleButtonAPIUsage.dll
-        
-    - name: Get current date
-      id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       
     - name: Delete Old Releases 
       uses: dev-drprasad/delete-older-releases@v0.2.0
@@ -51,6 +47,10 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%d-%m-%y %h:%m %t')"
         
     - name: Create A Release
       uses: actions/create-release@v1
