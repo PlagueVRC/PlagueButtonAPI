@@ -50,7 +50,7 @@ jobs:
       with:
         draft: false
         prerelease: false
-        release_name: ${{ github.run_id }}
+        release_name: Latest Build
         tag_name: ${{ github.run_id }}
       env:
         GITHUB_TOKEN: ${{ github.token }}
