@@ -50,7 +50,7 @@ jobs:
       
     - name: Get current date
       id: date
-      run: echo "::set-output name=date::$(date +'%d-%m-%y %hh:%mm %tt')"
+      run: echo "::set-output name=date::$(date +'%d-%m-%Y %H:%M %T')"
         
     - name: Create A Release
       uses: actions/create-release@v1
