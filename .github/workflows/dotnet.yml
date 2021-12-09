@@ -58,7 +58,7 @@ jobs:
       with:
         draft: false
         prerelease: false
-        release_name: Latest Build
+        release_name: Latest Build [${{ steps.date.outputs.date }}]
         tag_name: ${{ github.run_id }}
       env:
         GITHUB_TOKEN: ${{ github.token }}
