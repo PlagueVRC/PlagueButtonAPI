@@ -14,6 +14,9 @@ namespace PlagueButtonAPI.Controls.Base_Classes
 
         public TMPro.TextMeshProUGUI text => gameObject?.GetComponentInChildren<TMPro.TextMeshProUGUI>(true);
 
+        [Obsolete]
+        public TMPro.TextMeshProUGUI buttonText => text;
+
         public void SetText(string newText)
         {
             text.text = newText;
