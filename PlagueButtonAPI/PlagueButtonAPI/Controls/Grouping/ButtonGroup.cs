@@ -8,11 +8,9 @@ using Object = UnityEngine.Object;
 
 namespace PlagueButtonAPI.Controls.Grouping
 {
-    public class ButtonGroup
+    public class ButtonGroup : Base_Classes.GenericControl
     {
         public readonly TextMeshProUGUI headerText;
-
-        public readonly GameObject gameObject;
 
         public readonly GameObject headerGameObject;
 
@@ -61,26 +59,6 @@ namespace PlagueButtonAPI.Controls.Grouping
             {
                 headerText.text = newText;
             }
-        }
-
-        public void Destroy()
-        {
-            if (!WasNoText)
-            {
-                Object.Destroy(headerText.gameObject);
-            }
-
-            Object.Destroy(gameObject);
-        }
-
-        public void SetActive(bool state)
-        {
-            if (!WasNoText && headerGameObject != null)
-            {
-                headerGameObject.SetActive(state);
-            }
-
-            gameObject.SetActive(state);
         }
     }
 }

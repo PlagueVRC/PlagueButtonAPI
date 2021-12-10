@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace PlagueButtonAPI.Controls
 {
-    public class Slider
+    public class Slider : Base_Classes.GenericControl
     {
         public readonly TextMeshProUGUI sliderText;
 
@@ -20,8 +20,6 @@ namespace PlagueButtonAPI.Controls
         private readonly bool _floor;
 
         private readonly bool _percent;
-
-        public readonly GameObject gameObject;
 
         public Slider(Transform parent, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)
         {
@@ -122,13 +120,6 @@ namespace PlagueButtonAPI.Controls
         public void SetInteractable(bool val)
         {
             sliderSlider.interactable = val;
-        }
-
-        public void SetActive(bool state)
-        {
-            sliderSlider.gameObject.SetActive(state);
-            sliderTooltip.gameObject.SetActive(state);
-            sliderPercentText.gameObject.SetActive(state);
         }
 
         public void SetValue(float newValue, bool invoke = false)

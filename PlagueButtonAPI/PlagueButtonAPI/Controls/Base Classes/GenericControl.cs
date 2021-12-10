@@ -23,5 +23,10 @@ namespace PlagueButtonAPI.Controls.Base_Classes
         {
             gameObject?.SetActive(state);
         }
+
+        public void Destroy()
+        {
+            UnityEngine.Object.Destroy(gameObject);
+        }
     }
 }

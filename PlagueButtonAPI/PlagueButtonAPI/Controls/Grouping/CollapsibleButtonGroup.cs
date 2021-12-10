@@ -15,8 +15,6 @@ namespace PlagueButtonAPI.Controls.Grouping
 {
     public class CollapsibleButtonGroup
     {
-        public readonly TextMeshProUGUI foldoutButtonObjectText;
-
         public readonly ButtonGroup buttonGroup;
 
         public readonly SingleButton mainButtonObject;
@@ -92,14 +90,8 @@ namespace PlagueButtonAPI.Controls.Grouping
         {
         }
 
-        public void SetText(string newText)
-        {
-            foldoutButtonObjectText.text = newText;
-        }
-
         public void Destroy()
         {
-            Object.Destroy(foldoutButtonObjectText.gameObject);
             Object.Destroy(buttonGroup.gameObject);
         }
 
