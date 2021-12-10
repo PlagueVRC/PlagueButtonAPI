@@ -133,6 +133,8 @@ namespace PlagueButtonAPI.Controls
 
         public void SetValue(float newValue, bool invoke = false)
         {
+            sliderPercentText.text = (_floor ? Mathf.Floor(newValue).ToString() : newValue.ToString("0.00")) + (_percent ? "%" : "");
+
             var onValueChanged = sliderSlider.onValueChanged;
             sliderSlider.onValueChanged = new UnityEngine.UI.Slider.SliderEvent();
             sliderSlider.value = newValue;
