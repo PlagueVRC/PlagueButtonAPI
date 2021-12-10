@@ -9,6 +9,7 @@ using VRC.UI.Elements.Controls;
 
 namespace PlagueButtonAPI.Controls
 {
+    [Obsolete("PlagueButtonAPI.Controls.Tab is Obselete. Please use PlagueButtonAPI.Controls.WingSingleButton Instead.")]
 	public class Tab
 	{
         public readonly GameObject gameObject;

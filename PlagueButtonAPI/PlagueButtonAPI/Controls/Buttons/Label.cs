@@ -22,7 +22,7 @@ namespace PlagueButtonAPI.Controls
         {
             LabelButton = new SimpleSingleButton(parent, text, tooltip, onClick);
 
-            LabelButton.gameObject.transform.Find("Background").GetOrAddComponent<Image>().color = new Color(0f, 0f, 0f, 0f);
+            LabelButton.buttonBackground.color = new Color(0f, 0f, 0f, 0f);
 
             if (onClick == null)
             {

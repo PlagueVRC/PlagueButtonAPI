@@ -147,9 +147,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Base Classes\Button.cs" />
+    <Compile Include="Controls\Base Classes\ControlWithText.cs" />
+    <Compile Include="Controls\Base Classes\GenericControl.cs" />
+    <Compile Include="Controls\Base Classes\Toggle.cs" />
     <Compile Include="Controls\Grouping\CollapsibleButtonGroup.cs" />
-    <Compile Include="Controls\Label.cs" />
-    <Compile Include="Controls\WingSingleButton.cs" />
+    <Compile Include="Controls\Buttons\Label.cs" />
+    <Compile Include="Controls\Buttons\WingSingleButton.cs" />
     <Compile Include="Main\ButtonAPI.cs" />
     <Compile Include="Controls\Grouping\ButtonGroup.cs" />
     <Compile Include="Misc\ComponentManager.cs" />
@@ -161,11 +165,11 @@
     <Compile Include="Mod.cs" />
     <Compile Include="Misc\PriorityAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controls\SimpleSingleButton.cs" />
-    <Compile Include="Controls\SingleButton.cs" />
+    <Compile Include="Controls\Buttons\SimpleSingleButton.cs" />
+    <Compile Include="Controls\Buttons\SingleButton.cs" />
     <Compile Include="Controls\Slider.cs" />
     <Compile Include="Controls\Tab.cs" />
-    <Compile Include="Controls\ToggleButton.cs" />
+    <Compile Include="Controls\Buttons\Toggles\ToggleButton.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
