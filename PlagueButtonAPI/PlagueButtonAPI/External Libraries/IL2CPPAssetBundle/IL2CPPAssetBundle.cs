@@ -72,7 +72,7 @@ namespace IL2CPPAssetBundleAPI
                             return true;
                         }
 
-                        assetBundle = AssetBundle.GetAllLoadedAssetBundles_Native().First(o => o.GetAllAssetNames().Any(p => p.ToLower().Contains("plague")));
+                        assetBundle = AssetBundle.GetAllLoadedAssetBundles_Native().First(o => o.GetAllAssetNames().Any(p => p.ToLower().Contains(".asset")));
 
                         assetBundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
