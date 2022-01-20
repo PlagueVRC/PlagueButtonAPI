@@ -68,27 +68,45 @@ namespace PlagueButtonAPI.Misc
 
         public static T GetOrAddComponent<T>(this GameObject obj) where T : Behaviour
         {
-            var comp = obj.GetComponent<T>();
+            T comp;
 
-            if (comp == null)
+            try
+            {
+                comp = obj.GetComponent<T>();
+
+                if (comp == null)
+                {
+                    comp = obj.AddComponent<T>();
+                }
+            }
+            catch
             {
                 comp = obj.AddComponent<T>();
-            }
+			}
 
             return comp;
         }
 
         public static T GetOrAddComponent<T>(this Transform obj) where T : Behaviour
         {
-            var comp = obj.GetComponent<T>();
+			T comp;
 
-            if (comp == null)
+            try
+            {
+                comp = obj.gameObject.GetComponent<T>();
+
+                if (comp == null)
+                {
+                    comp = obj.gameObject.AddComponent<T>();
+                }
+            }
+            catch
             {
                 comp = obj.gameObject.AddComponent<T>();
             }
 
             return comp;
-        }
+		}
 
         public static GameObject FindObject(this GameObject parent, string name)
 		{
