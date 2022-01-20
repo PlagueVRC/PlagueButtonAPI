@@ -84,6 +84,8 @@ namespace PlagueButtonAPI
         }
 
         public static event Action OnInit;
+
+        public static bool PauseInit = false;
     }
 
     /// <summary>
