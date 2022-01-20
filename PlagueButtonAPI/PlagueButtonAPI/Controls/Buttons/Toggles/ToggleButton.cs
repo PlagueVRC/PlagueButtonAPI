@@ -1,21 +1,17 @@
+using System;
 using PlagueButtonAPI.Controls.Base_Classes;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
-using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using VRC.UI.Elements.Controls;
-using VRC.UI.Elements.Tooltips;
 using Object = UnityEngine.Object;
 
 namespace PlagueButtonAPI.Controls
 {
-    public class ToggleButton : Base_Classes.Toggle
+    public class ToggleButton : Toggle
     {
         public ToggleButton(Transform parent, string text, string offTooltip, string onTooltip, Action<bool> stateChanged, Sprite OnImage = null, Sprite OffImage = null)
         {
-            gameObject = UnityEngine.Object.Instantiate(ButtonAPI.toggleButtonBase, parent);
+            gameObject = Object.Instantiate(ButtonAPI.toggleButtonBase, parent);
 
             this.text.text = text;
 
@@ -55,13 +51,18 @@ namespace PlagueButtonAPI.Controls
                 this.OffImage.overrideSprite = OffImage;
             }
 
+            var Init = true;
+
             var Handler = gameObject.AddComponent<ObjectHandler>();
 
-            Handler.OnEnabled += (obj) =>
+            Handler.OnEnabled += obj =>
             {
-                SetToggleState(ToggleState);
+                if (Init)
+                {
+                    SetToggleState(ToggleState);
 
-                Object.Destroy(Handler);
+                    Init = false;
+                }
             };
         }
 

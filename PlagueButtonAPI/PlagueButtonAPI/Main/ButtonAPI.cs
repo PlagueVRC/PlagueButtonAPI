@@ -1,8 +1,8 @@
-using MelonLoader;
-using PlagueButtonAPI.Misc;
 using System;
 using System.Collections;
 using System.Linq;
+using MelonLoader;
+using PlagueButtonAPI.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC.UI.Elements;
@@ -31,6 +31,10 @@ namespace PlagueButtonAPI
 
         public static Sprite xIconSprite;
 
+        public static bool HasInit = false;
+
+        public static bool PauseInit = false;
+
         public static VRC.UI.Elements.QuickMenu GetQuickMenuInstance()
         {
             return Resources.FindObjectsOfTypeAll<VRC.UI.Elements.QuickMenu>().FirstOrDefault();
@@ -46,8 +50,6 @@ namespace PlagueButtonAPI
             MelonCoroutines.Start(WaitForQMClone());
         }
 
-        public static bool HasInit = false;
-
         private static IEnumerator WaitForQMClone()
         {
             while (GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/")?.gameObject == null || GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/WingMenu/ScrollRect/Viewport/VerticalLayoutGroup/Button_Explore")?.gameObject == null || GetMenuStateControllerInstance() == null)
@@ -57,26 +59,76 @@ namespace PlagueButtonAPI
 
             yield return new WaitForSeconds(2f); // Just In Case!
 
-            singleButtonBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/Button_Respawn").gameObject;
+            singleButtonBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/Button_Respawn")?.gameObject;
 
-            toggleButtonBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Settings/Panel_QM_ScrollRect/Viewport/VerticalLayoutGroup/Buttons_UI_Elements_Row_1/Button_ToggleQMInfo").gameObject;
+            if (singleButtonBase == null)
+            {
+                MelonLogger.Error("singleButtonBase == null!");
+            }
 
-            buttonGroupBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions").gameObject;
+            toggleButtonBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Settings/Panel_QM_ScrollRect/Viewport/VerticalLayoutGroup/Buttons_UI_Elements_Row_1/Button_ToggleQMInfo")?.gameObject;
 
-            buttonGroupHeaderBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Header_QuickActions").gameObject;
+            if (toggleButtonBase == null)
+            {
+                MelonLogger.Error("toggleButtonBase == null!");
+            }
 
-            menuPageBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard").gameObject;
+            buttonGroupBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions")?.gameObject;
 
-            menuTabBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Page_Buttons_QM/HorizontalLayoutGroup/Page_Settings").gameObject;
+            if (buttonGroupBase == null)
+            {
+                MelonLogger.Error("buttonGroupBase == null!");
+            }
 
-            wingSingleButtonBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/WingMenu/ScrollRect/Viewport/VerticalLayoutGroup/Button_Explore").gameObject;
+            buttonGroupHeaderBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Header_QuickActions")?.gameObject;
 
-            sliderBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_AudioSettings/Content/Audio/VolumeSlider_Master").gameObject;
+            if (buttonGroupHeaderBase == null)
+            {
+                MelonLogger.Error("buttonGroupHeaderBase == null!");
+            }
+
+            menuPageBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard")?.gameObject;
+
+            if (menuPageBase == null)
+            {
+                MelonLogger.Error("menuPageBase == null!");
+            }
+
+            menuTabBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Page_Buttons_QM/HorizontalLayoutGroup/Page_Settings")?.gameObject;
+
+            if (menuTabBase == null)
+            {
+                MelonLogger.Error("menuTabBase == null!");
+            }
+
+            wingSingleButtonBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/WingMenu/ScrollRect/Viewport/VerticalLayoutGroup/Button_Explore")?.gameObject;
+
+            if (wingSingleButtonBase == null)
+            {
+                MelonLogger.Error("wingSingleButtonBase == null!");
+            }
+
+            sliderBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_AudioSettings/Content/Audio/VolumeSlider_Master")?.gameObject;
+
+            if (sliderBase == null)
+            {
+                MelonLogger.Error("sliderBase == null!");
+            }
 
             //For Toggles
-            onIconSprite = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Notifications/Panel_NoNotifications_Message/Icon").GetOrAddComponent<Image>().sprite;
+            onIconSprite = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Notifications/Panel_NoNotifications_Message/Icon")?.GetComponent<Image>()?.sprite;
 
-            xIconSprite = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Here/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_WorldActions/Button_FavoriteWorld/Icon_Secondary").GetOrAddComponent<Image>().sprite;
+            if (onIconSprite == null)
+            {
+                MelonLogger.Error("onIconSprite == null!");
+            }
+
+            xIconSprite = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Here/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_WorldActions/Button_FavoriteWorld/Icon_Secondary")?.GetComponent<Image>()?.sprite;
+
+            if (xIconSprite == null)
+            {
+                MelonLogger.Error("xIconSprite == null!");
+            }
 
             while (PauseInit)
             {
@@ -89,45 +141,46 @@ namespace PlagueButtonAPI
         }
 
         public static event Action OnInit;
-
-        public static bool PauseInit = false;
     }
 
     /// <summary>
-    /// A Component For Hooking To Generic Events Such As A Object Becoming Enabled, Disabled, Destroyed And For Events Such As Update.
+    ///   A Component For Hooking To Generic Events Such As A Object Becoming Enabled, Disabled, Destroyed And For Events Such
+    ///   As Update.
     /// </summary>
     [RegisterTypeInIl2Cpp]
     public class ObjectHandler : MonoBehaviour
     {
-        public ObjectHandler(IntPtr instance) : base(instance) { }
+        private bool IsEnabled;
+        public Action<GameObject> OnDestroyed = null;
+        public Action<GameObject> OnDisabled = null;
 
         public Action<GameObject> OnEnabled = null;
-        public Action<GameObject> OnDisabled = null;
-        public Action<GameObject> OnDestroyed = null;
         public Action<GameObject, bool> OnUpdate = null;
         public Action<GameObject, bool> OnUpdateEachSecond = null;
-
-        private bool IsEnabled;
         private float UpdateDelay = 0f;
 
-        void OnEnable()
+        public ObjectHandler(IntPtr instance) : base(instance)
+        {
+        }
+
+        private void OnEnable()
         {
             OnEnabled?.Invoke(gameObject);
             IsEnabled = true;
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             OnDisabled?.Invoke(gameObject);
             IsEnabled = false;
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             OnDestroyed?.Invoke(gameObject);
         }
 
-        void Update()
+        private void Update()
         {
             OnUpdate?.Invoke(gameObject, IsEnabled);
 

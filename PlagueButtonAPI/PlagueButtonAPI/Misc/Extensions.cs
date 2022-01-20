@@ -6,13 +6,13 @@ using UnhollowerRuntimeLib;
 using UnhollowerRuntimeLib.XrefScans;
 using UnityEngine;
 using UnityEngine.UI;
-using VRC.UI.Elements;
 using VRC.UI.Elements.Controls;
+using Object = UnityEngine.Object;
 
 namespace PlagueButtonAPI.Misc
 {
     public static class Extensions
-	{
+    {
         private static MethodInfo ourShowAlertMethod;
 
         private static MethodInfo ourShowOKDialogMethod;
@@ -82,14 +82,14 @@ namespace PlagueButtonAPI.Misc
             catch
             {
                 comp = obj.AddComponent<T>();
-			}
+            }
 
             return comp;
         }
 
         public static T GetOrAddComponent<T>(this Transform obj) where T : Behaviour
         {
-			T comp;
+            T comp;
 
             try
             {
@@ -106,145 +106,151 @@ namespace PlagueButtonAPI.Misc
             }
 
             return comp;
-		}
+        }
 
         public static GameObject FindObject(this GameObject parent, string name)
-		{
-			Transform[] array = parent.GetComponentsInChildren<Transform>(true);
-			foreach (var transform in array)
-			{
-				if (transform.name == name)
-				{
-					return transform.gameObject;
-				}
-			}
-			return null;
-		}
+        {
+            Transform[] array = parent.GetComponentsInChildren<Transform>(true);
+            foreach (var transform in array)
+            {
+                if (transform.name == name)
+                {
+                    return transform.gameObject;
+                }
+            }
 
-		public static string GetPath(this GameObject gameObject)
-		{
-			var text = "/" + gameObject.name;
-			while (gameObject.transform.parent != null)
-			{
-				gameObject = gameObject.transform.parent.gameObject;
-				text = "/" + gameObject.name + text;
-			}
-			return text;
-		}
+            return null;
+        }
 
-		public static void DestroyChildren(this Transform transform, Func<Transform, bool> exclude)
-		{
-			for (var num = transform.childCount - 1; num >= 0; num--)
-			{
-				if (exclude == null || exclude(transform.GetChild(num)))
-				{
-					UnityEngine.Object.DestroyImmediate(transform.GetChild(num).gameObject);
-				}
-			}
-		}
+        public static string GetPath(this GameObject gameObject)
+        {
+            var text = "/" + gameObject.name;
+            while (gameObject.transform.parent != null)
+            {
+                gameObject = gameObject.transform.parent.gameObject;
+                text = "/" + gameObject.name + text;
+            }
 
-		public static void DestroyChildren(this Transform transform)
-		{
-			transform.DestroyChildren(null);
-		}
+            return text;
+        }
 
-		public static Vector3 SetX(this Vector3 vector, float x)
-		{
-			return new Vector3(x, vector.y, vector.z);
-		}
+        public static void DestroyChildren(this Transform transform, Func<Transform, bool> exclude)
+        {
+            for (var num = transform.childCount - 1; num >= 0; num--)
+            {
+                if (exclude == null || exclude(transform.GetChild(num)))
+                {
+                    Object.DestroyImmediate(transform.GetChild(num).gameObject);
+                }
+            }
+        }
 
-		public static Vector3 SetY(this Vector3 vector, float y)
-		{
-			return new Vector3(vector.x, y, vector.z);
-		}
+        public static void DestroyChildren(this Transform transform)
+        {
+            transform.DestroyChildren(null);
+        }
 
-		public static Vector3 SetZ(this Vector3 vector, float z)
-		{
-			return new Vector3(vector.x, vector.y, z);
-		}
+        public static Vector3 SetX(this Vector3 vector, float x)
+        {
+            return new Vector3(x, vector.y, vector.z);
+        }
 
-		public static float RoundAmount(this float i, float nearestFactor)
-		{
-			return (float)Math.Round(i / nearestFactor) * nearestFactor;
-		}
+        public static Vector3 SetY(this Vector3 vector, float y)
+        {
+            return new Vector3(vector.x, y, vector.z);
+        }
 
-		public static Vector3 RoundAmount(this Vector3 i, float nearestFactor)
-		{
-			return new Vector3(i.x.RoundAmount(nearestFactor), i.y.RoundAmount(nearestFactor), i.z.RoundAmount(nearestFactor));
-		}
+        public static Vector3 SetZ(this Vector3 vector, float z)
+        {
+            return new Vector3(vector.x, vector.y, z);
+        }
 
-		public static Vector2 RoundAmount(this Vector2 i, float nearestFactor)
-		{
-			return new Vector2(i.x.RoundAmount(nearestFactor), i.y.RoundAmount(nearestFactor));
-		}
+        public static float RoundAmount(this float i, float nearestFactor)
+        {
+            return (float)Math.Round(i / nearestFactor) * nearestFactor;
+        }
 
-		public static Sprite ToSprite(this Texture2D tex)
-		{
-			var rect = new Rect(0f, 0f, tex.width, tex.height);
-			var pivot = new Vector2(0.5f, 0.5f);
-			var border = Vector4.zero;
-			var sprite = Sprite.CreateSprite_Injected(tex, ref rect, ref pivot, 50f, 0u, SpriteMeshType.FullRect, ref border, false);
-			sprite.hideFlags |= HideFlags.DontUnloadUnusedAsset;
-			return sprite;
-		}
+        public static Vector3 RoundAmount(this Vector3 i, float nearestFactor)
+        {
+            return new Vector3(i.x.RoundAmount(nearestFactor), i.y.RoundAmount(nearestFactor), i.z.RoundAmount(nearestFactor));
+        }
 
-		public static string ReplaceFirst(this string text, string search, string replace)
-		{
-			var num = text.IndexOf(search);
-			if (num < 0)
-			{
-				return text;
-			}
-			return text.Substring(0, num) + replace + text.Substring(num + search.Length);
-		}
+        public static Vector2 RoundAmount(this Vector2 i, float nearestFactor)
+        {
+            return new Vector2(i.x.RoundAmount(nearestFactor), i.y.RoundAmount(nearestFactor));
+        }
 
-		public static ColorBlock SetColor(this ColorBlock block, Color color)
-		{
-			var result = default(ColorBlock);
-			result.colorMultiplier = block.colorMultiplier;
-			result.disabledColor = Color.grey;
-			result.highlightedColor = color;
-			result.normalColor = color / 1.5f;
-			result.pressedColor = Color.white;
-			result.selectedColor = color / 1.5f;
-			return result;
-		}
+        public static Sprite ToSprite(this Texture2D tex)
+        {
+            var rect = new Rect(0f, 0f, tex.width, tex.height);
+            var pivot = new Vector2(0.5f, 0.5f);
+            var border = Vector4.zero;
+            var sprite = Sprite.CreateSprite_Injected(tex, ref rect, ref pivot, 50f, 0u, SpriteMeshType.FullRect, ref border, false);
+            sprite.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+            return sprite;
+        }
 
-		public static void DelegateSafeInvoke(this Delegate @delegate, params object[] args)
-		{
-			var invocationList = @delegate.GetInvocationList();
-			for (var i = 0; i < invocationList.Length; i++)
-			{
-				try
-				{
-					invocationList[i].DynamicInvoke(args);
-				}
-				catch (Exception ex)
-				{
-					MelonLogger.Error("Error while executing delegate:\n" + ex.ToString());
-				}
-			}
-		}
+        public static string ReplaceFirst(this string text, string search, string replace)
+        {
+            var num = text.IndexOf(search);
+            if (num < 0)
+            {
+                return text;
+            }
 
-		public static string ToEasyString(this TimeSpan timeSpan)
-		{
-			if (Mathf.FloorToInt(timeSpan.Ticks / 864000000000L) > 0)
-			{
-				return $"{timeSpan:%d} days";
-			}
-			if (Mathf.FloorToInt(timeSpan.Ticks / 36000000000L) > 0)
-			{
-				return $"{timeSpan:%h} hours";
-			}
-			if (Mathf.FloorToInt(timeSpan.Ticks / 600000000) > 0)
-			{
-				return $"{timeSpan:%m} minutes";
-			}
-			return $"{timeSpan:%s} seconds";
-		}
+            return text.Substring(0, num) + replace + text.Substring(num + search.Length);
+        }
 
-		public static void ShowAlert(this VRC.UI.Elements.QuickMenu qm, string message)
-		{
+        public static ColorBlock SetColor(this ColorBlock block, Color color)
+        {
+            var result = default(ColorBlock);
+            result.colorMultiplier = block.colorMultiplier;
+            result.disabledColor = Color.grey;
+            result.highlightedColor = color;
+            result.normalColor = color / 1.5f;
+            result.pressedColor = Color.white;
+            result.selectedColor = color / 1.5f;
+            return result;
+        }
+
+        public static void DelegateSafeInvoke(this Delegate @delegate, params object[] args)
+        {
+            var invocationList = @delegate.GetInvocationList();
+            for (var i = 0; i < invocationList.Length; i++)
+            {
+                try
+                {
+                    invocationList[i].DynamicInvoke(args);
+                }
+                catch (Exception ex)
+                {
+                    MelonLogger.Error("Error while executing delegate:\n" + ex);
+                }
+            }
+        }
+
+        public static string ToEasyString(this TimeSpan timeSpan)
+        {
+            if (Mathf.FloorToInt(timeSpan.Ticks / 864000000000L) > 0)
+            {
+                return $"{timeSpan:%d} days";
+            }
+
+            if (Mathf.FloorToInt(timeSpan.Ticks / 36000000000L) > 0)
+            {
+                return $"{timeSpan:%h} hours";
+            }
+
+            if (Mathf.FloorToInt(timeSpan.Ticks / 600000000) > 0)
+            {
+                return $"{timeSpan:%m} minutes";
+            }
+
+            return $"{timeSpan:%s} seconds";
+        }
+
+        public static void ShowAlert(this VRC.UI.Elements.QuickMenu qm, string message)
+        {
             if (ourShowAlertMethod == null)
             {
                 var methods = typeof(ModalAlert).GetMethods();
@@ -272,8 +278,8 @@ namespace PlagueButtonAPI.Misc
             }
         }
 
-		public static void ShowOKDialog(this VRC.UI.Elements.QuickMenu qm, string title, string message, Action okButton = null)
-		{
+        public static void ShowOKDialog(this VRC.UI.Elements.QuickMenu qm, string title, string message, Action okButton = null)
+        {
             ShowOKDialogMethod.Invoke(qm, new object[]
             {
                 title,
@@ -282,8 +288,8 @@ namespace PlagueButtonAPI.Misc
             });
         }
 
-		public static void ShowConfirmDialog(this VRC.UI.Elements.QuickMenu qm, string title, string message, Action yesButton = null, Action noButton = null)
-		{
+        public static void ShowConfirmDialog(this VRC.UI.Elements.QuickMenu qm, string title, string message, Action yesButton = null, Action noButton = null)
+        {
             ShowConfirmDialogMethod.Invoke(qm, new object[]
             {
                 title,
@@ -293,9 +299,9 @@ namespace PlagueButtonAPI.Misc
             });
         }
 
-		public static void AskConfirmOpenURL(this VRC.UI.Elements.QuickMenu qm, string url)
-		{
+        public static void AskConfirmOpenURL(this VRC.UI.Elements.QuickMenu qm, string url)
+        {
             AskConfirmOpenURLMethod.Invoke(qm, new object[] { url });
         }
-	}
+    }
 }

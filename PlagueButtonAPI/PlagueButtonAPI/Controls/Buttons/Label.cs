@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MelonLoader;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Misc;
@@ -30,7 +26,7 @@ namespace PlagueButtonAPI.Controls
 
                 var Handler = LabelButton.gameObject.AddComponent<ObjectHandler>();
 
-                Handler.OnEnabled += (obj) =>
+                Handler.OnEnabled += obj =>
                 {
                     var style = obj.GetOrAddComponent<StyleElement>();
 
