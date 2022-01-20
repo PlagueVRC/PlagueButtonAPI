@@ -78,6 +78,11 @@ namespace PlagueButtonAPI
 
             xIconSprite = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Here/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_WorldActions/Button_FavoriteWorld/Icon_Secondary").GetOrAddComponent<Image>().sprite;
 
+            while (PauseInit)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
             OnInit?.Invoke();
 
             HasInit = true;
