@@ -51,7 +51,7 @@ namespace PlagueButtonAPI.Controls
                 this.OffImage.overrideSprite = OffImage;
             }
 
-            var Init = true;
+            var Init = false;
 
             var Handler = gameObject.AddComponent<ObjectHandler>();
 
@@ -61,7 +61,7 @@ namespace PlagueButtonAPI.Controls
                 {
                     SetToggleState(ToggleState);
 
-                    Init = false;
+                    Init = true;
                 }
             };
         }

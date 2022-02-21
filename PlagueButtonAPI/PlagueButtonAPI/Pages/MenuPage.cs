@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using VRC.UI.Core.Styles;
 using VRC.UI.Elements;
 using VRC.UI.Elements.Menus;
+using VRC.UI.Elements.Notifications;
 using Object = UnityEngine.Object;
 
 namespace PlagueButtonAPI.Pages
@@ -17,19 +18,13 @@ namespace PlagueButtonAPI.Pages
     {
         private UIPage page;
 
-        private GameObject gameObject;
-
         public Transform menuContents;
 
         private TextMeshProUGUI pageTitleText;
 
         private bool isRoot;
 
-        private GameObject backButtonGameObject;
-
         private GameObject extButtonGameObject;
-
-        private bool preserveColor;
 
         public RectMask2D menuMask;
 
@@ -47,7 +42,7 @@ namespace PlagueButtonAPI.Pages
 
             try
             {
-                gameObject = UnityEngine.Object.Instantiate(ButtonAPI.menuPageBase, ButtonAPI.menuPageBase.transform.parent);
+                var gameObject = UnityEngine.Object.Instantiate(ButtonAPI.menuPageBase, ButtonAPI.menuPageBase.transform.parent);
                 gameObject.name = "Menu_" + menuName;
                 gameObject.transform.SetSiblingIndex(5);
                 gameObject.SetActive(false);
@@ -77,12 +72,13 @@ namespace PlagueButtonAPI.Pages
                 gameObject.transform.Find("ScrollRect/Viewport/VerticalLayoutGroup").DestroyChildren();
                 region++;
                 menuContents = gameObject.transform.Find("ScrollRect/Viewport/VerticalLayoutGroup");
+                menuContents.GetComponent<VerticalLayoutGroup>().childControlHeight = false;
                 region++;
                 pageTitleText = gameObject.GetComponentInChildren<TextMeshProUGUI>(true);
                 region++;
                 pageTitleText.text = pageTitle;
                 isRoot = root;
-                backButtonGameObject = gameObject.transform.GetChild(0).Find("LeftItemContainer/Button_Back").gameObject;
+                var backButtonGameObject = gameObject.transform.GetChild(0).Find("LeftItemContainer/Button_Back").gameObject;
                 region++;
                 extButtonGameObject = gameObject.transform.GetChild(0).Find("RightItemContainer/Button_QM_Expand").gameObject;
                 region++;
@@ -120,7 +116,6 @@ namespace PlagueButtonAPI.Pages
                 }
 
                 region++;
-                this.preserveColor = preserveColor;
                 menuMask = menuContents.parent.gameObject.GetOrAddComponent<RectMask2D>();
                 region++;
                 menuMask.enabled = true;

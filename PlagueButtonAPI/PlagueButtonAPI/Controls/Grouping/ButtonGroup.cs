@@ -33,7 +33,9 @@ namespace PlagueButtonAPI.Controls.Grouping
             gameObject = Object.Instantiate(ButtonAPI.buttonGroupBase, parent);
             gameObject.transform.DestroyChildren();
 
-            gameObject.GetOrAddComponent<GridLayoutGroup>().childAlignment = ButtonAlignment;
+            var Layout = gameObject.GetOrAddComponent<GridLayoutGroup>();
+            Layout.childAlignment = ButtonAlignment;
+
             parentMenuMask = parent.parent.GetOrAddComponent<RectMask2D>();
 
             var Handler = gameObject.GetOrAddComponent<ObjectHandler>();
