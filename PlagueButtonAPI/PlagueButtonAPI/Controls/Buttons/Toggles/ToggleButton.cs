@@ -9,7 +9,7 @@ namespace PlagueButtonAPI.Controls
 {
     public class ToggleButton : Toggle
     {
-        public ToggleButton(Transform parent, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage = null, Sprite OffImage = null)
+        public ToggleButton(Transform parent, string text, string tooltipWhileEnabled, string tooltipWhileDisabled, Action<bool> stateChanged, Sprite OnImage = null, Sprite OffImage = null)
         {
             gameObject = Object.Instantiate(ButtonAPI.toggleButtonBase, parent);
 
