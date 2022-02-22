@@ -9,7 +9,7 @@ namespace PlagueButtonAPI.Controls
 {
     public class ToggleButton : Toggle
     {
-        public ToggleButton(Transform parent, string text, string offTooltip, string onTooltip, Action<bool> stateChanged, Sprite OnImage = null, Sprite OffImage = null)
+        public ToggleButton(Transform parent, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage = null, Sprite OffImage = null)
         {
             gameObject = Object.Instantiate(ButtonAPI.toggleButtonBase, parent);
 
@@ -23,10 +23,19 @@ namespace PlagueButtonAPI.Controls
                 toggle.onValueChanged.AddListener(stateChanged);
             }
 
-            if (!string.IsNullOrEmpty(onTooltip) && !string.IsNullOrEmpty(offTooltip))
+            if (!string.IsNullOrEmpty(tooltipWhileDisabled) && !string.IsNullOrEmpty(tooltipWhileEnabled))
             {
-                tooltip.field_Public_String_0 = onTooltip;
-                tooltip.field_Public_String_1 = offTooltip;
+                if (tooltip.field_Public_String_0.Contains("Show"))
+                {
+                    tooltip.field_Public_String_0 = tooltipWhileDisabled;
+                    tooltip.field_Public_String_1 = tooltipWhileEnabled;
+                }
+                else
+                {
+                    tooltip.field_Public_String_1 = tooltipWhileDisabled;
+                    tooltip.field_Public_String_0 = tooltipWhileEnabled;
+                }
+
                 tooltip.prop_Boolean_0 = true;
             }
             else
