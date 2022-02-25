@@ -19,7 +19,7 @@ namespace PlagueButtonAPI.Controls.Grouping
 
         public bool IsOpen;
 
-        public CollapsibleButtonGroup(Transform parent, string text, string tooltip, bool openByDefault = false)
+        public CollapsibleButtonGroup(Transform parent, string text, string tooltip = "deprecated", bool openByDefault = false)
         {
             buttonGroup = new ButtonGroup(parent, text);
 
@@ -39,7 +39,7 @@ namespace PlagueButtonAPI.Controls.Grouping
             buttonGroup.headerGameObject.transform.Find("Background_Button").gameObject.GetComponent<Toggle>().isOn = openByDefault;
         }
 
-        public CollapsibleButtonGroup(MenuPage parent, string text, string tooltip, bool openByDefault = false) : this(parent.menuContents, text, tooltip, openByDefault)
+        public CollapsibleButtonGroup(MenuPage parent, string text, string tooltip = "deprecated", bool openByDefault = false) : this(parent.menuContents, text, tooltip, openByDefault)
         {
         }
 
