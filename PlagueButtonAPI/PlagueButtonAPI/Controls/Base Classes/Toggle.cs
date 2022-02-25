@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using MelonLoader;
+using UnhollowerRuntimeLib.XrefScans;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC.UI.Elements.Controls;
@@ -38,6 +41,17 @@ namespace PlagueButtonAPI.Controls.Base_Classes
             toggle.interactable = val;
         }
 
+        private static MethodInfo SetIconToggledStateMethod = null;
+        private void SetIconToggledState(bool val)
+        {
+            if (SetIconToggledStateMethod == null)
+            {
+                SetIconToggledStateMethod = typeof(ToggleIcon).GetMethods().First(m => m.Name.Contains("_Void_Boolean_") && m.GetParameters().Length == 1 && XrefScanner.XrefScan(m).Any(jt => jt.Type == XrefType.Global && jt.ReadAsObject() != null && jt.ReadAsObject().ToString() == "Toggled"));
+            }
+
+            SetIconToggledStateMethod.Invoke(gameObject.GetComponent<ToggleIcon>(), new object[] { val });
+        }
+
         public void SetToggleState(bool newState, bool invoke = false)
         {
             var onValueChanged = toggle.onValueChanged;
@@ -45,17 +59,7 @@ namespace PlagueButtonAPI.Controls.Base_Classes
             toggle.isOn = newState;
             toggle.onValueChanged = onValueChanged;
 
-            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_0(newState);
-            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_1(newState);
-            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_2(newState);
-            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_3(newState);
-            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_4(newState);
-            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_5(newState);
-            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_6(newState);
-            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_7(newState);
-            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_8(newState);
-            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_9(newState);
-            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_10(newState);
+            SetIconToggledState(newState);
 
             if (tooltip != null)
             {
