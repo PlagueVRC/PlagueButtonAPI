@@ -10,6 +10,11 @@ using PlagueButtonAPI.Misc;
 using UIExpansionKit.API;
 using UnityEngine;
 using VRC;
+using VRChatUtilityKit.Ui;
+using ButtonGroup = PlagueButtonAPI.Controls.Grouping.ButtonGroup;
+using Label = PlagueButtonAPI.Controls.Label;
+using SingleButton = PlagueButtonAPI.Controls.SingleButton;
+using ToggleButton = PlagueButtonAPI.Controls.ToggleButton;
 
 [assembly: MelonInfo(typeof(ExampleButtonAPIUsage.ExampleButtonAPIUsageMain), "Example PlagueButtonAPI Usage", "1.0", "Plague")]
 [assembly: MelonGame("VRChat", "VRChat")]
@@ -85,7 +90,7 @@ namespace ExampleButtonAPIUsage
 
                                 new SingleButton(PlayersGroup, player.field_Private_APIUser_0.displayName, "Selects This Player", () =>
                                 {
-                                    
+                                    UiManager.OpenUserInQuickMenu(player.field_Private_APIUser_0);
                                 }, true, image);
                             }
                         }
