@@ -51,6 +51,11 @@ namespace PlagueButtonAPI.Controls.Base_Classes
             toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_3(newState);
             toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_4(newState);
             toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_5(newState);
+            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_6(newState);
+            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_7(newState);
+            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_8(newState);
+            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_9(newState);
+            toggle.GetComponent<ToggleIcon>().Method_Private_Void_Boolean_PDM_10(newState);
 
             if (tooltip != null)
             {
