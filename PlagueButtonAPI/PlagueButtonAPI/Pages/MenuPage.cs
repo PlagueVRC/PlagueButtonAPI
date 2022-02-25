@@ -53,7 +53,7 @@ namespace PlagueButtonAPI.Pages
                 region++;
                 page.field_Public_String_0 = menuName;
                 page.field_Private_Boolean_1 = true;
-                page.field_Private_MenuStateController_0 = ButtonAPI.GetMenuStateControllerInstance();
+                page.field_Protected_MenuStateController_0 = ButtonAPI.GetMenuStateControllerInstance();
                 page.field_Private_List_1_UIPage_0 = new Il2CppSystem.Collections.Generic.List<UIPage>();
                 page.field_Private_List_1_UIPage_0.Add(page);
                 region++;
