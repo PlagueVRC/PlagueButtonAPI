@@ -65,7 +65,7 @@ namespace ExampleButtonAPIUsage
                         Functions.TogglePortals(!val);
                     }).SetToggleState(false, true);
 
-                    var NonFunctionalGroup = new ButtonGroup(Page, "Non-Functional Options");
+                    var NonFunctionalGroup = new CollapsibleButtonGroup(Page, "Non-Functional Options");
 
                     var PlayerListMenu = new MenuPage("PlayersList_1", "Player List", false);
 

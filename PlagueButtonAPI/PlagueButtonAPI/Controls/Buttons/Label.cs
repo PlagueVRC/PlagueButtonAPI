@@ -20,30 +20,16 @@ namespace PlagueButtonAPI.Controls
 
             LabelButton.buttonBackground.color = new Color(0f, 0f, 0f, 0f);
 
+            var Handler = LabelButton.gameObject.AddComponent<ObjectHandler>();
+
+            Handler.OnUpdateEachSecond += (a, b) =>
+            {
+                LabelButton.text.transform.localPosition = new Vector3(0f, -19f, 0f);
+            };
+
             if (onClick == null)
             {
                 LabelButton.gameObject.GetOrAddComponent<Button>().enabled = false;
-
-                var Handler = LabelButton.gameObject.AddComponent<ObjectHandler>();
-
-                Handler.OnEnabled += obj =>
-                {
-                    var style = obj.GetOrAddComponent<StyleElement>();
-
-                    if (style != null)
-                    {
-                        MelonCoroutines.Start(DelayedAction());
-
-                        IEnumerator DelayedAction()
-                        {
-                            yield return new WaitForSeconds(0.5f);
-
-                            style.enabled = false;
-
-                            yield break;
-                        }
-                    }
-                };
             }
         }
 

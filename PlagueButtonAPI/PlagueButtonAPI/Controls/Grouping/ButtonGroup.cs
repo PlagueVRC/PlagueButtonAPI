@@ -28,6 +28,9 @@ namespace PlagueButtonAPI.Controls.Grouping
                 headerText = headerGameObject.GetComponentInChildren<TextMeshProUGUI>(true);
                 headerText.text = text;
                 headerText.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(915f, 50f);
+
+                headerGameObject.transform.Find("Background_Button").gameObject.SetActive(false);
+                headerGameObject.transform.Find("Arrow").gameObject.SetActive(false);
             }
 
             gameObject = Object.Instantiate(ButtonAPI.buttonGroupBase, parent);

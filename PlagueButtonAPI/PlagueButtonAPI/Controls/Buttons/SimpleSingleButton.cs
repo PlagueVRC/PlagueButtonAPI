@@ -15,8 +15,8 @@ namespace PlagueButtonAPI.Controls
 
             this.text.text = text;
             this.text.fontSize = 28f;
-
-            this.text.gameObject.GetComponent<RectTransform>().localPosition = new Vector3(0f, -25f, 0f);
+            this.text.transform.localPosition = new Vector3(0f, -19f, 0f);
+            this.text.color = new Color(0.9f, 0.9f, 0.9f);
 
             button.onClick = new Button.ButtonClickedEvent();
 
@@ -36,8 +36,6 @@ namespace PlagueButtonAPI.Controls
 
             UnityEngine.Object.Destroy(gameObject.transform.Find("Icon").gameObject);
             UnityEngine.Object.Destroy(gameObject.transform.Find("Icon_Secondary").gameObject);
-
-            this.text.color = new Color(0.9f, 0.9f, 0.9f);
 
             if (SubMenuIcon)
             {

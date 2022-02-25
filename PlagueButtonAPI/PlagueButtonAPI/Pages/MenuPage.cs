@@ -72,7 +72,7 @@ namespace PlagueButtonAPI.Pages
                 gameObject.transform.Find("ScrollRect/Viewport/VerticalLayoutGroup").DestroyChildren();
                 region++;
                 menuContents = gameObject.transform.Find("ScrollRect/Viewport/VerticalLayoutGroup");
-                menuContents.GetComponent<VerticalLayoutGroup>().childControlHeight = false;
+                menuContents.GetComponent<VerticalLayoutGroup>().childControlHeight = true;
                 region++;
                 pageTitleText = gameObject.GetComponentInChildren<TextMeshProUGUI>(true);
                 region++;
