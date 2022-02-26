@@ -297,8 +297,8 @@ namespace PlagueButtonAPI.Misc
                 message,
                 "Yes",
                 "No",
-                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(yesButton),
-                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(noButton)
+                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(noButton),
+                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(yesButton)
             });
         }
 
