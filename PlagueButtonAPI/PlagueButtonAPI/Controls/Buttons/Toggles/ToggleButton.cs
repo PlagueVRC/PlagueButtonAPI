@@ -89,6 +89,16 @@ namespace PlagueButtonAPI.Controls
         {
         }
 
+        public ToggleButton(ButtonGroup pge, string text, string tooltip, Action<bool> stateChanged, bool DefaultState = false)
+            : this(pge.gameObject.transform, text, tooltip, tooltip, stateChanged, null, null, DefaultState)
+        {
+        }
+
+        public ToggleButton(CollapsibleButtonGroup pge, string text, string tooltip, Action<bool> stateChanged, bool DefaultState = false)
+            : this(pge.buttonGroup, text, tooltip, tooltip, stateChanged, null, null, DefaultState)
+        {
+        }
+
         public ToggleButton(MenuPage pge, string text, string offTooltip, string onTooltip, Action<bool> stateChanged, Sprite OnImage = null, Sprite OffImage = null)
             : this(pge.menuContents, text, offTooltip, onTooltip, stateChanged, OnImage, OffImage)
         {
