@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using MelonLoader;
+using PlagueButtonAPI.Main;
 using PlagueButtonAPI.Misc;
 using UnityEngine;
 using UnityEngine.UI;
@@ -58,6 +59,8 @@ namespace PlagueButtonAPI
             }
 
             yield return new WaitForSeconds(2f); // Just In Case!
+
+            TransformHelper.Init();
 
             singleButtonBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/Button_Respawn")?.gameObject;
 

@@ -156,6 +156,7 @@
     <Compile Include="Controls\Buttons\WingSingleButton.cs" />
     <Compile Include="Main\ButtonAPI.cs" />
     <Compile Include="Controls\Grouping\ButtonGroup.cs" />
+    <Compile Include="Main\TransformHelper.cs" />
     <Compile Include="Misc\ComponentManager.cs" />
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="External Libraries\VRCUtils\VRCUtils.cs" />
