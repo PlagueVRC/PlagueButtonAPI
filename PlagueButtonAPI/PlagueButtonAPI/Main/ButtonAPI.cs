@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using MelonLoader;
 using PlagueButtonAPI.Main;
 using PlagueButtonAPI.Misc;
+using PlagueButtonAPI.Pages;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC.UI.Elements;
@@ -12,6 +14,8 @@ namespace PlagueButtonAPI
 {
     public class ButtonAPI : MelonLoaderEvents
     {
+        public static List<MenuPage> AllCreatedPages = new List<MenuPage>();
+
         public static GameObject singleButtonBase;
 
         public static GameObject toggleButtonBase;

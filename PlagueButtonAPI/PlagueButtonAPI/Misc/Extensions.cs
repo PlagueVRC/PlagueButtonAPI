@@ -6,6 +6,7 @@ using UnhollowerRuntimeLib;
 using UnhollowerRuntimeLib.XrefScans;
 using UnityEngine;
 using UnityEngine.UI;
+using VRC;
 using VRC.UI.Elements.Controls;
 using Object = UnityEngine.Object;
 
@@ -47,6 +48,119 @@ namespace PlagueButtonAPI.Misc
 
                 return ourAskConfirmOpenURLMethod;
             }
+        }
+
+        private static MethodInfo _reloadAvatarMethod;
+        private static MethodInfo LoadAvatarMethod
+        {
+            get
+            {
+                if (_reloadAvatarMethod == null)
+                {
+                    _reloadAvatarMethod = typeof(VRCPlayer).GetMethods().First(mi => mi.Name.StartsWith("Method_Private_Void_Boolean_") && mi.Name.Length < 31 && mi.GetParameters().Any(pi => pi.IsOptional) && Utils.CheckUsedBy(mi, "ReloadAvatarNetworkedRPC"));
+                }
+
+                return _reloadAvatarMethod;
+            }
+        }
+
+        private static MethodInfo _reloadAllAvatarsMethod;
+        private static MethodInfo ReloadAllAvatarsMethod
+        {
+            get
+            {
+                if (_reloadAllAvatarsMethod == null)
+                {
+                    _reloadAllAvatarsMethod = typeof(VRCPlayer).GetMethods().First(mi => mi.Name.StartsWith("Method_Public_Void_Boolean_") && mi.Name.Length < 30 && mi.GetParameters().All(pi => pi.IsOptional) && Utils.CheckUsedBy(mi, "Method_Public_Void_", typeof(FeaturePermissionManager)));// Both methods seem to do the same thing;
+                }
+
+                return _reloadAllAvatarsMethod;
+            }
+        }
+        public static void ReloadAvatar(this VRCPlayer instance)
+        {
+            LoadAvatarMethod.Invoke(instance, new object[] { true }); // parameter is forceLoad and has to be true
+        }
+
+        public static void ReloadAllAvatars(this VRCPlayer instance, bool ignoreSelf = false)
+        {
+            ReloadAllAvatarsMethod.Invoke(instance, new object[] { ignoreSelf });
+        }
+
+        private delegate void CloseUiDelegate(VRCUiManager uiManager, bool what, bool what2);
+        private static CloseUiDelegate _closeUi;
+
+        public static void CloseUi(this VRCUiManager uiManager)
+        {
+            if (_closeUi == null)
+            {
+                _closeUi = (CloseUiDelegate)Delegate.CreateDelegate(typeof(CloseUiDelegate),
+                    typeof(VRCUiManager).GetMethods().FirstOrDefault(m => m.Name.StartsWith("Method_Public_Void_Boolean_Boolean") && !m.Name.Contains("PDM") && Utils.CheckUsing(m, "TrimCache")));
+            }
+
+            _closeUi(uiManager, true, false);
+        }
+
+        private delegate void ShowUiDelegate(VRCUiManager uiManager, bool showDefaultScreen, bool showBackdrop);
+        private static ShowUiDelegate _showUi;
+
+        public static void ShowUi(this VRCUiManager uiManager, bool showDefaultScreen = true, bool showBackdrop = true)
+        {
+            if (_showUi == null)
+            {
+                _showUi = (ShowUiDelegate)Delegate.CreateDelegate(typeof(ShowUiDelegate), typeof(VRCUiManager).GetMethods()
+                    .First(mb => mb.Name.StartsWith("Method_Public_Void_Boolean_Boolean_") && !mb.Name.Contains("_PDM_") && Utils.CheckMethod(mb, "UserInterface/MenuContent/Backdrop/Backdrop")));
+            }
+
+            _showUi(uiManager, showDefaultScreen, showBackdrop);
+        }
+
+        public static void QueueHudMessage(this VRCUiManager uiManager, string notification, Color color, float duration = 5f,
+                                           float delay = 0f)
+        {
+            uiManager.field_Public_Text_0.color = color;
+            uiManager.field_Public_Text_0.text = ""; // Empty This!
+            uiManager.field_Private_Single_0 = 0f;
+            uiManager.field_Private_Single_1 = duration;
+            uiManager.field_Private_Single_2 = delay;
+
+            uiManager.field_Private_List_1_String_0.Add(notification);
+        }
+
+        public static Player[] GetPlayers(this PlayerManager playerManager)
+        {
+            return playerManager.prop_ArrayOf_Player_0;
+        }
+
+        public static Player GetPlayer(this PlayerManager playerManager, string userId)
+        {
+            foreach (var player in playerManager.GetPlayers())
+            {
+                if (player == null)
+                    continue;
+
+                var apiUser = player.field_Private_APIUser_0;
+                if (apiUser == null)
+                    continue;
+
+                if (apiUser.id == userId)
+                    return player;
+            }
+
+            return null;
+        }
+
+        public static Player GetPlayer(this PlayerManager playerManager, int actorNr)
+        {
+            foreach (var player in playerManager.GetPlayers())
+            {
+                if (player == null)
+                    continue;
+                if (player.prop_Int32_0 == actorNr)
+                    return player;
+            }
+
+            return null;
         }
 
         public static T GetOrAddComponent<T>(this GameObject obj) where T : Behaviour

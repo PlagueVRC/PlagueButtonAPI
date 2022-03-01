@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using MelonLoader;
+using PlagueButtonAPI.Controls;
 using PlagueButtonAPI.Misc;
 using TMPro;
 using UnityEngine;
@@ -16,11 +17,11 @@ namespace PlagueButtonAPI.Pages
 {
     public class MenuPage
     {
-        private UIPage page;
+        public UIPage page;
 
         public Transform menuContents;
 
-        private TextMeshProUGUI pageTitleText;
+        public TextMeshProUGUI pageTitleText;
 
         private bool isRoot;
 
@@ -146,6 +147,8 @@ namespace PlagueButtonAPI.Pages
                         yield break;
                     }
                 };
+
+                ButtonAPI.AllCreatedPages.Add(this);
             }
             catch (Exception ex)
             {

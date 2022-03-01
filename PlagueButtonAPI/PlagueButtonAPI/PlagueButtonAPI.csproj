@@ -161,6 +161,7 @@
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="External Libraries\VRCUtils\VRCUtils.cs" />
     <Compile Include="Misc\MelonLoaderEvents.cs" />
+    <Compile Include="Misc\Utils.cs" />
     <Compile Include="Pages\MenuPage.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="Misc\PriorityAttribute.cs" />

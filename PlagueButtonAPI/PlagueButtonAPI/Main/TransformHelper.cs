@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MelonLoader;
 using UnityEngine;
 
 namespace PlagueButtonAPI.Main
@@ -11,17 +12,36 @@ namespace PlagueButtonAPI.Main
     {
         internal static void Init()
         {
-            QuickMenu = GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)").transform;
+            var Index = 1;
+            try
+            {
 
-            MainLaunchpadDashboard = QuickMenu.Find("Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup");
+                QuickMenu = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)");
 
-            SelectedUser_Local = QuickMenu.Find("Container/Window/QMParent/Menu_SelectedUser_Local/ScrollRect/Viewport/VerticalLayoutGroup");
-            SelectedUser_Remote = QuickMenu.Find("Container/Window/QMParent/Menu_SelectedUser_Remote/ScrollRect/Viewport/VerticalLayoutGroup");
+                Index++;
 
-            HerePage = QuickMenu.Find("Container/Window/QMParent/Menu_Here/ScrollRect/Viewport/VerticalLayoutGroup");
-            CameraPage = QuickMenu.Find("Container/Window/QMParent/Menu_Camera/ScrollRect/Viewport/VerticalLayoutGroup");
-            AudioPage = QuickMenu.Find("Container/Window/QMParent/Menu_AudioSettings/ScrollRect/Viewport/VerticalLayoutGroup");
-            SettingsPage = QuickMenu.Find("Container/Window/QMParent/Menu_Settings/ScrollRect/Viewport/VerticalLayoutGroup");
+                MainLaunchpadDashboard = QuickMenu.Find("Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup");
+
+                Index++;
+
+                SelectedUser_Local = QuickMenu.Find("Container/Window/QMParent/Menu_SelectedUser_Local/ScrollRect/Viewport/VerticalLayoutGroup");
+
+                Index++;
+
+                SelectedUser_Remote = QuickMenu.Find("Container/Window/QMParent/Menu_SelectedUser_Remote/ScrollRect/Viewport/VerticalLayoutGroup");
+
+                Index++;
+
+                HerePage = QuickMenu.Find("Container/Window/QMParent/Menu_Here/ScrollRect/Viewport/VerticalLayoutGroup");
+
+                Index++;
+
+                CameraPage = QuickMenu.Find("Container/Window/QMParent/Menu_Camera/Scrollrect/Viewport/VerticalLayoutGroup");
+            }
+            catch (Exception ex)
+            {
+                MelonLogger.Error("Index: " + Index + "\n\n" + ex);
+            }
         }
 
         internal static Transform QuickMenu = null;
@@ -30,7 +50,5 @@ namespace PlagueButtonAPI.Main
         public static Transform SelectedUser_Remote = null;
         public static Transform HerePage = null;
         public static Transform CameraPage = null;
-        public static Transform AudioPage = null;
-        public static Transform SettingsPage = null;
     }
 }

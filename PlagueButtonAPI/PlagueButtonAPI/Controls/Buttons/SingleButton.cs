@@ -13,6 +13,13 @@ namespace PlagueButtonAPI.Controls
     {
         public SingleButton(Transform parent, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
         {
+            if (icon == null)
+            {
+                var btn = new SimpleSingleButton(parent, text, tooltip, click, SubMenuIcon);
+
+                gameObject = btn.gameObject;
+            }
+
             gameObject = UnityEngine.Object.Instantiate(ButtonAPI.singleButtonBase, parent);
 
             this.text.text = text;
