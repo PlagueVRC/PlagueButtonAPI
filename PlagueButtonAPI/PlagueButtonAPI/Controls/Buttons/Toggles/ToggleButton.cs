@@ -18,16 +18,14 @@ namespace PlagueButtonAPI.Controls
             this.text.text = text;
 
             toggle.onValueChanged = new UnityEngine.UI.Toggle.ToggleEvent();
-            toggle.Set(false, false);
-
-            if (stateChanged != null)
-            {
-                UserAddedListener = stateChanged;
-                toggle.onValueChanged.AddListener(UserAddedListener);
-            }
 
             toggle.onValueChanged.AddListener(new Action<bool>(val =>
             {
+                if (AllowUserInvoke)
+                {
+                    stateChanged?.Invoke(val);
+                }
+
                 NextState = val;
             }));
 

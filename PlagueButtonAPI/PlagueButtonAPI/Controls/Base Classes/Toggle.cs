@@ -44,7 +44,7 @@ namespace PlagueButtonAPI.Controls.Base_Classes
             toggle.interactable = val;
         }
 
-        public Action<bool> UserAddedListener = null;
+        public bool AllowUserInvoke = true;
 
         public void SetToggleState(bool newState, bool invoke = false)
         {
@@ -53,17 +53,11 @@ namespace PlagueButtonAPI.Controls.Base_Classes
 
             if (gameObject.active)
             {
-                if (UserAddedListener != null)
-                {
-                    toggle.onValueChanged.RemoveListener(UserAddedListener);
-                }
+                AllowUserInvoke = false;
 
                 toggle.isOn = newState;
 
-                if (UserAddedListener != null)
-                {
-                    toggle.onValueChanged.AddListener(UserAddedListener);
-                }
+                AllowUserInvoke = true;
 
                 if (tooltip != null)
                 {
