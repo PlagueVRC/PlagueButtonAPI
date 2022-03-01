@@ -18,6 +18,8 @@ namespace PlagueButtonAPI.Controls
                 var btn = new SimpleSingleButton(parent, text, tooltip, click, SubMenuIcon);
 
                 gameObject = btn.gameObject;
+
+                return;
             }
 
             gameObject = UnityEngine.Object.Instantiate(ButtonAPI.singleButtonBase, parent);

@@ -31,7 +31,7 @@ namespace PlagueButtonAPI.Pages
 
         public string menuName;
 
-        public MenuPage(string menuName, string pageTitle, bool root = true, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false)
+        public MenuPage(string menuName, string pageTitle, bool root = true, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
             if (ButtonAPI.menuPageBase == null)
             {
@@ -147,6 +147,11 @@ namespace PlagueButtonAPI.Pages
                         yield break;
                     }
                 };
+
+                if (Gridify)
+                {
+
+                }
 
                 ButtonAPI.AllCreatedPages.Add(this);
             }
