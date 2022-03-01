@@ -86,7 +86,14 @@ namespace PlagueButtonAPI.Controls
         public Slider(MenuPage pge, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)
             : this(pge.menuContents, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup)
         {
-            gameObject.GetComponent<LayoutElement>().minHeight = 115;
+            if (!pge.Gridified)
+            {
+                gameObject.GetComponent<LayoutElement>().minHeight = 115;
+            }
+            else
+            {
+                sliderText.text = "\r\n\r\n\r\n" + text;
+            }
         }
 
         public Slider(ButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false)

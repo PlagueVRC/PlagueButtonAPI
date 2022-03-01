@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using MelonLoader;
 using PlagueButtonAPI.Controls;
+using PlagueButtonAPI.Main;
 using PlagueButtonAPI.Misc;
 using TMPro;
 using UnityEngine;
@@ -30,6 +31,8 @@ namespace PlagueButtonAPI.Pages
         public RectMask2D menuMask;
 
         public string menuName;
+
+        public bool Gridified;
 
         public MenuPage(string menuName, string pageTitle, bool root = true, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false) : this(menuName, pageTitle, root, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, false)
         {
@@ -155,7 +158,25 @@ namespace PlagueButtonAPI.Pages
 
                 if (Gridify)
                 {
+                    Gridified = true;
 
+                    var Template = TransformHelper.QuickMenu.Find("Container/Window/QMParent/Menu_DevTools").GetComponentInChildren<ScrollRect>().content;
+
+                    var LayoutToCopy = Template.Find("Buttons").GetComponent<GridLayoutGroup>();
+
+                    Object.DestroyImmediate(menuContents.GetComponent<VerticalLayoutGroup>());
+
+                    var glp = menuContents.gameObject.AddComponent<GridLayoutGroup>();
+                    glp.spacing = LayoutToCopy.spacing;
+                    glp.cellSize = LayoutToCopy.cellSize;
+                    glp.constraint = LayoutToCopy.constraint;
+                    glp.constraintCount = LayoutToCopy.constraintCount;
+                    glp.startAxis = LayoutToCopy.startAxis;
+                    glp.startCorner = LayoutToCopy.startCorner;
+                    glp.childAlignment = TextAnchor.UpperLeft;
+                    glp.padding = LayoutToCopy.padding;
+                    glp.padding.top = 8;
+                    glp.padding.left = 64;
                 }
 
                 ButtonAPI.AllCreatedPages.Add(this);
