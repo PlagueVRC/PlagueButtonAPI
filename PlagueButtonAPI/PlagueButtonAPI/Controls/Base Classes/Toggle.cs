@@ -41,25 +41,21 @@ namespace PlagueButtonAPI.Controls.Base_Classes
             toggle.interactable = val;
         }
 
-        private static MethodInfo SetIconToggledStateMethod = null;
-        private void SetIconToggledState(bool val)
-        {
-            if (SetIconToggledStateMethod == null)
-            {
-                SetIconToggledStateMethod = typeof(ToggleIcon).GetMethods().First(m => m.Name.Contains("_Void_Boolean_") && m.GetParameters().Length == 1 && XrefScanner.XrefScan(m).Any(jt => jt.Type == XrefType.Global && jt.ReadAsObject() != null && jt.ReadAsObject().ToString() == "Toggled"));
-            }
-
-            SetIconToggledStateMethod.Invoke(gameObject.GetComponent<ToggleIcon>(), new object[] { val });
-        }
+        public Action<bool> UserAddedListener = null;
 
         public void SetToggleState(bool newState, bool invoke = false)
         {
-            var onValueChanged = toggle.onValueChanged;
-            toggle.onValueChanged = new UnityEngine.UI.Toggle.ToggleEvent();
-            toggle.isOn = newState;
-            toggle.onValueChanged = onValueChanged;
+            if (UserAddedListener != null)
+            {
+                toggle.onValueChanged.RemoveListener(UserAddedListener);
+            }
 
-            SetIconToggledState(newState);
+            toggle.Set(newState);
+
+            if (UserAddedListener != null)
+            {
+                toggle.onValueChanged.AddListener(UserAddedListener);
+            }
 
             if (tooltip != null)
             {

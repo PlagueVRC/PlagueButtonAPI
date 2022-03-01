@@ -20,6 +20,7 @@ namespace PlagueButtonAPI.Controls
 
             if (stateChanged != null)
             {
+                UserAddedListener = stateChanged;
                 toggle.onValueChanged.AddListener(stateChanged);
             }
 
