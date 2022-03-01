@@ -101,9 +101,22 @@ namespace ExampleButtonAPIUsage
                         PlayerListMenu.OpenMenu();
                     }, true, ButtonImage);
 
-                    new SimpleSingleButton(NonFunctionalGroup, "Simple Button", "Simple Button", () =>
+                    new SimpleSingleButton(NonFunctionalGroup, "Show Alerts", "Simple Button", () =>
                     {
-                        MelonLogger.Msg("Simple Button Clicked!");
+                        ButtonAPI.GetQuickMenuInstance().ShowAlert("Alert Test");
+
+                        ButtonAPI.GetQuickMenuInstance().ShowOKDialog("Title", "Message", () =>
+                        {
+                            MelonLogger.Msg("Okay Clicked! Showing Yes/No Popup..");
+
+                            ButtonAPI.GetQuickMenuInstance().ShowConfirmDialog("Title", "Message", () =>
+                            {
+                                MelonLogger.Msg("Yes Clicked!");
+                            }, () =>
+                            {
+                                MelonLogger.Msg("No Clicked!");
+                            });
+                        });
                     });
 
                     new ToggleButton(NonFunctionalGroup, "Toggle", "Toggle Off", "Toggle On", (val) =>
