@@ -32,6 +32,8 @@ namespace PlagueButtonAPI.Controls
                 {
                     tooltip.field_Public_String_0 = tooltipWhileDisabled;
                     tooltip.field_Public_String_1 = tooltipWhileEnabled;
+
+                    ToolTipOne = true;
                 }
                 else
                 {

@@ -77,10 +77,19 @@ namespace PlagueButtonAPI.Controls.Base_Classes
             }
         }
 
+        public bool ToolTipOne = false;
         public void SetTooltip(string newOffTooltip, string newOnTooltip)
         {
-            tooltip.field_Public_String_0 = newOnTooltip;
-            tooltip.field_Public_String_1 = newOffTooltip;
+            if (!ToolTipOne)
+            {
+                tooltip.field_Public_String_0 = newOnTooltip;
+                tooltip.field_Public_String_1 = newOffTooltip;
+            }
+            else
+            {
+                tooltip.field_Public_String_0 = newOffTooltip;
+                tooltip.field_Public_String_1 = newOnTooltip;
+            }
         }
 
         public void SetOnIcon(Sprite newIcon)
