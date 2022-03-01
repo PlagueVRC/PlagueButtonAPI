@@ -15,26 +15,9 @@ namespace PlagueButtonAPI.Misc
     {
         private static MethodInfo ourShowAlertMethod;
 
-        private static MethodInfo ourShowOKDialogMethod;
-
         private static MethodInfo ourShowConfirmDialogMethod;
 
         private static MethodInfo ourAskConfirmOpenURLMethod;
-
-        public static MethodInfo ShowOKDialogMethod
-        {
-            get
-            {
-                if (ourShowOKDialogMethod != null)
-                {
-                    return ourShowOKDialogMethod;
-                }
-
-                ourShowOKDialogMethod = typeof(VRC.UI.Elements.QuickMenu).GetMethods().First(it => it.GetParameters().Length == 4 && it.Name.Contains("_String_String_Action_Action_") && XrefScanner.XrefScan(it).Any(jt => jt.Type == XrefType.Global && jt.ReadAsObject()?.ToString() == "ConfirmDialog"));
-
-                return ourShowOKDialogMethod;
-            }
-        }
 
         public static MethodInfo ShowConfirmDialogMethod
         {
@@ -280,25 +263,19 @@ namespace PlagueButtonAPI.Misc
 
         public static void ShowOKDialog(this VRC.UI.Elements.QuickMenu qm, string title, string message, Action okButton = null)
         {
-            ShowOKDialogMethod.Invoke(qm, new object[]
-            {
-                title,
-                message,
-                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(okButton),
-                null
-            });
+            qm.ShowConfirmDialog(title, message, okButton, null, true);
         }
 
-        public static void ShowConfirmDialog(this VRC.UI.Elements.QuickMenu qm, string title, string message, Action yesButton = null, Action noButton = null)
+        public static void ShowConfirmDialog(this VRC.UI.Elements.QuickMenu qm, string title, string message, Action yesOkayButton = null, Action noButton = null, bool OneButton = false)
         {
             ShowConfirmDialogMethod.Invoke(qm, new object[]
             {
                 title,
                 message,
-                "Yes",
-                "No",
-                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(yesButton),
-                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(noButton)
+                OneButton ? null : "Yes",
+                OneButton ? "Okay" : "No",
+                OneButton ? null : DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(yesOkayButton),
+                OneButton ? DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(yesOkayButton) : DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(noButton)
             });
         }
 

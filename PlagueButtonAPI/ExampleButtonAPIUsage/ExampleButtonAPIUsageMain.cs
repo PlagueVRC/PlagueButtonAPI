@@ -5,6 +5,7 @@ using PlagueButtonAPI.Controls;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using PlagueButtonAPI.Misc;
 using UIExpansionKit.API;
@@ -109,13 +110,22 @@ namespace ExampleButtonAPIUsage
                         {
                             MelonLogger.Msg("Okay Clicked! Showing Yes/No Popup..");
 
-                            ButtonAPI.GetQuickMenuInstance().ShowConfirmDialog("Title", "Message", () =>
+                            MelonCoroutines.Start(RunMe());
+
+                            IEnumerator RunMe()
                             {
-                                MelonLogger.Msg("Yes Clicked!");
-                            }, () =>
-                            {
-                                MelonLogger.Msg("No Clicked!");
-                            });
+                                yield return new WaitForSeconds(3f);
+
+                                ButtonAPI.GetQuickMenuInstance().ShowConfirmDialog("Title", "Message", () =>
+                                {
+                                    MelonLogger.Msg("Yes Clicked!");
+                                }, () =>
+                                {
+                                    MelonLogger.Msg("No Clicked!");
+                                });
+
+                                yield break;
+                            }
                         });
                     });
 
