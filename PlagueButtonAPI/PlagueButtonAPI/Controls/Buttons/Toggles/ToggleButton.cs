@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using MelonLoader;
 using PlagueButtonAPI.Controls.Base_Classes;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
@@ -21,12 +23,12 @@ namespace PlagueButtonAPI.Controls
             if (stateChanged != null)
             {
                 UserAddedListener = stateChanged;
-                toggle.onValueChanged.AddListener(stateChanged);
+                toggle.onValueChanged.AddListener(UserAddedListener);
             }
 
             if (!string.IsNullOrEmpty(tooltipWhileDisabled) && !string.IsNullOrEmpty(tooltipWhileEnabled))
             {
-                if (tooltip.field_Public_String_0.Contains("Show"))
+                if (tooltip.field_Public_String_0.Contains("Hide")) // VRC made their own fucking ui the wrong way round on this tooltip on init, lmfao
                 {
                     tooltip.field_Public_String_0 = tooltipWhileDisabled;
                     tooltip.field_Public_String_1 = tooltipWhileEnabled;
@@ -61,17 +63,13 @@ namespace PlagueButtonAPI.Controls
                 this.OffImage.overrideSprite = OffImage;
             }
 
-            var Init = false;
-
-            var Handler = gameObject.AddComponent<ObjectHandler>();
+            var Handler = transform.Find("Icon_On").gameObject.AddComponent<ObjectHandler>();
 
             Handler.OnEnabled += obj =>
             {
-                if (!Init)
+                if (NextState != ToggleState) // The User Set This To Be A Different State While The Object Was Inactive
                 {
-                    SetToggleState(ToggleState);
-
-                    Init = true;
+                    SetToggleState(NextState, NextIsInvoke);
                 }
             };
         }

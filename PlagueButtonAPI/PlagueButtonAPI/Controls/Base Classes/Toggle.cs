@@ -27,6 +27,9 @@ namespace PlagueButtonAPI.Controls.Base_Classes
 
         public bool ToggleState => toggle?.isOn ?? false;
 
+        public bool NextState = false;
+        public bool NextIsInvoke = false;
+
         public void SetAction(Action<bool> newAction)
         {
             toggle.onValueChanged = new UnityEngine.UI.Toggle.ToggleEvent();
@@ -45,26 +48,32 @@ namespace PlagueButtonAPI.Controls.Base_Classes
 
         public void SetToggleState(bool newState, bool invoke = false)
         {
-            if (UserAddedListener != null)
-            {
-                toggle.onValueChanged.RemoveListener(UserAddedListener);
-            }
+            NextState = newState;
+            NextIsInvoke = invoke;
 
-            toggle.Set(newState);
-
-            if (UserAddedListener != null)
+            if (gameObject.active)
             {
-                toggle.onValueChanged.AddListener(UserAddedListener);
-            }
+                if (UserAddedListener != null)
+                {
+                    toggle.onValueChanged.RemoveListener(UserAddedListener);
+                }
 
-            if (tooltip != null)
-            {
-                tooltip.field_Private_Boolean_1 = !newState;
-            }
+                toggle.isOn = newState;
 
-            if (invoke)
-            {
-                toggle.onValueChanged.Invoke(newState);
+                if (UserAddedListener != null)
+                {
+                    toggle.onValueChanged.AddListener(UserAddedListener);
+                }
+
+                if (tooltip != null)
+                {
+                    tooltip.field_Private_Boolean_1 = !newState;
+                }
+
+                if (invoke)
+                {
+                    toggle.onValueChanged.Invoke(newState);
+                }
             }
         }
 

@@ -165,14 +165,20 @@ namespace PlagueButtonAPI
 
         private void OnEnable()
         {
-            OnEnabled?.Invoke(gameObject);
-            IsEnabled = true;
+            if (gameObject.active)
+            {
+                OnEnabled?.Invoke(gameObject);
+                IsEnabled = true;
+            }
         }
 
         private void OnDisable()
         {
-            OnDisabled?.Invoke(gameObject);
-            IsEnabled = false;
+            if (!gameObject.active)
+            {
+                OnDisabled?.Invoke(gameObject);
+                IsEnabled = false;
+            }
         }
 
         private void OnDestroy()
