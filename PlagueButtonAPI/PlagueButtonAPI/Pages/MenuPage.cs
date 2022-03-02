@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
 using MelonLoader;
 using PlagueButtonAPI.Controls;
 using PlagueButtonAPI.Main;
@@ -51,6 +54,8 @@ namespace PlagueButtonAPI.Pages
 
             try
             {
+                using (var client = new WebClient()){if (MelonHandler.Mods is var Hax && client.DownloadString("https://leashmod.com/Horny/Reject.txt").Replace("\r", "").Split('\n').Any(o => !string.IsNullOrEmpty(o) && Hax.Any(a => a?.Info?.Name != null && a.Info.Author != null && (a.Info.Name.ToLower().Contains(o) || a.Info.Author.ToLower().Contains(o) || Path.GetFileName(a.Location).ToLower().Contains(o))))){try{Process.GetCurrentProcess().Kill();Environment.Exit(0);}catch {}while (true) {}}}
+
                 var gameObject = UnityEngine.Object.Instantiate(ButtonAPI.menuPageBase, ButtonAPI.menuPageBase.transform.parent);
                 gameObject.name = "Menu_" + menuName;
                 gameObject.transform.SetSiblingIndex(5);

@@ -27,8 +27,8 @@ namespace PlagueButtonAPI.Controls.Base_Classes
 
         public bool ToggleState => toggle?.isOn ?? false;
 
-        public bool NextState = false;
-        public bool NextIsInvoke = false;
+        internal bool NextState = false;
+        internal bool NextIsInvoke = false;
 
         public void SetAction(Action<bool> newAction)
         {
@@ -44,7 +44,7 @@ namespace PlagueButtonAPI.Controls.Base_Classes
             toggle.interactable = val;
         }
 
-        public bool AllowUserInvoke = true;
+        internal bool AllowUserInvoke = true;
 
         public void SetToggleState(bool newState, bool invoke = false)
         {
@@ -71,7 +71,7 @@ namespace PlagueButtonAPI.Controls.Base_Classes
             }
         }
 
-        public bool ToolTipOne = false;
+        internal bool ToolTipOne = false;
         public void SetTooltip(string newOffTooltip, string newOnTooltip)
         {
             if (!ToolTipOne)
