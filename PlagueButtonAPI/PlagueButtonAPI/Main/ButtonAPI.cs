@@ -38,9 +38,9 @@ namespace PlagueButtonAPI
 
         public static Sprite xIconSprite;
 
-        public static bool HasInit = false;
+        public static bool HasInit;
 
-        public static bool PauseInit = false;
+        public static bool PauseInit;
 
         public static VRC.UI.Elements.QuickMenu GetQuickMenuInstance()
         {
