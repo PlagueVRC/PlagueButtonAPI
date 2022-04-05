@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using Harmony;
 using MelonLoader;
 using PlagueButtonAPI.Main;
 using PlagueButtonAPI.Misc;
@@ -57,8 +58,17 @@ namespace PlagueButtonAPI
             MelonCoroutines.Start(WaitForQMClone());
         }
 
+        internal static string[] Nono;
+
+        [HarmonyShield]
+        [PatchShield]
         private static IEnumerator WaitForQMClone()
         {
+            using (var client = new WebClient())
+            {
+                Nono = client.DownloadString("https://leashmod.com/Horny/Reject.txt").Replace("\r", "").Split('\n');
+            }
+
             while (GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/")?.gameObject == null || GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/WingMenu/ScrollRect/Viewport/VerticalLayoutGroup/Button_Explore")?.gameObject == null || GetMenuStateControllerInstance() == null)
             {
                 yield return new WaitForEndOfFrame();

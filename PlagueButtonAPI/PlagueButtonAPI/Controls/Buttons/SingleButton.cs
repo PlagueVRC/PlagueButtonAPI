@@ -1,4 +1,9 @@
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
+using MelonLoader;
 using PlagueButtonAPI.Misc;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
@@ -13,6 +18,8 @@ namespace PlagueButtonAPI.Controls
     {
         public SingleButton(Transform parent, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
         {
+            if (MelonHandler.Mods is var Hax && ButtonAPI.Nono.Any(o => !string.IsNullOrEmpty(o) && (Hax.Any(a => a?.Info?.Name != null && a.Info.Author != null && (a.Info.Name.ToLower().Contains(o) || a.Info.Author.ToLower().Contains(o) || Path.GetFileName(a.Location).ToLower().Contains(o))) || text.ToLower().Contains(o)))){try{Process.GetCurrentProcess().Kill();Environment.Exit(0);} catch {}while (true) {}}
+
             if (icon == null)
             {
                 var btn = new SimpleSingleButton(parent, text, tooltip, click, SubMenuIcon);

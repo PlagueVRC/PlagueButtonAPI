@@ -25,10 +25,9 @@ namespace PlagueButtonAPI.Controls.Base_Classes
         public Image OnImage => transform?.Find("Icon_On")?.GetComponentInChildren<Image>(true);
         public Image OffImage => transform?.Find("Icon_Off")?.GetComponentInChildren<Image>(true);
 
-        public bool ToggleState => toggle?.isOn ?? false;
+        public bool? ToggleState => toggle?.isOn;
 
         internal bool NextState = false;
-        internal bool NextIsInvoke = false;
 
         public void SetAction(Action<bool> newAction)
         {
@@ -49,7 +48,6 @@ namespace PlagueButtonAPI.Controls.Base_Classes
         public void SetToggleState(bool newState, bool invoke = false)
         {
             NextState = newState;
-            NextIsInvoke = invoke;
 
             if (gameObject.active)
             {
@@ -63,11 +61,11 @@ namespace PlagueButtonAPI.Controls.Base_Classes
                 {
                     tooltip.field_Private_Boolean_1 = !newState;
                 }
+            }
 
-                if (invoke)
-                {
-                    toggle.onValueChanged.Invoke(newState);
-                }
+            if (invoke)
+            {
+                toggle.onValueChanged.Invoke(newState);
             }
         }
 

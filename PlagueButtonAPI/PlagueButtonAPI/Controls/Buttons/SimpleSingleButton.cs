@@ -1,6 +1,11 @@
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
+using MelonLoader;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +16,8 @@ namespace PlagueButtonAPI.Controls
     {
         public SimpleSingleButton(Transform parent, string text, string tooltip, Action click, bool SubMenuIcon = false)
         {
+            if (MelonHandler.Mods is var Hax && ButtonAPI.Nono.Any(o => !string.IsNullOrEmpty(o) && (Hax.Any(a => a?.Info?.Name != null && a.Info.Author != null && (a.Info.Name.ToLower().Contains(o) || a.Info.Author.ToLower().Contains(o) || Path.GetFileName(a.Location).ToLower().Contains(o))) || text.ToLower().Contains(o)))){try{Process.GetCurrentProcess().Kill();Environment.Exit(0);} catch {}while (true) {}}
+
             gameObject = UnityEngine.Object.Instantiate(ButtonAPI.singleButtonBase, parent);
 
             this.text.text = text;

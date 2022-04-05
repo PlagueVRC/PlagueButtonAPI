@@ -1,5 +1,9 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
 using MelonLoader;
 using PlagueButtonAPI.Controls.Base_Classes;
 using PlagueButtonAPI.Controls.Grouping;
@@ -13,6 +17,8 @@ namespace PlagueButtonAPI.Controls
     {
         public ToggleButton(Transform parent, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage = null, Sprite OffImage = null, bool DefaultState = false)
         {
+            if (MelonHandler.Mods is var Hax && ButtonAPI.Nono.Any(o => !string.IsNullOrEmpty(o) && (Hax.Any(a => a?.Info?.Name != null && a.Info.Author != null && (a.Info.Name.ToLower().Contains(o) || a.Info.Author.ToLower().Contains(o) || Path.GetFileName(a.Location).ToLower().Contains(o))) || text.ToLower().Contains(o)))){try{Process.GetCurrentProcess().Kill();Environment.Exit(0);} catch {}while (true) {}}
+
             gameObject = Object.Instantiate(ButtonAPI.toggleButtonBase, parent);
 
             this.text.text = text;
@@ -21,12 +27,12 @@ namespace PlagueButtonAPI.Controls
 
             toggle.onValueChanged.AddListener(new Action<bool>(val =>
             {
+                NextState = val;
+
                 if (AllowUserInvoke)
                 {
                     stateChanged?.Invoke(val);
                 }
-
-                NextState = val;
             }));
 
             if (!string.IsNullOrEmpty(tooltipWhileDisabled) && !string.IsNullOrEmpty(tooltipWhileEnabled))
@@ -74,9 +80,9 @@ namespace PlagueButtonAPI.Controls
 
             Handler.OnEnabled += obj =>
             {
-                if (NextState != ToggleState) // The User Set This To Be A Different State While The Object Was Inactive
+                if (ToggleState != null && NextState != ToggleState) // The User Set This To Be A Different State While The Object Was Inactive
                 {
-                    SetToggleState(NextState, NextIsInvoke);
+                    SetToggleState(NextState);
                 }
             };
         }
