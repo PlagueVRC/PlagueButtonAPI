@@ -64,19 +64,6 @@ namespace PlagueButtonAPI.Misc
             }
         }
 
-        private static MethodInfo _reloadAllAvatarsMethod;
-        private static MethodInfo ReloadAllAvatarsMethod
-        {
-            get
-            {
-                if (_reloadAllAvatarsMethod == null)
-                {
-                    _reloadAllAvatarsMethod = typeof(VRCPlayer).GetMethods().First(mi => mi.Name.StartsWith("Method_Public_Void_Boolean_") && mi.Name.Length < 30 && mi.GetParameters().All(pi => pi.IsOptional) && Utils.CheckUsedBy(mi, "Method_Public_Void_", typeof(FeaturePermissionManager)));// Both methods seem to do the same thing;
-                }
-
-                return _reloadAllAvatarsMethod;
-            }
-        }
         public static void ReloadAvatar(this VRCPlayer instance)
         {
             LoadAvatarMethod.Invoke(instance, new object[] { true }); // parameter is forceLoad and has to be true
@@ -84,7 +71,11 @@ namespace PlagueButtonAPI.Misc
 
         public static void ReloadAllAvatars(this VRCPlayer instance, bool ignoreSelf = false)
         {
-            ReloadAllAvatarsMethod.Invoke(instance, new object[] { ignoreSelf });
+            foreach (var player in PlayerManager.prop_PlayerManager_0.GetPlayers())
+            {
+                if (!ignoreSelf || player._vrcplayer != VRCPlayer.field_Internal_Static_VRCPlayer_0)
+                    ReloadAvatar(player._vrcplayer);
+            }
         }
 
         private delegate void CloseUiDelegate(VRCUiManager uiManager, bool what, bool what2);
