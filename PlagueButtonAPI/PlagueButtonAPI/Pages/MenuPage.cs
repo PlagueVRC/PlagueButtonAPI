@@ -194,6 +194,16 @@ namespace PlagueButtonAPI.Pages
             return new MenuPage(menuName, pageTitle, root, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
         }
 
+        public static (MenuPage, WingSingleButton) CreatePage(WingSingleButton.Wing wing, Sprite icon, string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
+        {
+            var NewMenu = new MenuPage(menuName, pageTitle, true, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
+
+            return (NewMenu, new WingSingleButton(wing, pageTitle, $"Opens The {pageTitle} Page.", NewMenu.OpenMenu, true, icon, preserveColor));
+        }
+
+        /// <summary>
+        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
+        /// </summary>
         public (MenuPage, SimpleSingleButton) AddSubMenu(string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
             var NewMenu = new MenuPage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
@@ -201,18 +211,14 @@ namespace PlagueButtonAPI.Pages
             return (NewMenu, new SimpleSingleButton(this, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true));
         }
 
+        /// <summary>
+        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
+        /// </summary>
         public (MenuPage, SingleButton) AddSubMenu(Sprite icon, string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
             var NewMenu = new MenuPage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
 
             return (NewMenu, new SingleButton(this, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true, icon, preserveColor));
-        }
-
-        public (MenuPage, WingSingleButton) AddSubMenu(WingSingleButton.Wing wing, Sprite icon, string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
-        {
-            var NewMenu = new MenuPage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
-
-            return (NewMenu, new WingSingleButton(wing, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true, icon, preserveColor));
         }
 
         public ButtonGroup AddButtonGroup(string text, bool NoText = false, TextAnchor ButtonAlignment = TextAnchor.UpperCenter)
@@ -225,11 +231,17 @@ namespace PlagueButtonAPI.Pages
             return new CollapsibleButtonGroup(this, text, openByDefault: openByDefault);
         }
 
+        /// <summary>
+        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
+        /// </summary>
         public SingleButton AddSingleButton(string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
         {
             return new SingleButton(this, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment);
         }
 
+        /// <summary>
+        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
+        /// </summary>
         public SimpleSingleButton AddSimpleSingleButton(string text, string tooltip, Action click, bool SubMenuIcon = false)
         {
             return new SimpleSingleButton(this, text, tooltip, click, SubMenuIcon);
@@ -240,6 +252,9 @@ namespace PlagueButtonAPI.Pages
             return new Label(this, text, tooltip, onClick);
         }
 
+        /// <summary>
+        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
+        /// </summary>
         public ToggleButton AddToggleButton(string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, bool DefaultState = false, Sprite OnImage = null, Sprite OffImage = null)
         {
             return new ToggleButton(this, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState);
