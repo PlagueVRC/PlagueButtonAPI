@@ -54,7 +54,7 @@ namespace ExampleButtonAPIUsage
             {
                 ButtonAPI.OnInit += () =>
                 {
-                    var Combi = MenuPage.CreatePage(WingSingleButton.Wing.Left, ButtonImage, "TestMenu_1", "Main Menu", true);
+                    var Combi = MenuPage.CreatePage(WingSingleButton.Wing.Left, ButtonImage, "TestMenu_1", "Main Menu");
 
                     var Page = Combi.Item1;
 
