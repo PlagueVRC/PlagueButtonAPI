@@ -17,6 +17,7 @@ using VRC.UI.Elements;
 using VRC.UI.Elements.Menus;
 using VRC.UI.Elements.Notifications;
 using Object = UnityEngine.Object;
+using Slider = PlagueButtonAPI.Controls.Slider;
 
 namespace PlagueButtonAPI.Pages
 {
@@ -258,6 +259,11 @@ namespace PlagueButtonAPI.Pages
         public ToggleButton AddToggleButton(string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, bool DefaultState = false, Sprite OnImage = null, Sprite OffImage = null)
         {
             return new ToggleButton(this, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState);
+        }
+
+        public Slider AddSlider(string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true)
+        {
+            return new Slider(this, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent);
         }
         #endregion
 

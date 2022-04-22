@@ -54,23 +54,23 @@ namespace ExampleButtonAPIUsage
             {
                 ButtonAPI.OnInit += () =>
                 {
-                    var Page = new MenuPage("TestMenu_1", "Main Menu");
+                    var Combi = MenuPage.CreatePage(WingSingleButton.Wing.Left, ButtonImage, "TestMenu_1", "Main Menu", true);
 
-                    new Tab(Page, "Main Menu", ButtonImage);
+                    var Page = Combi.Item1;
 
-                    var FunctionalGroup = new ButtonGroup(Page, "Functional Options");
+                    var FunctionalGroup = Page.AddButtonGroup("Functional Options");
 
-                    new ToggleButton(FunctionalGroup, "Disable Portals", "Re-Enables Portals", "Disables Portals Entirely", (val) =>
+                    FunctionalGroup.AddToggleButton("Disable Portals", "Re-Enables Portals", "Disables Portals Entirely", (val) =>
                     {
                         DisablePortals = val;
                         Functions.TogglePortals(!val);
                     }).SetToggleState(false, true);
 
-                    var NonFunctionalGroup = new CollapsibleButtonGroup(Page, "Non-Functional Options");
+                    var NonFunctionalGroup = Page.AddCollapsibleButtonGroup("Non-Functional Options");
 
-                    var PlayerListMenu = new MenuPage("PlayersList_1", "Player List", false);
+                    var PlayerListMenu = NonFunctionalGroup.AddSubMenu(ButtonImage, "PlayersList_1", "Player List", false);
 
-                    var PlayersGroup = new ButtonGroup(PlayerListMenu, "", true, TextAnchor.UpperLeft);
+                    var PlayersGroup = PlayerListMenu.Item1.AddButtonGroup("", true, TextAnchor.UpperLeft);
                     var Handler = PlayersGroup.gameObject.GetOrAddComponent<ObjectHandler>();
 
                     Handler.OnUpdateEachSecond += (obj, IsEnabled) =>
@@ -89,7 +89,7 @@ namespace ExampleButtonAPIUsage
                                     continue;
                                 }
 
-                                new SingleButton(PlayersGroup, player.field_Private_APIUser_0.displayName, "Selects This Player", () =>
+                                PlayersGroup.AddSingleButton(player.field_Private_APIUser_0.displayName, "Selects This Player", () =>
                                 {
                                     UiManager.OpenUserInQuickMenu(player.field_Private_APIUser_0);
                                 }, true, image);
@@ -97,12 +97,7 @@ namespace ExampleButtonAPIUsage
                         }
                     };
 
-                    new SingleButton(NonFunctionalGroup, "Player List", "Opens A Basic Player List", () =>
-                    {
-                        PlayerListMenu.OpenMenu();
-                    }, true, ButtonImage);
-
-                    new SimpleSingleButton(NonFunctionalGroup, "Show Alerts", "Simple Button", () =>
+                    NonFunctionalGroup.AddSimpleSingleButton("Show Alerts", "Simple Button", () =>
                     {
                         ButtonAPI.GetQuickMenuInstance().ShowAlert("Alert Test");
 
@@ -129,43 +124,43 @@ namespace ExampleButtonAPIUsage
                         });
                     });
 
-                    new ToggleButton(NonFunctionalGroup, "Toggle", "Toggle Off", "Toggle On", (val) =>
+                    NonFunctionalGroup.AddToggleButton("Toggle", "Toggle Off", "Toggle On", (val) =>
                     {
                         MelonLogger.Msg("Toggle Button Clicked! -> State: " + val);
                     }).SetToggleState(true, true);
 
-                    new Slider(NonFunctionalGroup, "Slider", "Slider", (val) =>
+                    NonFunctionalGroup.AddSlider("Slider", "Slider", (val) =>
                     {
                         MelonLogger.Msg("Slider Adjusted! -> State: " + val);
                     });
 
-                    new Slider(Page, "Slider", "Slider", (val) =>
+                    NonFunctionalGroup.AddSlider("Slider", "Slider", (val) =>
                     {
                         MelonLogger.Msg("Slider Adjusted! -> State: " + val);
                     });
 
-                    var Dropdown = new CollapsibleButtonGroup(Page, "Dropdown", "Toggles The Dropdown");
+                    var Dropdown = Page.AddCollapsibleButtonGroup("Dropdown");
 
-                    new SingleButton(Dropdown, "Button", "Button", () =>
+                    Dropdown.AddSingleButton("Button", "Button", () =>
                     {
                         MelonLogger.Msg("Button Clicked!");
                     }, false, ButtonImage);
 
-                    new Label(Dropdown, "Label", "Label", () =>
+                    Dropdown.AddLabel("Label", "Label", () =>
                     {
                         MelonLogger.Msg("Label Clicked!");
                     });
 
-                    new Label(Page, "Thanks For Looking. :)", null);
+                    Page.AddLabel("Thanks For Looking. :)", null);
 
                     //Ideally Use UIX For Menu Entering Instead Of Tabs. You Can Also Use UIX When You Select Someone To Enter Your Menu.
                     Player SelectedPlayer = null;
 
-                    var UserPage = new MenuPage("UserTestMenu_1", "User Menu");
+                    var UserPage = MenuPage.CreatePage("UserTestMenu_1", "User Menu");
 
-                    var OptionsGroup = new ButtonGroup(UserPage, "Options");
+                    var OptionsGroup = UserPage.AddButtonGroup("Options");
 
-                    new SingleButton(OptionsGroup, "Button", "Button", () =>
+                    OptionsGroup.AddSingleButton("Button", "Button", () =>
                     {
                         MelonLogger.Msg("Button Clicked! - Selected Player: " + (SelectedPlayer != null ? SelectedPlayer.field_Private_APIUser_0.displayName : "<Null>"));
                     }, false, ButtonImage);
