@@ -39,6 +39,11 @@ namespace PlagueButtonAPI.Pages
 
         public bool Gridified;
 
+        public MenuPage(string menuName, string pageTitle, bool root = false, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false) : this(menuName, pageTitle, root, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, false)
+        {
+
+        }
+
         public MenuPage(string menuName, string pageTitle, bool root = false, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
             if (ButtonAPI.menuPageBase == null)
