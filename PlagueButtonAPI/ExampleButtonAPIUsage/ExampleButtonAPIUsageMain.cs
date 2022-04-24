@@ -134,7 +134,7 @@ namespace ExampleButtonAPIUsage
                         MelonLogger.Msg("Slider Adjusted! -> State: " + val);
                     });
 
-                    NonFunctionalGroup.AddSlider("Slider", "Slider", (val) =>
+                    Page.AddSlider("Slider", "Slider", (val) =>
                     {
                         MelonLogger.Msg("Slider Adjusted! -> State: " + val);
                     });
