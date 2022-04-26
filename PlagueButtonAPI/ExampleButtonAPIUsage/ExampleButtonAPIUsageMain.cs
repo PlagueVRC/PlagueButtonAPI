@@ -7,6 +7,8 @@ using PlagueButtonAPI.Pages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using HarmonyLib;
 using PlagueButtonAPI.Misc;
 using UIExpansionKit.API;
 using UnityEngine;
@@ -36,6 +38,13 @@ namespace ExampleButtonAPIUsage
             ButtonImage = (Environment.CurrentDirectory + "\\ImageToLoad.png").LoadSpriteFromDisk();
 
             VRChatUtilityKit.Utilities.NetworkEvents.OnAvatarInstantiated += NetworkEvents_OnAvatarInstantiated;
+
+            HarmonyInstance.Patch(typeof(PortalInternal).GetMethod(nameof(PortalInternal.ConfigurePortal), AccessTools.all), new HarmonyLib.HarmonyMethod(typeof(ExampleButtonAPIUsageMain).GetMethod(nameof(ConfigurePortal), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)));
+        }
+
+        private static bool ConfigurePortal(ref string __0, ref string __1, ref int __2, ref Player __3)
+        {
+            return __3 == Player.prop_Player_0 || !DisablePortals;
         }
 
         private Dictionary<string, Sprite> UserImages = new Dictionary<string, Sprite>();
@@ -63,7 +72,6 @@ namespace ExampleButtonAPIUsage
                     FunctionalGroup.AddToggleButton("Disable Portals", "Re-Enables Portals", "Disables Portals Entirely", (val) =>
                     {
                         DisablePortals = val;
-                        Functions.TogglePortals(!val);
                     }).SetToggleState(false, true);
 
                     var NonFunctionalGroup = Page.AddCollapsibleButtonGroup("Non-Functional Options");
@@ -183,27 +191,6 @@ namespace ExampleButtonAPIUsage
                         UserPage.OpenMenu();
                     });
                 };
-            }
-        }
-
-        internal static float OnUpdateRoutineDelay = 0f;
-
-        public override void OnUpdate()
-        {
-            try
-            {
-                if (Time.time > OnUpdateRoutineDelay && VRCUtils.IsWorldLoaded)
-                {
-                    OnUpdateRoutineDelay = Time.time + 1f;
-                    if (DisablePortals)
-                    {
-                        Functions.TogglePortals(false);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MelonLogger.Msg("Error in OnUpdate! - " + ex.Message + " From: " + ex.Source + " - Stack: " + ex.StackTrace);
             }
         }
     }
