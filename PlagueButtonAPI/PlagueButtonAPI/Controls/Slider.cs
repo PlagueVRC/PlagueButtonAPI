@@ -22,6 +22,10 @@ namespace PlagueButtonAPI.Controls
 
         private readonly bool _percent;
 
+        public Slider(Transform parent, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false) : this(parent, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, false)
+        {
+        }
+
         public Slider(Transform parent, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false, bool PureValue = false)
         {
             var slider = this;
@@ -83,6 +87,10 @@ namespace PlagueButtonAPI.Controls
             _percent = percent;
         }
 
+        public Slider(MenuPage pge, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false) : this(pge, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, false)
+        {
+        }
+
         public Slider(MenuPage pge, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false, bool PureValue = false)
             : this(pge.menuContents, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, PureValue)
         {
@@ -96,8 +104,16 @@ namespace PlagueButtonAPI.Controls
             }
         }
 
+        public Slider(ButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false) : this(grp, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, false)
+        {
+        }
+
         public Slider(ButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false, bool PureValue = false)
             : this(grp.gameObject.transform, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, PureValue)
+        {
+        }
+
+        public Slider(CollapsibleButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false) : this(grp, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, false)
         {
         }
 
