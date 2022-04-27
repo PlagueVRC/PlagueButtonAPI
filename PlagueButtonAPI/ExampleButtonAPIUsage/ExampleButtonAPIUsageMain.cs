@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using PlagueButtonAPI.Main;
 using PlagueButtonAPI.Misc;
 using UIExpansionKit.API;
 using UnityEngine;
@@ -69,7 +70,7 @@ namespace ExampleButtonAPIUsage
 
                     var FunctionalGroup = Page.AddButtonGroup("Functional Options");
 
-                    FunctionalGroup.AddToggleButton("Disable Portals", "Re-Enables Portals", "Disables Portals Entirely", (val) =>
+                    FunctionalGroup.AddToggleButton("Disable Portals", "Disables Portals Entirely", "Re-Enables Portals", (val) =>
                     {
                         DisablePortals = val;
                     }).SetToggleState(false, true);
@@ -132,7 +133,7 @@ namespace ExampleButtonAPIUsage
                         });
                     });
 
-                    NonFunctionalGroup.AddToggleButton("Toggle", "Toggle Off", "Toggle On", (val) =>
+                    NonFunctionalGroup.AddToggleButton("Toggle", "Toggle On", "Toggle Off", (val) =>
                     {
                         MelonLogger.Msg("Toggle Button Clicked! -> State: " + val);
                     }).SetToggleState(true, true);
@@ -161,34 +162,14 @@ namespace ExampleButtonAPIUsage
 
                     Page.AddLabel("Thanks For Looking. :)", null);
 
-                    //Ideally Use UIX For Menu Entering Instead Of Tabs. You Can Also Use UIX When You Select Someone To Enter Your Menu.
-                    Player SelectedPlayer = null;
+                    // Constructor Is Needed For Raw Transforms For Now
+                    var UserGroup = new CollapsibleButtonGroup(TransformHelper.SelectedUser_Local, "Example User Options");
 
-                    var UserPage = MenuPage.CreatePage("UserTestMenu_1", "User Menu");
-
-                    var OptionsGroup = UserPage.AddButtonGroup("Options");
-
-                    OptionsGroup.AddSingleButton("Button", "Button", () =>
+                    UserGroup.AddSingleButton("", "", () =>
                     {
+                        var SelectedPlayer = Utils.GetCurrentlySelectedPlayer();
+
                         MelonLogger.Msg("Button Clicked! - Selected Player: " + (SelectedPlayer != null ? SelectedPlayer.field_Private_APIUser_0.displayName : "<Null>"));
-                    }, false, ButtonImage);
-
-                    ExpansionKitApi.GetExpandedMenu(ExpandedMenu.UserQuickMenu).AddSimpleButton("User Options Example", () =>
-                    {
-                        SelectedPlayer = Utils.GetCurrentlySelectedPlayer();
-
-                        UserPage.SetTitle("User Menu: " + (SelectedPlayer != null ? SelectedPlayer.field_Private_APIUser_0.displayName : "<Null>"));
-
-                        UserPage.OpenMenu();
-                    });
-
-                    ExpansionKitApi.GetExpandedMenu(ExpandedMenu.UserQuickMenuRemote).AddSimpleButton("User Options Example", () =>
-                    {
-                        SelectedPlayer = Utils.GetCurrentlySelectedPlayer();
-
-                        UserPage.SetTitle("User Menu: " + (SelectedPlayer != null ? SelectedPlayer.field_Private_APIUser_0.displayName : "<Null>"));
-
-                        UserPage.OpenMenu();
                     });
                 };
             }
