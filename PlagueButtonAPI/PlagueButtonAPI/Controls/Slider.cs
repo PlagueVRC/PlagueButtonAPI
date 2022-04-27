@@ -106,20 +106,24 @@ namespace PlagueButtonAPI.Controls
 
         public Slider(ButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false) : this(grp, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, false)
         {
+            sliderText.text = "\r\n\r\n\r\n" + text;
         }
 
         public Slider(ButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false, bool PureValue = false)
             : this(grp.gameObject.transform, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, PureValue)
         {
+            sliderText.text = "\r\n\r\n\r\n" + text;
         }
 
         public Slider(CollapsibleButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false) : this(grp, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, false)
         {
+            sliderText.text = "\r\n\r\n\r\n" + text;
         }
 
         public Slider(CollapsibleButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false, bool PureValue = false)
             : this(grp.buttonGroup, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, PureValue)
         {
+            sliderText.text = "\r\n\r\n\r\n" + text;
         }
 
         public void SetAction(Action<float> newAction)
