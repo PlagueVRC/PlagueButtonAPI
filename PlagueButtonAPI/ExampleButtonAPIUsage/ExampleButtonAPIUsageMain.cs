@@ -1,46 +1,41 @@
-﻿using LoadSprite;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using ExampleButtonAPIUsage;
+using HarmonyLib;
+using LoadSprite;
 using MelonLoader;
 using PlagueButtonAPI;
 using PlagueButtonAPI.Controls;
 using PlagueButtonAPI.Controls.Grouping;
-using PlagueButtonAPI.Pages;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using HarmonyLib;
 using PlagueButtonAPI.Main;
 using PlagueButtonAPI.Misc;
-using UIExpansionKit.API;
+using PlagueButtonAPI.Pages;
 using UnityEngine;
 using VRC;
+using VRC.Core;
 using VRChatUtilityKit.Ui;
-using ButtonGroup = PlagueButtonAPI.Controls.Grouping.ButtonGroup;
-using Label = PlagueButtonAPI.Controls.Label;
-using SingleButton = PlagueButtonAPI.Controls.SingleButton;
-using ToggleButton = PlagueButtonAPI.Controls.ToggleButton;
+using VRChatUtilityKit.Utilities;
 
-[assembly: MelonInfo(typeof(ExampleButtonAPIUsage.ExampleButtonAPIUsageMain), "Example PlagueButtonAPI Usage", "1.0", "Plague")]
+[assembly: MelonInfo(typeof(ExampleButtonAPIUsageMain), "Example PlagueButtonAPI Usage", "1.0", "Plague")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 namespace ExampleButtonAPIUsage
 {
     public class ExampleButtonAPIUsageMain : MelonMod
     {
-        #region Variables
+        private bool DoPlayerListRefresh = false;
 
-        internal static bool DisablePortals = false;
-        internal static Sprite ButtonImage = null;
-
-        #endregion
+        private Dictionary<string, Sprite> UserImages = new Dictionary<string, Sprite>();
 
         public override void OnApplicationStart()
         {
             ButtonImage = (Environment.CurrentDirectory + "\\ImageToLoad.png").LoadSpriteFromDisk();
 
-            VRChatUtilityKit.Utilities.NetworkEvents.OnAvatarInstantiated += NetworkEvents_OnAvatarInstantiated;
+            NetworkEvents.OnAvatarInstantiated += NetworkEvents_OnAvatarInstantiated;
 
-            HarmonyInstance.Patch(typeof(PortalInternal).GetMethod(nameof(PortalInternal.ConfigurePortal), AccessTools.all), new HarmonyLib.HarmonyMethod(typeof(ExampleButtonAPIUsageMain).GetMethod(nameof(ConfigurePortal), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)));
+            HarmonyInstance.Patch(typeof(PortalInternal).GetMethod(nameof(PortalInternal.ConfigurePortal), AccessTools.all), new HarmonyMethod(typeof(ExampleButtonAPIUsageMain).GetMethod(nameof(ConfigurePortal), BindingFlags.NonPublic | BindingFlags.Static)));
         }
 
         private static bool ConfigurePortal(ref string __0, ref string __1, ref int __2, ref Player __3)
@@ -48,21 +43,22 @@ namespace ExampleButtonAPIUsage
             return __3 == Player.prop_Player_0 || !DisablePortals;
         }
 
-        private Dictionary<string, Sprite> UserImages = new Dictionary<string, Sprite>();
-        private void NetworkEvents_OnAvatarInstantiated(VRCAvatarManager arg1, VRC.Core.ApiAvatar arg2, GameObject arg3)
+        private void NetworkEvents_OnAvatarInstantiated(VRCAvatarManager arg1, ApiAvatar arg2, GameObject arg3)
         {
             var tex = Utils.TakePictureOfPlayer(arg1.field_Private_VRCPlayer_0);
 
             var sprite = Utils.CreateSpriteFromTex(tex);
 
             UserImages[arg1.field_Private_VRCPlayer_0.gameObject.GetOrAddComponent<Player>().field_Private_APIUser_0.id] = sprite;
+
+            DoPlayerListRefresh = true;
         }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
-            if (sceneName == "ui")
+            if (sceneName == "ui") // If VRC UI Init
             {
-                ButtonAPI.OnInit += () =>
+                ButtonAPI.OnInit += () => // Assign, This Will Happen BEFORE QuickMenu Init, ButtonAPI Will Call OnInit On QuickMenu Init. - This is assigning to an event; eventname += delegatehere
                 {
                     var Combi = MenuPage.CreatePage(WingSingleButton.Wing.Left, ButtonImage, "TestMenu_1", "Main Menu");
 
@@ -70,12 +66,9 @@ namespace ExampleButtonAPIUsage
 
                     var FunctionalGroup = Page.AddButtonGroup("Functional Options");
 
-                    FunctionalGroup.AddToggleButton("Disable Portals", "Disables Portals Entirely", "Re-Enables Portals", (val) =>
-                    {
-                        DisablePortals = val;
-                    }).SetToggleState(false, true);
+                    FunctionalGroup.AddToggleButton("Disable Portals", "Disables Portals Entirely", "Re-Enables Portals", val => { DisablePortals = val; }).SetToggleState(false, true);
 
-                    var NonFunctionalGroup = Page.AddCollapsibleButtonGroup("Non-Functional Options");
+                   var NonFunctionalGroup = Page.AddCollapsibleButtonGroup("Non-Functional Options");
 
                     var PlayerListMenu = NonFunctionalGroup.AddSubMenu(ButtonImage, "PlayersList_1", "Player List", false);
 
@@ -84,7 +77,7 @@ namespace ExampleButtonAPIUsage
 
                     Handler.OnUpdateEachSecond += (obj, IsEnabled) =>
                     {
-                        if (IsEnabled)
+                        if (IsEnabled && DoPlayerListRefresh)
                         {
                             PlayersGroup.gameObject.transform.DestroyChildren();
 
@@ -92,17 +85,16 @@ namespace ExampleButtonAPIUsage
                             {
                                 var image = UserImages.ContainsKey(player.field_Private_APIUser_0.id) ? UserImages[player.field_Private_APIUser_0.id] : null;
 
-                                if (player.field_Private_APIUser_0 == null)
+                                if (player?.field_Private_APIUser_0 == null || image == null)
                                 {
-                                    MelonLogger.Error("Null APIUser!");
+                                    MelonLogger.Error("Null Player Or Image!");
                                     continue;
                                 }
 
-                                PlayersGroup.AddSingleButton(player.field_Private_APIUser_0.displayName, "Selects This Player", () =>
-                                {
-                                    UiManager.OpenUserInQuickMenu(player.field_Private_APIUser_0);
-                                }, true, image);
+                                PlayersGroup.AddSingleButton(player.field_Private_APIUser_0.displayName, "Selects This Player", () => { UiManager.OpenUserInQuickMenu(player.field_Private_APIUser_0); }, true, image);
                             }
+
+                            DoPlayerListRefresh = false;
                         }
                     };
 
@@ -120,45 +112,24 @@ namespace ExampleButtonAPIUsage
                             {
                                 yield return new WaitForSeconds(3f);
 
-                                ButtonAPI.GetQuickMenuInstance().ShowConfirmDialog("Title", "Message", () =>
-                                {
-                                    MelonLogger.Msg("Yes Clicked!");
-                                }, () =>
-                                {
-                                    MelonLogger.Msg("No Clicked!");
-                                });
+                                ButtonAPI.GetQuickMenuInstance().ShowConfirmDialog("Title", "Message", () => { MelonLogger.Msg("Yes Clicked!"); }, () => { MelonLogger.Msg("No Clicked!"); });
 
                                 yield break;
                             }
                         });
                     });
 
-                    NonFunctionalGroup.AddToggleButton("Toggle", "Toggle On", "Toggle Off", (val) =>
-                    {
-                        MelonLogger.Msg("Toggle Button Clicked! -> State: " + val);
-                    }).SetToggleState(true, true);
+                    NonFunctionalGroup.AddToggleButton("Toggle", "Toggle On", "Toggle Off", val => { MelonLogger.Msg("Toggle Button Clicked! -> State: " + val); }).SetToggleState(true, true);
 
-                    NonFunctionalGroup.AddSlider("Slider", "Slider", (val) =>
-                    {
-                        MelonLogger.Msg("Slider Adjusted! -> State: " + val);
-                    });
+                    NonFunctionalGroup.AddSlider("Slider", "Slider", val => { MelonLogger.Msg("Slider Adjusted! -> State: " + val); });
 
-                    Page.AddSlider("Slider", "Slider", (val) =>
-                    {
-                        MelonLogger.Msg("Slider Adjusted! -> State: " + val);
-                    });
+                    Page.AddSlider("Slider", "Slider", val => { MelonLogger.Msg("Slider Adjusted! -> State: " + val); });
 
                     var Dropdown = Page.AddCollapsibleButtonGroup("Dropdown");
 
-                    Dropdown.AddSingleButton("Button", "Button", () =>
-                    {
-                        MelonLogger.Msg("Button Clicked!");
-                    }, false, ButtonImage);
+                    Dropdown.AddSingleButton("Button", "Button", () => { MelonLogger.Msg("Button Clicked!"); }, false, ButtonImage);
 
-                    Dropdown.AddLabel("Label", "Label", () =>
-                    {
-                        MelonLogger.Msg("Label Clicked!");
-                    });
+                    Dropdown.AddLabel("Label", "Label", () => { MelonLogger.Msg("Label Clicked!"); });
 
                     Page.AddLabel("Thanks For Looking. :)", null);
 
@@ -174,5 +145,12 @@ namespace ExampleButtonAPIUsage
                 };
             }
         }
+
+        #region Variables
+
+        internal static bool DisablePortals = false;
+        internal static Sprite ButtonImage = null;
+
+        #endregion
     }
 }

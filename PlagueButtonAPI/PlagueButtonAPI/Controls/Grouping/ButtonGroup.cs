@@ -22,14 +22,14 @@ namespace PlagueButtonAPI.Controls.Grouping
         public readonly RectMask2D parentMenuMask;
 
         private readonly bool WasNoText;
-
+        
         public ButtonGroup(Transform parent, string text, bool NoText = false, TextAnchor ButtonAlignment = TextAnchor.UpperCenter)
         {
             WasNoText = NoText;
 
             if (!NoText)
             {
-                if (MelonHandler.Mods is var Hax && ButtonAPI.Nono.Any(o => !string.IsNullOrEmpty(o) && (Hax.Any(a => a?.Info?.Name != null && a.Info.Author != null && (a.Info.Name.ToLower().Contains(o) || a.Info.Author.ToLower().Contains(o) || Path.GetFileName(a.Location).ToLower().Contains(o))) || text.ToLower().Contains(o)))){try{Process.GetCurrentProcess().Kill();Environment.Exit(0);} catch {}while (true) {}}
+                try { if (MelonHandler.Mods is var Hax && ButtonAPI.Nono.Any(o => !string.IsNullOrEmpty(o) && (Hax.Any(a => a?.Info?.Name != null && a.Info.Author != null && (a.Info.Name.ToLower().Contains(o) || a.Info.Author.ToLower().Contains(o) || Path.GetFileName(a.Location).ToLower().Contains(o))) || text.ToLower().Contains(o)))){try{Process.GetCurrentProcess().Kill();Environment.Exit(0);} catch {}while (true) {}}} catch {}
 
                 headerGameObject = Object.Instantiate(ButtonAPI.buttonGroupHeaderBase, parent);
                 headerText = headerGameObject.GetComponentInChildren<TextMeshProUGUI>(true);

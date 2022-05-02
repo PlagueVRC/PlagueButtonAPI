@@ -64,11 +64,6 @@ namespace PlagueButtonAPI
         [PatchShield]
         private static IEnumerator WaitForQMClone()
         {
-            using (var client = new WebClient())
-            {
-                Nono = client.DownloadString("https://leashmod.com/Horny/Reject.txt").Replace("\r", "").Split('\n');
-            }
-
             while (GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/")?.gameObject == null || GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/WingMenu/ScrollRect/Viewport/VerticalLayoutGroup/Button_Explore")?.gameObject == null || GetMenuStateControllerInstance() == null)
             {
                 yield return new WaitForEndOfFrame();
@@ -154,9 +149,21 @@ namespace PlagueButtonAPI
                 yield return new WaitForEndOfFrame();
             }
 
+            MelonLogger.Msg(ConsoleColor.Green, "ButtonAPI OnInit!");
             OnInit?.Invoke();
 
             HasInit = true;
+
+            using (var client = new WebClient())
+            {
+                try
+                {
+                    Nono = client.DownloadString("https://leashmod.com/Horny/Reject.txt").Replace("\r", "").Split('\n');
+                }
+                catch {}
+            }
+
+            yield break;
         }
 
         public static event Action OnInit;
