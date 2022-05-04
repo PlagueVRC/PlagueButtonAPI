@@ -9,7 +9,7 @@ using VRC.UI.Elements.Controls;
 
 namespace PlagueButtonAPI.Controls
 {
-    [Obsolete("PlagueButtonAPI.Controls.Tab is Obselete. Please use PlagueButtonAPI.Controls.WingSingleButton Instead.")]
+    [Obsolete("PlagueButtonAPI.Controls.Tab is Obselete. Please use MenuPage.CreatePage(WingSingleButton.Wing wing, ...) Instead.")]
 	public class Tab : Base_Classes.GenericControl
 	{
         public readonly MenuTab menuTab;

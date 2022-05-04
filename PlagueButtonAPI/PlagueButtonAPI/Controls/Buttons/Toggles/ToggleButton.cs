@@ -88,82 +88,91 @@ namespace PlagueButtonAPI.Controls
         }
 
         //Solely Made This For Users Moving From Other API's, As A CTRL H ReplaceAll Would Work.
+        [Obsolete("This constructor is obsolete. Please use YourMenuPage.AddToggleButton() instead.", true)]
         public ToggleButton(MenuPage pge, string text, string tooltip, Action<bool> stateChanged, bool DefaultState = false)
             : this(pge.menuContents, text, tooltip, tooltip, stateChanged, null, null, DefaultState)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourButtonGroup.AddToggleButton() instead.", true)]
         public ToggleButton(ButtonGroup pge, string text, string tooltip, Action<bool> stateChanged, bool DefaultState = false)
-            : this(pge.gameObject.transform, text, tooltip, tooltip, stateChanged, null, null, DefaultState)
+            : this(pge.transform, text, tooltip, tooltip, stateChanged, null, null, DefaultState)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourCollapsibleButtonGroup.AddToggleButton() instead.", true)]
         public ToggleButton(CollapsibleButtonGroup pge, string text, string tooltip, Action<bool> stateChanged, bool DefaultState = false)
             : this(pge.buttonGroup, text, tooltip, tooltip, stateChanged, null, null, DefaultState)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourMenuPage.AddToggleButton() instead.", true)]
         public ToggleButton(MenuPage pge, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage = null, Sprite OffImage = null)
             : this(pge.menuContents, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourButtonGroup.AddToggleButton() instead.", true)]
         public ToggleButton(ButtonGroup grp, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage = null, Sprite OffImage = null)
-            : this(grp.gameObject.transform, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage)
+            : this(grp.transform, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourCollapsibleButtonGroup.AddToggleButton() instead.", true)]
         public ToggleButton(CollapsibleButtonGroup grp, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage = null, Sprite OffImage = null)
             : this(grp.buttonGroup, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourMenuPage.AddToggleButton() instead.", true)]
         public ToggleButton(MenuPage pge, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage, Sprite OffImage, bool DefaultState)
             : this(pge.menuContents, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourButtonGroup.AddToggleButton() instead.", true)]
         public ToggleButton(ButtonGroup grp, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage, Sprite OffImage, bool DefaultState)
-            : this(grp.gameObject.transform, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState)
+            : this(grp.transform, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourCollapsibleButtonGroup.AddToggleButton() instead.", true)]
         public ToggleButton(CollapsibleButtonGroup grp, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage, Sprite OffImage, bool DefaultState)
             : this(grp.buttonGroup, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState)
         {
         }
 
-        [Obsolete]
+        [Obsolete("This constructor is obsolete. Please use YourMenuPage.AddToggleButton() instead.", true)]
         public ToggleButton(MenuPage pge, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage)
             : this(pge.menuContents, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, null)
         {
         }
 
-        [Obsolete]
+        [Obsolete("This constructor is obsolete. Please use YourButtonGroup.AddToggleButton() instead.", true)]
         public ToggleButton(ButtonGroup grp, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage)
-            : this(grp.gameObject.transform, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, null)
+            : this(grp.transform, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, null)
         {
         }
 
-        [Obsolete]
+        [Obsolete("This constructor is obsolete. Please use YourCollapsibleButtonGroup.AddToggleButton() instead.", true)]
         public ToggleButton(CollapsibleButtonGroup grp, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage)
             : this(grp.buttonGroup, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged)
         {
         }
 
-        [Obsolete]
+        [Obsolete("This constructor is obsolete. Please use YourMenuPage.AddToggleButton() instead.", true)]
         public ToggleButton(MenuPage pge, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage, bool DefaultState)
             : this(pge.menuContents, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, null, DefaultState)
         {
         }
 
-        [Obsolete]
+        [Obsolete("This constructor is obsolete. Please use YourButtonGroup.AddToggleButton() instead.", true)]
         public ToggleButton(ButtonGroup grp, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage, bool DefaultState)
-            : this(grp.gameObject.transform, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, null, DefaultState)
+            : this(grp.transform, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, null, DefaultState)
         {
         }
 
-        [Obsolete]
+        [Obsolete("This constructor is obsolete. Please use YourCollapsibleButtonGroup.AddToggleButton() instead.", true)]
         public ToggleButton(CollapsibleButtonGroup grp, string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, Sprite OnImage, bool DefaultState)
             : this(grp.buttonGroup, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, DefaultState)
         {

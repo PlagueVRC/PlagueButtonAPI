@@ -39,11 +39,13 @@ namespace PlagueButtonAPI.Pages
 
         public bool Gridified;
 
+        [Obsolete("This constructor is obsolete. Please use MenuPage.CreatePage() instead.", true)]
         public MenuPage(string menuName, string pageTitle, bool root = false, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false) : this(menuName, pageTitle, root, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, false)
         {
 
         }
 
+        [Obsolete("This constructor is obsolete. Please use MenuPage.CreatePage() instead.")]
         public MenuPage(string menuName, string pageTitle, bool root = false, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
             if (ButtonAPI.menuPageBase == null)
@@ -202,7 +204,7 @@ namespace PlagueButtonAPI.Pages
 
         public static (MenuPage, WingSingleButton) CreatePage(WingSingleButton.Wing wing, Sprite icon, string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
-            var NewMenu = new MenuPage(menuName, pageTitle, true, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
+            var NewMenu = MenuPage.CreatePage(menuName, pageTitle, true, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
 
             return (NewMenu, new WingSingleButton(wing, pageTitle, $"Opens The {pageTitle} Page.", NewMenu.OpenMenu, true, icon, preserveColor));
         }
@@ -212,9 +214,9 @@ namespace PlagueButtonAPI.Pages
         /// </summary>
         public (MenuPage, SimpleSingleButton) AddSubMenu(string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
-            var NewMenu = new MenuPage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
+            var NewMenu = MenuPage.CreatePage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
 
-            return (NewMenu, new SimpleSingleButton(this, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true));
+            return (NewMenu, new SimpleSingleButton(menuContents, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true));
         }
 
         /// <summary>
@@ -222,19 +224,19 @@ namespace PlagueButtonAPI.Pages
         /// </summary>
         public (MenuPage, SingleButton) AddSubMenu(Sprite icon, string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
-            var NewMenu = new MenuPage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
+            var NewMenu = CreatePage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
 
-            return (NewMenu, new SingleButton(this, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true, icon, preserveColor));
+            return (NewMenu, new SingleButton(menuContents, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true, icon, preserveColor));
         }
 
         public ButtonGroup AddButtonGroup(string text, bool NoText = false, TextAnchor ButtonAlignment = TextAnchor.UpperCenter)
         {
-            return new ButtonGroup(this, text, NoText, ButtonAlignment);
+            return new ButtonGroup(menuContents, text, NoText, ButtonAlignment);
         }
 
         public CollapsibleButtonGroup AddCollapsibleButtonGroup(string text, bool openByDefault = false)
         {
-            return new CollapsibleButtonGroup(this, text, openByDefault: openByDefault);
+            return new CollapsibleButtonGroup(menuContents, text, openByDefault: openByDefault);
         }
 
         /// <summary>
@@ -242,7 +244,7 @@ namespace PlagueButtonAPI.Pages
         /// </summary>
         public SingleButton AddSingleButton(string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
         {
-            return new SingleButton(this, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment);
+            return new SingleButton(menuContents, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment);
         }
 
         /// <summary>
@@ -250,12 +252,12 @@ namespace PlagueButtonAPI.Pages
         /// </summary>
         public SimpleSingleButton AddSimpleSingleButton(string text, string tooltip, Action click, bool SubMenuIcon = false)
         {
-            return new SimpleSingleButton(this, text, tooltip, click, SubMenuIcon);
+            return new SimpleSingleButton(menuContents, text, tooltip, click, SubMenuIcon);
         }
 
         public Label AddLabel(string text, string tooltip, Action onClick = null)
         {
-            return new Label(this, text, tooltip, onClick);
+            return new Label(menuContents, text, tooltip, onClick);
         }
 
         /// <summary>
@@ -263,12 +265,12 @@ namespace PlagueButtonAPI.Pages
         /// </summary>
         public ToggleButton AddToggleButton(string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, bool DefaultState = false, Sprite OnImage = null, Sprite OffImage = null)
         {
-            return new ToggleButton(this, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState);
+            return new ToggleButton(menuContents, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState);
         }
 
         public Slider AddSlider(string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool PureValue = false)
         {
-            return new Slider(this, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, PureValue);
+            return new Slider(menuContents, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, PureValue);
         }
         #endregion
 

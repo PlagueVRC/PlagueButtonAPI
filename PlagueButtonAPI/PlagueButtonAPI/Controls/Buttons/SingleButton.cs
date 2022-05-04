@@ -74,16 +74,19 @@ namespace PlagueButtonAPI.Controls
             }
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourMenuPage.AddSingleButton() instead.", true)]
         public SingleButton(MenuPage pge, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
             : this(pge.menuContents, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourButtonGroup.AddSingleButton() instead.", true)]
         public SingleButton(ButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
-            : this(grp.gameObject.transform, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment)
+            : this(grp.transform, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourCollapsibleButtonGroup.AddSingleButton() instead.", true)]
         public SingleButton(CollapsibleButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
             : this(grp.buttonGroup, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment)
         {

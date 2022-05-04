@@ -33,16 +33,19 @@ namespace PlagueButtonAPI.Controls
             }
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourMenuPage.AddLabel() instead.", true)]
         public Label(MenuPage pge, string text, string tooltip, Action onClick = null)
             : this(pge.menuContents, text, tooltip, onClick)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourButtonGroup.AddLabel() instead.", true)]
         public Label(ButtonGroup grp, string text, string tooltip, Action onClick = null)
-            : this(grp.gameObject.transform, text, tooltip, onClick)
+            : this(grp.transform, text, tooltip, onClick)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourCollapsibleButtonGroup.AddLabel() instead.", true)]
         public Label(CollapsibleButtonGroup grp, string text, string tooltip, Action onClick = null)
             : this(grp.buttonGroup, text, tooltip, onClick)
         {

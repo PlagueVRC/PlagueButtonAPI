@@ -39,6 +39,7 @@ namespace PlagueButtonAPI.Controls.Grouping
             buttonGroup.headerGameObject.transform.Find("Background_Button").gameObject.GetComponent<Toggle>().isOn = openByDefault;
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourMenuPage.AddCollapsibleButtonGroup() instead.", true)]
         public CollapsibleButtonGroup(MenuPage parent, string text, string tooltip = "deprecated", bool openByDefault = false) : this(parent.menuContents, text, tooltip, openByDefault)
         {
         }
@@ -56,46 +57,46 @@ namespace PlagueButtonAPI.Controls.Grouping
         #region Useful Helper Methods
         public static MenuPage CreatePage(string menuName, string pageTitle, bool root = false, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
-            return new MenuPage(menuName, pageTitle, root, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
+            return MenuPage.CreatePage(menuName, pageTitle, root, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
         }
 
         public (MenuPage, SimpleSingleButton) AddSubMenu(string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
-            var NewMenu = new MenuPage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
+            var NewMenu = MenuPage.CreatePage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
 
-            return (NewMenu, new SimpleSingleButton(this, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true));
+            return (NewMenu, new SimpleSingleButton(buttonGroup.transform, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true));
         }
 
         public (MenuPage, SingleButton) AddSubMenu(Sprite icon, string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
-            var NewMenu = new MenuPage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
+            var NewMenu = MenuPage.CreatePage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
 
-            return (NewMenu, new SingleButton(this, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true, icon, preserveColor));
+            return (NewMenu, new SingleButton(buttonGroup.transform, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true, icon, preserveColor));
         }
 
         public SingleButton AddSingleButton(string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
         {
-            return new SingleButton(this, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment);
+            return new SingleButton(buttonGroup.transform, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment);
         }
 
         public SimpleSingleButton AddSimpleSingleButton(string text, string tooltip, Action click, bool SubMenuIcon = false)
         {
-            return new SimpleSingleButton(this, text, tooltip, click, SubMenuIcon);
+            return new SimpleSingleButton(buttonGroup.transform, text, tooltip, click, SubMenuIcon);
         }
 
         public Label AddLabel(string text, string tooltip, Action onClick = null)
         {
-            return new Label(this, text, tooltip, onClick);
+            return new Label(buttonGroup.transform, text, tooltip, onClick);
         }
 
         public ToggleButton AddToggleButton(string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, bool DefaultState = false, Sprite OnImage = null, Sprite OffImage = null)
         {
-            return new ToggleButton(this, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState);
+            return new ToggleButton(buttonGroup.transform, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState);
         }
 
         public Slider AddSlider(string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool PureValue = false)
         {
-            return new Slider(this, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, false, PureValue);
+            return new Slider(buttonGroup.transform, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, false, PureValue);
         }
         #endregion
     }

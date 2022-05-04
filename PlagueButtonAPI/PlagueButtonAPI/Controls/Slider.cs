@@ -87,10 +87,12 @@ namespace PlagueButtonAPI.Controls
             _percent = percent;
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourMenuPage.AddSlider() instead.", true)]
         public Slider(MenuPage pge, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false) : this(pge, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, false)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourMenuPage.AddSlider() instead.", true)]
         public Slider(MenuPage pge, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false, bool PureValue = false)
             : this(pge.menuContents, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, PureValue)
         {
@@ -104,22 +106,26 @@ namespace PlagueButtonAPI.Controls
             }
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourButtonGroup.AddSlider() instead.", true)]
         public Slider(ButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false) : this(grp, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, false)
         {
             sliderText.text = "\r\n\r\n\r\n" + text;
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourButtonGroup.AddSlider() instead.", true)]
         public Slider(ButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false, bool PureValue = false)
-            : this(grp.gameObject.transform, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, PureValue)
+            : this(grp.transform, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, PureValue)
         {
             sliderText.text = "\r\n\r\n\r\n" + text;
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourCollapsibleButtonGroup.AddSlider() instead.", true)]
         public Slider(CollapsibleButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false) : this(grp, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, false)
         {
             sliderText.text = "\r\n\r\n\r\n" + text;
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourCollapsibleButtonGroup.AddSlider() instead.", true)]
         public Slider(CollapsibleButtonGroup grp, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false, bool PureValue = false)
             : this(grp.buttonGroup, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, PureValue)
         {

@@ -50,16 +50,19 @@ namespace PlagueButtonAPI.Controls
             }
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourMenuPage.AddSimpleSingleButton() instead.", true)]
         public SimpleSingleButton(MenuPage pge, string text, string tooltip, Action click, bool SubMenuIcon = false)
             : this(pge.menuContents, text, tooltip, click, SubMenuIcon)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourButtonGroup.AddSimpleSingleButton() instead.", true)]
         public SimpleSingleButton(ButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false)
-            : this(grp.gameObject.transform, text, tooltip, click, SubMenuIcon)
+            : this(grp.transform, text, tooltip, click, SubMenuIcon)
         {
         }
 
+        [Obsolete("This constructor is obsolete. Please use YourCollapsibleButtonGroup.AddSimpleSingleButton() instead.", true)]
         public SimpleSingleButton(CollapsibleButtonGroup grp, string text, string tooltip, Action click, bool SubMenuIcon = false)
             : this(grp.buttonGroup, text, tooltip, click, SubMenuIcon)
         {
