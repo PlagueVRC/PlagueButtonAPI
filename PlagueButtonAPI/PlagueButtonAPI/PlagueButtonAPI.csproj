@@ -60,6 +60,11 @@
       <HintPath>..\..\References\PlagueButtonAPI\MelonLoader.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\PlagueButtonAPI\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -154,6 +159,7 @@
     <Compile Include="Controls\Grouping\CollapsibleButtonGroup.cs" />
     <Compile Include="Controls\Buttons\Label.cs" />
     <Compile Include="Controls\Buttons\WingSingleButton.cs" />
+    <Compile Include="External Libraries\ConfigLib.cs" />
     <Compile Include="Main\ButtonAPI.cs" />
     <Compile Include="Controls\Grouping\ButtonGroup.cs" />
     <Compile Include="Main\TransformHelper.cs" />

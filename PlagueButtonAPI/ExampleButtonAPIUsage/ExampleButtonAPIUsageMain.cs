@@ -70,7 +70,7 @@ namespace ExampleButtonAPIUsage
 
                    var NonFunctionalGroup = Page.AddCollapsibleButtonGroup("Non-Functional Options");
 
-                    var PlayerListMenu = NonFunctionalGroup.AddSubMenu(ButtonImage, "PlayersList_1", "Player List", false);
+                    var PlayerListMenu = NonFunctionalGroup.AddSubMenu(ButtonImage, "PlayersList_1", "Player List");
 
                     var PlayersGroup = PlayerListMenu.Item1.AddButtonGroup("", true, TextAnchor.UpperLeft);
                     var Handler = PlayersGroup.gameObject.GetOrAddComponent<ObjectHandler>();
