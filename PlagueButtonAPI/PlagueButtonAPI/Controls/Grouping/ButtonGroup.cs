@@ -104,7 +104,13 @@ namespace PlagueButtonAPI.Controls.Grouping
 
         public Slider AddSlider(string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool PureValue = false)
         {
-            return new Slider(transform, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, false, PureValue);
+            return new Slider(transform, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, false, PureValue)
+            {
+                sliderText =
+                {
+                    text = "\r\n\r\n\r\n" + text
+                }
+            };
         }
         #endregion
     }
