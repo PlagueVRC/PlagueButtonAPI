@@ -15,8 +15,6 @@ namespace PlagueButtonAPI
     {
         #region Hooks (I Like To Call Actions/Events Hooks, Nu Booli.)
 
-        public static event Action<VRCPlayer> OnVRCPlayerInit;
-
         public static event Action<Player> OnPlayerJoin;
         public static event Action<Player> OnPlayerLeave;
 
@@ -39,12 +37,8 @@ namespace PlagueButtonAPI
         {
             Mod.harmony.Patch(typeof(VRCPlayer).GetMethod(nameof(VRCPlayer.Awake), AccessTools.all), postfix: new HarmonyMethod(typeof(Hooks).GetMethod(nameof(VRCPlayer_AwakeM), BindingFlags.NonPublic | BindingFlags.Static))); // Post So It Exists.
 
-            #region Player
             // My Join/Leave Hook Method Is Nicer :P
-            Mod.harmony.Patch(typeof(Player).GetMethod(nameof(Player.Awake), AccessTools.all), postfix: new HarmonyMethod(typeof(Hooks).GetMethod(nameof(Player_AwakeM), BindingFlags.NonPublic | BindingFlags.Static))); // Post So It Exists.
-
-            Mod.harmony.Patch(typeof(Player).GetMethod(nameof(Player.OnDestroy), AccessTools.all), prefix: new HarmonyMethod(typeof(Hooks).GetMethod(nameof(Player_OnDestroyM), BindingFlags.NonPublic | BindingFlags.Static))); // Pre So We Can Pass The Object And It **Hopefully** Not Be Dead Yet.
-            #endregion
+            Mod.harmony.Patch(typeof(Player).GetMethod(nameof(Player.OnDestroy), AccessTools.all), new HarmonyMethod(typeof(Hooks).GetMethod(nameof(Player_OnDestroyM), BindingFlags.NonPublic | BindingFlags.Static))); // Pre So We Can Pass The Object And It **Hopefully** Not Be Dead Yet.
 
             #region NetworkManager
             Mod.harmony.Patch(typeof(NetworkManager).GetMethod(nameof(NetworkManager.OnJoinedRoom), AccessTools.all), postfix: new HarmonyMethod(typeof(Hooks).GetMethod(nameof(Room_JoinM), BindingFlags.NonPublic | BindingFlags.Static)));
@@ -62,12 +56,10 @@ namespace PlagueButtonAPI
 
         private static void VRCPlayer_AwakeM(VRCPlayer __instance)
         {
-            OnVRCPlayerInit?.Invoke(__instance);
+            OnPlayerJoin?.Invoke(__instance?.gameObject?.GetComponent<Player>());
 
-            __instance.Method_Public_add_Void_OnAvatarIsReady_0(new Action(() => OnAvatarInstantiated(__instance.prop_VRCAvatarManager_0, __instance.field_Private_ApiAvatar_0, __instance.field_Internal_GameObject_0)));
+            __instance?.Method_Public_add_Void_OnAvatarIsReady_0(new Action(() => OnAvatarInstantiated(__instance.prop_VRCAvatarManager_0, __instance.field_Private_ApiAvatar_0, __instance.field_Internal_GameObject_0)));
         }
-
-        private static void Player_AwakeM(Player __instance) => OnPlayerJoin?.Invoke(__instance);
 
         private static void Player_OnDestroyM(Player __instance) => OnPlayerLeave?.Invoke(__instance);
 
