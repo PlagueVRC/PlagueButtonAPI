@@ -60,6 +60,8 @@ namespace PlagueButtonAPI
 
         internal static string[] Nono;
 
+        internal static GameObject QuickMenuObj;
+
         [HarmonyShield]
         [PatchShield]
         private static IEnumerator WaitForQMClone()
@@ -152,6 +154,8 @@ namespace PlagueButtonAPI
             MelonLogger.Msg(ConsoleColor.Green, "ButtonAPI OnInit!");
             OnInit?.Invoke();
             Hooks.Init();
+
+            QuickMenuObj = GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)").gameObject;
 
             HasInit = true;
 

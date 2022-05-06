@@ -160,6 +160,7 @@
     <Compile Include="Controls\Buttons\Label.cs" />
     <Compile Include="Controls\Buttons\WingSingleButton.cs" />
     <Compile Include="External Libraries\ConfigLib.cs" />
+    <Compile Include="External Libraries\IL2CPPAssetBundle.cs" />
     <Compile Include="Hooks\Hooks.cs" />
     <Compile Include="Main\ButtonAPI.cs" />
     <Compile Include="Controls\Grouping\ButtonGroup.cs" />

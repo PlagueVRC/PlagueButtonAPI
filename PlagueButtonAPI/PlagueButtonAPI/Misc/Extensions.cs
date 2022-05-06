@@ -1,4 +1,6 @@
 using System;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using MelonLoader;
@@ -8,6 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VRC;
 using VRC.UI.Elements.Controls;
+using Color = UnityEngine.Color;
 using Object = UnityEngine.Object;
 
 namespace PlagueButtonAPI.Misc
@@ -387,6 +390,53 @@ namespace PlagueButtonAPI.Misc
         public static void AskConfirmOpenURL(this VRC.UI.Elements.QuickMenu qm, string url)
         {
             AskConfirmOpenURLMethod.Invoke(qm, new object[] { url });
+        }
+
+        public static Sprite LoadSpriteFromDisk(this string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return null;
+            }
+
+            byte[] data = File.ReadAllBytes(path);
+
+            if (data == null || data.Length <= 0)
+            {
+                return null;
+            }
+
+            Texture2D tex = new Texture2D(512, 512);
+
+            if (!Il2CppImageConversionManager.LoadImage(tex, data))
+            {
+                return null;
+            }
+
+            Sprite sprite = Sprite.CreateSprite(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f, 0, 0, new Vector4(), false);
+
+            sprite.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+
+            return sprite;
+        }
+
+        public static Sprite GetSpriteFromResource(this Bitmap resource)
+        {
+            var ms = new MemoryStream();
+            resource.Save(ms, resource.RawFormat);
+
+            var tex = new Texture2D(resource.Width, resource.Height);
+            Il2CppImageConversionManager.LoadImage(tex, ms.ToArray());
+
+            Sprite sprite;
+            {
+                var size = new Rect(0.0f, 0.0f, tex.width, tex.height);
+                var pivot = new Vector2(0.5f, 0.5f);
+                var border = Vector4.zero;
+                sprite = Sprite.CreateSprite_Injected(tex, ref size, ref pivot, 100.0f, 0u, SpriteMeshType.Tight, ref border, false);
+            }
+
+            return sprite;
         }
     }
 }

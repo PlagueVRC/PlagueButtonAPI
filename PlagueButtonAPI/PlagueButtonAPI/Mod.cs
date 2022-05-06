@@ -58,8 +58,12 @@ namespace PlagueButtonAPI
             }
         }
 
+        internal static int CurrentSceneIndex;
+
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
+            CurrentSceneIndex = buildIndex;
+
             foreach (var eventListener in eventListeners)
             {
                 try

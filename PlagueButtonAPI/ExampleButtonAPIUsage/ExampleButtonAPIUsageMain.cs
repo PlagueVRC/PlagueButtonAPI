@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using ExampleButtonAPIUsage;
 using HarmonyLib;
-using LoadSprite;
 using MelonLoader;
 using PlagueButtonAPI;
 using PlagueButtonAPI.Controls;
