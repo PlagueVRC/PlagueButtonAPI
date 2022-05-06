@@ -151,6 +151,7 @@ namespace PlagueButtonAPI
 
             MelonLogger.Msg(ConsoleColor.Green, "ButtonAPI OnInit!");
             OnInit?.Invoke();
+            Hooks.Init();
 
             HasInit = true;
 

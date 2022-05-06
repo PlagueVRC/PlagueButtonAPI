@@ -17,6 +17,8 @@ namespace PlagueButtonAPI
 {
     internal class Mod : MelonMod
     {
+        internal static HarmonyLib.Harmony harmony = null;
+
         private static readonly IEnumerable<MelonLoaderEvents> eventListeners = from type in typeof(Mod).Assembly.GetTypes()
             where type.IsSubclassOf(typeof(MelonLoaderEvents))
             orderby ((PriorityAttribute)Attribute.GetCustomAttribute(type, typeof(PriorityAttribute)))?.priority ?? 0
@@ -24,6 +26,8 @@ namespace PlagueButtonAPI
 
         public override void OnApplicationStart()
         {
+            harmony = HarmonyInstance;
+
             foreach (var eventListener in eventListeners)
             {
                 try
