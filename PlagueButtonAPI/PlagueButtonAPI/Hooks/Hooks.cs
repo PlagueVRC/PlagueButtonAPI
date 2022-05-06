@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
+using MelonLoader;
 using UnityEngine;
 using VRC;
 using VRC.Core;
@@ -56,9 +58,21 @@ namespace PlagueButtonAPI
 
         private static void VRCPlayer_AwakeM(VRCPlayer __instance)
         {
-            OnPlayerJoin?.Invoke(__instance?.gameObject?.GetComponent<Player>());
-
             __instance?.Method_Public_add_Void_OnAvatarIsReady_0(new Action(() => OnAvatarInstantiated(__instance.prop_VRCAvatarManager_0, __instance.field_Private_ApiAvatar_0, __instance.field_Internal_GameObject_0)));
+
+            MelonCoroutines.Start(RunMe())
+
+            IEnumerator RunMe()
+            {
+                while (__instance?.gameObject?.GetComponent<Player>()?.field_Private_APIUser_0 == null) // Wait For APIUser To Exist, Tempermental If Not Done.
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+
+                OnPlayerJoin?.Invoke(__instance.gameObject.GetComponent<Player>());
+
+                yield break;
+            }
         }
 
         private static void Player_OnDestroyM(Player __instance) => OnPlayerLeave?.Invoke(__instance);
