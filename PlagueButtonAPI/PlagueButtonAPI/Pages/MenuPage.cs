@@ -268,6 +268,14 @@ namespace PlagueButtonAPI.Pages
             return new ToggleButton(menuContents, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState);
         }
 
+        /// <summary>
+        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
+        /// </summary>
+        public ToggleButton AddToggleButton(string text, string tooltip, Action<bool> stateChanged, bool DefaultState = false, Sprite OnImage = null, Sprite OffImage = null)
+        {
+            return new ToggleButton(menuContents, text, tooltip, tooltip, stateChanged, OnImage, OffImage, DefaultState);
+        }
+
         public Slider AddSlider(string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool PureValue = false)
         {
             var Slider = new Slider(menuContents, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, PureValue);

@@ -102,6 +102,11 @@ namespace PlagueButtonAPI.Controls.Grouping
             return new ToggleButton(transform, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState);
         }
 
+        public ToggleButton AddToggleButton(string text, string tooltip, Action<bool> stateChanged, bool DefaultState = false, Sprite OnImage = null, Sprite OffImage = null)
+        {
+            return new ToggleButton(transform, text, tooltip, tooltip, stateChanged, OnImage, OffImage, DefaultState);
+        }
+
         public Slider AddSlider(string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool PureValue = false)
         {
             return new Slider(transform, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, false, PureValue)
