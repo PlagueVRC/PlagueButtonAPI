@@ -30,7 +30,11 @@ namespace ExampleButtonAPIUsage
 
         public override void OnApplicationStart()
         {
-            ButtonImage = (Environment.CurrentDirectory + "\\ImageToLoad.png").LoadSpriteFromDisk();
+            try
+            {
+                ButtonImage = (Environment.CurrentDirectory + "\\ImageToLoad.png").LoadSpriteFromDisk();
+            }
+            catch {}
 
             NetworkEvents.OnAvatarInstantiated += NetworkEvents_OnAvatarInstantiated;
 
