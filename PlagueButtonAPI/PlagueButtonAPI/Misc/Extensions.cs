@@ -438,5 +438,10 @@ namespace PlagueButtonAPI.Misc
 
             return sprite;
         }
+
+        public static Transform[] GetAllChildrenAndSubChildren(this Transform transform)
+        {
+            return transform.GetComponentsInChildren<Transform>(true);
+        }
     }
 }
