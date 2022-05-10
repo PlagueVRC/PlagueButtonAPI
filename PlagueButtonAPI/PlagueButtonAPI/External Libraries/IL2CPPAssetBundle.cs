@@ -15,17 +15,17 @@ namespace IL2CPPAssetBundleAPI
         /// <summary>
         /// The Loaded AssetBundle, Null By Default
         /// </summary>
-        internal AssetBundle bundle = null;
+        public AssetBundle bundle = null;
 
-        internal bool HasLoadedABundle = false;
+        public bool HasLoadedABundle = false;
 
-        internal string error = "";
+        public string error = "";
 
-        internal IL2CPPAssetBundle(string resource = null)
+        public IL2CPPAssetBundle(Assembly assembly = null, string resource = null)
         {
-            if (!string.IsNullOrEmpty(resource))
+            if (assembly != null && !string.IsNullOrEmpty(resource))
             {
-                LoadBundle(resource);
+                LoadBundle(assembly, resource);
             }
         }
 
@@ -34,7 +34,7 @@ namespace IL2CPPAssetBundleAPI
         /// </summary>
         /// <param name="resource">The Path To The Embedded Resource File - Example: VRCAntiCrash.Resources.plaguelogo.asset</param>
         /// <returns>True If Successful</returns>
-        internal bool LoadBundle(string resource)
+        public bool LoadBundle(Assembly assembly, string resource)
         {
             if (HasLoadedABundle)
             {
@@ -43,13 +43,19 @@ namespace IL2CPPAssetBundleAPI
 
             try
             {
+                if (assembly == null)
+                {
+                    error = "Null Assembly!";
+                    return false;
+                }
+
                 if (string.IsNullOrEmpty(resource))
                 {
                     error = "Null Or Empty Resource String!";
                     return false;
                 }
 
-                var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource);
+                var stream = assembly.GetManifestResourceStream(resource);
 
                 if (stream != null && stream.Length > 0)
                 {
@@ -102,9 +108,9 @@ namespace IL2CPPAssetBundleAPI
         /// <summary>
         /// Loads An Asset From The Previously Loaded AssetBundle
         /// </summary>
-        /// <param name="str">The Internal Name Of The Asset Inside The AssetBundle</param>
+        /// <param name="str">The public Name Of The Asset Inside The AssetBundle</param>
         /// <returns>The Asset You Searched For, Null If No AssetBundle Was Previously Loaded</returns>
-        internal T Load<T>(string str) where T : Object
+        public T Load<T>(string str) where T : Object
         {
             try
             {

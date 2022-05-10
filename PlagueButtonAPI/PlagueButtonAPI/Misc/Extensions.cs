@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -439,9 +440,51 @@ namespace PlagueButtonAPI.Misc
             return sprite;
         }
 
-        public static Transform[] GetAllChildrenAndSubChildren(this Transform transform)
+        public static Transform[] GetChildren(this Transform transform)
         {
-            return transform.GetComponentsInChildren<Transform>(true);
+            var Children = new List<Transform>();
+
+            for (var i = 0; i < transform.childCount; i++)
+            {
+                Children.Add(transform.GetChild(i));
+            }
+
+            return Children.ToArray();
+        }
+
+        public static Transform[] GetAllChildren(this Transform transform)
+        {
+            var Children = new List<Transform>();
+
+            void GetChildrenR(Transform trans)
+            {
+                for (var i = 0; i < trans.childCount; i++)
+                {
+                    Children.Add(trans.GetChild(i));
+
+                    GetChildren(trans.GetChild(i));
+                }
+            }
+
+            GetChildrenR(transform);
+
+            return Children.ToArray();
+        }
+
+        public static string GetPath(this Transform transform)
+        {
+            var path = $"{transform.name}";
+
+            var CurrentObj = transform;
+
+            while (CurrentObj.parent != null)
+            {
+                CurrentObj = CurrentObj.parent;
+
+                path = $"{CurrentObj.name}/" + path;
+            }
+
+            return path;
         }
     }
 }
