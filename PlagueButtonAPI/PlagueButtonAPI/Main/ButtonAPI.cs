@@ -162,8 +162,14 @@ namespace PlagueButtonAPI
                 MelonLogger.Error("xIconSprite == null!");
             }
 
+            if (IsDebug)
+            {
+                MelonLogger.Msg("Init Object Gather Done, Finishing..");
+            }
+
             while (PauseInit)
             {
+                MelonLogger.Msg("Init Paused..");
                 yield return new WaitForEndOfFrame();
             }
 
