@@ -8,6 +8,7 @@ using MelonLoader;
 using UnhollowerRuntimeLib;
 using UnhollowerRuntimeLib.XrefScans;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 using VRC;
 using VRC.UI.Elements.Controls;
@@ -388,9 +389,63 @@ namespace PlagueButtonAPI.Misc
             });
         }
 
+        public static void ShowConfirmDialogCustomText(this VRC.UI.Elements.QuickMenu qm, string title, string message, string ConfirmButtonText, string CancelButtonText, Action ConfirmButtonAction = null, Action CancelButtonAction = null)
+        {
+            ShowConfirmDialogMethod.Invoke(qm, new object[]
+            {
+                title,
+                message,
+                ConfirmButtonText,
+                CancelButtonText,
+                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(ConfirmButtonAction),
+                DelegateSupport.ConvertDelegate<Il2CppSystem.Action>(CancelButtonAction)
+            });
+        }
+
         public static void AskConfirmOpenURL(this VRC.UI.Elements.QuickMenu qm, string url)
         {
             AskConfirmOpenURLMethod.Invoke(qm, new object[] { url });
+        }
+
+        public static void ShowInputDialog(this VRC.UI.Elements.QuickMenu qm, string title, string Placeholder, Action<string> OnConfirm)
+        {
+            var InputtedText = "";
+
+            ButtonAPI.GetQuickMenuInstance().ShowConfirmDialogCustomText(title, "", "Confirm", "Cancel", () =>
+            {
+                // Confirm
+                OnConfirm?.Invoke(InputtedText);
+            });
+
+            var ModalObj = GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Modal_ConfirmDialog");
+
+            var ModalPanel = ModalObj.transform.Find("MenuPanel");
+
+            var InputFieldObj = ModalPanel.Find("InputField(Clone)")?.GetComponent<InputField>() ?? UnityEngine.Object.Instantiate(VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.field_Public_VRCUiPopupInput_0.GetComponentInChildren<InputField>());
+
+            InputFieldObj.transform.SetParent(ModalPanel);
+            InputFieldObj.transform.localPosition = new Vector3(0f, 70f, 0f);
+            InputFieldObj.transform.localScale = Vector3.one;
+            InputFieldObj.transform.localRotation = Quaternion.EulerRotation(0f, 0f, 0f);
+
+            InputFieldObj.transform.Find("Placeholder").GetComponent<Text>().text = Placeholder;
+
+            InputFieldObj.onValueChanged = new InputField.OnChangeEvent();
+            InputFieldObj.onValueChanged.AddListener(new Action<string>(s =>
+            {
+                InputFieldObj.transform.Find("Placeholder").gameObject.SetActive(s.Length == 0);
+                InputtedText = s;
+            }));
+
+            var FreezeHandler = InputFieldObj.gameObject.GetOrAddComponent<FreezeControls>();
+            FreezeHandler.OnEnterKeyPressed = () =>
+            {
+                ModalPanel.Find("Buttons/Button_Yes").GetComponent<Button>().onClick?.Invoke();
+            };
+            FreezeHandler.OnExit = () =>
+            {
+                Object.Destroy(InputFieldObj.gameObject);
+            };
         }
 
         public static Sprite LoadSpriteFromDisk(this string path)
@@ -485,6 +540,49 @@ namespace PlagueButtonAPI.Misc
             }
 
             return path;
+        }
+    }
+
+    [RegisterTypeInIl2Cpp]
+    internal class FreezeControls : MonoBehaviour
+    {
+        public FreezeControls(IntPtr instance) : base(instance) { }
+
+        internal Action OnExit;
+        internal Action OnEnterKeyPressed;
+
+        internal InputField inputField;
+
+        void Start()
+        {
+            inputField = gameObject.GetComponent<InputField>();
+        }
+
+        void OnEnable()
+        {
+            VRCInputManager.Method_Public_Static_Void_Boolean_0(true);
+            ButtonAPI.GetQuickMenuInstance().field_Private_Boolean_5 = true;
+        }
+
+        void OnDisable()
+        {
+            VRCInputManager.Method_Public_Static_Void_Boolean_0(false);
+            ButtonAPI.GetQuickMenuInstance().field_Private_Boolean_5 = false;
+
+            OnExit?.Invoke();
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                VRCInputManager.Method_Public_Static_Void_Boolean_0(false);
+                ButtonAPI.GetQuickMenuInstance().field_Private_Boolean_5 = false;
+            }
+            else if (Input.GetKeyDown(KeyCode.Return))
+            {
+                OnEnterKeyPressed?.Invoke();
+            }
         }
     }
 }

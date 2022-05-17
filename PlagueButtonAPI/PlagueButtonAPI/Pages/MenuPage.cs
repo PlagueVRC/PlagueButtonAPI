@@ -39,12 +39,33 @@ namespace PlagueButtonAPI.Pages
 
         public bool Gridified;
 
+        /// <summary>Initializes a new instance of the <see cref="MenuPage" /> class.</summary>
+        /// <param name="menuName">Name of the menu.</param>
+        /// <param name="pageTitle">The page title.</param>
+        /// <param name="root">Whether this is the root page entered from the main <see cref="QuickMenu" />.</param>
+        /// <param name="backButton">Whether to show the back button.</param>
+        /// <param name="expandButton">Whether to show the expand button.</param>
+        /// <param name="expandButtonAction">The expand button's action.</param>
+        /// <param name="expandButtonTooltip">The expand button tooltip.</param>
+        /// <param name="expandButtonSprite">The expand button's <see cref="Sprite" />.</param>
+        /// <param name="preserveColor">Whether to preserve your <see cref="Sprite" />'s color.</param>
         [Obsolete("This constructor is obsolete. Please use MenuPage.CreatePage() instead.", true)]
         public MenuPage(string menuName, string pageTitle, bool root = false, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false) : this(menuName, pageTitle, root, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, false)
         {
 
         }
 
+        /// <summary>Initializes a new instance of the <see cref="MenuPage" /> class.</summary>
+        /// <param name="menuName">Name of the menu.</param>
+        /// <param name="pageTitle">The page title.</param>
+        /// <param name="root">Whether this is the root page entered from the main <see cref="QuickMenu" />.</param>
+        /// <param name="backButton">Whether to show the back button.</param>
+        /// <param name="expandButton">Whether to show the expand button.</param>
+        /// <param name="expandButtonAction">The expand button's action.</param>
+        /// <param name="expandButtonTooltip">The expand button tooltip.</param>
+        /// <param name="expandButtonSprite">The expand button's <see cref="Sprite" />.</param>
+        /// <param name="preserveColor">Whether to preserve your <see cref="Sprite" />'s color.</param>
+        /// <param name="Gridify">Whether to gridify this <see cref="MenuPage" />, meaning any controls added will be in a grid formation, similar to a <see cref="ButtonGroup" />.</param>
         [Obsolete("This constructor is obsolete. Please use MenuPage.CreatePage() instead.")]
         public MenuPage(string menuName, string pageTitle, bool root = false, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
@@ -197,11 +218,33 @@ namespace PlagueButtonAPI.Pages
         }
 
         #region Useful Helper Methods
+        /// <summary>Initializes a new instance of the <see cref="MenuPage" /> class.</summary>
+        /// <param name="menuName">Name of the menu.</param>
+        /// <param name="pageTitle">The page title.</param>
+        /// <param name="root">Whether this is the root page entered from the main <see cref="QuickMenu" />.</param>
+        /// <param name="backButton">Whether to show the back button.</param>
+        /// <param name="expandButton">Whether to show the expand button.</param>
+        /// <param name="expandButtonAction">The expand button's action.</param>
+        /// <param name="expandButtonTooltip">The expand button tooltip.</param>
+        /// <param name="expandButtonSprite">The expand button's <see cref="Sprite" />.</param>
+        /// <param name="preserveColor">Whether to preserve your <see cref="Sprite" />'s color.</param>
+        /// <param name="Gridify">Whether to gridify this <see cref="MenuPage" />, meaning any controls added will be in a grid formation, similar to a <see cref="ButtonGroup" />.</param>
         public static MenuPage CreatePage(string menuName, string pageTitle, bool root = false, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
             return new MenuPage(menuName, pageTitle, root, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
         }
 
+        /// <summary>Initializes a new instance of the <see cref="MenuPage" /> class.</summary>
+        /// <param name="icon">The icon to display on the <see cref="WingSingleButton" />.</param>
+        /// <param name="menuName">Name of the menu.</param>
+        /// <param name="pageTitle">The page title.</param>
+        /// <param name="backButton">Whether to show the back button.</param>
+        /// <param name="expandButton">Whether to show the expand button.</param>
+        /// <param name="expandButtonAction">The expand button's action.</param>
+        /// <param name="expandButtonTooltip">The expand button tooltip.</param>
+        /// <param name="expandButtonSprite">The expand button's <see cref="Sprite" />.</param>
+        /// <param name="preserveColor">Whether to preserve your <see cref="Sprite" />'s color.</param>
+        /// <param name="Gridify">Whether to gridify this <see cref="MenuPage" />, meaning any controls added will be in a grid formation, similar to a <see cref="ButtonGroup" />.</param>
         public static (MenuPage, WingSingleButton) CreatePage(WingSingleButton.Wing wing, Sprite icon, string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
             var NewMenu = MenuPage.CreatePage(menuName, pageTitle, true, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
@@ -209,9 +252,17 @@ namespace PlagueButtonAPI.Pages
             return (NewMenu, new WingSingleButton(wing, pageTitle, $"Opens The {pageTitle} Page.", NewMenu.OpenMenu, true, icon, preserveColor));
         }
 
-        /// <summary>
-        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="MenuPage" /> class.</summary>
+        /// <param name="menuName">Name of the menu.</param>
+        /// <param name="pageTitle">The page title.</param>
+        /// <param name="backButton">Whether to show the back button.</param>
+        /// <param name="expandButton">Whether to show the expand button.</param>
+        /// <param name="expandButtonAction">The expand button's action.</param>
+        /// <param name="expandButtonTooltip">The expand button tooltip.</param>
+        /// <param name="expandButtonSprite">The expand button's <see cref="Sprite" />.</param>
+        /// <param name="preserveColor">Whether to preserve your <see cref="Sprite" />'s color.</param>
+        /// <param name="Gridify">Whether to gridify this <see cref="MenuPage" />, meaning any controls added will be in a grid formation, similar to a <see cref="ButtonGroup" />.</param>
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
         public (MenuPage, SimpleSingleButton) AddSubMenu(string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
             var NewMenu = MenuPage.CreatePage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
@@ -219,9 +270,18 @@ namespace PlagueButtonAPI.Pages
             return (NewMenu, new SimpleSingleButton(menuContents, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true));
         }
 
-        /// <summary>
-        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="MenuPage" /> class.</summary>
+        /// <param name="icon">The icon to display on the <see cref="WingSingleButton" />.</param>
+        /// <param name="menuName">Name of the menu.</param>
+        /// <param name="pageTitle">The page title.</param>
+        /// <param name="backButton">Whether to show the back button.</param>
+        /// <param name="expandButton">Whether to show the expand button.</param>
+        /// <param name="expandButtonAction">The expand button's action.</param>
+        /// <param name="expandButtonTooltip">The expand button tooltip.</param>
+        /// <param name="expandButtonSprite">The expand button's <see cref="Sprite" />.</param>
+        /// <param name="preserveColor">Whether to preserve your <see cref="Sprite" />'s color.</param>
+        /// <param name="Gridify">Whether to gridify this <see cref="MenuPage" />, meaning any controls added will be in a grid formation, similar to a <see cref="ButtonGroup" />.</param>
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
         public (MenuPage, SingleButton) AddSubMenu(Sprite icon, string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
             var NewMenu = CreatePage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
@@ -229,53 +289,94 @@ namespace PlagueButtonAPI.Pages
             return (NewMenu, new SingleButton(menuContents, pageTitle, $"Opens The {pageTitle} SubMenu.", NewMenu.OpenMenu, true, icon, preserveColor));
         }
 
+        /// <summary>Adds a button group to this <see cref="MenuPage" />.</summary>
+        /// <param name="text">The text.</param>
+        /// <param name="NoText">Whether to show no text for this <see cref="ButtonGroup" />, meaning it will just gridify items added, but be invisible to the user.</param>
+        /// <param name="ButtonAlignment">The button alignment for this <see cref="ButtonGroup" />.</param>
         public ButtonGroup AddButtonGroup(string text, bool NoText = false, TextAnchor ButtonAlignment = TextAnchor.UpperCenter)
         {
             return new ButtonGroup(menuContents, text, NoText, ButtonAlignment);
         }
 
+        /// <summary>Adds the button group.</summary>
+        /// <param name="text">The text.</param>
+        /// <param name="openByDefault">Whether this <see cref="CollapsibleButtonGroup" /> will be opened by default.</param>
         public CollapsibleButtonGroup AddCollapsibleButtonGroup(string text, bool openByDefault = false)
         {
             return new CollapsibleButtonGroup(menuContents, text, openByDefault: openByDefault);
         }
 
-        /// <summary>
-        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
-        /// </summary>
+        /// <summary>Adds the single button.</summary>
+        /// <param name="text">The text on the <see cref="SingleButton" />.</param>
+        /// <param name="tooltip">The tooltip when hovering over the <see cref="SingleButton" />.</param>
+        /// <param name="click">The action when the <see cref="SingleButton" /> is clicked.</param>
+        /// <param name="SubMenuIcon">Whether to show the SubMenu Icon on the <see cref="SingleButton" />.</param>
+        /// <param name="icon">the main icon to show on the <see cref="SingleButton" />.</param>
+        /// <param name="preserveColor">Whether to preserve your <see cref="Sprite" />'s color.</param>
+        /// <param name="TextAlignment">The text alignment for the <see cref="SingleButton" />.</param>
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
         public SingleButton AddSingleButton(string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
         {
             return new SingleButton(menuContents, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment);
         }
 
-        /// <summary>
-        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
-        /// </summary>
+        /// <summary>Adds the single button.</summary>
+        /// <param name="text">The text on the <see cref="SimpleSingleButton" />.</param>
+        /// <param name="tooltip">The tooltip when hovering over the <see cref="SimpleSingleButton" />.</param>
+        /// <param name="click">The action when the <see cref="SimpleSingleButton" /> is clicked.</param>
+        /// <param name="SubMenuIcon">Whether to show the SubMenu Icon on the <see cref="SimpleSingleButton" />.</param>
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
         public SimpleSingleButton AddSimpleSingleButton(string text, string tooltip, Action click, bool SubMenuIcon = false)
         {
             return new SimpleSingleButton(menuContents, text, tooltip, click, SubMenuIcon);
         }
 
+        /// <summary>Adds the single button.</summary>
+        /// <param name="text">The text on the <see cref="Label" />.</param>
+        /// <param name="tooltip">The tooltip when hovering over the <see cref="Label" />.</param>
+        /// <param name="onClick">The action when the <see cref="Label" /> is clicked.</param>
         public Label AddLabel(string text, string tooltip, Action onClick = null)
         {
             return new Label(menuContents, text, tooltip, onClick);
         }
 
-        /// <summary>
-        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
-        /// </summary>
+        /// <summary>Adds the toggle button.</summary>
+        /// <param name="text">The text on the <see cref="ToggleButton" />.</param>
+        /// <param name="tooltipWhileDisabled">The tooltip when hovering over the <see cref="ToggleButton" /> while it is disabled. (Example: "Enable Thing").</param>
+        /// <param name="tooltipWhileEnabled">The tooltip when hovering over the <see cref="ToggleButton" /> while it is enabled. (Example: "Disable Thing").</param>
+        /// <param name="stateChanged">The action when the <see cref="ToggleButton" /> is clicked, passes a bool of the new toggle state.</param>
+        /// <param name="DefaultState">The toggle state of the <see cref="ToggleButton" /> on creation. (Example: MainClass.Config.InternalConfig.SomeBool).</param>
+        /// <param name="OnImage">The image to show as the "on" <see cref="Sprite" />.</param>
+        /// <param name="OffImage">The image to show as the "off" <see cref="Sprite" />.</param>
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
         public ToggleButton AddToggleButton(string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, bool DefaultState = false, Sprite OnImage = null, Sprite OffImage = null)
         {
             return new ToggleButton(menuContents, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState);
         }
 
-        /// <summary>
-        /// NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!
-        /// </summary>
+        /// <summary>Adds the toggle button.</summary>
+        /// <param name="text">The text on the <see cref="ToggleButton" />.</param>
+        /// <param name="tooltip">The tooltip when hovering over the <see cref="ToggleButton" />.</param>
+        /// <param name="stateChanged">The action when the <see cref="ToggleButton" /> is clicked, passes a bool of the new toggle state.</param>
+        /// <param name="DefaultState">The toggle state of the <see cref="ToggleButton" /> on creation. (Example: MainClass.Config.InternalConfig.SomeBool).</param>
+        /// <param name="OnImage">The image to show as the "on" <see cref="Sprite" />.</param>
+        /// <param name="OffImage">The image to show as the "off" <see cref="Sprite" />.</param>
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
         public ToggleButton AddToggleButton(string text, string tooltip, Action<bool> stateChanged, bool DefaultState = false, Sprite OnImage = null, Sprite OffImage = null)
         {
             return new ToggleButton(menuContents, text, tooltip, tooltip, stateChanged, OnImage, OffImage, DefaultState);
         }
 
+        /// <summary>Adds the slider.</summary>
+        /// <param name="text">The text to show above the <see cref="Slider" />.</param>
+        /// <param name="tooltip">The tooltip when hovering over the <see cref="Slider" />.</param>
+        /// <param name="onSliderAdjust">The action when the <see cref="Slider" /> is adjusted, passes a float of the new <see cref="Slider" /> value.</param>
+        /// <param name="minValue">The minimum value for the <see cref="Slider" />.</param>
+        /// <param name="maxValue">The maximum value for the <see cref="Slider" />.</param>
+        /// <param name="defaultValue">The value of the <see cref="Slider" /> on creation. (Example: MainClass.Config.InternalConfig.SomeFloat).</param>
+        /// <param name="floor">Whether to visually floor the <see cref="Slider" />'s value. This means the value will be rounded down.</param>
+        /// <param name="percent">Whether to show % after the value.</param>
+        /// <param name="PureValue">Whether to show the pure value. Note this will be very long, as a raw float has many decimal places.</param>
         public Slider AddSlider(string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool PureValue = false)
         {
             var Slider = new Slider(menuContents, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, PureValue);

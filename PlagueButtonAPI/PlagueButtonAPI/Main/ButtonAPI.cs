@@ -66,14 +66,30 @@ namespace PlagueButtonAPI
         [PatchShield]
         private static IEnumerator WaitForQMClone()
         {
+            var IsDebug = Environment.CommandLine.ToLower().Contains("debug");
+
+            if (IsDebug)
+            {
+                MelonLogger.Msg("WaitForQMClone Beginning..");
+            }
+
             while (GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/")?.gameObject == null || GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/WingMenu/ScrollRect/Viewport/VerticalLayoutGroup/Button_Explore")?.gameObject == null || GetMenuStateControllerInstance() == null)
             {
+                if (IsDebug)
+                {
+                    MelonLogger.Msg("Waiting..");
+                }
                 yield return new WaitForEndOfFrame();
             }
 
             yield return new WaitForSeconds(2f); // Just In Case!
 
             TransformHelper.Init();
+
+            if (IsDebug)
+            {
+                MelonLogger.Msg("Init Beginning..");
+            }
 
             singleButtonBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/Button_Respawn")?.gameObject;
 
