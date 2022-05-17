@@ -173,12 +173,13 @@ namespace PlagueButtonAPI
                 {
                     MelonLogger.Msg(ConsoleColor.Blue, "Init Paused..");
                 }
+
                 yield return new WaitForEndOfFrame();
             }
 
             MelonLogger.Msg(ConsoleColor.Green, "ButtonAPI OnInit!");
-            OnInit?.Invoke();
             Hooks.Init();
+            OnInit?.Invoke();
 
             QuickMenuObj = GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)").gameObject;
 

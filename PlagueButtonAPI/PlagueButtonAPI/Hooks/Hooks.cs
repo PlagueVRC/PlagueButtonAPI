@@ -58,7 +58,7 @@ namespace PlagueButtonAPI
 
         private static void VRCPlayer_AwakeM(VRCPlayer __instance)
         {
-            __instance?.Method_Public_add_Void_OnAvatarIsReady_0(new Action(() => OnAvatarInstantiated(__instance.prop_VRCAvatarManager_0, __instance.field_Private_ApiAvatar_0, __instance.field_Internal_GameObject_0)));
+            __instance?.Method_Public_add_Void_OnAvatarIsReady_0(new Action(() => OnAvatarInstantiated?.Invoke(__instance.prop_VRCAvatarManager_0, __instance.field_Private_ApiAvatar_0, __instance.field_Internal_GameObject_0)));
 
             MelonCoroutines.Start(RunMe());
 
