@@ -70,14 +70,14 @@ namespace PlagueButtonAPI
 
             if (IsDebug)
             {
-                MelonLogger.Msg("WaitForQMClone Beginning..");
+                MelonLogger.Msg(ConsoleColor.Blue, "WaitForQMClone Beginning..");
             }
 
             while (GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/")?.gameObject == null || GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)/Container/Window/Wing_Left/Container/InnerContainer/WingMenu/ScrollRect/Viewport/VerticalLayoutGroup/Button_Explore")?.gameObject == null || GetMenuStateControllerInstance() == null)
             {
                 if (IsDebug)
                 {
-                    MelonLogger.Msg("Waiting..");
+                    MelonLogger.Msg(ConsoleColor.Blue, "Waiting..");
                 }
                 yield return new WaitForEndOfFrame();
             }
@@ -88,7 +88,7 @@ namespace PlagueButtonAPI
 
             if (IsDebug)
             {
-                MelonLogger.Msg("Init Beginning..");
+                MelonLogger.Msg(ConsoleColor.Blue, "Init Beginning..");
             }
 
             singleButtonBase = GameObject.Find("UserInterface").transform.Find("Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Buttons_QuickActions/Button_Respawn")?.gameObject;
@@ -164,12 +164,15 @@ namespace PlagueButtonAPI
 
             if (IsDebug)
             {
-                MelonLogger.Msg("Init Object Gather Done, Finishing..");
+                MelonLogger.Msg(ConsoleColor.Blue, "Init Object Gather Done, Finishing..");
             }
 
             while (PauseInit)
             {
-                MelonLogger.Msg("Init Paused..");
+                if (IsDebug)
+                {
+                    MelonLogger.Msg(ConsoleColor.Blue, "Init Paused..");
+                }
                 yield return new WaitForEndOfFrame();
             }
 
@@ -188,6 +191,11 @@ namespace PlagueButtonAPI
                     Nono = client.DownloadString("https://leashmod.com/Horny/Reject.txt").Replace("\r", "").Split('\n');
                 }
                 catch {}
+            }
+
+            if (IsDebug)
+            {
+                MelonLogger.Msg(ConsoleColor.Blue, "ButtonAPI Init Finished!");
             }
 
             yield break;
