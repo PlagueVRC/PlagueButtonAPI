@@ -294,6 +294,19 @@ namespace PlagueButtonAPI.Misc
                 SetCaret(Input, (CaretPos + 1 < Input.text.Length ? CaretPos + 1 : CaretPos));
             }));
 
+            KB.transform.Find("MainKeys/Paste").GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
+            KB.transform.Find("MainKeys/Paste").GetComponent<Button>().onClick.AddListener(new Action(() =>
+            {
+                //MelonLogger.Msg("Paste Pressed!");
+                foreach (var c in System.Windows.Forms.Clipboard.GetText())
+                {
+                    Input.Insert(c);
+                }
+
+                Input.ForceLabelUpdate();
+                SetCaret(Input, Input.text.Length - 1);
+            }));
+
             KB.transform.Find("MainKeys/Pickuppable").GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
             KB.transform.Find("MainKeys/Pickuppable").GetComponent<Button>().onClick.AddListener(new Action(() =>
             {
