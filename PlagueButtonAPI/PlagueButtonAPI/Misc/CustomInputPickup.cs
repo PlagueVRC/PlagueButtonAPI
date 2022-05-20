@@ -66,7 +66,7 @@ namespace PlagueButtonAPI.Misc
                     OnEnterKeyPressed?.Invoke();
                 }
 
-                var ShouldLockControls = inputField.isFocused;
+                var ShouldLockControls = inputField.isPointerInside;
 
                 VRCInputManager.Method_Public_Static_Void_Boolean_0(ShouldLockControls);
                 qm.field_Private_Boolean_5 = ShouldLockControls;
