@@ -83,9 +83,9 @@ namespace PlagueButtonAPI.Misc
             }
         }
 
-        public static GameObject Spawn(Vector3 Location, Action<string> OnConfirm) => Spawn(Location, OnConfirm, new Quaternion(0f, 0f, 0f, 1f));
+        public static GameObject Spawn(Vector3 Location, Action<string> OnConfirm) => Spawn(Location, new Quaternion(0f, 0f, 0f, 1f), OnConfirm);
 
-        public static GameObject Spawn(Vector3 Location, Action<string> OnConfirm, Quaternion Rotation)
+        public static GameObject Spawn(Vector3 Location, Quaternion Rotation, Action<string> OnConfirm)
         {
             var KB = Object.Instantiate(KB_Template).transform.Find("KB").gameObject;
 
