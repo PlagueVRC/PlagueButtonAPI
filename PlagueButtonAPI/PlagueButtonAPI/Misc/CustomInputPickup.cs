@@ -32,7 +32,6 @@ namespace PlagueButtonAPI.Misc
             public FreezeControlsTMP(IntPtr instance) : base(instance) { }
 
             internal Action OnExit;
-            internal Action OnEnterKeyPressed;
 
             internal TMP_InputField inputField;
 
@@ -61,11 +60,6 @@ namespace PlagueButtonAPI.Misc
 
             void Update()
             {
-                if (Input.GetKeyDown(KeyCode.Return))
-                {
-                    OnEnterKeyPressed?.Invoke();
-                }
-
                 var ShouldLockControls = inputField.isPointerInside;
 
                 VRCInputManager.Method_Public_Static_Void_Boolean_0(ShouldLockControls);
@@ -187,7 +181,7 @@ namespace PlagueButtonAPI.Misc
             KB.transform.Find("MainKeys/FunctionKeys/0x1B").GetComponent<Button>().onClick.AddListener(new Action(() =>
             {
                 //MelonLogger.Msg("Cancel Pressed!");
-                Object.Destroy(KB.transform.parent);
+                Object.Destroy(KB.transform.parent.gameObject);
             }));
 
             KB.transform.Find("MainKeys/FunctionKeys/0x08").GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
@@ -213,7 +207,7 @@ namespace PlagueButtonAPI.Misc
             {
                 //MelonLogger.Msg("Enter / Confirm Pressed!");
                 OnConfirm?.Invoke(Input.text);
-                Object.Destroy(KB.transform.parent);
+                Object.Destroy(KB.transform.parent.gameObject);
             }));
 
             KB.transform.Find("MainKeys/FunctionKeys/ToggleCapsLock/0x14-down").GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
