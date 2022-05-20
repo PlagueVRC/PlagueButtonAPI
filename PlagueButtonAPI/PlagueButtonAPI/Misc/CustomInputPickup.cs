@@ -83,7 +83,7 @@ namespace PlagueButtonAPI.Misc
             }
         }
 
-        public static GameObject Spawn(Vector3 Location, Action<string> OnConfirm)
+        public static GameObject Spawn(Vector3 Location, Action<string> OnConfirm, Quaternion Rotation = new Quaternion(0f, 0f, 0f, 1f))
         {
             var KB = Object.Instantiate(KB_Template).transform.Find("KB").gameObject;
 
@@ -325,6 +325,7 @@ namespace PlagueButtonAPI.Misc
             }));
 
             KB.transform.parent.position = Location;
+            KB.transform.parent.localRotation = Rotation;
             KB.transform.parent.localScale = new Vector3(Config.InternalConfig.Scale, Config.InternalConfig.Scale, Config.InternalConfig.Scale);
 
             if (!Config.InternalConfig.Pickup)
