@@ -36,13 +36,13 @@ namespace PlagueButtonAPI.External_Libraries
 
             var timer = new System.Timers.Timer(1000);
 
-            var ConfigCache = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(InternalConfig));
+            var ConfigCache = JsonConvert.SerializeObject(InternalConfig);
 
             timer.Elapsed += (sender, args) =>
             {
-                if (!InternalConfig.DoesInstanceMatch(ConfigCache))
+                if (JsonConvert.SerializeObject(InternalConfig) != ConfigCache)
                 {
-                    ConfigCache = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(InternalConfig));
+                    ConfigCache = JsonConvert.SerializeObject(InternalConfig);
 
                     SaveConfig();
 
