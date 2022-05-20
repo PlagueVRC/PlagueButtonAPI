@@ -122,6 +122,14 @@
       <HintPath>..\..\References\PlagueButtonAPI\UnityEngine.UIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.VRModule">
+      <HintPath>..\..\References\PlagueButtonAPI\UnityEngine.VRModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.XRModule">
+      <HintPath>..\..\References\PlagueButtonAPI\UnityEngine.XRModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="VRC.UI.Core">
       <HintPath>..\..\References\PlagueButtonAPI\VRC.UI.Core.dll</HintPath>
       <Private>False</Private>
@@ -166,6 +174,7 @@
     <Compile Include="Controls\Grouping\ButtonGroup.cs" />
     <Compile Include="Main\TransformHelper.cs" />
     <Compile Include="Misc\ComponentManager.cs" />
+    <Compile Include="Misc\CustomInputPickup.cs" />
     <Compile Include="Misc\Extensions.cs" />
     <Compile Include="External Libraries\VRCUtils\VRCUtils.cs" />
     <Compile Include="Misc\MelonLoaderEvents.cs" />
@@ -181,5 +190,8 @@
     <Compile Include="Controls\Buttons\Toggles\ToggleButton.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\keyboard.asset" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

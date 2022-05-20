@@ -179,6 +179,7 @@ namespace PlagueButtonAPI
 
             MelonLogger.Msg(ConsoleColor.Green, "ButtonAPI OnInit!");
             Hooks.Init();
+            CustomInputPickup.Init();
             OnInit?.Invoke();
 
             QuickMenuObj = GameObject.Find("UserInterface")?.transform?.Find("Canvas_QuickMenu(Clone)").gameObject;

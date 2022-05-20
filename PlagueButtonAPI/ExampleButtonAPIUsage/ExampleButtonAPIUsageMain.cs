@@ -130,7 +130,15 @@ namespace ExampleButtonAPIUsage
 
                     var Dropdown = Page.AddCollapsibleButtonGroup("Dropdown");
 
-                    Dropdown.AddSingleButton("Button", "Button", () => { MelonLogger.Msg("Button Clicked!"); }, false, ButtonImage);
+                    Dropdown.AddSingleButton("KB", "KB", () =>
+                    {
+                        var KB = CustomInputPickup.Spawn(new Vector3(0f, 0f, 0f), s =>
+                        {
+                            MelonLogger.Warning($"Text Confirmed: {s}");
+                        });
+
+                        VRCPlayer.field_Internal_Static_VRCPlayer_0.transform.position = KB.transform.position;
+                    }, false, ButtonImage);
 
                     Dropdown.AddLabel("Label", "Label", () => { MelonLogger.Msg("Label Clicked!"); });
 
