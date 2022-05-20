@@ -21,7 +21,7 @@ namespace PlagueButtonAPI.Misc
                 return null;
             }
 
-            return GetPlayerFromIDInLobby(GameObject.Find("UserInterface").gameObject.GetComponentInChildren<SelectedUserMenuQM>().field_Private_IUser_0.prop_String_0);
+            return GetPlayerFromIDInLobby(GameObject.Find("UserInterface")?.gameObject?.GetComponentInChildren<SelectedUserMenuQM>()?.field_Private_IUser_0?.prop_String_0);
         }
 
         public static Player GetPlayerFromIDInLobby(string id)
@@ -30,7 +30,7 @@ namespace PlagueButtonAPI.Misc
 
             foreach (var player in all_player)
             {
-                if (player != null && player.prop_APIUser_0 != null)
+                if (player?.prop_APIUser_0 != null)
                 {
                     if (player.prop_APIUser_0.id == id)
                     {
@@ -44,7 +44,7 @@ namespace PlagueButtonAPI.Misc
 
         public static List<Player> GetAllPlayers()
         {
-            return PlayerManager.field_Private_Static_PlayerManager_0 == null ? null : PlayerManager.field_Private_Static_PlayerManager_0.field_Private_List_1_Player_0.ToArray().ToList();
+            return PlayerManager.field_Private_Static_PlayerManager_0 == null ? null : PlayerManager.field_Private_Static_PlayerManager_0.field_Private_List_1_Player_0?.ToArray()?.ToList();
         }
 
         public static Sprite CreateSpriteFromTex(Texture2D tex)
