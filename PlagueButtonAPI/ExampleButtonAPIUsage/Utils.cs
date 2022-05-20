@@ -9,48 +9,6 @@ namespace ExampleButtonAPIUsage
 {
     internal class Utils
     {
-        internal static Player GetCurrentlySelectedPlayer()
-        {
-            if (GameObject.Find("UserInterface").GetComponentInChildren<SelectedUserMenuQM>() == null)
-            {
-                return null;
-            }
-
-            return GetPlayerFromIDInLobby(GameObject.Find("UserInterface").gameObject.GetComponentInChildren<SelectedUserMenuQM>().field_Private_IUser_0.prop_String_0);
-        }
-
-        internal static Player GetPlayerFromIDInLobby(string id)
-        {
-            List<Player> all_player = GetAllPlayers();
-
-            foreach (var player in all_player)
-            {
-                if (player != null && player.prop_APIUser_0 != null)
-                {
-                    if (player.prop_APIUser_0.id == id)
-                    {
-                        return player;
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        internal static List<Player> GetAllPlayers()
-        {
-            return PlayerManager.field_Private_Static_PlayerManager_0 == null ? null : PlayerManager.field_Private_Static_PlayerManager_0.field_Private_List_1_Player_0.ToArray().ToList();
-        }
-
-        internal static Sprite CreateSpriteFromTex(Texture2D tex)
-        {
-            Sprite sprite = Sprite.CreateSprite(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f, 0, 0, new Vector4(), false);
-
-            sprite.hideFlags |= HideFlags.DontUnloadUnusedAsset;
-
-            return sprite;
-        }
-
         private static GameObject AvatarPicTaker;
         internal static Texture2D TakePictureOfPlayer(VRCPlayer player)
         {

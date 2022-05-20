@@ -50,7 +50,7 @@ namespace ExampleButtonAPIUsage
         {
             var tex = Utils.TakePictureOfPlayer(arg1.field_Private_VRCPlayer_0);
 
-            var sprite = Utils.CreateSpriteFromTex(tex);
+            var sprite = PlagueButtonAPI.Misc.Utils.CreateSpriteFromTex(tex);
 
             UserImages[arg1.field_Private_VRCPlayer_0.gameObject.GetOrAddComponent<Player>().field_Private_APIUser_0.id] = sprite;
 
@@ -84,7 +84,7 @@ namespace ExampleButtonAPIUsage
                         {
                             PlayersGroup.gameObject.transform.DestroyChildren();
 
-                            foreach (var player in Utils.GetAllPlayers())
+                            foreach (var player in PlagueButtonAPI.Misc.Utils.GetAllPlayers())
                             {
                                 var image = UserImages.ContainsKey(player.field_Private_APIUser_0.id) ? UserImages[player.field_Private_APIUser_0.id] : null;
 
@@ -149,7 +149,7 @@ namespace ExampleButtonAPIUsage
 
                     UserGroup.AddSingleButton("", "", () =>
                     {
-                        var SelectedPlayer = Utils.GetCurrentlySelectedPlayer();
+                        var SelectedPlayer = PlagueButtonAPI.Misc.Utils.GetCurrentlySelectedPlayer();
 
                         MelonLogger.Msg("Button Clicked! - Selected Player: " + (SelectedPlayer != null ? SelectedPlayer.field_Private_APIUser_0.displayName : "<Null>"));
                     });
