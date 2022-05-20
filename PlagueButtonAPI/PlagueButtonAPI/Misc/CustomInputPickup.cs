@@ -187,7 +187,7 @@ namespace PlagueButtonAPI.Misc
             KB.transform.Find("MainKeys/FunctionKeys/0x1B").GetComponent<Button>().onClick.AddListener(new Action(() =>
             {
                 //MelonLogger.Msg("Cancel Pressed!");
-                Object.Destroy(KB);
+                Object.Destroy(KB.transform.parent);
             }));
 
             KB.transform.Find("MainKeys/FunctionKeys/0x08").GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
@@ -213,7 +213,7 @@ namespace PlagueButtonAPI.Misc
             {
                 //MelonLogger.Msg("Enter / Confirm Pressed!");
                 OnConfirm?.Invoke(Input.text);
-                Object.Destroy(KB);
+                Object.Destroy(KB.transform.parent);
             }));
 
             KB.transform.Find("MainKeys/FunctionKeys/ToggleCapsLock/0x14-down").GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
