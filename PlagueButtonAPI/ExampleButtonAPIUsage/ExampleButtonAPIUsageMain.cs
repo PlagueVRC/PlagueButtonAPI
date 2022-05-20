@@ -132,12 +132,12 @@ namespace ExampleButtonAPIUsage
 
                     Dropdown.AddSingleButton("KB", "KB", () =>
                     {
-                        var KB = CustomInputPickup.Spawn(new Vector3(0f, 0f, 0f), s =>
+                        var Pos = ButtonAPI.GetEyeCamera().transform.position + ButtonAPI.GetEyeCamera().transform.forward * 1f;
+
+                        CustomInputPickup.Spawn(Pos, ButtonAPI.GetEyeCamera().transform.LookAtThisWithoutRef(Pos), s =>
                         {
                             MelonLogger.Warning($"Text Confirmed: {s}");
                         });
-
-                        VRCPlayer.field_Internal_Static_VRCPlayer_0.transform.position = KB.transform.position;
                     }, false, ButtonImage);
 
                     Dropdown.AddLabel("Label", "Label", () => { MelonLogger.Msg("Label Clicked!"); });

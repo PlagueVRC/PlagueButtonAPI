@@ -53,6 +53,11 @@ namespace PlagueButtonAPI
             return Resources.FindObjectsOfTypeAll<VRC.UI.Elements.QuickMenu>().FirstOrDefault()?.gameObject.GetOrAddComponent<MenuStateController>();
         }
 
+        public static GameObject GetEyeCamera()
+        {
+            return GameObject.Find("Camera (eye)");
+        }
+
         public override void OnUiManagerInit()
         {
             MelonCoroutines.Start(WaitForQMClone());

@@ -495,6 +495,26 @@ namespace PlagueButtonAPI.Misc
             return sprite;
         }
 
+        public static Quaternion LookAtThisWithoutRef(this Transform transform, Vector3 FromThisPosition)
+        {
+            var obj = new GameObject("TempObj");
+            obj.transform.position = FromThisPosition;
+
+            obj.transform.LookAt(transform);
+
+            var rot = obj.transform.localRotation;
+
+            Object.Destroy(obj);
+
+            return rot;
+        }
+
+        public static Quaternion FlipX(this Quaternion rot) => new Quaternion(-rot.x, rot.y, rot.z, rot.w);
+        public static Quaternion FlipY(this Quaternion rot) => new Quaternion(rot.x, -rot.y, rot.z, rot.w);
+        public static Quaternion FlipZ(this Quaternion rot) => new Quaternion(rot.x, rot.y, -rot.z, rot.w);
+
+        public static Quaternion Combine(this Quaternion rot1, Quaternion rot2) => new Quaternion(rot1.x + rot2.x, rot1.y + rot2.y, rot1.z + rot2.z, rot1.w + rot2.w);
+
         public static Transform[] GetChildren(this Transform transform)
         {
             var Children = new List<Transform>();
