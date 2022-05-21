@@ -71,7 +71,7 @@ namespace ExampleButtonAPIUsage
 
                     FunctionalGroup.AddToggleButton("Disable Portals", "Disables Portals Entirely", "Re-Enables Portals", val => { DisablePortals = val; }).SetToggleState(false, true);
 
-                   var NonFunctionalGroup = Page.AddCollapsibleButtonGroup("Non-Functional Options");
+                    var NonFunctionalGroup = Page.AddCollapsibleButtonGroup("Non-Functional Options");
 
                     var PlayerListMenu = NonFunctionalGroup.AddSubMenu(ButtonImage, "PlayersList_1", "Player List");
 
@@ -147,7 +147,7 @@ namespace ExampleButtonAPIUsage
                     // Constructor Is Needed For Raw Transforms For Now
                     var UserGroup = new CollapsibleButtonGroup(TransformHelper.SelectedUser_Local, "Example User Options");
 
-                    UserGroup.AddSingleButton("", "", () =>
+                    UserGroup.AddSingleButton("Button", "Button", () =>
                     {
                         var SelectedPlayer = PlagueButtonAPI.Misc.Utils.GetCurrentlySelectedPlayer();
 
