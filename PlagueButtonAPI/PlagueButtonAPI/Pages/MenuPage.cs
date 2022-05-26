@@ -128,7 +128,7 @@ namespace PlagueButtonAPI.Pages
                 {
                     if (isRoot)
                     {
-                        ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_Boolean_0("QuickMenuDashboard");
+                        ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_UIContext_Boolean_Boolean_0("QuickMenuDashboard");
                     }
                     else
                     {
@@ -412,7 +412,7 @@ namespace PlagueButtonAPI.Pages
 
         public void OpenMenu()
         {
-            ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_UIContext_Boolean_0(page.field_Public_String_0);
+            ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_UIContext_Boolean_Boolean_0(page.field_Public_String_0);
         }
 
         public void CloseMenu()
