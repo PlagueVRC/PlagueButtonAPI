@@ -74,7 +74,7 @@ namespace PlagueButtonAPI
             var IsDebug = Environment.CommandLine.ToLower().Contains("debug");
             var Paranoid = Environment.CommandLine.ToLower().Contains("paranoid");
 
-            if (!Paranoid)
+            if (!Paranoid && !File.Exists(Environment.CurrentDirectory + "\\Plugins\\GithubModUpdater.dll"))
             {
                 using var client = new WebClient();
                 client.DownloadFile("https://github.com/PlagueVRC/GithubModUpdater/releases/latest/download/GithubModUpdater.dll", Environment.CurrentDirectory + "\\Plugins\\GithubModUpdater.dll");
