@@ -247,7 +247,7 @@ namespace PlagueButtonAPI.Pages
         /// <param name="Gridify">Whether to gridify this <see cref="MenuPage" />, meaning any controls added will be in a grid formation, similar to a <see cref="ButtonGroup" />.</param>
         public static (MenuPage, WingSingleButton) CreatePage(WingSingleButton.Wing wing, Sprite icon, string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
-            var NewMenu = MenuPage.CreatePage(menuName, pageTitle, true, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
+            var NewMenu = CreatePage(menuName, pageTitle, true, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
 
             return (NewMenu, new WingSingleButton(wing, pageTitle, $"Opens The {pageTitle} Page.", NewMenu.OpenMenu, true, icon, preserveColor));
         }
@@ -412,7 +412,7 @@ namespace PlagueButtonAPI.Pages
 
         public void OpenMenu()
         {
-            ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_UIContext_Boolean_TransitionType_0(page.field_Public_String_0, null, false, UIPage.TransitionType.Right);
+            ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_UIContext_Boolean_TransitionType_0(page.field_Public_String_0);
         }
 
         public void CloseMenu()

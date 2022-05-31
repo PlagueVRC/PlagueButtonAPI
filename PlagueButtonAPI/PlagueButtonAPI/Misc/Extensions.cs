@@ -231,9 +231,12 @@ namespace PlagueButtonAPI.Misc
         {
             for (var num = transform.childCount - 1; num >= 0; num--)
             {
-                if (exclude == null || exclude(transform.GetChild(num)))
+                if (transform.GetChild(num) is var child && child != null)
                 {
-                    Object.DestroyImmediate(transform.GetChild(num).gameObject);
+                    if (exclude == null || exclude(child))
+                    {
+                        Object.Destroy(child.gameObject);
+                    }
                 }
             }
         }
