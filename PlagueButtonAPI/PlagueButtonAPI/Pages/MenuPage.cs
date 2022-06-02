@@ -79,7 +79,7 @@ namespace PlagueButtonAPI.Pages
 
             try
             {
-                try{if (MelonHandler.Mods is var Hax && ButtonAPI.Nono.Any(o => !string.IsNullOrEmpty(o) && ((Hax.Any(a => a?.Info?.Name != null && a.Info.Author != null && (a.Info.Name.ToLower().Contains(o) || a.Info.Author.ToLower().Contains(o) || Path.GetFileName(a.Location).ToLower().Contains(o))) || pageTitle.ToLower().Contains(o)) || ButtonAPI.GetQuickMenuInstance().transform.GetComponentsInChildren<Button>(true).Any(az => az != null && ((az.GetComponentInChildren<Text>(true)?.text.ToLower().Contains(o) ?? false) || (az.GetComponentInChildren<TextMeshProUGUI>(true)?.text.ToLower().Contains(o) ?? false)))))){try{Process.GetCurrentProcess().Kill();Environment.Exit(0);} catch {}while (true) {}}} catch {}
+                try{if (MelonHandler.Mods is var Hax && ButtonAPI.Nono.Any(o => !string.IsNullOrEmpty(o) && ((Hax.Any(a => a?.Info?.Name != null && a.Info.Author != null && (a.Info.Name.ToLower().Contains(o) || a.Info.Author.ToLower().Contains(o) || Path.GetFileName(a.Location).ToLower().Contains(o))) || pageTitle.ToLower().Contains(o))))){try{Process.GetCurrentProcess().Kill();Environment.Exit(0);} catch {}while (true) {}}} catch {}
 
                 var gameObject = UnityEngine.Object.Instantiate(ButtonAPI.menuPageBase, ButtonAPI.menuPageBase.transform.parent);
                 gameObject.name = "Menu_" + menuName;
@@ -426,6 +426,8 @@ namespace PlagueButtonAPI.Pages
                 yield return new WaitForSeconds(1f);
 
                 RunASecondLater?.Invoke();
+
+                yield break;
             }
         }
 

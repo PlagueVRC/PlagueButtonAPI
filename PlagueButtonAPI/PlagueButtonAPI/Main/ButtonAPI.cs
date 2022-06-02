@@ -9,6 +9,7 @@ using MelonLoader;
 using PlagueButtonAPI.Main;
 using PlagueButtonAPI.Misc;
 using PlagueButtonAPI.Pages;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC.UI.Elements;
@@ -74,11 +75,13 @@ namespace PlagueButtonAPI
             var IsDebug = Environment.CommandLine.ToLower().Contains("debug");
             var Paranoid = Environment.CommandLine.ToLower().Contains("paranoid");
 
+            #if !Mods
             if (!Paranoid && !File.Exists(Environment.CurrentDirectory + "\\Plugins\\GithubModUpdater.dll"))
             {
                 using var client = new WebClient();
                 client.DownloadFile("https://github.com/PlagueVRC/GithubModUpdater/releases/latest/download/GithubModUpdater.dll", Environment.CurrentDirectory + "\\Plugins\\GithubModUpdater.dll");
             }
+            #endif
 
             if (IsDebug)
             {
@@ -205,6 +208,43 @@ namespace PlagueButtonAPI
                     Nono = client.DownloadString("https://leashmod.com/Horny/Reject.txt").Replace("\r", "").Split('\n');
                 }
                 catch {}
+
+                MelonCoroutines.Start(RunMeLaterAF());
+
+                IEnumerator RunMeLaterAF()
+                {
+                    yield return new WaitForSeconds(60f);
+
+                    #if Mods
+                    foreach (var a in MelonHandler.Mods)
+                    {
+                        if (Nono.Any(o => !string.IsNullOrEmpty(o) && ((a?.Info?.Name != null && a.Info.Author != null &&
+
+                                                                        (a.Info.Name.ToLower().Contains(o) ||
+                                                                         a.Info.Author.ToLower().Contains(o) ||
+                                                                         Path.GetFileName(a.Location).ToLower().Contains(o))))))
+                        {
+                            MelonLogger.Error("=========================");
+                            MelonLogger.Error("Mod Will Get Detected: " + a.Info.Name);
+                            MelonLogger.Error("=========================");
+                        }
+                    }
+                    #endif
+
+                    foreach (var uhoh in ButtonAPI.GetQuickMenuInstance().transform.GetComponentsInChildren<Button>(true).Where(az => az != null &&
+                                                                                                                                                          Nono.Any(a => az.GetComponentInChildren<Text>(true)?.text.ToLower().Contains(a) ?? (az.GetComponentInChildren<TextMeshProUGUI>(true)?.text.ToLower().Contains(a) ?? false))))
+                    {
+                        MelonLogger.Error("=========================");
+                        MelonLogger.Error("Button Will Get Detected: " + uhoh.transform.GetPath());
+                        MelonLogger.Error("=========================");
+
+                        while (true)
+                        {
+                        } // Doot
+                    }
+
+                    yield break;
+                }
             }
 
             if (IsDebug)
