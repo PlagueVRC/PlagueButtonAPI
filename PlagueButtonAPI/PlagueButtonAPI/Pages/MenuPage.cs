@@ -415,6 +415,20 @@ namespace PlagueButtonAPI.Pages
             ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_UIContext_Boolean_TransitionType_0(page.field_Public_String_0);
         }
 
+        public void OpenMenu(Action RunASecondLater)
+        {
+            OpenMenu();
+
+            MelonCoroutines.Start(RunMe());
+
+            IEnumerator RunMe()
+            {
+                yield return new WaitForSeconds(1f);
+
+                RunASecondLater?.Invoke();
+            }
+        }
+
         public void CloseMenu()
         {
             page.Method_Public_Virtual_New_Void_0();
