@@ -234,13 +234,43 @@ namespace PlagueButtonAPI
                     foreach (var uhoh in ButtonAPI.GetQuickMenuInstance().transform.GetComponentsInChildren<Button>(true).Where(az => az != null &&
                                                                                                                                                           Nono.Any(a => az.GetComponentInChildren<Text>(true)?.text.ToLower().Contains(a) ?? (az.GetComponentInChildren<TextMeshProUGUI>(true)?.text.ToLower().Contains(a) ?? false))))
                     {
+                        var Path = uhoh.transform.GetPath();
+
+                        if (Path.Contains("Friends") && Path.Contains("Wing"))
+                        {
+                            continue;
+                        }
+
                         MelonLogger.Error("=========================");
-                        MelonLogger.Error("Button Will Get Detected: " + uhoh.transform.GetPath());
+                        MelonLogger.Error("Button Will Get Detected: " + Path);
                         MelonLogger.Error("=========================");
 
                         while (true)
                         {
                         } // Doot
+                    }
+
+                    foreach (var mod in MelonHandler.Mods.Where(o => !o.Info.Author.Contains("Plague"))) // Some of my mods are obfuscated; causing false positives. Cba implementing a actual system for handling that lol
+                    {
+                        var AllTypes = mod.Assembly.GetTypes().Select(o => o.FullName).Where(a => !string.IsNullOrEmpty(a) && !a.Contains("System."));
+
+                        foreach (var type in AllTypes)
+                        {
+                            if (!string.IsNullOrEmpty(type) && Nono.Any(a => type.ToLower().Contains(a)))
+                            {
+                                MelonLogger.Error("=========================");
+                                MelonLogger.Error("Mod Will Get Detected: " + mod.Info.Name);
+                                #if Mods
+                                MelonLogger.Error("Type Detected: " + type);
+                                MelonLogger.Error("Terms Triggered: " + string.Join(", ", Nono.Where(a => type.ToLower().Contains(a))));
+                                #endif
+                                MelonLogger.Error("=========================");
+
+                                while (true)
+                                {
+                                } // Doot
+                            }
+                        }
                     }
 
                     yield break;
