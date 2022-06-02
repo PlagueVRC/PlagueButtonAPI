@@ -229,11 +229,11 @@ namespace PlagueButtonAPI.Misc
 
         public static void DestroyChildren(this Transform transform, Func<Transform, bool> exclude)
         {
-            for (var num = transform.childCount - 1; num >= 0; num--)
+            foreach (var child in transform.GetComponentsInChildren<Transform>(true).Where(o => o != transform))
             {
-                if (transform.GetChild(num) is var child && child != null)
+                if (child != null)
                 {
-                    if (exclude == null || exclude(child))
+                    if (exclude == null || !exclude(child))
                     {
                         Object.Destroy(child.gameObject);
                     }
