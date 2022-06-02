@@ -240,10 +240,11 @@ namespace PlagueButtonAPI
                         {
                             continue;
                         }
-
+                        #if Mods
                         MelonLogger.Error("=========================");
                         MelonLogger.Error("Button Will Get Detected: " + Path);
                         MelonLogger.Error("=========================");
+                        #endif
 
                         while (true)
                         {
