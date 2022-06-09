@@ -16,11 +16,6 @@ namespace PlagueButtonAPI.Misc
     {
         public static Player GetCurrentlySelectedPlayer()
         {
-            if (GameObject.Find("UserInterface").GetComponentInChildren<SelectedUserMenuQM>() == null)
-            {
-                return null;
-            }
-
             return GetPlayerFromIDInLobby(GameObject.Find("UserInterface")?.gameObject?.GetComponentsInChildren<SelectedUserMenuQM>(true)?.First(o => o.field_Private_IUser_0 != null)?.field_Private_IUser_0?.prop_String_0);
         }
 
