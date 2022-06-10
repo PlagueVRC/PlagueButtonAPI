@@ -432,7 +432,7 @@ namespace PlagueButtonAPI.Pages
             ButtonAPI.GetMenuStateControllerInstance().Method_Public_Void_String_UIContext_Boolean_TransitionType_0(page.field_Public_String_0);
         }
 
-        public void OpenMenu(Action RunASecondLater)
+        public void OpenMenu(Action RunAfter)
         {
             OpenMenu();
 
@@ -440,9 +440,9 @@ namespace PlagueButtonAPI.Pages
 
             IEnumerator RunMe()
             {
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.5f);
 
-                RunASecondLater?.Invoke();
+                RunAfter?.Invoke();
 
                 yield break;
             }
