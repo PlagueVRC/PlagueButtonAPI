@@ -19,6 +19,7 @@ namespace PlagueButtonAPI.Misc
                 Page = MenuPage.CreatePage("TempPopupPage", Title, false, false, Gridify: true)
             };
 
+            // This should only run once the object has been enabled in the first place; since we added this AFTER it was disabled above, it should not run on init.
             instance.Page.page.gameObject.AddComponent<ObjectHandler>().OnDisabled += _ =>
             {
                 Object.Destroy(instance.Page.page.gameObject);
