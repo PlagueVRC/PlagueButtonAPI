@@ -9,6 +9,7 @@ using MelonLoader;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace PlagueButtonAPI.Controls
 {
@@ -31,6 +32,12 @@ namespace PlagueButtonAPI.Controls
             {
                 button.onClick.AddListener(click);
             }
+
+            //Why
+            var PlaceboComp = gameObject?.GetComponentsInChildren<VRC.UI.Elements.Tooltips.UiTooltip>(true).FirstOrDefault(o => string.IsNullOrEmpty(o.field_Public_String_0) && string.IsNullOrEmpty(o.field_Public_String_1));
+
+            if (PlaceboComp != null)
+                Object.Destroy(PlaceboComp);
 
             if (!string.IsNullOrEmpty(tooltip))
             {

@@ -17,6 +17,9 @@ namespace PlagueButtonAPI
     {
         #region Hooks (I Like To Call Actions/Events Hooks, Nu Booli.)
 
+        public static List<Player> PlayerList = new();
+        public static List<Player> PlayerList_ExcludingSelf = new();
+
         public static event Action<Player> OnPlayerJoin;
         public static event Action<Player> OnPlayerLeave;
 
@@ -69,13 +72,30 @@ namespace PlagueButtonAPI
                     yield return new WaitForEndOfFrame();
                 }
 
-                OnPlayerJoin?.Invoke(__instance.gameObject.GetComponent<Player>());
+                var player = __instance.gameObject.GetComponent<Player>();
+
+                OnPlayerJoin?.Invoke(player);
+                PlayerList.Add(player);
+
+                if (player != Player.prop_Player_0)
+                {
+                    PlayerList_ExcludingSelf.Add(player);
+                }
 
                 yield break;
             }
         }
 
-        private static void Player_OnDestroyM(Player __instance) => OnPlayerLeave?.Invoke(__instance);
+        private static void Player_OnDestroyM(Player __instance)
+        {
+            OnPlayerLeave?.Invoke(__instance);
+            PlayerList.Remove(__instance);
+
+            if (__instance != Player.prop_Player_0)
+            {
+                PlayerList_ExcludingSelf.Remove(__instance);
+            }
+        }
 
         private static void Room_JoinM() => OnRoomJoin?.Invoke();
         private static void Room_CreatedM() => OnRoomCreated?.Invoke();
