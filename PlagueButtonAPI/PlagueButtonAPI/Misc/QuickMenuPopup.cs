@@ -24,6 +24,8 @@ namespace PlagueButtonAPI.Misc
             {
                 Object.Destroy(instance.Page.page.gameObject);
             };
+
+            return instance;
         }
 
         public void Show()
