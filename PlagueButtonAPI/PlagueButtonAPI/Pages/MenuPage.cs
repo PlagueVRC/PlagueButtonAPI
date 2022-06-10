@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -96,11 +97,26 @@ namespace PlagueButtonAPI.Pages
                 page.field_Private_List_1_UIPage_0 = new Il2CppSystem.Collections.Generic.List<UIPage>();
                 page.field_Private_List_1_UIPage_0.Add(page);
                 region++;
+                var ToClean1 = new List<string>();
+                foreach (var item in ButtonAPI.GetMenuStateControllerInstance().field_Private_Dictionary_2_String_UIPage_0)
+                {
+                    if (item.Value == null)
+                    {
+                        ToClean1.Add(item.Key);
+                    }
+                }
+
+                foreach (var cleanme in ToClean1)
+                {
+                    ButtonAPI.GetMenuStateControllerInstance().field_Private_Dictionary_2_String_UIPage_0.Remove(cleanme);
+                }
                 ButtonAPI.GetMenuStateControllerInstance().field_Private_Dictionary_2_String_UIPage_0.Add(menuName, page);
                 region++;
                 this.menuName = menuName;
                 if (root)
                 {
+                    ButtonAPI.GetMenuStateControllerInstance().field_Public_ArrayOf_UIPage_0 = ButtonAPI.GetMenuStateControllerInstance().field_Public_ArrayOf_UIPage_0.Where(o => o != null).ToArray();
+
                     var list = ButtonAPI.GetMenuStateControllerInstance().field_Public_ArrayOf_UIPage_0.ToList();
                     list.Add(page);
                     ButtonAPI.GetMenuStateControllerInstance().field_Public_ArrayOf_UIPage_0 = list.ToArray();
@@ -209,6 +225,7 @@ namespace PlagueButtonAPI.Pages
                     glp.padding.left = 64;
                 }
 
+                ButtonAPI.AllCreatedPages = ButtonAPI.AllCreatedPages.Where(o => o != null).ToList();
                 ButtonAPI.AllCreatedPages.Add(this);
             }
             catch (Exception ex)
