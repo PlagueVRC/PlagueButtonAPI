@@ -16,7 +16,7 @@ namespace PlagueButtonAPI.Misc
 {
     public class Utils
     {
-        public static void LoopThisCodeForever(Action action)
+        public static void LoopThisCodeForever(Action action, Func<bool> CancelToken = null)
         {
             MelonCoroutines.Start(RunMe());
 
@@ -24,10 +24,17 @@ namespace PlagueButtonAPI.Misc
             {
                 while (true)
                 {
+                    if (CancelToken != null && CancelToken.Invoke())
+                    {
+                        break;
+                    }
+
                     action?.Invoke();
 
                     yield return new WaitForEndOfFrame();
                 }
+
+                yield break;
             }
         }
 
