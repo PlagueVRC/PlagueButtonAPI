@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using MelonLoader;
 using PlagueButtonAPI.Main;
 using UnhollowerRuntimeLib.XrefScans;
 using UnityEngine;
@@ -14,6 +16,21 @@ namespace PlagueButtonAPI.Misc
 {
     public class Utils
     {
+        public static void LoopThisCodeForever(Action action)
+        {
+            MelonCoroutines.Start(RunMe());
+
+            IEnumerator RunMe()
+            {
+                while (true)
+                {
+                    action?.Invoke();
+
+                    yield return new WaitForEndOfFrame();
+                }
+            }
+        }
+
         public static Player GetCurrentlySelectedPlayer()
         {
             return GetPlayerFromIDInLobby(GameObject.Find("UserInterface")?.gameObject?.GetComponentsInChildren<SelectedUserMenuQM>(true)?.First(o => o.field_Private_IUser_0 != null)?.field_Private_IUser_0?.prop_String_0);

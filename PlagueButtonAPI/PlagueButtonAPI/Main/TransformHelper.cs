@@ -50,7 +50,7 @@ namespace PlagueButtonAPI.Main
             }
         }
 
-        internal static Transform QuickMenu = null;
+        public static Transform QuickMenu = null;
         public static Transform MainLaunchpadDashboard = null;
         public static Transform SelectedUser_Local = null;
         public static Transform SelectedUser_Remote = null;
