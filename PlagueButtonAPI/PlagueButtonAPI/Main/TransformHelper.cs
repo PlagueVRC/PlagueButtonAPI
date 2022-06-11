@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MelonLoader;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PlagueButtonAPI.Main
 {
@@ -37,6 +38,11 @@ namespace PlagueButtonAPI.Main
                 Index++;
 
                 CameraPage = QuickMenu.Find("Container/Window/QMParent/Menu_Camera/Scrollrect/Viewport/VerticalLayoutGroup");
+
+                Index++;
+
+                QuickMenu.Find("Container/Window/QMParent/Menu_SelectedUser_Remote/ScrollRect").GetComponent<ScrollRect>().enabled = true;
+                QuickMenu.Find("Container/Window/QMParent/Menu_SelectedUser_Remote/ScrollRect/Scrollbar").gameObject.SetActive(true);
             }
             catch (Exception ex)
             {
