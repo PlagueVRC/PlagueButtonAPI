@@ -16,7 +16,7 @@ namespace PlagueButtonAPI.Controls.Base_Classes
 
         public UnityEngine.UI.Button button => gameObject?.GetComponentInChildren<UnityEngine.UI.Button>(true);
 
-        public VRC.UI.Elements.Tooltips.UiTooltip tooltip => gameObject?.GetComponentInChildren<VRC.UI.Elements.Tooltips.UiTooltip>(true);
+        public VRC.UI.Elements.Tooltips.UiTooltip tooltip => gameObject?.GetComponentsInChildren<VRC.UI.Elements.Tooltips.UiTooltip>(true).FirstOrDefault(o => !string.IsNullOrEmpty(o.field_Public_String_0) || !string.IsNullOrEmpty(o.field_Public_String_1));
 
         public void SetAction(Action newAction)
         {

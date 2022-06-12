@@ -42,11 +42,6 @@ namespace PlagueButtonAPI.Controls
                 button.onClick.AddListener(click);
             }
 
-            var PlaceboComp = gameObject?.GetComponentsInChildren<VRC.UI.Elements.Tooltips.UiTooltip>(true).FirstOrDefault(o => string.IsNullOrEmpty(o.field_Public_String_0) && string.IsNullOrEmpty(o.field_Public_String_1));
-
-            if (PlaceboComp != null)
-                Object.Destroy(PlaceboComp);
-
             if (!string.IsNullOrEmpty(tooltip))
             {
                 this.tooltip.field_Public_String_0 = tooltip;
