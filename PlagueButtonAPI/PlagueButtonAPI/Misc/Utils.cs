@@ -43,6 +43,11 @@ namespace PlagueButtonAPI.Misc
             return GetPlayerFromIDInLobby(GameObject.Find("UserInterface")?.gameObject?.GetComponentsInChildren<SelectedUserMenuQM>(true)?.First(o => o.field_Private_IUser_0 != null)?.field_Private_IUser_0?.prop_String_0);
         }
 
+        public static string GetCurrentlySelectedPlayerID_LocalAndRemote()
+        {
+            return GameObject.Find("UserInterface")?.gameObject?.GetComponentsInChildren<SelectedUserMenuQM>(true)?.First(o => o.field_Private_IUser_0 != null)?.field_Private_IUser_0?.prop_String_0;
+        }
+
         public static Player GetPlayerFromIDInLobby(string id)
         {
             List<Player> all_player = GetAllPlayers();
