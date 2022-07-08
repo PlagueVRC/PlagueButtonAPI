@@ -236,7 +236,7 @@ namespace PlagueButtonAPI
                     {
                         var Path = uhoh.transform.GetPath();
 
-                        if (Path.Contains("Friends") && Path.Contains("Wing"))
+                        if ((Path.Contains("Friends") && Path.Contains("Wing")) || Path.Contains("Instance"))
                         {
                             continue;
                         }
