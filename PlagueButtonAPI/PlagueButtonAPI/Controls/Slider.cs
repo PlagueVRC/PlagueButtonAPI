@@ -1,4 +1,5 @@
 using System;
+using MelonLoader;
 using PlagueButtonAPI.Controls.Grouping;
 using PlagueButtonAPI.Pages;
 using TMPro;
@@ -22,6 +23,8 @@ namespace PlagueButtonAPI.Controls
 
         private readonly bool _percent;
 
+        private readonly bool _pureValue;
+
         public Slider(Transform parent, string text, string tooltip, Action<float> onSliderAdjust, float minValue = 0f, float maxValue = 100f, float defaultValue = 50f, bool floor = false, bool percent = true, bool isGroup = false) : this(parent, text, tooltip, onSliderAdjust, minValue, maxValue, defaultValue, floor, percent, isGroup, false)
         {
         }
@@ -44,7 +47,7 @@ namespace PlagueButtonAPI.Controls
                 sliderPercentText.transform.position -= new Vector3(0f, 35f, 0f);
             }
 
-            sliderSlider = gameObject.GetComponentInChildren<UnityEngine.UI.Slider>();
+            sliderSlider = gameObject.GetComponentInChildren<UnityEngine.UI.Slider>(true);
             sliderSlider.onValueChanged = new UnityEngine.UI.Slider.SliderEvent();
             sliderSlider.minValue = minValue;
             sliderSlider.maxValue = maxValue;
@@ -55,7 +58,7 @@ namespace PlagueButtonAPI.Controls
 
             sliderSlider.onValueChanged.AddListener((Action<float>)delegate (float val)
             {
-                slider.sliderPercentText.text = PureValue ? val.ToString() : (floor ? Mathf.Floor(val).ToString() : val.ToString("0.00")) + (percent ? "%" : "");
+                slider.sliderPercentText.text = PureValue ? val.ToString() : (floor ? Mathf.Floor(val).ToString("0.00") : val.ToString("0.00")) + (percent ? "%" : "");
                 onSliderAdjust?.Invoke(val);
             });
 
@@ -159,15 +162,24 @@ namespace PlagueButtonAPI.Controls
 
         public void SetValue(float newValue, bool invoke = false)
         {
-            sliderPercentText.text = (_floor ? Mathf.Floor(newValue).ToString() : newValue.ToString("0.00")) + (_percent ? "%" : "");
+            sliderPercentText.text = _pureValue ? newValue.ToString() : (_floor ? Mathf.Floor(newValue).ToString("0.00") : newValue.ToString("0.00")) + (_percent ? "%" : "");
 
             var onValueChanged = sliderSlider.onValueChanged;
+
             sliderSlider.onValueChanged = new UnityEngine.UI.Slider.SliderEvent();
             sliderSlider.value = newValue;
             sliderSlider.onValueChanged = onValueChanged;
+
             if (invoke)
             {
-                sliderSlider.onValueChanged.Invoke(newValue);
+                try
+                {
+                    sliderSlider.onValueChanged.Invoke(newValue);
+                }
+                catch (Exception e)
+                {
+                    MelonLogger.Error($"Slider: {sliderText.text} Failed To Invoke: {e}");
+                }
             }
         }
     }
