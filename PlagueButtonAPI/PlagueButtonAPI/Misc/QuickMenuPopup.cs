@@ -11,6 +11,7 @@ namespace PlagueButtonAPI.Misc
     public class QuickMenuPopup
     {
         public MenuPage Page;
+        public event Action OnDestroy;
 
         public static QuickMenuPopup CreatePopup(string Title)
         {
@@ -22,6 +23,7 @@ namespace PlagueButtonAPI.Misc
             // This should only run once the object has been enabled in the first place; since we added this AFTER it was disabled above, it should not run on init.
             instance.Page.page.gameObject.AddComponent<ObjectHandler>().OnDisabled += _ =>
             {
+                instance.OnDestroy?.Invoke();
                 Object.Destroy(instance.Page.page.gameObject);
             };
 
