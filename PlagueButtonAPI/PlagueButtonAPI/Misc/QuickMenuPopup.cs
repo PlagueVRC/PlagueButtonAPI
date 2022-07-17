@@ -24,6 +24,7 @@ namespace PlagueButtonAPI.Misc
             instance.Page.page.gameObject.AddComponent<ObjectHandler>().OnDisabled += _ =>
             {
                 instance.OnDestroy?.Invoke();
+                instance.Close();
                 Object.Destroy(instance.Page.page.gameObject);
             };
 
