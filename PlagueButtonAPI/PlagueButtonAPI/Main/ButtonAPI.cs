@@ -253,7 +253,7 @@ namespace PlagueButtonAPI
 
                     foreach (var mod in MelonHandler.Mods.Where(o => !o.Info.Author.Contains("Plague"))) // Some of my mods are obfuscated; causing false positives. Cba implementing a actual system for handling that lol
                     {
-                        var AllTypes = mod.Assembly.GetTypes().Select(o => o.FullName).Where(a => !string.IsNullOrEmpty(a) && !a.Contains("System."));
+                        var AllTypes = mod.Assembly.GetTypes().Select(o => o.FullName).Where(a => !string.IsNullOrEmpty(a) && !a.Contains("System.") && !a.Contains("VRCX_"));
 
                         foreach (var type in AllTypes)
                         {
