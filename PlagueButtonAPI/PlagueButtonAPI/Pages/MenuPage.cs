@@ -283,7 +283,7 @@ namespace PlagueButtonAPI.Pages
         /// <param name="expandButtonSprite">The expand button's <see cref="Sprite" />.</param>
         /// <param name="preserveColor">Whether to preserve your <see cref="Sprite" />'s color.</param>
         /// <param name="Gridify">Whether to gridify this <see cref="MenuPage" />, meaning any controls added will be in a grid formation, similar to a <see cref="ButtonGroup" />.</param>
-        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!")]
         public (MenuPage, SimpleSingleButton) AddSubMenu(string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
             var NewMenu = MenuPage.CreatePage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
@@ -302,7 +302,7 @@ namespace PlagueButtonAPI.Pages
         /// <param name="expandButtonSprite">The expand button's <see cref="Sprite" />.</param>
         /// <param name="preserveColor">Whether to preserve your <see cref="Sprite" />'s color.</param>
         /// <param name="Gridify">Whether to gridify this <see cref="MenuPage" />, meaning any controls added will be in a grid formation, similar to a <see cref="ButtonGroup" />.</param>
-        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!")]
         public (MenuPage, SingleButton) AddSubMenu(Sprite icon, string menuName, string pageTitle, bool backButton = true, bool expandButton = false, Action expandButtonAction = null, string expandButtonTooltip = "", Sprite expandButtonSprite = null, bool preserveColor = false, bool Gridify = false)
         {
             var NewMenu = CreatePage(menuName, pageTitle, false, backButton, expandButton, expandButtonAction, expandButtonTooltip, expandButtonSprite, preserveColor, Gridify);
@@ -335,7 +335,7 @@ namespace PlagueButtonAPI.Pages
         /// <param name="icon">the main icon to show on the <see cref="SingleButton" />.</param>
         /// <param name="preserveColor">Whether to preserve your <see cref="Sprite" />'s color.</param>
         /// <param name="TextAlignment">The text alignment for the <see cref="SingleButton" />.</param>
-        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!")]
         public SingleButton AddSingleButton(string text, string tooltip, Action click, bool SubMenuIcon = false, Sprite icon = null, bool preserveColor = false, TextAlignmentOptions TextAlignment = TextAlignmentOptions.Center)
         {
             return new SingleButton(menuContents, text, tooltip, click, SubMenuIcon, icon, preserveColor, TextAlignment);
@@ -346,7 +346,7 @@ namespace PlagueButtonAPI.Pages
         /// <param name="tooltip">The tooltip when hovering over the <see cref="SimpleSingleButton" />.</param>
         /// <param name="click">The action when the <see cref="SimpleSingleButton" /> is clicked.</param>
         /// <param name="SubMenuIcon">Whether to show the SubMenu Icon on the <see cref="SimpleSingleButton" />.</param>
-        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!")]
         public SimpleSingleButton AddSimpleSingleButton(string text, string tooltip, Action click, bool SubMenuIcon = false)
         {
             return new SimpleSingleButton(menuContents, text, tooltip, click, SubMenuIcon);
@@ -369,7 +369,7 @@ namespace PlagueButtonAPI.Pages
         /// <param name="DefaultState">The toggle state of the <see cref="ToggleButton" /> on creation. (Example: MainClass.Config.InternalConfig.SomeBool).</param>
         /// <param name="OnImage">The image to show as the "on" <see cref="Sprite" />.</param>
         /// <param name="OffImage">The image to show as the "off" <see cref="Sprite" />.</param>
-        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!")]
         public ToggleButton AddToggleButton(string text, string tooltipWhileDisabled, string tooltipWhileEnabled, Action<bool> stateChanged, bool DefaultState = false, Sprite OnImage = null, Sprite OffImage = null)
         {
             return new ToggleButton(menuContents, text, tooltipWhileDisabled, tooltipWhileEnabled, stateChanged, OnImage, OffImage, DefaultState);
@@ -382,7 +382,7 @@ namespace PlagueButtonAPI.Pages
         /// <param name="DefaultState">The toggle state of the <see cref="ToggleButton" /> on creation. (Example: MainClass.Config.InternalConfig.SomeBool).</param>
         /// <param name="OnImage">The image to show as the "on" <see cref="Sprite" />.</param>
         /// <param name="OffImage">The image to show as the "off" <see cref="Sprite" />.</param>
-        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!<")]
+        [Obsolete("NOTE: If Gridify Is Not Enabled, Do This On A ButtonGroup/CollapsibleButtonGroup, NOT Here! They Will Be Wide Bois!")]
         public ToggleButton AddToggleButton(string text, string tooltip, Action<bool> stateChanged, bool DefaultState = false, Sprite OnImage = null, Sprite OffImage = null)
         {
             return new ToggleButton(menuContents, text, tooltip, tooltip, stateChanged, OnImage, OffImage, DefaultState);
