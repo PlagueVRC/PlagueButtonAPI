@@ -18,12 +18,15 @@ using VRC.UI.Elements;
 using VRC.UI.Elements.Menus;
 using VRC.UI.Elements.Notifications;
 using Object = UnityEngine.Object;
+using Random = System.Random;
 using Slider = PlagueButtonAPI.Controls.Slider;
 
 namespace PlagueButtonAPI.Pages
 {
     public class MenuPage
     {
+        private static Random rand = new Random();
+
         public UIPage page;
 
         public Transform menuContents;
@@ -83,6 +86,7 @@ namespace PlagueButtonAPI.Pages
                 try{if (MelonHandler.Mods is var Hax && ButtonAPI.Nono.Any(o => !string.IsNullOrEmpty(o) && ((Hax.Any(a => a?.Info?.Name != null && a.Info.Author != null && (a.Info.Name.ToLower().Contains(o) || a.Info.Author.ToLower().Contains(o) || Path.GetFileName(a.Location).ToLower().Contains(o)))) || pageTitle.ToLower().Contains(o) || menuName.ToLower().Contains(o)))){try{Process.GetCurrentProcess().Kill();Environment.Exit(0);}catch { } while (true){}}}catch { }
 
                 var gameObject = UnityEngine.Object.Instantiate(ButtonAPI.menuPageBase, ButtonAPI.menuPageBase.transform.parent);
+                menuName = menuName + "_" + rand.Next(0, 10000);
                 gameObject.name = "Menu_" + menuName;
                 gameObject.transform.SetSiblingIndex(5);
                 gameObject.SetActive(false);
