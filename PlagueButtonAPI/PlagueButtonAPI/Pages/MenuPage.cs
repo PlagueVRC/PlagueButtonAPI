@@ -446,9 +446,9 @@ namespace PlagueButtonAPI.Pages
 
                 IEnumerator RunMeBefore()
                 {
-                    yield return new WaitForSeconds(0.1f);
+                    RunBefore?.Invoke();
 
-                    RunAfter?.Invoke();
+                    yield return new WaitForSeconds(0.1f);
 
                     OpenMenu();
 
