@@ -52,6 +52,11 @@ namespace PlagueButtonAPI.Controls.Base_Classes
 
         public void SetTooltip(string newTooltip)
         {
+            if (tooltip == null)
+            {
+                return;
+            }
+
             tooltip.field_Public_String_0 = newTooltip;
         }
     }
